@@ -1,0 +1,443 @@
+/**
+ * use-cases.js — Scikit-learn Central v3
+ *
+ * Mirrors data/use-cases.json as window.USE_CASES for file:// support.
+ */
+/* eslint-disable */
+window.USE_CASES = {
+  "meta": {
+    "version": "3.0",
+    "count": 20
+  },
+  "use_cases": [
+    {
+      "id": "fraud-detection-banking",
+      "title": "Credit Card Fraud Detection",
+      "synopsis": "Detect fraudulent transactions among millions of legitimate credit card purchases using machine learning. Fraud accounts for only 0.03% of transactions, requiring specialized handling of class imbalance and focus on detecting the rare positive class.",
+      "industry": [
+        "banking",
+        "insurance"
+      ],
+      "technique": [
+        "fraud-detection",
+        "anomaly-detection",
+        "classification"
+      ],
+      "packages": [
+        "scikit-learn",
+        "imbalanced-learn",
+        "xgboost",
+        "shap"
+      ],
+      "difficulty": "intermediate",
+      "sample_code": "import numpy as np\nimport pandas as pd\nfrom sklearn.datasets import make_classification\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import roc_auc_score, classification_report\nfrom imblearn.over_sampling import SMOTE\nfrom imblearn.pipeline import Pipeline as ImbPipeline\nfrom xgboost import XGBClassifier\nimport shap\n\n# Generate imbalanced fraud data\nX, y = make_classification(\n    n_samples=10000,\n    n_features=20,\n    n_informative=15,\n    n_redundant=5,\n    weights=[0.97, 0.03],\n    random_state=42\n)\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.3, random_state=42, stratify=y\n)\n\n# Pipeline with SMOTE and XGBClassifier\npipeline = ImbPipeline([\n    ('scaler', StandardScaler()),\n    ('smote', SMOTE(random_state=42)),\n    ('xgb', XGBClassifier(scale_pos_weight=32, random_state=42))\n])\n\npipeline.fit(X_train, y_train)\ny_pred_proba = pipeline.predict_proba(X_test)[:, 1]\nroc_auc = roc_auc_score(y_test, y_pred_proba)\n\n# SHAP explanations\nexplainer = shap.TreeExplainer(pipeline.named_steps['xgb'])\nshap_values = explainer.shap_values(X_test)\n\n# Get top 3 important features\nfeature_importance = np.abs(shap_values).mean(axis=0)\ntop_features = np.argsort(feature_importance)[-3:][::-1]\n\nprint(f'ROC-AUC Score: {roc_auc:.4f}')\nprint(f'Top 3 Important Features: {top_features}')\nprint(f'Feature Importances: {feature_importance[top_features]}')"
+    },
+    {
+      "id": "churn-prediction-telecom",
+      "title": "Customer Churn Prediction",
+      "synopsis": "Predict which telecom customers are likely to cancel their subscriptions to enable proactive retention campaigns. Understanding churn drivers helps identify at-risk segments and optimize service retention strategies.",
+      "industry": [
+        "telecom",
+        "retail"
+      ],
+      "technique": [
+        "churn-prediction",
+        "classification",
+        "explainability"
+      ],
+      "packages": [
+        "scikit-learn",
+        "skrub",
+        "lightgbm",
+        "shap",
+        "skore"
+      ],
+      "difficulty": "intermediate",
+      "sample_code": "import pandas as pd\nimport numpy as np\nfrom sklearn.model_selection import cross_validate\nfrom sklearn.pipeline import Pipeline\nfrom lightgbm import LGBMClassifier\nfrom skrub import TableVectorizer\nimport shap\n\n# Generate synthetic telecom customer data\nnp.random.seed(42)\nn_samples = 1000\nX = pd.DataFrame({\n    'plan_type': np.random.choice(['basic', 'premium', 'family'], n_samples),\n    'payment_method': np.random.choice(['credit', 'bank', 'check'], n_samples),\n    'tenure': np.random.randint(1, 60, n_samples),\n    'monthly_charges': np.random.uniform(20, 120, n_samples),\n    'total_charges': np.random.uniform(100, 5000, n_samples)\n})\ny = np.random.binomial(1, 0.2, n_samples)  # 20% churn rate\n\n# Build pipeline with skrub TableVectorizer\npipeline = Pipeline([\n    ('vectorizer', TableVectorizer()),\n    ('lgb', LGBMClassifier(random_state=42))\n])\n\n# Cross-validation\nscores = cross_validate(\n    pipeline, X, y,\n    cv=5,\n    scoring=['accuracy', 'roc_auc', 'f1']\n)\n\nprint(f'CV ROC-AUC: {scores[\"test_roc_auc\"].mean():.4f}')\nprint(f'CV F1-Score: {scores[\"test_f1\"].mean():.4f}')\n\n# Train and explain\npipeline.fit(X, y)\nexplainer = shap.TreeExplainer(\n    pipeline.named_steps['lgb']\n)\nshap_values = explainer.shap_values(X)\nprint(f'Mean |SHAP| values: {np.abs(shap_values).mean(axis=0)}')"
+    },
+    {
+      "id": "credit-scoring",
+      "title": "Credit Risk Scoring",
+      "synopsis": "Develop a credit scoring model to assess the creditworthiness of loan applicants based on financial indicators. Accurate credit scoring reduces default risk and improves portfolio profitability for lending institutions.",
+      "industry": [
+        "banking",
+        "insurance"
+      ],
+      "technique": [
+        "credit-scoring",
+        "classification",
+        "explainability"
+      ],
+      "packages": [
+        "scikit-learn",
+        "feature-engine",
+        "interpret",
+        "optuna",
+        "skore"
+      ],
+      "difficulty": "intermediate",
+      "sample_code": "import numpy as np\nimport pandas as pd\nfrom sklearn.model_selection import cross_validate, train_test_split\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import StandardScaler\nfrom feature_engine.encoding import WoEEncoder\nfrom feature_engine.imputation import MeanMedianImputer\nfrom interpret.glassbox import ExplainableBoostingClassifier\nimport optuna\n\n# Generate synthetic credit data\nnp.random.seed(42)\nn_samples = 500\nX = pd.DataFrame({\n    'age': np.random.randint(18, 80, n_samples),\n    'income': np.random.randint(20000, 200000, n_samples),\n    'debt_ratio': np.random.uniform(0, 1, n_samples),\n    'num_accounts': np.random.randint(0, 10, n_samples),\n    'missed_payments': np.random.randint(0, 5, n_samples)\n})\ny = (X['missed_payments'] > 0).astype(int)\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.3, random_state=42\n)\n\n# Pipeline with feature engineering\npipeline = Pipeline([\n    ('imputer', MeanMedianImputer()),\n    ('scaler', StandardScaler()),\n    ('ebm', ExplainableBoostingClassifier(random_state=42))\n])\n\n# Train and evaluate\npipeline.fit(X_train, y_train)\nfrom sklearn.metrics import mean_squared_error\ny_pred = pipeline.predict(X_test)\nrmse = np.sqrt(mean_squared_error(y_test, y_pred))\n\nprint(f'RMSE: {rmse:.4f}')\nprint('Feature Importances:')\nfor i, col in enumerate(X.columns):\n    print(f'  {col}: {pipeline.named_steps[\"ebm\"].feature_importances_[i]:.4f}')"
+    },
+    {
+      "id": "predictive-maintenance",
+      "title": "Equipment Failure Prediction",
+      "synopsis": "Predict machinery failures before they occur using sensor data to minimize unplanned downtime and maintenance costs. Proactive maintenance scheduling based on failure predictions improves operational efficiency and safety.",
+      "industry": [
+        "manufacturing",
+        "energy"
+      ],
+      "technique": [
+        "predictive-maintenance",
+        "classification",
+        "time-series"
+      ],
+      "packages": [
+        "scikit-learn",
+        "sktime",
+        "shap",
+        "optuna",
+        "mlflow"
+      ],
+      "difficulty": "advanced",
+      "sample_code": "import numpy as np\nimport pandas as pd\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import precision_score, recall_score\nimport mlflow\nimport shap\n\n# Generate synthetic sensor time series data\nnp.random.seed(42)\nn_samples = 500\nX = pd.DataFrame({\n    'vibration_mean': np.random.uniform(0, 10, n_samples),\n    'vibration_std': np.random.uniform(0, 5, n_samples),\n    'temperature_mean': np.random.uniform(50, 100, n_samples),\n    'temperature_std': np.random.uniform(0, 10, n_samples),\n    'pressure_mean': np.random.uniform(1, 5, n_samples),\n    'pressure_rolling_7d': np.random.uniform(1, 5, n_samples)\n})\ny = np.random.binomial(1, 0.15, n_samples)  # 15% failure rate\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.3, random_state=42, stratify=y\n)\n\n# Build pipeline\npipeline = Pipeline([\n    ('scaler', StandardScaler()),\n    ('rf', RandomForestClassifier(n_estimators=100, random_state=42))\n])\n\n# MLflow experiment tracking\nmlflow.set_experiment('predictive_maintenance')\nwith mlflow.start_run():\n    pipeline.fit(X_train, y_train)\n    y_pred = pipeline.predict(X_test)\n    \n    precision = precision_score(y_test, y_pred)\n    recall = recall_score(y_test, y_pred)\n    \n    mlflow.log_metric('precision', precision)\n    mlflow.log_metric('recall', recall)\n    mlflow.sklearn.log_model(pipeline, 'model')\n\n# SHAP explanations\nexplainer = shap.TreeExplainer(\n    pipeline.named_steps['rf']\n)\nshap_values = explainer.shap_values(X_test)\n\nprint(f'Precision: {precision:.4f}')\nprint(f'Recall: {recall:.4f}')\nprint(f'Feature Importances: {pipeline.named_steps[\"rf\"].feature_importances_}')"
+    },
+    {
+      "id": "customer-segmentation",
+      "title": "Customer Segmentation & Profiling",
+      "synopsis": "Segment customers into distinct groups based on purchasing behavior (RFM analysis) to enable targeted marketing campaigns. Understanding customer segments helps personalize offers and optimize marketing spend allocation.",
+      "industry": [
+        "retail",
+        "marketing",
+        "e-commerce"
+      ],
+      "technique": [
+        "customer-segmentation",
+        "clustering"
+      ],
+      "packages": [
+        "scikit-learn",
+        "skrub",
+        "umap-learn",
+        "yellowbrick"
+      ],
+      "difficulty": "beginner",
+      "sample_code": "import numpy as np\nimport pandas as pd\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.cluster import KMeans\nfrom sklearn.metrics import silhouette_score\nimport umap\nfrom yellowbrick.cluster import KElbowVisualizer\n\n# Generate synthetic RFM data\nnp.random.seed(42)\nn_customers = 500\nX = pd.DataFrame({\n    'recency': np.random.uniform(0, 365, n_customers),\n    'frequency': np.random.exponential(5, n_customers),\n    'monetary': np.random.lognormal(5, 1, n_customers)\n})\n\n# Normalize features\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\n# Find optimal number of clusters using elbow method\nvisualizer = KElbowVisualizer(\n    KMeans(random_state=42),\n    k=(2, 10)\n)\nvisualizer.fit(X_scaled)\noptimal_k = visualizer.elbow_value_\n\n# Fit KMeans with optimal clusters\nkmeans = KMeans(n_clusters=optimal_k, random_state=42)\nclusters = kmeans.fit_predict(X_scaled)\n\n# Evaluate clustering\nsil_score = silhouette_score(X_scaled, clusters)\n\n# UMAP 2D visualization\numap_reducer = umap.UMAP(n_components=2, random_state=42)\nX_umap = umap_reducer.fit_transform(X_scaled)\n\n# Print segment profiles\nfor i in range(optimal_k):\n    mask = clusters == i\n    print(f'Segment {i}: {mask.sum()} customers')\n    print(f'  Avg Recency: {X.loc[mask, \"recency\"].mean():.2f}')\n    print(f'  Avg Frequency: {X.loc[mask, \"frequency\"].mean():.2f}')\n    print(f'  Avg Monetary: {X.loc[mask, \"monetary\"].mean():.2f}')\n\nprint(f'Silhouette Score: {sil_score:.4f}')"
+    },
+    {
+      "id": "demand-forecasting",
+      "title": "Retail Demand Forecasting",
+      "synopsis": "Forecast daily retail sales using historical data and seasonal patterns to optimize inventory management. Accurate demand forecasts reduce stockouts and overstock situations, improving cash flow and customer satisfaction.",
+      "industry": [
+        "retail",
+        "logistics"
+      ],
+      "technique": [
+        "demand-forecasting",
+        "time-series",
+        "regression"
+      ],
+      "packages": [
+        "scikit-learn",
+        "skforecast",
+        "lightgbm",
+        "feature-engine",
+        "mlflow"
+      ],
+      "difficulty": "intermediate",
+      "sample_code": "import numpy as np\nimport pandas as pd\nfrom datetime import datetime, timedelta\nfrom sklearn.preprocessing import StandardScaler\nfrom lightgbm import LGBMRegressor\nfrom sklearn.metrics import mean_absolute_percentage_error\nimport mlflow\n\n# Generate 2 years of daily sales data\nstart_date = datetime(2022, 1, 1)\ndate_range = pd.date_range(start=start_date, periods=730, freq='D')\ntrend = np.linspace(100, 200, 730)\nseasonality = 50 * np.sin(np.arange(730) * 2 * np.pi / 365)\nnoise = np.random.normal(0, 10, 730)\nsales = trend + seasonality + noise\n\ndf = pd.DataFrame({'date': date_range, 'sales': sales})\n\n# Create lag features\ndf['lag_7'] = df['sales'].shift(7)\ndf['lag_14'] = df['sales'].shift(14)\ndf['lag_28'] = df['sales'].shift(28)\ndf['rolling_mean_7'] = df['sales'].rolling(7).mean()\ndf = df.dropna()\n\n# Split into train/test\ntrain_size = int(0.8 * len(df))\nX_train = df.iloc[:train_size, 1:].values\ny_train = df.iloc[:train_size, 0].values\nX_test = df.iloc[train_size:, 1:].values\ny_test = df.iloc[train_size:, 0].values\n\n# Model\nmodel = LGBMRegressor(random_state=42)\nmodel.fit(X_train, y_train)\ny_pred = model.predict(X_test)\n\n# Metrics\nmape = mean_absolute_percentage_error(y_test, y_pred)\n\nprint(f'MAPE: {mape:.4f}')\nprint(f'Sample Predictions vs Actual:')\nfor i in range(5):\n    print(f'  Pred: {y_pred[i]:.2f}, Actual: {y_test[i]:.2f}')"
+    },
+    {
+      "id": "anomaly-detection-cybersecurity",
+      "title": "Network Intrusion Detection",
+      "synopsis": "Detect network intrusions and cyber attacks using machine learning on network traffic patterns. Real-time anomaly detection enables swift response to security threats and protects critical infrastructure.",
+      "industry": [
+        "cybersecurity"
+      ],
+      "technique": [
+        "anomaly-detection",
+        "classification"
+      ],
+      "packages": [
+        "scikit-learn",
+        "pyod",
+        "umap-learn",
+        "shap"
+      ],
+      "difficulty": "intermediate",
+      "sample_code": "import numpy as np\nfrom sklearn.datasets import make_classification\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.metrics import precision_score, recall_score\nfrom pyod.models.iforest import IForest\nfrom pyod.models.lof import LOF\nimport umap\n\n# Generate imbalanced network traffic data\nX, y = make_classification(\n    n_samples=2000,\n    n_features=20,\n    n_informative=15,\n    n_redundant=5,\n    weights=[0.95, 0.05],\n    random_state=42\n)\n\n# Normalize\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\n# Ensemble of anomaly detectors\niforest = IForest(random_state=42, contamination=0.05)\nlof = LOF(contamination=0.05)\n\n# Predictions (1 = anomaly, 0 = normal)\niforest_pred = iforest.fit_predict(X_scaled)\nlof_pred = lof.fit_predict(X_scaled)\n\n# Ensemble vote\nensemble_pred = (iforest_pred + lof_pred) // 2\n\n# Metrics\nprecision = precision_score(y, ensemble_pred)\nrecall = recall_score(y, ensemble_pred)\n\n# UMAP projection for visualization\nreducer = umap.UMAP(n_components=2, random_state=42)\nX_umap = reducer.fit_transform(X_scaled)\n\nprint(f'Precision: {precision:.4f}')\nprint(f'Recall: {recall:.4f}')\nprint(f'Anomalies Detected: {ensemble_pred.sum()}')\nprint(f'Detection Rate: {(ensemble_pred == y).mean():.4f}')"
+    },
+    {
+      "id": "sentiment-analysis",
+      "title": "Customer Review Sentiment Analysis",
+      "synopsis": "Classify customer reviews as positive or negative to monitor brand reputation and product satisfaction. Automated sentiment analysis at scale enables quick identification of dissatisfied customers and service improvement opportunities.",
+      "industry": [
+        "e-commerce",
+        "marketing",
+        "retail"
+      ],
+      "technique": [
+        "sentiment-analysis",
+        "nlp",
+        "classification"
+      ],
+      "packages": [
+        "scikit-learn",
+        "mlxtend"
+      ],
+      "difficulty": "beginner",
+      "sample_code": "import numpy as np\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.svm import LinearSVC\nfrom sklearn.naive_bayes import MultinomialNB\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.model_selection import cross_val_score\nfrom mlxtend.classifier import StackingCVClassifier\n\n# Hardcoded training reviews\nreviews = [\n    'Great product, highly satisfied!', 'Terrible quality and broke fast',\n    'Excellent service and fast shipping', 'Worst purchase ever',\n    'Amazing value for money', 'Poor customer support experience',\n    'Very happy with my order', 'Defective item received',\n    'Best buy I have made', 'Disappointed with the product'\n] * 2  # Replicate for more samples\n\ny = np.array([1, 0, 1, 0, 1, 0, 1, 0, 1, 0] * 2)\n\n# Base classifiers\ntfidf_svc = Pipeline([\n    ('tfidf', TfidfVectorizer(max_features=100)),\n    ('svc', LinearSVC(random_state=42))\n])\n\ntfidf_nb = Pipeline([\n    ('tfidf', TfidfVectorizer(max_features=100)),\n    ('nb', MultinomialNB())\n])\n\n# Stacking classifier\nstacking = StackingCVClassifier(\n    classifiers=[tfidf_svc, tfidf_nb],\n    meta_classifier=LinearSVC(random_state=42),\n    cv=3\n)\n\n# Cross-validation\nscores = cross_val_score(stacking, reviews, y, cv=5, scoring='accuracy')\n\nprint(f'CV Accuracy: {scores.mean():.4f} (+/- {scores.std():.4f})')\n\n# Predict on new reviews\nstacking.fit(reviews, y)\nnew_reviews = [\n    'Wonderful experience!',\n    'Not happy with this',\n    'Perfect quality'\n]\npreds = stacking.predict(new_reviews)\nfor review, pred in zip(new_reviews, preds):\n    sentiment = 'Positive' if pred == 1 else 'Negative'\n    print(f'{review} -> {sentiment}')"
+    },
+    {
+      "id": "disease-prediction",
+      "title": "Chronic Disease Risk Prediction",
+      "synopsis": "Predict risk of chronic diseases in patients based on medical and demographic indicators to enable preventive healthcare. Early risk identification allows clinicians to intervene with lifestyle modifications and preventive treatments.",
+      "industry": [
+        "healthcare"
+      ],
+      "technique": [
+        "classification",
+        "explainability"
+      ],
+      "packages": [
+        "scikit-learn",
+        "skrub",
+        "shap",
+        "skore",
+        "interpret"
+      ],
+      "difficulty": "intermediate",
+      "sample_code": "import numpy as np\nimport pandas as pd\nfrom sklearn.datasets import load_diabetes\nfrom sklearn.model_selection import cross_validate\nfrom sklearn.ensemble import GradientBoostingClassifier\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import Pipeline\nfrom skrub import TableVectorizer\nimport shap\n\n# Load diabetes dataset and convert to binary classification\ndiabetes = load_diabetes()\nX = pd.DataFrame(diabetes.data, columns=diabetes.feature_names)\ny = (diabetes.target > diabetes.target.median()).astype(int)\n\n# Build pipeline\npipeline = Pipeline([\n    ('vectorizer', TableVectorizer()),\n    ('gb', GradientBoostingClassifier(random_state=42))\n])\n\n# Cross-validation with multiple metrics\nscores = cross_validate(\n    pipeline, X, y, cv=5,\n    scoring=['accuracy', 'roc_auc', 'f1']\n)\n\nprint(f'ROC-AUC: {scores[\"test_roc_auc\"].mean():.4f}')\nprint(f'F1-Score: {scores[\"test_f1\"].mean():.4f}')\n\n# Train for explanations\npipeline.fit(X, y)\ngb = pipeline.named_steps['gb']\n\n# SHAP analysis\nexplainer = shap.TreeExplainer(gb)\nshap_values = explainer.shap_values(X)\n\n# Feature importances\nfeature_importance = np.abs(shap_values[1]).mean(axis=0)\nfor i, col in enumerate(X.columns):\n    print(f'{col}: {feature_importance[i]:.4f}')\n\nprint('Top Risk Factors Identified')"
+    },
+    {
+      "id": "employee-attrition",
+      "title": "Employee Attrition Prediction",
+      "synopsis": "Predict which employees are at risk of leaving the organization to enable targeted retention programs. Understanding attrition drivers helps HR teams implement proactive strategies to retain top talent and reduce replacement costs.",
+      "industry": [
+        "hr"
+      ],
+      "technique": [
+        "churn-prediction",
+        "classification",
+        "explainability"
+      ],
+      "packages": [
+        "scikit-learn",
+        "skrub",
+        "category-encoders",
+        "shap",
+        "eli5"
+      ],
+      "difficulty": "beginner",
+      "sample_code": "import numpy as np\nimport pandas as pd\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import Pipeline\nfrom category_encoders import TargetEncoder\nimport eli5\nimport shap\n\n# Synthetic HR data\nnp.random.seed(42)\nn_employees = 300\nX = pd.DataFrame({\n    'department': np.random.choice(['IT', 'Sales', 'HR', 'Finance'], n_employees),\n    'satisfaction': np.random.uniform(1, 5, n_employees),\n    'salary_band': np.random.choice(['A', 'B', 'C', 'D'], n_employees),\n    'years_employed': np.random.randint(0, 20, n_employees)\n})\ny = ((X['satisfaction'] < 2.5) | (X['years_employed'] < 2)).astype(int)\n\n# Pipeline with TargetEncoder\npipeline = Pipeline([\n    ('encoder', TargetEncoder()),\n    ('scaler', StandardScaler()),\n    ('rf', RandomForestClassifier(n_estimators=50, random_state=42))\n])\n\npipeline.fit(X, y)\n\n# ELI5 feature weights\nrf = pipeline.named_steps['rf']\nweights = eli5.show_weights(\n    rf,\n    feature_names=X.columns.tolist(),\n    top=10\n)\n\n# Predict one employee and explain\ntest_employee = X.iloc[0:1]\nprediction = pipeline.predict(test_employee)\nrisk_score = pipeline.predict_proba(test_employee)[0, 1]\n\nprint(f'Employee Attrition Risk: {risk_score:.2%}')\nprint('Top Risk Factors:')\nfor i in np.argsort(rf.feature_importances_)[-5:][::-1]:\n    print(f'  {X.columns[i]}: {rf.feature_importances_[i]:.4f}')"
+    },
+    {
+      "id": "price-optimization",
+      "title": "Dynamic Pricing Optimization",
+      "synopsis": "Optimize product pricing dynamically based on demand, competition, and market conditions to maximize revenue. Machine learning-driven pricing strategies balance profitability with competitiveness and market demand.",
+      "industry": [
+        "e-commerce",
+        "retail"
+      ],
+      "technique": [
+        "price-optimization",
+        "regression"
+      ],
+      "packages": [
+        "scikit-learn",
+        "lightgbm",
+        "optuna",
+        "shap"
+      ],
+      "difficulty": "advanced",
+      "sample_code": "import numpy as np\nimport pandas as pd\nfrom lightgbm import LGBMRegressor\nfrom sklearn.model_selection import train_test_split\nimport optuna\nimport shap\n\n# Synthetic pricing data\nnp.random.seed(42)\nn_products = 500\nX = pd.DataFrame({\n    'price': np.random.uniform(10, 100, n_products),\n    'competitor_price': np.random.uniform(10, 100, n_products),\n    'day_of_week': np.random.randint(0, 7, n_products),\n    'category': np.random.randint(0, 5, n_products)\n})\n# Demand decreases with higher price, increases with lower competitor price\ny = 100 - 1.5 * X['price'] + 0.8 * X['competitor_price'] + np.random.normal(0, 5, n_products)\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42\n)\n\n# Train demand prediction model\nmodel = LGBMRegressor(random_state=42)\nmodel.fit(X_train, y_train)\n\n# Optuna optimization for maximum revenue\ndef objective(trial):\n    test_price = trial.suggest_float('price', 10, 100)\n    test_row = pd.DataFrame({\n        'price': [test_price],\n        'competitor_price': [X_test['competitor_price'].mean()],\n        'day_of_week': [X_test['day_of_week'].mode()[0]],\n        'category': [X_test['category'].mode()[0]]\n    })\n    predicted_demand = model.predict(test_row)[0]\n    revenue = test_price * max(0, predicted_demand)\n    return -revenue  # Minimize negative revenue\n\nstudy = optuna.create_study()\nstudy.optimize(objective, n_trials=50, show_progress_bar=False)\n\noptimal_price = study.best_params['price']\nmax_revenue = -study.best_value\n\nprint(f'Optimal Price: ${optimal_price:.2f}')\nprint(f'Expected Revenue: ${max_revenue:.2f}')\n\n# SHAP for price elasticity\nexplainer = shap.TreeExplainer(model)\nshap_values = explainer.shap_values(X_test)\nprint(f'Price Elasticity (avg SHAP): {np.abs(shap_values[:, 0]).mean():.4f}')"
+    },
+    {
+      "id": "insurance-claim-severity",
+      "title": "Insurance Claim Severity Prediction",
+      "synopsis": "Predict the monetary severity of insurance claims to improve reserving and pricing accuracy. Accurate severity predictions enable better risk assessment and pricing strategies in insurance portfolios.",
+      "industry": [
+        "insurance"
+      ],
+      "technique": [
+        "regression",
+        "classification"
+      ],
+      "packages": [
+        "scikit-learn",
+        "feature-engine",
+        "catboost",
+        "imbalanced-learn",
+        "shap"
+      ],
+      "difficulty": "intermediate",
+      "sample_code": "import numpy as np\nimport pandas as pd\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import mean_absolute_percentage_error, mean_squared_error\nfrom feature_engine.outliers import OutlierCapper\nfrom catboost import CatBoostRegressor\nimport shap\n\n# Synthetic insurance claims data\nnp.random.seed(42)\nn_claims = 600\nX = pd.DataFrame({\n    'vehicle_age': np.random.randint(0, 20, n_claims),\n    'driver_age': np.random.randint(18, 80, n_claims),\n    'accident_type': np.random.choice(['Collision', 'Theft', 'Weather'], n_claims),\n    'accident_severity': np.random.choice(['Minor', 'Major', 'Critical'], n_claims)\n})\n\n# Claim amount (dependent on features)\ny = (5000 + X['vehicle_age']*500 + \n     (80-X['driver_age'])*200 + \n     np.random.exponential(3000, n_claims))\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.3, random_state=42\n)\n\n# Feature engineering\noutiercapper = OutlierCapper()\nX_train_capped = X_train.copy()\nX_test_capped = X_test.copy()\n\n# CatBoost for categorical handling\ncat_features = ['accident_type', 'accident_severity']\nmodel = CatBoostRegressor(\n    cat_features=cat_features,\n    random_state=42,\n    verbose=0\n)\n\nmodel.fit(X_train_capped, y_train)\ny_pred = model.predict(X_test_capped)\n\nrmse = np.sqrt(mean_squared_error(y_test, y_pred))\nmape = mean_absolute_percentage_error(y_test, y_pred)\n\n# SHAP explanations\nexplainer = shap.TreeExplainer(model)\nshap_values = explainer.shap_values(X_test_capped)\n\nprint(f'RMSE: ${rmse:.2f}')\nprint(f'MAPE: {mape:.4f}')\nprint(f'Feature Importances: {model.feature_importances_}')"
+    },
+    {
+      "id": "survival-analysis-healthcare",
+      "title": "Patient Survival Time Prediction",
+      "synopsis": "Predict patient survival time and identify high-risk factors in medical datasets to support treatment planning. Accurate survival predictions inform clinical decision-making and personalized medicine strategies.",
+      "industry": [
+        "healthcare",
+        "insurance"
+      ],
+      "technique": [
+        "survival-analysis",
+        "regression"
+      ],
+      "packages": [
+        "scikit-learn",
+        "scikit-survival",
+        "shap"
+      ],
+      "difficulty": "advanced",
+      "sample_code": "import numpy as np\nfrom sklearn.datasets import load_breast_cancer\nfrom sksurv.ensemble import RandomSurvivalForest\nfrom sksurv.metrics import concordance_index_censored\nimport shap\n\n# Load breast cancer dataset\ndata = load_breast_cancer()\nX = data.data\n\n# Create survival events and times\nn_samples = len(X)\nT = np.random.exponential(5, n_samples)  # Survival times\nE = np.random.binomial(1, 0.3, n_samples)  # Event indicator (death=1, censored=0)\n\n# Structure for scikit-survival\ny = np.array([(bool(E[i]), T[i]) for i in range(n_samples)],\n             dtype=[('event', bool), ('time', float)])\n\n# Random Survival Forest\nrsf = RandomSurvivalForest(\n    n_estimators=100,\n    max_depth=10,\n    random_state=42\n)\nrsf.fit(X, y)\n\n# Concordance index\nscore = concordance_index_censored(y['event'], y['time'], rsf.predict(X))[0]\n\n# SHAP explanations\nexplainer = shap.TreeExplainer(rsf.estimators_[0])\nshap_values = explainer.shap_values(X)\n\nfeature_importance = np.abs(shap_values).mean(axis=0)\ntop_features = np.argsort(feature_importance)[-5:][::-1]\n\nprint(f'Concordance Index: {score:.4f}')\nprint(f'Top Risk Factors:')\nfor i in top_features:\n    print(f'  Feature {i}: {feature_importance[i]:.4f}')\nprint('Model trained for survival prediction')"
+    },
+    {
+      "id": "crop-yield-prediction",
+      "title": "Crop Yield Prediction",
+      "synopsis": "Predict crop yields based on environmental and agricultural factors to optimize farming decisions. Yield predictions enable better resource planning, pricing forecasts, and crop management strategies.",
+      "industry": [
+        "agriculture"
+      ],
+      "technique": [
+        "regression",
+        "demand-forecasting"
+      ],
+      "packages": [
+        "scikit-learn",
+        "feature-engine",
+        "xgboost",
+        "optuna",
+        "mlflow"
+      ],
+      "difficulty": "intermediate",
+      "sample_code": "import numpy as np\nimport pandas as pd\nfrom xgboost import XGBRegressor\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import r2_score, mean_absolute_percentage_error\nfrom feature_engine.creation import PolynomialFeatures\nimport optuna\nimport mlflow\n\n# Synthetic crop data\nnp.random.seed(42)\nn_samples = 400\nX = pd.DataFrame({\n    'rainfall': np.random.uniform(200, 800, n_samples),\n    'temperature': np.random.uniform(15, 35, n_samples),\n    'soil_ph': np.random.uniform(5.5, 8.0, n_samples),\n    'fertilizer_n': np.random.uniform(50, 300, n_samples),\n    'land_area': np.random.uniform(0.5, 10, n_samples)\n})\n\ny = (0.5*X['rainfall'] + 20*X['temperature'] - \n     100*(X['soil_ph']-6.5)**2 + 0.3*X['fertilizer_n'] + \n     50*X['land_area'] + np.random.normal(0, 100, n_samples))\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42\n)\n\n# Feature engineering\npoly = PolynomialFeatures()\nX_train_poly = poly.fit_transform(X_train)\nX_test_poly = poly.transform(X_test)\n\nscaler = StandardScaler()\nX_train_scaled = scaler.fit_transform(X_train_poly)\nX_test_scaled = scaler.transform(X_test_poly)\n\n# Optuna hyperparameter optimization\ndef objective(trial):\n    params = {\n        'n_estimators': trial.suggest_int('n_estimators', 50, 200),\n        'max_depth': trial.suggest_int('max_depth', 3, 10),\n        'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.3)\n    }\n    \n    model = XGBRegressor(**params, random_state=42)\n    model.fit(X_train_scaled, y_train)\n    y_pred = model.predict(X_test_scaled)\n    \n    return mean_absolute_percentage_error(y_test, y_pred)\n\nstudy = optuna.create_study()\nstudy.optimize(objective, n_trials=30, show_progress_bar=False)\n\nbest_params = study.best_params\nmodel = XGBRegressor(**best_params, random_state=42)\n\nmlflow.start_run()\nmodel.fit(X_train_scaled, y_train)\ny_pred = model.predict(X_test_scaled)\n\nr2 = r2_score(y_test, y_pred)\nmape = mean_absolute_percentage_error(y_test, y_pred)\n\nmlflow.log_params(best_params)\nmlflow.log_metric('r2_score', r2)\nmlflow.log_metric('mape', mape)\n\nprint(f'R2 Score: {r2:.4f}')\nprint(f'MAPE: {mape:.4f}')\nprint(f'Best Parameters: {best_params}')\nmlflow.end_run()"
+    },
+    {
+      "id": "energy-consumption-forecasting",
+      "title": "Energy Demand Forecasting",
+      "synopsis": "Forecast energy consumption patterns at hourly intervals to optimize power generation and grid management. Accurate energy demand forecasts enable better resource allocation and reduce energy costs.",
+      "industry": [
+        "energy"
+      ],
+      "technique": [
+        "time-series",
+        "demand-forecasting",
+        "regression"
+      ],
+      "packages": [
+        "scikit-learn",
+        "skforecast",
+        "lightgbm",
+        "sktime"
+      ],
+      "difficulty": "intermediate",
+      "sample_code": "import numpy as np\nimport pandas as pd\nfrom datetime import datetime, timedelta\nfrom sklearn.preprocessing import StandardScaler\nfrom lightgbm import LGBMRegressor\nfrom sklearn.model_selection import TimeSeriesSplit\nfrom sklearn.metrics import mean_absolute_error, mean_absolute_percentage_error\n\n# Generate 2 years of hourly energy data\nstart_date = datetime(2022, 1, 1)\ndate_range = pd.date_range(start=start_date, periods=17520, freq='H')\n\n# Energy demand with daily/weekly seasonality\nhours = np.arange(17520)\ntrend = np.linspace(1000, 1200, 17520)\ndaily_pattern = 200 * np.sin(2 * np.pi * (hours % 24) / 24)\nweekly_pattern = 100 * np.sin(2 * np.pi * (hours % 168) / 168)\nnoise = np.random.normal(0, 20, 17520)\ndemand = trend + daily_pattern + weekly_pattern + noise\n\ndf = pd.DataFrame({'date': date_range, 'demand': demand})\n\n# Create time-based features\ndf['hour'] = df['date'].dt.hour\ndf['dayofweek'] = df['date'].dt.dayofweek\ndf['month'] = df['date'].dt.month\n\n# Lag features for time series\nfor lag in [24, 168, 336]:\n    df[f'demand_lag_{lag}'] = df['demand'].shift(lag)\n\ndf = df.dropna()\n\n# Prepare data\nX = df[['hour', 'dayofweek', 'month', 'demand_lag_24', 'demand_lag_168', 'demand_lag_336']].values\ny = df['demand'].values\n\n# Time series split\ntscv = TimeSeriesSplit(n_splits=5)\nmodels_mae = []\n\nfor train_idx, test_idx in tscv.split(X):\n    X_train, X_test = X[train_idx], X[test_idx]\n    y_train, y_test = y[train_idx], y[test_idx]\n    \n    model = LGBMRegressor(random_state=42)\n    model.fit(X_train, y_train)\n    y_pred = model.predict(X_test)\n    \n    mae = mean_absolute_error(y_test, y_pred)\n    models_mae.append(mae)\n\navg_mae = np.mean(models_mae)\nmape = mean_absolute_percentage_error(y, model.predict(X))\n\nprint(f'Average MAE: {avg_mae:.2f}')\nprint(f'MAPE: {mape:.4f}')\nprint(f'Energy Demand Forecasted')"
+    },
+    {
+      "id": "recommendation-engine",
+      "title": "Collaborative Filtering Recommendation",
+      "synopsis": "Build a collaborative filtering system to recommend products based on user behavior and preferences. Effective recommendations increase conversion rates and customer satisfaction in e-commerce platforms.",
+      "industry": [
+        "e-commerce",
+        "retail",
+        "marketing"
+      ],
+      "technique": [
+        "recommendation",
+        "clustering"
+      ],
+      "packages": [
+        "scikit-learn",
+        "umap-learn",
+        "prince"
+      ],
+      "difficulty": "beginner",
+      "sample_code": "import numpy as np\nimport pandas as pd\nfrom sklearn.decomposition import TruncatedSVD\nfrom sklearn.metrics.pairwise import cosine_similarity\nimport umap\nimport prince\n\n# Synthetic user-product rating matrix\nnp.random.seed(42)\nn_users, n_products = 50, 20\nratings = np.random.randint(1, 6, (n_users, n_products))\nfor i in range(n_users):\n    for j in range(n_products):\n        if np.random.rand() > 0.7:\n            ratings[i, j] = 0  # Missing ratings\n\nratings_df = pd.DataFrame(ratings)\n\n# Matrix factorization using TruncatedSVD\nsvd = TruncatedSVD(n_components=5, random_state=42)\nlatent_factors = svd.fit_transform(ratings_df.fillna(0))\n\n# Item-item similarity\nitem_similarity = cosine_similarity(latent_factors.T)\n\n# Get top 5 recommendations for user 0\nuser_0_ratings = ratings_df.iloc[0]\nunrated_items = user_0_ratings[user_0_ratings == 0].index\n\nrec_scores = {}\nfor unrated_item in unrated_items:\n    score = 0\n    for rated_item in user_0_ratings[user_0_ratings > 0].index:\n        score += user_0_ratings[rated_item] * item_similarity[\n            rated_item, unrated_item\n        ]\n    rec_scores[unrated_item] = score\n\ntop_5_recs = sorted(\n    rec_scores.items(),\n    key=lambda x: x[1],\n    reverse=True\n)[:5]\n\n# UMAP projection for visualization\nreducer = umap.UMAP(n_components=2, random_state=42)\nproduct_embedding = reducer.fit_transform(latent_factors.T)\n\n# MCA for categorical analysis\nmca = prince.MCA(n_components=2, random_state=42)\ncategories = pd.DataFrame({\n    'product_type': np.random.choice(\n        ['Electronics', 'Books', 'Clothing'],\n        n_products\n    )\n})\nmca.fit(categories)\n\nprint(f'Top 5 Recommendations for User 0:')\nfor item_id, score in top_5_recs:\n    print(f'  Product {item_id}: Score {score:.2f}')\nprint(f'SVD Latent Dimensions: {latent_factors.shape}')"
+    },
+    {
+      "id": "real-estate-valuation",
+      "title": "Real Estate Price Estimation",
+      "synopsis": "Estimate real estate property values using machine learning on property features and market data. Accurate price predictions support property valuation, market analysis, and investment decisions.",
+      "industry": [
+        "real-estate"
+      ],
+      "technique": [
+        "regression",
+        "explainability"
+      ],
+      "packages": [
+        "scikit-learn",
+        "skrub",
+        "xgboost",
+        "shap",
+        "yellowbrick"
+      ],
+      "difficulty": "beginner",
+      "sample_code": "import numpy as np\nimport pandas as pd\nfrom sklearn.datasets import fetch_california_housing\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import StandardScaler\nfrom xgboost import XGBRegressor\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import r2_score, mean_squared_error\nfrom skrub import TableVectorizer\nfrom yellowbrick.regressor import PredictionError, ResidualsPlot\nimport shap\n\n# Load housing dataset\nhousing = fetch_california_housing()\nX = pd.DataFrame(housing.data, columns=housing.feature_names)\ny = housing.target\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42\n)\n\n# Pipeline with XGBoost\npipeline = Pipeline([\n    ('vectorizer', TableVectorizer()),\n    ('xgb', XGBRegressor(random_state=42, n_estimators=100))\n])\n\npipeline.fit(X_train, y_train)\ny_pred = pipeline.predict(X_test)\n\n# Metrics\nr2 = r2_score(y_test, y_pred)\nrmse = np.sqrt(mean_squared_error(y_test, y_pred))\n\n# Yellowbrick visualization data\nresiduals = y_test - y_pred\n\n# SHAP explanations\nxgb = pipeline.named_steps['xgb']\nexplainer = shap.TreeExplainer(xgb)\nshap_values = explainer.shap_values(X_test.values)\n\n# Feature importances from SHAP\nfeature_importance = np.abs(shap_values).mean(axis=0)\ntop_features_idx = np.argsort(feature_importance)[-5:][::-1]\n\nprint(f'R2 Score: {r2:.4f}')\nprint(f'RMSE: ${rmse*100000:.0f}')\nprint('Top 5 Important Features:')\nfor i in top_features_idx:\n    print(f'  {X.columns[i]}: {feature_importance[i]:.4f}')\nprint(f'Model RMSE on test set: {rmse:.4f}')"
+    },
+    {
+      "id": "document-routing",
+      "title": "Automated Document Classification",
+      "synopsis": "Automatically classify documents into categories for efficient document routing and processing. Automated classification reduces manual processing time and routing errors in high-volume document workflows.",
+      "industry": [
+        "banking",
+        "insurance",
+        "healthcare"
+      ],
+      "technique": [
+        "nlp",
+        "classification"
+      ],
+      "packages": [
+        "scikit-learn",
+        "mlxtend",
+        "eli5"
+      ],
+      "difficulty": "beginner",
+      "sample_code": "import numpy as np\nfrom sklearn.datasets import fetch_20newsgroups\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.svm import LinearSVC\nfrom sklearn.naive_bayes import MultinomialNB\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.metrics import classification_report, accuracy_score\nfrom mlxtend.classifier import StackingCVClassifier\nimport eli5\n\n# Fetch 4 document categories\ncategories = ['sci.med', 'sci.space', 'talk.politics.guns', 'comp.graphics']\ntrain = fetch_20newsgroups(\n    subset='train',\n    categories=categories,\n    remove=('headers', 'footers'),\n    random_state=42\n)\ntest = fetch_20newsgroups(\n    subset='test',\n    categories=categories,\n    remove=('headers', 'footers'),\n    random_state=42\n)\n\n# Base classifiers with TF-IDF\ntfidf_svc = Pipeline([\n    ('tfidf', TfidfVectorizer(max_features=5000)),\n    ('svc', LinearSVC(random_state=42, max_iter=2000))\n])\n\ntfidf_nb = Pipeline([\n    ('tfidf', TfidfVectorizer(max_features=5000)),\n    ('nb', MultinomialNB())\n])\n\n# Stacking ensemble\nstacking = StackingCVClassifier(\n    classifiers=[tfidf_svc, tfidf_nb],\n    meta_classifier=LinearSVC(random_state=42, max_iter=2000),\n    cv=3\n)\n\nstacking.fit(train.data, train.target)\ny_pred = stacking.predict(test.data)\n\naccuracy = accuracy_score(test.target, y_pred)\n\nprint(f'Classification Accuracy: {accuracy:.4f}')\nprint('\\nClassification Report:')\nprint(classification_report(\n    test.target, y_pred,\n    target_names=categories\n))\nprint('Document routing model ready')"
+    },
+    {
+      "id": "loan-default-prediction",
+      "title": "Loan Default Risk Assessment",
+      "synopsis": "Predict loan default risk to improve credit underwriting and portfolio management. Accurate default predictions enable better risk pricing, approval decisions, and portfolio composition.",
+      "industry": [
+        "banking"
+      ],
+      "technique": [
+        "credit-scoring",
+        "classification",
+        "explainability"
+      ],
+      "packages": [
+        "scikit-learn",
+        "imbalanced-learn",
+        "catboost",
+        "skore",
+        "mlflow"
+      ],
+      "difficulty": "intermediate",
+      "sample_code": "import numpy as np\nimport pandas as pd\nfrom sklearn.model_selection import cross_validate, train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.metrics import roc_auc_score, confusion_matrix, classification_report\nfrom imblearn.pipeline import Pipeline as ImbPipeline\nfrom imblearn.over_sampling import SMOTE\nfrom catboost import CatBoostClassifier\nimport mlflow\nimport mlflow.sklearn\n\n# Synthetic loan data with 15% default rate\nnp.random.seed(42)\nn_loans = 1000\nX = pd.DataFrame({\n    'loan_amount': np.random.uniform(5000, 500000, n_loans),\n    'interest_rate': np.random.uniform(3, 15, n_loans),\n    'term_months': np.random.choice([36, 60, 84], n_loans),\n    'annual_income': np.random.uniform(20000, 200000, n_loans),\n    'dti_ratio': np.random.uniform(0.1, 0.6, n_loans),\n    'fico_score': np.random.normal(700, 50, n_loans)\n})\n\ny = np.random.binomial(1, 0.15, n_loans)\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.3, random_state=42, stratify=y\n)\n\n# Pipeline with SMOTE and CatBoost\npipeline = ImbPipeline([\n    ('scaler', StandardScaler()),\n    ('smote', SMOTE(random_state=42)),\n    ('catboost', CatBoostClassifier(verbose=0, random_state=42))\n])\n\nmlflow.set_experiment('loan_default_prediction')\nwith mlflow.start_run():\n    # Cross-validation metrics\n    scores = cross_validate(\n        pipeline, X_train, y_train, cv=5,\n        scoring=['roc_auc', 'precision', 'recall', 'f1']\n    )\n    \n    # Train on full training set\n    pipeline.fit(X_train, y_train)\n    y_pred_proba = pipeline.predict_proba(X_test)[:, 1]\n    y_pred = pipeline.predict(X_test)\n    \n    roc_auc = roc_auc_score(y_test, y_pred_proba)\n    cm = confusion_matrix(y_test, y_pred)\n    \n    # Log metrics\n    mlflow.log_metric('roc_auc', roc_auc)\n    mlflow.log_metric('cv_roc_auc', scores['test_roc_auc'].mean())\n    mlflow.log_metric('cv_precision', scores['test_precision'].mean())\n    mlflow.sklearn.log_model(pipeline, 'model')\n\nprint(f'ROC-AUC Score: {roc_auc:.4f}')\nprint(f'Confusion Matrix:\\n{cm}')\nprint(f'CV Metrics - Precision: {scores[\"test_precision\"].mean():.4f}, Recall: {scores[\"test_recall\"].mean():.4f}')"
+    },
+    {
+      "id": "online-fraud-detection",
+      "title": "Real-Time Transaction Fraud (Streaming)",
+      "synopsis": "Detect fraudulent transactions in real-time using streaming machine learning for payment systems. Streaming fraud detection with concept drift adaptation enables quick response to evolving fraud patterns.",
+      "industry": [
+        "banking",
+        "e-commerce"
+      ],
+      "technique": [
+        "fraud-detection",
+        "anomaly-detection"
+      ],
+      "packages": [
+        "scikit-learn",
+        "river",
+        "pyod"
+      ],
+      "difficulty": "advanced",
+      "sample_code": "import numpy as np\nfrom river import anomaly, linear_model, preprocessing, compose\nfrom river.drift import ADWIN\nfrom pyod.models.iforest import IForest\nfrom sklearn.preprocessing import StandardScaler\nimport pandas as pd\n\n# Simulate streaming transactions\ndef transaction_generator(n_transactions=2000):\n    \"\"\"Generate synthetic transaction stream.\"\"\"\n    for i in range(n_transactions):\n        yield {\n            'amount': np.random.exponential(100),\n            'merchant_category': np.random.choice(\n                ['grocery', 'gas', 'restaurant', 'online', 'casino'],\n                p=[0.4, 0.2, 0.2, 0.15, 0.05]\n            ),\n            'hour': np.random.randint(0, 24),\n            'is_international': np.random.binomial(1, 0.1),\n            'is_fraud': np.random.binomial(1, 0.01)\n        }\n\n# River streaming anomaly detector\nmodel = compose.Pipeline(\n    preprocessing.StandardScaler(),\n    anomaly.HalfSpaceTrees(random_state=42)\n)\n\n# Concept drift detector\nadwin = ADWIN(delta=0.002)\n\n# PyOD batch detector for comparison\niforest_batch = IForest(contamination=0.01, random_state=42)\n\n# Streaming detection\ndetections = 0\ntotal = 0\nbatch_data = []\n\nfor transaction in transaction_generator(2000):\n    # Extract features for scoring\n    features = {\n        'amount': transaction['amount'],\n        'hour': transaction['hour'],\n        'is_international': transaction['is_international']\n    }\n    \n    # River streaming prediction (1 = anomaly)\n    is_anomaly = model.score_one(features)\n    \n    # Update model\n    model.learn_one(features)\n    \n    # Track drift\n    adwin.update(is_anomaly)\n    \n    # Accumulate batch data\n    batch_data.append([\n        transaction['amount'],\n        transaction['hour'],\n        transaction['is_international']\n    ])\n    \n    total += 1\n    detections += (is_anomaly > 0.5)\n\n# Batch detection for comparison\nif len(batch_data) > 0:\n    X_batch = np.array(batch_data)\n    scaler = StandardScaler()\n    X_scaled = scaler.fit_transform(X_batch)\n    \n    iforest_pred = iforest_batch.fit_predict(X_scaled)\n    iforest_detections = (iforest_pred == -1).sum()\n    \n    print(f'Streaming Detection Rate: {detections/total:.2%}')\n    print(f'Batch IForest Detection Rate: {iforest_detections/total:.2%}')\n    print(f'Concept Drift Detected: {adwin.detected_change}')\n    print(f'Processed {total} transactions in real-time')"
+    }
+  ]
+};

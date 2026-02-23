@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scikit-learn Central — Packages &amp; Use Cases</title>
+  <meta name="description" content="The official scikit-learn ecosystem catalog and real-world use case explorer, by :probabl.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous">
+
+  <!-- Highlight.js -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+
+  <!-- Design System & Components -->
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <style>
+    /* Sticky stacking: header → view-tabs → filter-bar */
+    .view-tabs { position: sticky; top: var(--header-h); z-index: 190; }
+    .filter-bar { position: sticky; top: calc(var(--header-h) + 40px); z-index: 180; }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════ -->
+  <header class="app-header">
+    <div class="app-header__inner">
+
+      <div class="app-header__brand">
+        <div class="app-header__logo-wrap">
+          <img
+            src="https://scikit-learn.org/stable/_static/scikit-learn-logo-notext.png"
+            alt="scikit-learn"
+            onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg';"
+          >
+        </div>
+        <div class="app-header__titles">
+          <h1 class="app-header__title">Scikit-learn Central</h1>
+          <span class="app-header__subtitle">Ecosystem catalog &amp; use case explorer · by <strong>:probabl.</strong></span>
+        </div>
+      </div>
+
+      <div class="app-header__actions">
+        <a href="https://scikit-learn.org" target="_blank" class="btn btn--ghost btn--sm">
+          <i class="fas fa-globe"></i> scikit-learn.org
+        </a>
+        <!-- Label switches between "Submit Package" and "Submit Use Case" -->
+        <button id="btn-submit" class="btn btn--primary btn--sm">
+          <i class="fas fa-plus"></i>
+          <span id="btn-submit-label">Submit Package</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════
+       VIEW TABS
+       ═══════════════════════════════════════════════════════ -->
+  <nav class="view-tabs" role="tablist">
+    <button class="view-tab is-active" data-view="catalog" role="tab">
+      <i class="fas fa-cubes"></i> Ecosystem Catalog
+      <span class="view-tab__count">—</span>
+    </button>
+    <button class="view-tab" data-view="use-cases" role="tab">
+      <i class="fas fa-lightbulb"></i> Use Cases
+      <span class="view-tab__count">—</span>
+    </button>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CATALOG FILTER BAR
+       ═══════════════════════════════════════════════════════ -->
+  <div class="filter-bar" id="catalog-filter-bar">
+    <div class="filter-bar__inner">
+
+      <!-- Search -->
+      <div class="filter-bar__search">
+        <i class="fas fa-search filter-bar__search-icon"></i>
+        <input
+          type="search"
+          id="search-input"
+          class="search-input"
+          placeholder="Search packages…"
+          autocomplete="off"
+          spellcheck="false"
+        >
+      </div>
+
+      <!-- Filter dropdowns -->
+      <div class="filter-bar__groups">
+
+        <!-- Nature -->
+        <div class="filter-group" id="fg-nature">
+          <button class="filter-btn" data-group="fg-nature" type="button">
+            Nature
+            <span class="filter-btn__badge" id="fb-badge-nature" style="display:none">0</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="filter-panel" id="fp-nature">
+            <label class="filter-panel__item filter-option">
+              <input type="checkbox" data-filter-key="nature" data-filter-val="library">
+              <span class="filter-panel__label">Library</span>
+              <span class="filter-panel__count" data-count="nature:library">—</span>
+            </label>
+            <label class="filter-panel__item filter-option">
+              <input type="checkbox" data-filter-key="nature" data-filter-val="extension">
+              <span class="filter-panel__label">Extension</span>
+              <span class="filter-panel__count" data-count="nature:extension">—</span>
+            </label>
+            <label class="filter-panel__item filter-option">
+              <input type="checkbox" data-filter-key="nature" data-filter-val="application">
+              <span class="filter-panel__label">Application</span>
+              <span class="filter-panel__count" data-count="nature:application">—</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Scope -->
+        <div class="filter-group" id="fg-scope">
+          <button class="filter-btn" data-group="fg-scope" type="button">
+            Scope
+            <span class="filter-btn__badge" id="fb-badge-scope" style="display:none">0</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="filter-panel" id="fp-scope">
+            <label class="filter-panel__item filter-option">
+              <input type="checkbox" data-filter-key="scope" data-filter-val="core">
+              <span class="filter-panel__label">Core</span>
+              <span class="filter-panel__count" data-count="scope:core">—</span>
+            </label>
+            <label class="filter-panel__item filter-option">
+              <input type="checkbox" data-filter-key="scope" data-filter-val="incremental">
+              <span class="filter-panel__label">Incremental</span>
+              <span class="filter-panel__count" data-count="scope:incremental">—</span>
+            </label>
+            <label class="filter-panel__item filter-option">
+              <input type="checkbox" data-filter-key="scope" data-filter-val="verticalized">
+              <span class="filter-panel__label">Verticalized</span>
+              <span class="filter-panel__count" data-count="scope:verticalized">—</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- License -->
+        <div class="filter-group" id="fg-license">
+          <button class="filter-btn" data-group="fg-license" type="button">
+            License
+            <span class="filter-btn__badge" id="fb-badge-license" style="display:none">0</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="filter-panel" id="fp-license">
+            <label class="filter-panel__item filter-option">
+              <input type="checkbox" data-filter-key="license" data-filter-val="MIT">
+              <span class="filter-panel__label">MIT</span>
+              <span class="filter-panel__count" data-count="license:MIT">—</span>
+            </label>
+            <label class="filter-panel__item filter-option">
+              <input type="checkbox" data-filter-key="license" data-filter-val="BSD-3-Clause">
+              <span class="filter-panel__label">BSD-3-Clause</span>
+              <span class="filter-panel__count" data-count="license:BSD-3-Clause">—</span>
+            </label>
+            <label class="filter-panel__item filter-option">
+              <input type="checkbox" data-filter-key="license" data-filter-val="BSD-2-Clause">
+              <span class="filter-panel__label">BSD-2-Clause</span>
+              <span class="filter-panel__count" data-count="license:BSD-2-Clause">—</span>
+            </label>
+            <label class="filter-panel__item filter-option">
+              <input type="checkbox" data-filter-key="license" data-filter-val="Apache-2.0">
+              <span class="filter-panel__label">Apache-2.0</span>
+              <span class="filter-panel__count" data-count="license:Apache-2.0">—</span>
+            </label>
+            <label class="filter-panel__item filter-option">
+              <input type="checkbox" data-filter-key="license" data-filter-val="GPL-3.0">
+              <span class="filter-panel__label">GPL-3.0</span>
+              <span class="filter-panel__count" data-count="license:GPL-3.0">—</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Maintenance -->
+        <div class="filter-group" id="fg-maintenance">
+          <button class="filter-btn" data-group="fg-maintenance" type="button">
+            Maintenance
+            <span class="filter-btn__badge" id="fb-badge-maintenance" style="display:none">0</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="filter-panel" id="fp-maintenance">
+            <label class="filter-panel__item filter-option">
+              <input type="checkbox" data-filter-key="maintenance" data-filter-val="active">
+              <span class="filter-panel__label">Active</span>
+              <span class="filter-panel__count" data-count="maintenance:active">—</span>
+            </label>
+            <label class="filter-panel__item filter-option">
+              <input type="checkbox" data-filter-key="maintenance" data-filter-val="maintained">
+              <span class="filter-panel__label">Maintained</span>
+              <span class="filter-panel__count" data-count="maintenance:maintained">—</span>
+            </label>
+            <label class="filter-panel__item filter-option">
+              <input type="checkbox" data-filter-key="maintenance" data-filter-val="deprecated">
+              <span class="filter-panel__label">Deprecated</span>
+              <span class="filter-panel__count" data-count="maintenance:deprecated">—</span>
+            </label>
+            <label class="filter-panel__item filter-option">
+              <input type="checkbox" data-filter-key="maintenance" data-filter-val="archived">
+              <span class="filter-panel__label">Archived</span>
+              <span class="filter-panel__count" data-count="maintenance:archived">—</span>
+            </label>
+          </div>
+        </div>
+
+      </div><!-- /filter-bar__groups -->
+
+      <!-- Sort + Clear -->
+      <div class="filter-bar__end">
+        <select id="sort-select" class="sort-select--inline" title="Sort by">
+          <option value="ranking">Sort: Ranking</option>
+          <option value="stars">Sort: Stars</option>
+          <option value="downloads">Sort: Downloads</option>
+          <option value="name">Sort: Name A–Z</option>
+        </select>
+        <button class="filter-bar__clear" id="catalog-clear-btn" onclick="resetFilters()">Clear all</button>
+      </div>
+
+    </div><!-- /filter-bar__inner -->
+
+    <!-- Active filter chips -->
+    <div id="active-filters" class="chips-bar" aria-label="Active catalog filters"></div>
+
+  </div><!-- /catalog-filter-bar -->
+
+  <!-- ═══════════════════════════════════════════════════════
+       USE-CASES FILTER BAR
+       ═══════════════════════════════════════════════════════ -->
+  <div class="filter-bar" id="uc-filter-bar" style="display:none">
+    <div class="filter-bar__inner">
+
+      <!-- Search -->
+      <div class="filter-bar__search">
+        <i class="fas fa-search filter-bar__search-icon"></i>
+        <input
+          type="search"
+          id="uc-search-input"
+          class="search-input"
+          placeholder="Search use cases…"
+          autocomplete="off"
+          spellcheck="false"
+        >
+      </div>
+
+      <!-- Filter dropdowns -->
+      <div class="filter-bar__groups">
+
+        <!-- Industry -->
+        <div class="filter-group" id="fg-industry">
+          <button class="filter-btn" data-group="fg-industry" type="button">
+            Industry
+            <span class="filter-btn__badge" id="fb-badge-industry" style="display:none">0</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="filter-panel filter-panel--wide" id="fp-industry">
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="industry" data-uc-filter-val="banking"><span class="filter-panel__label">Banking</span><span class="filter-panel__count" data-uc-count="industry:banking">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="industry" data-uc-filter-val="insurance"><span class="filter-panel__label">Insurance</span><span class="filter-panel__count" data-uc-count="industry:insurance">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="industry" data-uc-filter-val="healthcare"><span class="filter-panel__label">Healthcare</span><span class="filter-panel__count" data-uc-count="industry:healthcare">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="industry" data-uc-filter-val="retail"><span class="filter-panel__label">Retail</span><span class="filter-panel__count" data-uc-count="industry:retail">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="industry" data-uc-filter-val="e-commerce"><span class="filter-panel__label">E-Commerce</span><span class="filter-panel__count" data-uc-count="industry:e-commerce">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="industry" data-uc-filter-val="manufacturing"><span class="filter-panel__label">Manufacturing</span><span class="filter-panel__count" data-uc-count="industry:manufacturing">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="industry" data-uc-filter-val="telecom"><span class="filter-panel__label">Telecom</span><span class="filter-panel__count" data-uc-count="industry:telecom">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="industry" data-uc-filter-val="energy"><span class="filter-panel__label">Energy</span><span class="filter-panel__count" data-uc-count="industry:energy">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="industry" data-uc-filter-val="logistics"><span class="filter-panel__label">Logistics</span><span class="filter-panel__count" data-uc-count="industry:logistics">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="industry" data-uc-filter-val="hr"><span class="filter-panel__label">HR / People</span><span class="filter-panel__count" data-uc-count="industry:hr">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="industry" data-uc-filter-val="marketing"><span class="filter-panel__label">Marketing</span><span class="filter-panel__count" data-uc-count="industry:marketing">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="industry" data-uc-filter-val="real-estate"><span class="filter-panel__label">Real Estate</span><span class="filter-panel__count" data-uc-count="industry:real-estate">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="industry" data-uc-filter-val="cybersecurity"><span class="filter-panel__label">Cybersecurity</span><span class="filter-panel__count" data-uc-count="industry:cybersecurity">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="industry" data-uc-filter-val="agriculture"><span class="filter-panel__label">Agriculture</span><span class="filter-panel__count" data-uc-count="industry:agriculture">—</span></label>
+          </div>
+        </div>
+
+        <!-- Technique -->
+        <div class="filter-group" id="fg-technique">
+          <button class="filter-btn" data-group="fg-technique" type="button">
+            Technique
+            <span class="filter-btn__badge" id="fb-badge-technique" style="display:none">0</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="filter-panel filter-panel--wide" id="fp-technique">
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="technique" data-uc-filter-val="fraud-detection"><span class="filter-panel__label">Fraud Detection</span><span class="filter-panel__count" data-uc-count="technique:fraud-detection">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="technique" data-uc-filter-val="churn-prediction"><span class="filter-panel__label">Churn Prediction</span><span class="filter-panel__count" data-uc-count="technique:churn-prediction">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="technique" data-uc-filter-val="credit-scoring"><span class="filter-panel__label">Credit Scoring</span><span class="filter-panel__count" data-uc-count="technique:credit-scoring">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="technique" data-uc-filter-val="predictive-maintenance"><span class="filter-panel__label">Predictive Maintenance</span><span class="filter-panel__count" data-uc-count="technique:predictive-maintenance">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="technique" data-uc-filter-val="recommendation"><span class="filter-panel__label">Recommendation</span><span class="filter-panel__count" data-uc-count="technique:recommendation">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="technique" data-uc-filter-val="demand-forecasting"><span class="filter-panel__label">Demand Forecasting</span><span class="filter-panel__count" data-uc-count="technique:demand-forecasting">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="technique" data-uc-filter-val="anomaly-detection"><span class="filter-panel__label">Anomaly Detection</span><span class="filter-panel__count" data-uc-count="technique:anomaly-detection">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="technique" data-uc-filter-val="customer-segmentation"><span class="filter-panel__label">Customer Segmentation</span><span class="filter-panel__count" data-uc-count="technique:customer-segmentation">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="technique" data-uc-filter-val="sentiment-analysis"><span class="filter-panel__label">Sentiment Analysis</span><span class="filter-panel__count" data-uc-count="technique:sentiment-analysis">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="technique" data-uc-filter-val="survival-analysis"><span class="filter-panel__label">Survival Analysis</span><span class="filter-panel__count" data-uc-count="technique:survival-analysis">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="technique" data-uc-filter-val="time-series"><span class="filter-panel__label">Time Series</span><span class="filter-panel__count" data-uc-count="technique:time-series">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="technique" data-uc-filter-val="classification"><span class="filter-panel__label">Classification</span><span class="filter-panel__count" data-uc-count="technique:classification">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="technique" data-uc-filter-val="regression"><span class="filter-panel__label">Regression</span><span class="filter-panel__count" data-uc-count="technique:regression">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="technique" data-uc-filter-val="clustering"><span class="filter-panel__label">Clustering</span><span class="filter-panel__count" data-uc-count="technique:clustering">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="technique" data-uc-filter-val="nlp"><span class="filter-panel__label">NLP</span><span class="filter-panel__count" data-uc-count="technique:nlp">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="technique" data-uc-filter-val="explainability"><span class="filter-panel__label">Explainability</span><span class="filter-panel__count" data-uc-count="technique:explainability">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="technique" data-uc-filter-val="price-optimization"><span class="filter-panel__label">Price Optimization</span><span class="filter-panel__count" data-uc-count="technique:price-optimization">—</span></label>
+          </div>
+        </div>
+
+        <!-- Difficulty -->
+        <div class="filter-group" id="fg-difficulty">
+          <button class="filter-btn" data-group="fg-difficulty" type="button">
+            Difficulty
+            <span class="filter-btn__badge" id="fb-badge-difficulty" style="display:none">0</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="filter-panel" id="fp-difficulty">
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="difficulty" data-uc-filter-val="beginner"><span class="filter-panel__label">Beginner</span><span class="filter-panel__count" data-uc-count="difficulty:beginner">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="difficulty" data-uc-filter-val="intermediate"><span class="filter-panel__label">Intermediate</span><span class="filter-panel__count" data-uc-count="difficulty:intermediate">—</span></label>
+            <label class="filter-panel__item uc-filter-option"><input type="checkbox" data-uc-filter-key="difficulty" data-uc-filter-val="advanced"><span class="filter-panel__label">Advanced</span><span class="filter-panel__count" data-uc-count="difficulty:advanced">—</span></label>
+          </div>
+        </div>
+
+      </div><!-- /filter-bar__groups -->
+
+      <div class="filter-bar__end">
+        <button class="filter-bar__clear" id="uc-clear-btn" onclick="resetUcFilters()">Clear all</button>
+      </div>
+
+    </div><!-- /filter-bar__inner -->
+
+    <!-- UC active filter chips -->
+    <div id="uc-active-filters" class="chips-bar" aria-label="Active use-case filters"></div>
+
+  </div><!-- /uc-filter-bar -->
+
+  <!-- ═══════════════════════════════════════════════════════
+       CATALOG VIEW
+       ═══════════════════════════════════════════════════════ -->
+  <div id="view-catalog" class="view" role="tabpanel" aria-label="Package catalog">
+    <div class="page-content">
+
+      <section id="sklearn-hero" class="sklearn-hero" aria-label="scikit-learn core library">
+        <!-- Populated by renderCatalogHero() -->
+      </section>
+
+      <div class="catalog-header">
+        <h2 class="catalog-header__title">Ecosystem Packages</h2>
+        <span class="catalog-header__count" id="result-count" aria-live="polite">Loading…</span>
+      </div>
+
+      <div id="catalog-grid" class="catalog-grid">
+        <div class="state-loading"><div class="spinner"></div><span>Loading catalog…</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       USE-CASES VIEW
+       ═══════════════════════════════════════════════════════ -->
+  <div id="view-use-cases" class="view" role="tabpanel" aria-label="Use case explorer" style="display:none">
+    <div class="page-content">
+
+      <div class="uc-toolbar">
+        <span class="uc-count" id="uc-result-count" aria-live="polite">Loading…</span>
+        <span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--neutral-500);">
+          Click <strong style="color:var(--probabl-blue)">View Code</strong> for a runnable Python example
+        </span>
+      </div>
+
+      <div id="uc-grid" class="uc-grid">
+        <div class="state-loading"><div class="spinner"></div><span>Loading use cases…</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CODE MODAL
+       ═══════════════════════════════════════════════════════ -->
+  <div id="code-modal-backdrop" class="code-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="code-modal-title">
+    <div class="code-modal">
+      <div class="code-modal__header">
+        <div>
+          <div class="code-modal__title" id="code-modal-title">Use Case</div>
+          <div class="code-modal__meta" id="code-modal-meta"></div>
+        </div>
+        <button class="code-modal__close" aria-label="Close">&times;</button>
+      </div>
+      <div class="code-modal__synopsis" id="code-modal-synopsis"></div>
+      <div class="code-modal__body">
+        <pre class="code-modal__pre language-python" id="code-modal-pre"></pre>
+      </div>
+      <div class="code-modal__footer">
+        <div>
+          <div class="code-modal__packages-label">Libraries used</div>
+          <div class="code-modal__package-chips" id="code-modal-packages"></div>
+        </div>
+        <button id="btn-copy-code" class="btn--copy-code" onclick="copyCode(this)">
+          <i class="fas fa-copy"></i> Copy Code
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PACKAGE SUBMISSION MODAL
+       ═══════════════════════════════════════════════════════ -->
+  <div id="modal-backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <button class="modal__close" aria-label="Close">&times;</button>
+      <div class="modal__header">
+        <h2 class="modal__title" id="modal-title">Submit a Package</h2>
+        <p class="modal__subtitle">Know a scikit-learn compatible package that belongs in this catalog?</p>
+      </div>
+      <form id="submission-form" class="modal__body" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="f-name">Package Name <span style="color:#c2640a">*</span></label>
+          <input type="text" id="f-name" name="name" class="form-input" placeholder="e.g. My sklearn extension" required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-pypi">PyPI Name <span style="color:#c2640a">*</span></label>
+          <input type="text" id="f-pypi" name="pypi_name" class="form-input" placeholder="e.g. my-sklearn-extension" required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-repo">Repository URL <span style="color:#c2640a">*</span></label>
+          <input type="url" id="f-repo" name="repository" class="form-input" placeholder="https://github.com/org/repo" required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-desc">Short Description</label>
+          <textarea id="f-desc" name="description" class="form-input form-input--textarea" rows="3" placeholder="What does it do and how does it integrate with scikit-learn?"></textarea>
+        </div>
+        <div class="modal__footer">
+          <button type="submit" class="btn btn--primary"><i class="fas fa-paper-plane"></i> Submit</button>
+          <button type="button" class="btn btn--ghost modal__close">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       USE-CASE SUBMISSION MODAL
+       ═══════════════════════════════════════════════════════ -->
+  <div id="uc-modal-backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="uc-modal-title">
+    <div class="modal" style="max-width:600px">
+      <button class="modal__close" data-modal="uc" aria-label="Close">&times;</button>
+      <div class="modal__header">
+        <h2 class="modal__title" id="uc-modal-title">Submit a Use Case</h2>
+        <p class="modal__subtitle">Describe a real-world ML problem and the sklearn ecosystem libraries that solve it. We'll review and add it to the catalog.</p>
+      </div>
+      <form id="uc-submission-form" class="modal__body" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="uc-f-title">Use Case Title <span style="color:#c2640a">*</span></label>
+          <input type="text" id="uc-f-title" name="title" class="form-input" placeholder="e.g. Patient Readmission Prediction" required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="uc-f-industry">Industry <span style="color:#c2640a">*</span></label>
+          <input type="text" id="uc-f-industry" name="industry" class="form-input" placeholder="e.g. healthcare, insurance" required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="uc-f-technique">ML Technique <span style="color:#c2640a">*</span></label>
+          <input type="text" id="uc-f-technique" name="technique" class="form-input" placeholder="e.g. classification, survival-analysis" required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="uc-f-packages">Packages Used <span style="color:#c2640a">*</span></label>
+          <input type="text" id="uc-f-packages" name="packages" class="form-input" placeholder="e.g. scikit-learn, skrub, shap" required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="uc-f-synopsis">Synopsis <span style="color:#c2640a">*</span></label>
+          <textarea id="uc-f-synopsis" name="synopsis" class="form-input form-input--textarea" rows="3" placeholder="Describe the business problem and how ML solves it (2–3 sentences)." required></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="uc-f-code">Sample Code (optional)</label>
+          <textarea id="uc-f-code" name="sample_code" class="form-input form-input--textarea" rows="5" style="font-family:var(--font-mono);font-size:12px" placeholder="Paste a short Python snippet (30–60 lines) using synthetic data…"></textarea>
+        </div>
+        <div class="modal__footer">
+          <button type="submit" class="btn btn--primary"><i class="fas fa-paper-plane"></i> Submit</button>
+          <button type="button" class="btn btn--ghost modal__close" data-modal="uc">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── Scripts ──────────────────────────────────────────── -->
+  <script src="js/catalog.js"></script>
+  <script src="js/use-cases.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

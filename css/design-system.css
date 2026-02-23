@@ -1,0 +1,278 @@
+/* ═══════════════════════════════════════════════════════════
+   :probabl. Design System — CSS Custom Properties
+   Brand Guidelines v1 · Persian Blue × Sea Buckthorn
+   Google Fonts: Roboto Mono (primary) + Space Grotesk (body)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Google Fonts ──────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+/* ── Brand Color Scale ─────────────────────────────────────── */
+:root {
+  /* Primary */
+  --probabl-blue:        #1E22AA;   /* Persian Blue   — primary brand */
+  --probabl-orange:      #F68D2E;   /* Sea Buckthorn  — accent */
+
+  /* Blue scale (dark → light) */
+  --blue-900:            #0D1060;
+  --blue-800:            #151776;   /* Deep Koamaru */
+  --blue-700:            #1B1E99;   /* Jackson Purple */
+  --blue-600:            #1E22AA;   /* Persian Blue ← primary */
+  --blue-500:            #282DC8;
+  --blue-400:            #2E33E0;   /* Royal Blue */
+  --blue-300:            #353BFF;   /* Dodger Blue */
+  --blue-200:            #7478FF;
+  --blue-100:            #B8BAFF;
+  --blue-050:            #EAEAFF;
+
+  /* Orange scale (dark → light) */
+  --orange-900:          #7A3F0F;
+  --orange-800:          #AC6220;   /* Desert */
+  --orange-700:          #C47024;   /* Piper */
+  --orange-600:          #DD7E29;   /* Ochre */
+  --orange-500:          #F68D2E;   /* Sea Buckthorn ← accent */
+  --orange-400:          #F69842;   /* Casablanca */
+  --orange-300:          #F7A357;
+  --orange-200:          #F8B87C;
+  --orange-100:          #FBCFA5;
+  --orange-050:          #FEF0E2;
+
+  /* Neutral / Cream scale */
+  --neutral-950:         #000000;
+  --neutral-900:         #1A1A1A;
+  --neutral-800:         #30302F;   /* Tuatara */
+  --neutral-700:         #484847;   /* Fuscous Gray */
+  --neutral-600:         #797977;   /* Friar Gray */
+  --neutral-500:         #A4A3A0;
+  --neutral-400:         #C2C1BE;   /* Cloud */
+  --neutral-300:         #DAD9D6;   /* Quill Gray */
+  --neutral-200:         #F3F2EE;   /* Cararra */
+  --neutral-150:         #F7F1DB;   /* Albescent White */
+  --neutral-100:         #FBF8ED;   /* Rum Swizzle */
+  --neutral-050:         #FDFCF9;   /* Merino */
+  --neutral-000:         #FFFFFF;
+
+  /* ── Semantic Tokens ──────────────────────────────────────── */
+
+  /* Backgrounds */
+  --bg-page:             var(--neutral-050);    /* Merino cream */
+  --bg-surface:          var(--neutral-000);    /* White */
+  --bg-surface-alt:      var(--neutral-200);    /* Cararra */
+  --bg-primary:          var(--probabl-blue);   /* Header, hero */
+  --bg-accent:           var(--probabl-orange); /* CTAs, highlights */
+
+  /* Text */
+  --text-primary:        var(--neutral-950);
+  --text-secondary:      var(--neutral-700);
+  --text-muted:          var(--neutral-600);
+  --text-on-blue:        var(--neutral-000);
+  --text-on-orange:      var(--probabl-blue);
+
+  /* Borders */
+  --border-subtle:       var(--neutral-300);
+  --border-default:      var(--neutral-300);
+  --border-focus:        var(--probabl-blue);
+
+  /* Status colors */
+  --status-active:       #1A7F37;
+  --status-active-bg:    #DCFCE7;
+  --status-maintained:   #0969DA;
+  --status-maintained-bg:#DBEAFE;
+  --status-deprecated:   #9A6700;
+  --status-deprecated-bg:#FEF9C3;
+  --status-archived:     #57606A;
+  --status-archived-bg:  #F1F5F9;
+
+  /* ── Typography ───────────────────────────────────────────── */
+  --font-mono:   'Roboto Mono', 'Courier New', monospace;
+  --font-body:   'Space Grotesk', system-ui, -apple-system, sans-serif;
+
+  /* Type scale */
+  --text-xs:     0.65rem;    /* 10.4px */
+  --text-sm:     0.75rem;    /* 12px   */
+  --text-base:   0.875rem;   /* 14px   */
+  --text-md:     1rem;       /* 16px   */
+  --text-lg:     1.125rem;   /* 18px   */
+  --text-xl:     1.375rem;   /* 22px   */
+  --text-2xl:    1.75rem;    /* 28px   */
+  --text-3xl:    2.25rem;    /* 36px   */
+
+  /* Tracking — brand spec uses -1% for headings */
+  --tracking-tight:   -0.01em;
+  --tracking-normal:   0em;
+  --tracking-wide:     0.04em;
+  --tracking-wider:    0.08em;
+  --tracking-widest:   0.12em;
+
+  /* ── Spacing ──────────────────────────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-7:  28px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ── Radii ────────────────────────────────────────────────── */
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   16px;
+  --radius-xl:   20px;
+  --radius-full: 9999px;
+
+  /* ── Shadows ──────────────────────────────────────────────── */
+  --shadow-sm:  0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:  0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04);
+  --shadow-lg:  0 8px 28px rgba(30,34,170,.10), 0 4px 8px rgba(0,0,0,.04);
+  --shadow-xl:  0 20px 48px rgba(30,34,170,.15);
+
+  /* ── Transitions ──────────────────────────────────────────── */
+  --ease:        cubic-bezier(.4,0,.2,1);
+  --duration-sm: 150ms;
+  --duration-md: 220ms;
+  --duration-lg: 350ms;
+
+  /* ── Layout ───────────────────────────────────────────────── */
+  --header-h:    60px;
+  --sidebar-w:   272px;
+  --content-max: 1100px;
+}
+
+/* ── Reset & Base ──────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--bg-page);
+  min-height: 100vh;
+}
+
+a {
+  color: var(--probabl-blue);
+  text-decoration: none;
+  transition: color var(--duration-sm) var(--ease);
+}
+
+a:hover { color: var(--blue-400); }
+
+img, svg { display: block; max-width: 100%; }
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* ── Utility Classes ───────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.mono { font-family: var(--font-mono); }
+
+.text-muted { color: var(--text-muted); }
+.text-primary { color: var(--text-primary); }
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Shared Button Base ────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 9px 20px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--duration-md) var(--ease);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--probabl-orange);
+  outline-offset: 2px;
+}
+
+.btn--primary {
+  background: var(--probabl-orange);
+  color: var(--probabl-blue);
+}
+
+.btn--primary:hover {
+  background: var(--orange-400);
+  color: var(--probabl-blue);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn--ghost {
+  background: rgba(255,255,255,0.10);
+  color: var(--neutral-000);
+  border: 1.5px solid rgba(255,255,255,0.25);
+}
+
+.btn--ghost:hover {
+  background: rgba(255,255,255,0.18);
+  color: var(--neutral-000);
+  transform: translateY(-1px);
+}
+
+.btn--outline {
+  background: transparent;
+  color: var(--probabl-blue);
+  border: 1.5px solid var(--border-default);
+}
+
+.btn--outline:hover {
+  border-color: var(--probabl-blue);
+  background: var(--blue-050);
+}
+
+.btn--sm {
+  padding: 5px 12px;
+  font-size: var(--text-xs);
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--neutral-300); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--neutral-400); }
