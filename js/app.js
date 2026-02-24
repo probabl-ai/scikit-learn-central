@@ -284,7 +284,7 @@ function renderCard(pkg) {
   const natur = { library:'badge--library', extension:'badge--extension', application:'badge--application' };
 
   const links = [
-    pkg.website    && `<a href="${pkg.website}" target="_blank" class="card__link">Website</a>`,
+    pkg.website    && `<a href="${pkg.website}" target="_blank" class="card__link">Homepage</a>`,
     pkg.repository && `<a href="${pkg.repository}" target="_blank" class="card__link"><i class="fab fa-github"></i> Repo</a>`,
     pkg.docs       && `<a href="${pkg.docs}" target="_blank" class="card__link"><i class="fas fa-book"></i> Docs</a>`,
   ].filter(Boolean).join('');
