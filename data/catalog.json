@@ -632,7 +632,7 @@
       "maintenance": "active",
       "provides_estimators": true,
       "consumes_estimators": false,
-      "description": "A scikit-learn compatible neural network library that wraps PyTorch. Provides NeuralNetClassifier, NeuralNetRegressor, and NeuralNetBinaryClassifier that plug directly into sklearn Pipelines, GridSearchCV, and callbacks — bridging deep learning and the sklearn API.",
+      "description": "A scikit-learn compatible neural network library that wraps PyTorch. Provides NeuralNetClassifier, NeuralNetRegressor, and NeuralNetBinaryClassifier that plug directly into sklearn Pipelines, GridSearchCV — bridging deep learning and the sklearn API.",
       "tags": ["deep-learning", "PyTorch", "neural-network"],
       "stars": 6200,
       "downloads": 100000,
