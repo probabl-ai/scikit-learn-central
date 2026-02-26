@@ -14,7 +14,7 @@ let useCases = null;
 const state = {
   view: 'catalog',
   // Catalog filters
-  search: '', nature: new Set(), scope: new Set(), license: new Set(), maintenance: new Set(), sortBy: 'ranking',
+  search: '', nature: new Set(), scope: new Set(), license: new Set(), maintenance: new Set(), sortBy: 'downloads',
   // Use-case filters
   ucSearch: '', industry: new Set(), technique: new Set(), difficulty: new Set(),
 };
@@ -209,14 +209,6 @@ function renderCatalogHero() {
           <a href="${c.docs}" target="_blank" class="sklearn-hero__link"><i class="fas fa-book"></i> Docs</a>
           <span class="sklearn-hero__link" style="cursor:default;opacity:.7;"><i class="fas fa-terminal"></i> pip install ${c.pypi_name}</span>
         </div>
-        <div class="sklearn-hero__contributors">
-          <div class="sklearn-hero__contributors-label">Key Contributors</div>
-          <div class="sklearn-hero__contributor-list">
-            ${c.contributors.map(ct =>
-              `<a href="https://github.com/${ct.github}" target="_blank" class="sklearn-hero__contributor">${ct.name}</a>`
-            ).join('')}
-          </div>
-        </div>
       </div>
     </div>`;
 }
@@ -289,12 +281,6 @@ function renderCard(pkg) {
     pkg.docs       && `<a href="${pkg.docs}" target="_blank" class="card__link"><i class="fas fa-book"></i> Docs</a>`,
   ].filter(Boolean).join('');
 
-  const contributors = pkg.contributors?.length ? `
-    <div class="card__contributors"><div class="card__contributors-label">Contributors</div>
-    <div class="card__contributors-list">
-      ${pkg.contributors.map(c => `<a href="https://github.com/${c.github}" target="_blank" class="contributor-chip">${c.name}</a>`).join('')}
-    </div></div>` : '';
-
   const tags = pkg.tags?.length
     ? `<div class="tag-row">${pkg.tags.map(t => `<span class="tag" data-tag="${t}">${t}</span>`).join('')}</div>` : '';
 
@@ -309,7 +295,6 @@ function renderCard(pkg) {
 
   return `
     <article class="card" data-id="${pkg.id}">
-      <div class="card__ranking">${pkg.ranking}</div>
       <div class="card__name">${pkg.name}</div>
       <div class="badges">
         <span class="badge ${natur[pkg.nature]||''}">${pkg.nature}</span>
@@ -327,7 +312,7 @@ function renderCard(pkg) {
         <span class="card__stat"><i class="fas fa-download"></i> ${fmt(pkg.downloads)}/mo</span>
         ${ucLink}
       </div>
-      ${tags}${install}${contributors}
+      ${tags}${install}
       <div class="card__links">${links}</div>
     </article>`;
 }
@@ -665,9 +650,9 @@ function bindEvents() {
    ═══════════════════════════════════════════════════════════ */
 
 window.resetFilters = function() {
-  state.search = ''; state.nature.clear(); state.scope.clear(); state.license.clear(); state.maintenance.clear(); state.sortBy = 'ranking';
+  state.search = ''; state.nature.clear(); state.scope.clear(); state.license.clear(); state.maintenance.clear(); state.sortBy = 'downloads';
   const si = document.getElementById('search-input'); if (si) si.value = '';
-  const ss = document.getElementById('sort-select');  if (ss) ss.value = 'ranking';
+  const ss = document.getElementById('sort-select');  if (ss) ss.value = 'downloads';
   document.querySelectorAll('.filter-option input[type="checkbox"]').forEach(cb => cb.checked = false);
   renderCatalogAll();
 };

@@ -75,7 +75,7 @@ window.CATALOG = {
       "maintenance": "active",
       "provides_estimators": true,
       "consumes_estimators": true,
-      "description": "Successor to dirty-cat. Bridges the gap between dataframes and sklearn by providing TableVectorizer, fuzzy joining (AggJoiner, Joiner), and string encoders (MinHashEncoder, GapEncoder) for messy, real-world tabular data.",
+      "description": "Bridges the gap between dataframes and sklearn by providing TableVectorizer, fuzzy joining (AggJoiner, Joiner), and string encoders (MinHashEncoder, GapEncoder) for messy, real-world tabular data.",
       "tags": [
         "dirty-data",
         "categorical-encoding",
@@ -461,6 +461,51 @@ window.CATALOG = {
           "name": "Joaquin Amat Rodrigo",
           "github": "JoaquinAmatRodrigo"
         }
+      ]
+    },
+    {
+      "id": "aeon",
+      "name": "aeon",
+      "pypi_name": "aeon",
+      "website": "https://www.aeon-toolkit.org",
+      "repository": "https://github.com/aeon-toolkit/aeon",
+      "docs": "https://www.aeon-toolkit.org/en/stable/",
+      "nature": "library",
+      "scope": "verticalized",
+      "license": "BSD-3-Clause",
+      "maintenance": "active",
+      "provides_estimators": true,
+      "consumes_estimators": true,
+      "description": "Sklearn-compatible toolkit for time series machine learning and data mining. Covers classification, regression, clustering, forecasting, and anomaly detection with a focus on correctness and benchmarking.",
+      "tags": ["time-series", "classification", "regression", "clustering", "forecasting", "anomaly-detection"],
+      "stars": 900,
+      "downloads": 100000,
+      "ranking": 73,
+      "contributors": [
+        { "name": "Tony Bagnall", "github": "TonyBagnall" },
+        { "name": "Matthew Middlehurst", "github": "MatthewMiddlehurst" }
+      ]
+    },
+    {
+      "id": "tslearn",
+      "name": "tslearn",
+      "pypi_name": "tslearn",
+      "website": "https://tslearn.readthedocs.io",
+      "repository": "https://github.com/tslearn-team/tslearn",
+      "docs": "https://tslearn.readthedocs.io/en/stable/",
+      "nature": "library",
+      "scope": "verticalized",
+      "license": "BSD-2-Clause",
+      "maintenance": "active",
+      "provides_estimators": true,
+      "consumes_estimators": false,
+      "description": "Sklearn-compatible machine learning toolkit for time series. Provides DTW-based k-NN, k-means clustering, SVM for time series, soft-DTW, shapelet learning, and preprocessing transformers.",
+      "tags": ["time-series", "DTW", "clustering", "classification", "shapelets"],
+      "stars": 2800,
+      "downloads": 200000,
+      "ranking": 71,
+      "contributors": [
+        { "name": "Romain Tavenard", "github": "rtavenar" }
       ]
     },
     {
