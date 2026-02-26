@@ -65,10 +65,12 @@ function switchView(view) {
   // Content views
   document.getElementById('view-catalog').style.display    = view === 'catalog'    ? '' : 'none';
   document.getElementById('view-use-cases').style.display  = view === 'use-cases'  ? '' : 'none';
+  document.getElementById('view-about').style.display      = view === 'about'      ? '' : 'none';
 
   // Context-aware submit button
   const label = document.getElementById('btn-submit-label');
-  if (label) label.textContent = view === 'catalog' ? 'Submit Package' : 'Submit Use Case';
+  const labelMap = { catalog: 'Submit Package', 'use-cases': 'Submit Use Case', about: 'Submit Feedback' };
+  if (label) label.textContent = labelMap[view] || 'Submit Package';
 }
 
 function setTabCount(view, n) {
@@ -467,6 +469,28 @@ function closeUcModal() {
   document.body.style.overflow = '';
 }
 
+function openFeedbackModal() {
+  document.getElementById('feedback-modal-backdrop').classList.add('is-open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeFeedbackModal() {
+  document.getElementById('feedback-modal-backdrop').classList.remove('is-open');
+  document.body.style.overflow = '';
+}
+
+function handleFeedbackSubmit(e) {
+  e.preventDefault();
+  const type = e.target.querySelector('[name="type"]')?.value?.trim();
+  if (!type) return;
+  e.target.innerHTML = `<div style="text-align:center;padding:var(--space-8)">
+    <div style="font-size:2rem;margin-bottom:var(--space-4)">🙏</div>
+    <div style="font-family:var(--font-mono);font-size:var(--text-lg);font-weight:700;color:var(--probabl-blue)">Thank you!</div>
+    <p style="color:var(--neutral-600);margin-top:var(--space-3)">Your feedback has been received.</p>
+    <button class="btn btn--primary" style="margin-top:var(--space-6)" onclick="closeFeedbackModal()">Close</button>
+  </div>`;
+}
+
 function handleSubmit(e) {
   e.preventDefault();
   const name = e.target.querySelector('[name="name"]')?.value?.trim();
@@ -622,7 +646,8 @@ function bindEvents() {
   // ── Context-aware submit button ───────────────────────── //
   document.getElementById('btn-submit')?.addEventListener('click', () => {
     if (state.view === 'catalog') openPackageModal();
-    else openUcModal();
+    else if (state.view === 'use-cases') openUcModal();
+    else openFeedbackModal();
   });
 
   // ── Package modal ─────────────────────────────────────── //
@@ -639,9 +664,15 @@ function bindEvents() {
   document.getElementById('code-modal-backdrop')?.addEventListener('click', e => { if (e.target.id === 'code-modal-backdrop') closeCodeModal(); });
   document.querySelectorAll('.code-modal__close').forEach(btn => btn.addEventListener('click', closeCodeModal));
 
+  // ── Feedback modal ────────────────────────────────────── //
+  document.getElementById('feedback-modal-close')?.addEventListener('click', closeFeedbackModal);
+  document.getElementById('feedback-modal-cancel')?.addEventListener('click', closeFeedbackModal);
+  document.getElementById('feedback-modal-backdrop')?.addEventListener('click', e => { if (e.target.id === 'feedback-modal-backdrop') closeFeedbackModal(); });
+  document.getElementById('feedback-form')?.addEventListener('submit', handleFeedbackSubmit);
+
   // ── Escape key closes any open modal/dropdown ─────────── //
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closeCodeModal(); closePackageModal(); closeUcModal(); closeAllDropdowns(); }
+    if (e.key === 'Escape') { closeCodeModal(); closePackageModal(); closeUcModal(); closeFeedbackModal(); closeAllDropdowns(); }
   });
 }
 

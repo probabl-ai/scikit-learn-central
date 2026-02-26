@@ -80,6 +80,9 @@
       <i class="fas fa-lightbulb"></i> Use Cases
       <span class="view-tab__count">—</span>
     </button>
+    <button class="view-tab" data-view="about" role="tab">
+      <i class="fas fa-info-circle"></i> About
+    </button>
   </nav>
 
   <!-- ═══════════════════════════════════════════════════════
@@ -383,6 +386,122 @@
         <div class="state-loading"><div class="spinner"></div><span>Loading use cases…</span></div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ABOUT VIEW
+       ═══════════════════════════════════════════════════════ -->
+  <div id="view-about" class="view" role="tabpanel" aria-label="About Scikit-learn Central" style="display:none">
+    <div class="page-content">
+      <div class="about-page">
+
+        <!-- Purpose -->
+        <section class="about-section">
+          <h2 class="about-section__title">Purpose</h2>
+          <div class="about-section__body">
+            <p>Scikit-learn Central is a community resource dedicated to serving the broader scientific Python and machine learning ecosystem. The project is governed, developed, hosted, and curated by <strong>Probabl</strong>, with contributions from the community at large.</p>
+            <p>The catalog is deliberately neutral — it maps the scikit-learn ecosystem without preference toward any particular package or vendor. At the same time, it is curated and forward-looking, giving priority to libraries and technologies that demonstrate strong adoption and genuine vitality.</p>
+            <p>The use cases are opinionated by design. They feature the building blocks of the community and tackle real-life problems, giving practitioners a clear picture of how the ecosystem fits together in practice.</p>
+            <p>The project bridges the broader scientific Python community and the scikit-learn ecosystem. Many individuals contribute their expertise — especially in these early stages — helping shape a resource that is open, useful, and grounded in the community's needs.</p>
+          </div>
+        </section>
+
+        <!-- Sub-committees -->
+        <section class="about-section">
+          <h2 class="about-section__title">Sub-committees</h2>
+          <p class="about-section__intro">The project is spearheaded by Probabl co-founders and employees and organized as sub-committees.</p>
+
+          <div class="committees">
+
+            <div class="committee">
+              <div class="committee__title">Scientific Guidance</div>
+              <div class="committee__members">
+                <a href="https://www.linkedin.com/in/gael-varoquaux-a8391411" target="_blank" rel="noopener noreferrer" class="person-card">
+                  <span class="person-card__name">Gaël Varoquaux</span>
+                  <i class="fab fa-linkedin person-card__li"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/oliviergrisel/" target="_blank" rel="noopener noreferrer" class="person-card">
+                  <span class="person-card__name">Olivier Grisel</span>
+                  <i class="fab fa-linkedin person-card__li"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="committee">
+              <div class="committee__title">Mission &amp; Ecosystem Alignment</div>
+              <div class="committee__members">
+                <a href="https://www.linkedin.com/in/ylechelle/" target="_blank" rel="noopener noreferrer" class="person-card">
+                  <span class="person-card__name">Yann Lechelle</span>
+                  <i class="fab fa-linkedin person-card__li"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/caileanosborne/" target="_blank" rel="noopener noreferrer" class="person-card">
+                  <span class="person-card__name">Cailean Osborne</span>
+                  <i class="fab fa-linkedin person-card__li"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="committee">
+              <div class="committee__title">Use Case Curation</div>
+              <div class="committee__members">
+                <a href="https://www.linkedin.com/in/adrinjalali/" target="_blank" rel="noopener noreferrer" class="person-card">
+                  <span class="person-card__name">Adrin Jalali</span>
+                  <i class="fab fa-linkedin person-card__li"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/fran%C3%A7ois-goupil/" target="_blank" rel="noopener noreferrer" class="person-card">
+                  <span class="person-card__name">François Goupil</span>
+                  <i class="fab fa-linkedin person-card__li"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Submit Feedback CTA -->
+        <div class="about-cta">
+          <p class="about-cta__text">Have a suggestion, spotted a missing package, or want to propose a new use case? We'd love to hear from you.</p>
+          <button class="btn btn--primary" onclick="openFeedbackModal()">
+            <i class="fas fa-plus"></i> Submit Feedback
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FEEDBACK MODAL
+       ═══════════════════════════════════════════════════════ -->
+  <div id="feedback-modal-backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="feedback-modal-title">
+    <div class="modal">
+      <button class="modal__close" id="feedback-modal-close" aria-label="Close">&times;</button>
+      <div class="modal__header">
+        <h2 class="modal__title" id="feedback-modal-title">Submit Feedback</h2>
+        <p class="modal__subtitle">Share your thoughts, suggestions, or ideas to help improve Scikit-learn Central.</p>
+      </div>
+      <form id="feedback-form" class="modal__body" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="fb-type">Type of Feedback <span style="color:#c2640a">*</span></label>
+          <select id="fb-type" name="type" class="form-input" required>
+            <option value="">Select…</option>
+            <option value="suggestion">Suggestion</option>
+            <option value="missing-package">Missing Package</option>
+            <option value="missing-use-case">Missing Use Case</option>
+            <option value="bug">Bug Report</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fb-message">Message <span style="color:#c2640a">*</span></label>
+          <textarea id="fb-message" name="message" class="form-input form-input--textarea" rows="4" placeholder="Tell us what's on your mind…" required></textarea>
+        </div>
+        <div class="modal__footer">
+          <button type="submit" class="btn btn--primary"><i class="fas fa-paper-plane"></i> Submit</button>
+          <button type="button" class="btn btn--ghost" id="feedback-modal-cancel">Cancel</button>
+        </div>
+      </form>
     </div>
   </div>
 
