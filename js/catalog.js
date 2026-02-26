@@ -15,12 +15,12 @@ window.CATALOG = {
   "core": {
     "id": "scikit-learn",
     "name": "scikit-learn",
-    "pypi_name": "scikit-learn",
+    "pypi_name": "sklearn",
     "is_core": true,
     "website": "https://scikit-learn.org",
     "repository": "https://github.com/scikit-learn/scikit-learn",
     "docs": "https://scikit-learn.org/stable/user_guide.html",
-    "version": "1.6",
+    "version": "1.8",
     "license": "BSD-3-Clause",
     "maintenance": "active",
     "description": "The reference machine learning library for Python. Provides simple and efficient tools for data mining and data analysis via a consistent, well-documented API (fit/predict/transform) used across the entire ecosystem.",
@@ -35,7 +35,7 @@ window.CATALOG = {
     "provides_estimators": true,
     "consumes_estimators": true,
     "stars": 60000,
-    "downloads": 50000000,
+    "downloads": 150000000,
     "contributors_count": 3000,
     "ranking": 100,
     "contributors": [
