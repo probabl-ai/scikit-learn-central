@@ -195,42 +195,12 @@
           </div>
         </div>
 
-        <!-- Maintenance -->
-        <div class="filter-group" id="fg-maintenance">
-          <button class="filter-btn" data-group="fg-maintenance" type="button">
-            Maintenance
-            <span class="filter-btn__badge" id="fb-badge-maintenance" style="display:none">0</span>
-            <i class="fas fa-chevron-down"></i>
-          </button>
-          <div class="filter-panel" id="fp-maintenance">
-            <label class="filter-panel__item filter-option">
-              <input type="checkbox" data-filter-key="maintenance" data-filter-val="active">
-              <span class="filter-panel__label">Active</span>
-              <span class="filter-panel__count" data-count="maintenance:active">—</span>
-            </label>
-            <label class="filter-panel__item filter-option">
-              <input type="checkbox" data-filter-key="maintenance" data-filter-val="maintained">
-              <span class="filter-panel__label">Maintained</span>
-              <span class="filter-panel__count" data-count="maintenance:maintained">—</span>
-            </label>
-            <label class="filter-panel__item filter-option">
-              <input type="checkbox" data-filter-key="maintenance" data-filter-val="deprecated">
-              <span class="filter-panel__label">Deprecated</span>
-              <span class="filter-panel__count" data-count="maintenance:deprecated">—</span>
-            </label>
-            <label class="filter-panel__item filter-option">
-              <input type="checkbox" data-filter-key="maintenance" data-filter-val="archived">
-              <span class="filter-panel__label">Archived</span>
-              <span class="filter-panel__count" data-count="maintenance:archived">—</span>
-            </label>
-          </div>
-        </div>
-
       </div><!-- /filter-bar__groups -->
 
       <!-- Sort + Clear -->
       <div class="filter-bar__end">
         <select id="sort-select" class="sort-select--inline" title="Sort by">
+          <option value="ranking" selected>Sort: Utility</option>
           <option value="stars">Sort: Stars</option>
           <option value="downloads">Sort: Monthly Downloads</option>
           <option value="name">Sort: Name A–Z</option>
@@ -456,6 +426,47 @@
               </div>
             </div>
 
+          </div>
+        </section>
+
+        <!-- Ranking Methodology -->
+        <section class="about-section">
+          <h2 class="about-section__title">Ranking Methodology</h2>
+          <div class="about-section__body">
+            <p>Each ecosystem package is assigned a <strong>Utility Score</strong> (0–100) displayed as a chip in the top-right corner of its card. Hovering over the chip reveals the three underlying sub-scores.</p>
+
+            <div class="ranking-methodology">
+
+              <div class="ranking-method-row">
+                <div class="ranking-method-icon"><i class="fas fa-star"></i></div>
+                <div class="ranking-method-detail">
+                  <div class="ranking-method-name">Stars <span class="ranking-method-weight">⅓</span></div>
+                  <div class="ranking-method-desc">GitHub star count on a <strong>logarithmic scale</strong>. The package with the most stars in the catalog scores 100%; others are normalised relative to that maximum. The log scale dampens the outsized effect of very popular packages.</div>
+                </div>
+              </div>
+
+              <div class="ranking-method-row">
+                <div class="ranking-method-icon"><i class="fas fa-download"></i></div>
+                <div class="ranking-method-detail">
+                  <div class="ranking-method-name">Monthly Downloads <span class="ranking-method-weight">⅓</span></div>
+                  <div class="ranking-method-desc">PyPI monthly download count, also on a <strong>logarithmic scale</strong>. Reflects real-world adoption and active usage in production codebases, normalised to the catalog maximum.</div>
+                </div>
+              </div>
+
+              <div class="ranking-method-row">
+                <div class="ranking-method-icon"><i class="fas fa-lightbulb"></i></div>
+                <div class="ranking-method-detail">
+                  <div class="ranking-method-name">Use Cases <span class="ranking-method-weight">⅓</span></div>
+                  <div class="ranking-method-desc">Number of curated use cases in which the package appears, on a <strong>linear scale</strong>. A higher count signals broader applicability across real-world ML problems.</div>
+                </div>
+              </div>
+
+            </div>
+
+            <p class="ranking-formula">
+              <strong>Utility Score</strong> = (Stars<sub>log</sub> + Downloads<sub>log</sub> + UseCases<sub>linear</sub>) ÷ 3
+            </p>
+            <p>Scores are computed dynamically from live catalog data and renormalised whenever the catalog is updated. The catalog is deliberately neutral — scikit-learn core is excluded from the normalisation pool since it is displayed separately as the ecosystem foundation.</p>
           </div>
         </section>
 

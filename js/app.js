@@ -4,6 +4,9 @@
  * Dual-view: "catalog" (package catalog) + "use-cases" (industry use cases).
  * Horizontal filter bars with dropdown panels replace the sidebar.
  * Submit button is context-aware: "Submit Package" vs "Submit Use Case".
+ *
+ * Package data is atomized: catalog.json lists IDs, each package lives in
+ * data/packages/{id}.json and is fetched in parallel at startup.
  */
 'use strict';
 
@@ -14,7 +17,7 @@ let useCases = null;
 const state = {
   view: 'catalog',
   // Catalog filters
-  search: '', nature: new Set(), scope: new Set(), license: new Set(), maintenance: new Set(), sortBy: 'downloads',
+  search: '', nature: new Set(), scope: new Set(), license: new Set(), sortBy: 'ranking',
   // Use-case filters
   ucSearch: '', industry: new Set(), technique: new Set(), difficulty: new Set(),
 };
@@ -22,13 +25,16 @@ const state = {
 /* ── Bootstrap ──────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', async () => {
   [catalog, useCases] = await Promise.all([
-    loadData('data/catalog.json',    window.CATALOG),
-    loadData('data/use-cases.json',  window.USE_CASES),
+    loadCatalog(),
+    loadData('data/use-cases.json', window.USE_CASES),
   ]);
 
   if (!catalog) { showCatalogError(); return; }
 
-  setTabCount('catalog',    catalog.packages.length + 1);
+  // Compute utility scores once both datasets are available
+  computeUtilityScores();
+
+  setTabCount('catalog',    catalog.packages.length);
   if (useCases) setTabCount('use-cases', useCases.use_cases.length);
 
   populateCatalogCounts();
@@ -41,10 +47,81 @@ document.addEventListener('DOMContentLoaded', async () => {
   bindEvents();
 });
 
-/* ── Data ───────────────────────────────────────────────── */
+/* ── Data loading ───────────────────────────────────────── */
+
+/**
+ * Load the catalog. catalog.json lists package IDs; each package is
+ * fetched from data/packages/{id}.json in parallel.
+ * Falls back to window.CATALOG (js/catalog.js) when running over file://.
+ */
+async function loadCatalog() {
+  try {
+    const r = await fetch('data/catalog.json');
+    if (!r.ok) throw new Error('catalog fetch failed');
+    const meta = await r.json();
+
+    // New atomized format: packages is an array of string IDs
+    if (Array.isArray(meta.packages) && (meta.packages.length === 0 || typeof meta.packages[0] === 'string')) {
+      const pkgs = await Promise.all(
+        meta.packages.map(id =>
+          fetch(`data/packages/${id}.json`).then(r => r.ok ? r.json() : null).catch(() => null)
+        )
+      );
+      const assembled = { ...meta, packages: pkgs.filter(Boolean) };
+      // Hide archived packages
+      assembled.packages = assembled.packages.filter(p => !p.archived);
+      return assembled;
+    }
+
+    // Legacy format: packages already an array of objects
+    meta.packages = meta.packages.filter(p => !p.archived);
+    return meta;
+  } catch (_) {}
+
+  // Fallback: window.CATALOG (provided by js/catalog.js)
+  if (window.CATALOG) {
+    const fallback = { ...window.CATALOG };
+    fallback.packages = fallback.packages.filter(p => !p.archived);
+    return fallback;
+  }
+  return null;
+}
+
 async function loadData(url, fallback) {
   try { const r = await fetch(url); if (r.ok) return r.json(); } catch (_) {}
   return fallback || null;
+}
+
+/* ── Utility Ranking ────────────────────────────────────── */
+
+/**
+ * Compute the "utility ranking" for every package and attach scores as
+ * private properties (_utilTotal, _utilStars, _utilDownloads, _utilUc).
+ *
+ * Formula (each sub-score 0–100, equal weight 1/3):
+ *   stars_score     = log(stars + 1)     / log(maxStars + 1)     × 100  (log scale)
+ *   downloads_score = log(downloads + 1) / log(maxDownloads + 1) × 100  (log scale)
+ *   uc_score        = useCasesCount / maxUseCasesCount            × 100  (linear)
+ *
+ * Normalisation is relative to the best package in the ecosystem catalog
+ * (scikit-learn core is shown separately as the hero card and excluded).
+ */
+function computeUtilityScores() {
+  const pkgs = catalog.packages;
+  const maxStars     = Math.max(...pkgs.map(p => p.stars),     1);
+  const maxDownloads = Math.max(...pkgs.map(p => p.downloads), 1);
+
+  const ucCounts = pkgs.map(p =>
+    useCases ? useCases.use_cases.filter(uc => uc.packages.includes(p.id)).length : 0
+  );
+  const maxUc = Math.max(...ucCounts, 1);
+
+  pkgs.forEach((p, i) => {
+    p._utilStars     = Math.log(p.stars     + 1) / Math.log(maxStars     + 1) * 100;
+    p._utilDownloads = Math.log(p.downloads + 1) / Math.log(maxDownloads + 1) * 100;
+    p._utilUc        = (ucCounts[i] / maxUc) * 100;
+    p._utilTotal     = (p._utilStars + p._utilDownloads + p._utilUc) / 3;
+  });
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -94,10 +171,8 @@ function toggleDropdown(groupId) {
   const panel = group.querySelector('.filter-panel');
   const wasOpen = panel.classList.contains('is-open');
 
-  // Close all first
   closeAllDropdowns();
 
-  // Re-open if it was closed
   if (!wasOpen) {
     panel.classList.add('is-open');
     btn.classList.add('is-open');
@@ -106,7 +181,6 @@ function toggleDropdown(groupId) {
 
 /**
  * Update a filter button's active badge count.
- * Called after every checkbox change.
  */
 function updateFilterBtnState(groupId, stateSet) {
   const group  = document.getElementById(groupId);
@@ -119,12 +193,10 @@ function updateFilterBtnState(groupId, stateSet) {
 }
 
 function updateAllCatalogBtns() {
-  updateFilterBtnState('fg-nature',      state.nature);
-  updateFilterBtnState('fg-scope',       state.scope);
-  updateFilterBtnState('fg-license',     state.license);
-  updateFilterBtnState('fg-maintenance', state.maintenance);
-  // Show "Clear all" link if any filter is active
-  const hasAny = state.search || state.nature.size || state.scope.size || state.license.size || state.maintenance.size;
+  updateFilterBtnState('fg-nature',  state.nature);
+  updateFilterBtnState('fg-scope',   state.scope);
+  updateFilterBtnState('fg-license', state.license);
+  const hasAny = state.search || state.nature.size || state.scope.size || state.license.size;
   const clearBtn = document.getElementById('catalog-clear-btn');
   if (clearBtn) clearBtn.classList.toggle('is-visible', !!hasAny);
 }
@@ -139,7 +211,7 @@ function updateAllUcBtns() {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   CATALOG: SIDEBAR COUNTS (now filter-panel counts)
+   CATALOG: FILTER-PANEL COUNTS
    ═══════════════════════════════════════════════════════════ */
 
 function populateCatalogCounts() {
@@ -151,7 +223,6 @@ function populateCatalogCounts() {
   ['library','extension','application'].forEach(v => set('nature', v));
   ['core','incremental','verticalized'].forEach(v => set('scope', v));
   ['MIT','BSD-3-Clause','BSD-2-Clause','Apache-2.0','GPL-3.0'].forEach(v => set('license', v));
-  ['active','maintained','deprecated','archived'].forEach(v => set('maintenance', v));
 }
 
 function populateUcCounts() {
@@ -191,7 +262,6 @@ function renderCatalogHero() {
         <div class="sklearn-hero__badges badges">
           <span class="badge">Library</span><span class="badge badge--core">Core</span>
           <span class="badge badge--license">${c.license}</span>
-          <span class="badge badge--active">${c.maintenance}</span>
           <span class="badge">v${c.version}</span>
         </div>
         <div class="sklearn-hero__compat">
@@ -226,21 +296,21 @@ function renderCatalogAll() {
 }
 
 function applyFilters() {
-  let r = [...catalog.packages];
+  let r = [...catalog.packages]; // archived packages already excluded at load time
   if (state.search) {
     const q = state.search.toLowerCase();
     r = r.filter(p => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q) ||
       p.tags.some(t => t.includes(q)) || (p.pypi_name||'').toLowerCase().includes(q));
   }
-  if (state.nature.size)      r = r.filter(p => state.nature.has(p.nature));
-  if (state.scope.size)       r = r.filter(p => state.scope.has(p.scope));
-  if (state.license.size)     r = r.filter(p => state.license.has(p.license));
-  if (state.maintenance.size) r = r.filter(p => state.maintenance.has(p.maintenance));
+  if (state.nature.size)  r = r.filter(p => state.nature.has(p.nature));
+  if (state.scope.size)   r = r.filter(p => state.scope.has(p.scope));
+  if (state.license.size) r = r.filter(p => state.license.has(p.license));
   r.sort((a, b) => {
     if (state.sortBy === 'name')      return a.name.localeCompare(b.name);
     if (state.sortBy === 'stars')     return b.stars - a.stars;
     if (state.sortBy === 'downloads') return b.downloads - a.downloads;
-    return b.ranking - a.ranking;
+    // Default: utility ranking
+    return (b._utilTotal ?? 0) - (a._utilTotal ?? 0);
   });
   return r;
 }
@@ -253,7 +323,7 @@ function renderCatalogActiveFilters() {
     tags.push(`<span class="active-filter-tag" data-filter="${prefix}:${v}">${v} <span class="active-filter-tag__remove">✕</span></span>`)
   );
   if (state.search) tags.push(`<span class="active-filter-tag" data-filter="search:">"${state.search}" <span class="active-filter-tag__remove">✕</span></span>`);
-  add(state.nature, 'nature'); add(state.scope, 'scope'); add(state.license, 'license'); add(state.maintenance, 'maintenance');
+  add(state.nature, 'nature'); add(state.scope, 'scope'); add(state.license, 'license');
   container.innerHTML = tags.join('');
   container.classList.toggle('is-visible', tags.length > 0);
 }
@@ -295,14 +365,17 @@ function renderCard(pkg) {
     ? `<span class="card__use-cases" onclick="filterUcByPackage('${pkg.id}')">
         <i class="fas fa-lightbulb"></i> ${ucCount} use case${ucCount !== 1 ? 's' : ''}</span>` : '';
 
+  // Utility ranking chip with sub-score tooltip
+  const rankChip = pkg._utilTotal != null ? renderRankChip(pkg) : '';
+
   return `
     <article class="card" data-id="${pkg.id}">
+      ${rankChip}
       <div class="card__name">${pkg.name}</div>
       <div class="badges">
         <span class="badge ${natur[pkg.nature]||''}">${pkg.nature}</span>
         <span class="badge ${scope[pkg.scope]||''}">${pkg.scope}</span>
         <span class="badge badge--license">${pkg.license}</span>
-        <span class="badge badge--${pkg.maintenance}">${pkg.maintenance}</span>
       </div>
       <p class="card__description">${pkg.description}</p>
       <div class="compat-row">
@@ -317,6 +390,43 @@ function renderCard(pkg) {
       ${tags}${install}
       <div class="card__links">${links}</div>
     </article>`;
+}
+
+/**
+ * Render the utility ranking chip (top-right of card) with a hover tooltip
+ * that shows the three sub-scores as progress bars ("cursors").
+ */
+function renderRankChip(pkg) {
+  const total = Math.round(pkg._utilTotal);
+  const stars = Math.round(pkg._utilStars);
+  const dl    = Math.round(pkg._utilDownloads);
+  const uc    = Math.round(pkg._utilUc);
+
+  const bar = (pct) =>
+    `<div class="ranking-tooltip__track"><div class="ranking-tooltip__fill" style="width:${pct}%"></div></div>`;
+
+  return `
+    <div class="card__ranking">
+      ${total}
+      <div class="ranking-tooltip">
+        <div class="ranking-tooltip__title">Utility Score</div>
+        <div class="ranking-tooltip__row">
+          <span class="ranking-tooltip__label"><i class="fas fa-star"></i> Stars</span>
+          ${bar(stars)}
+          <span class="ranking-tooltip__val">${stars}</span>
+        </div>
+        <div class="ranking-tooltip__row">
+          <span class="ranking-tooltip__label"><i class="fas fa-download"></i> Downloads</span>
+          ${bar(dl)}
+          <span class="ranking-tooltip__val">${dl}</span>
+        </div>
+        <div class="ranking-tooltip__row">
+          <span class="ranking-tooltip__label"><i class="fas fa-lightbulb"></i> Use Cases</span>
+          ${bar(uc)}
+          <span class="ranking-tooltip__val">${uc}</span>
+        </div>
+      </div>
+    </div>`;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -531,7 +641,7 @@ window.filterUcByPackage = function(pkgId) {
 window.viewPackageInCatalog = function(pkgId) {
   state.search = pkgId;
   const el = document.getElementById('search-input'); if (el) el.value = pkgId;
-  state.nature.clear(); state.scope.clear(); state.license.clear(); state.maintenance.clear();
+  state.nature.clear(); state.scope.clear(); state.license.clear();
   document.querySelectorAll('.filter-option input').forEach(cb => cb.checked = false);
   switchView('catalog');
   renderCatalogAll();
@@ -681,9 +791,9 @@ function bindEvents() {
    ═══════════════════════════════════════════════════════════ */
 
 window.resetFilters = function() {
-  state.search = ''; state.nature.clear(); state.scope.clear(); state.license.clear(); state.maintenance.clear(); state.sortBy = 'downloads';
+  state.search = ''; state.nature.clear(); state.scope.clear(); state.license.clear(); state.sortBy = 'ranking';
   const si = document.getElementById('search-input'); if (si) si.value = '';
-  const ss = document.getElementById('sort-select');  if (ss) ss.value = 'downloads';
+  const ss = document.getElementById('sort-select');  if (ss) ss.value = 'ranking';
   document.querySelectorAll('.filter-option input[type="checkbox"]').forEach(cb => cb.checked = false);
   renderCatalogAll();
 };

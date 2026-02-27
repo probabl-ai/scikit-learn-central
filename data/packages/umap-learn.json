@@ -1,0 +1,30 @@
+{
+  "id": "umap-learn",
+  "name": "UMAP",
+  "pypi_name": "umap-learn",
+  "website": "https://umap-learn.readthedocs.io",
+  "repository": "https://github.com/lmcinnes/umap",
+  "docs": "https://umap-learn.readthedocs.io",
+  "nature": "library",
+  "scope": "verticalized",
+  "license": "BSD-3-Clause",
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": false,
+  "description": "Uniform Manifold Approximation and Projection \u2014 the most scalable non-linear dimensionality reduction algorithm. Sklearn-compatible transformer that preserves both local and global structure. Widely used for visualization and feature extraction.",
+  "tags": [
+    "dimensionality-reduction",
+    "visualization",
+    "manifold-learning",
+    "embedding",
+    "clustering"
+  ],
+  "stars": 7400,
+  "downloads": 2900000,
+  "contributors": [
+    {
+      "name": "Leland McInnes",
+      "github": "lmcinnes"
+    }
+  ]
+}

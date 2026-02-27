@@ -1,0 +1,30 @@
+{
+  "id": "category-encoders",
+  "name": "category_encoders",
+  "pypi_name": "category-encoders",
+  "website": "https://contrib.scikit-learn.org/category_encoders/",
+  "repository": "https://github.com/scikit-learn-contrib/category_encoders",
+  "docs": "https://contrib.scikit-learn.org/category_encoders/",
+  "nature": "library",
+  "scope": "core",
+  "license": "BSD-3-Clause",
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": false,
+  "description": "15+ sklearn-compatible categorical encoders including TargetEncoder, WOEEncoder, CatBoostEncoder, BinaryEncoder, and PolynomialEncoder. Supports both supervised and unsupervised encoding strategies.",
+  "tags": [
+    "categorical-encoding",
+    "target-encoding",
+    "WOE",
+    "binary-encoding",
+    "ordinal"
+  ],
+  "stars": 2500,
+  "downloads": 850000,
+  "contributors": [
+    {
+      "name": "Will McGinnis",
+      "github": "wdm0006"
+    }
+  ]
+}

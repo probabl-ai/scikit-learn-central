@@ -1,0 +1,30 @@
+{
+  "id": "eli5",
+  "name": "ELI5",
+  "pypi_name": "eli5",
+  "website": "https://eli5.readthedocs.io",
+  "repository": "https://github.com/TeamHG-Memex/eli5",
+  "docs": "https://eli5.readthedocs.io",
+  "nature": "library",
+  "scope": "verticalized",
+  "license": "MIT",
+  "archived": false,
+  "provides_estimators": false,
+  "consumes_estimators": true,
+  "description": "Explain It Like I'm 5 \u2014 debug, inspect, and explain ML classifiers. Provides feature weights, prediction explanations for sklearn, XGBoost, and LightGBM. Integrates with Jupyter for rich HTML explanations.",
+  "tags": [
+    "explainability",
+    "feature-importance",
+    "debugging",
+    "text-models",
+    "lime"
+  ],
+  "stars": 2700,
+  "downloads": 320000,
+  "contributors": [
+    {
+      "name": "Mikhail Korobov",
+      "github": "kmike"
+    }
+  ]
+}

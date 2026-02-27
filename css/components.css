@@ -572,7 +572,7 @@
   border: 1.5px solid var(--border-subtle);
   padding: var(--space-6);
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* allows ranking tooltip to escape card bounds */
   transition: border-color var(--duration-md) var(--ease),
               transform var(--duration-md) var(--ease),
               box-shadow var(--duration-md) var(--ease);
@@ -587,7 +587,7 @@
   box-shadow: var(--shadow-lg);
 }
 
-/* Ranking badge */
+/* Ranking chip — top-right of each package card */
 .card__ranking {
   position: absolute;
   top: var(--space-4);
@@ -599,6 +599,89 @@
   font-weight: 700;
   padding: 3px 10px;
   border-radius: var(--radius-full);
+  cursor: default;
+  user-select: none;
+  z-index: 10;
+}
+
+/* Tooltip shown on hover — displays the three sub-scores */
+.ranking-tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--probabl-blue);
+  color: rgba(255,255,255,.9);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  width: 220px;
+  z-index: 50;
+  box-shadow: 0 8px 28px rgba(14,17,90,.35);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity .15s ease, visibility .15s ease, transform .15s ease;
+}
+
+.card__ranking:hover .ranking-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.ranking-tooltip__title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--probabl-orange);
+  margin-bottom: 8px;
+}
+
+.ranking-tooltip__row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.ranking-tooltip__row:last-child {
+  margin-bottom: 0;
+}
+
+.ranking-tooltip__label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255,255,255,.7);
+  min-width: 72px;
+  flex-shrink: 0;
+}
+
+.ranking-tooltip__track {
+  flex: 1;
+  height: 5px;
+  background: rgba(255,255,255,.18);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.ranking-tooltip__fill {
+  height: 100%;
+  background: var(--probabl-orange);
+  border-radius: 3px;
+  transition: width .3s ease;
+}
+
+.ranking-tooltip__val {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--probabl-orange);
+  min-width: 22px;
+  text-align: right;
+  flex-shrink: 0;
 }
 
 .card__name {
@@ -2003,5 +2086,78 @@
   margin-bottom: var(--space-5);
   font-size: var(--text-base);
   line-height: 1.6;
+}
+
+/* ── Ranking Methodology section ───────────────────────────── */
+.ranking-methodology {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: var(--space-6) 0;
+}
+
+.ranking-method-row {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+}
+
+.ranking-method-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 28px;
+  text-align: center;
+  padding-top: 2px;
+}
+
+.ranking-method-detail {
+  flex: 1;
+}
+
+.ranking-method-name {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--probabl-blue);
+  margin-bottom: var(--space-1);
+}
+
+.ranking-method-weight {
+  font-size: var(--text-xs);
+  font-weight: 400;
+  color: var(--probabl-orange);
+  margin-left: 4px;
+}
+
+.ranking-method-desc {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+.ranking-formula {
+  background: var(--bg-primary);
+  color: #ffffff !important;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+  text-align: center;
+  margin: var(--space-4) 0;
+  letter-spacing: .01em;
+}
+
+.ranking-formula strong {
+  color: #ffffff;
+}
+
+.ranking-formula sub {
+  font-size: .75em;
+  color: var(--probabl-orange);
 }
 

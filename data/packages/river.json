@@ -1,0 +1,34 @@
+{
+  "id": "river",
+  "name": "River",
+  "pypi_name": "river",
+  "website": "https://riverml.xyz",
+  "repository": "https://github.com/online-ml/river",
+  "docs": "https://riverml.xyz/latest/",
+  "nature": "library",
+  "scope": "incremental",
+  "license": "BSD-3-Clause",
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": false,
+  "description": "Sklearn for streaming data. River is the leading online machine learning library for Python, offering incremental learning, concept drift detection, and adaptive models for real-time data streams.",
+  "tags": [
+    "online-learning",
+    "streaming",
+    "incremental",
+    "concept-drift",
+    "real-time"
+  ],
+  "stars": 5200,
+  "downloads": 220000,
+  "contributors": [
+    {
+      "name": "Max Halford",
+      "github": "MaxHalford"
+    },
+    {
+      "name": "Saulo Martiello Mastelini",
+      "github": "smastelini"
+    }
+  ]
+}

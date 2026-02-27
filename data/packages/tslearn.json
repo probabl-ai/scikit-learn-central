@@ -1,0 +1,30 @@
+{
+  "id": "tslearn",
+  "name": "tslearn",
+  "pypi_name": "tslearn",
+  "website": "https://tslearn.readthedocs.io",
+  "repository": "https://github.com/tslearn-team/tslearn",
+  "docs": "https://tslearn.readthedocs.io/en/stable/",
+  "nature": "library",
+  "scope": "verticalized",
+  "license": "BSD-2-Clause",
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": false,
+  "description": "Sklearn-compatible machine learning toolkit for time series. Provides DTW-based k-NN, k-means clustering, SVM for time series, soft-DTW, shapelet learning, and preprocessing transformers.",
+  "tags": [
+    "time-series",
+    "DTW",
+    "clustering",
+    "classification",
+    "shapelets"
+  ],
+  "stars": 2800,
+  "downloads": 200000,
+  "contributors": [
+    {
+      "name": "Romain Tavenard",
+      "github": "rtavenar"
+    }
+  ]
+}

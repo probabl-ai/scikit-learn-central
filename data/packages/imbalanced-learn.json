@@ -1,0 +1,34 @@
+{
+  "id": "imbalanced-learn",
+  "name": "imbalanced-learn",
+  "pypi_name": "imbalanced-learn",
+  "website": "https://imbalanced-learn.org",
+  "repository": "https://github.com/scikit-learn-contrib/imbalanced-learn",
+  "docs": "https://imbalanced-learn.org/stable/",
+  "nature": "library",
+  "scope": "core",
+  "license": "MIT",
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": true,
+  "description": "Sklearn-compatible tools for learning from imbalanced datasets. Provides SMOTE, ADASYN, RandomOverSampler, RandomUnderSampler, Tomek Links, and balanced Pipeline for classification on skewed class distributions.",
+  "tags": [
+    "imbalanced-data",
+    "SMOTE",
+    "oversampling",
+    "undersampling",
+    "resampling"
+  ],
+  "stars": 6900,
+  "downloads": 3200000,
+  "contributors": [
+    {
+      "name": "Guillaume Lemaitre",
+      "github": "glemaitre"
+    },
+    {
+      "name": "Fernando Nogueira",
+      "github": "fmfnogueira"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "skforecast",
+  "name": "Skforecast",
+  "pypi_name": "skforecast",
+  "website": "https://skforecast.org",
+  "repository": "https://github.com/skforecast/skforecast",
+  "docs": "https://skforecast.org/latest/",
+  "nature": "library",
+  "scope": "verticalized",
+  "license": "BSD-3-Clause",
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": true,
+  "description": "Turn any sklearn-compatible regressor into a powerful forecaster. Provides ForecasterRecursive, ForecasterDirect, and ForecasterMultiSeries with exogenous variable support, backtesting, and hyperparameter tuning.",
+  "tags": [
+    "time-series",
+    "forecasting",
+    "autoregressive",
+    "exogenous",
+    "backtesting"
+  ],
+  "stars": 1200,
+  "downloads": 280000,
+  "contributors": [
+    {
+      "name": "Joaquin Amat Rodrigo",
+      "github": "JoaquinAmatRodrigo"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "auto-sklearn",
+  "name": "auto-sklearn",
+  "pypi_name": "auto-sklearn",
+  "website": "https://automl.github.io/auto-sklearn/",
+  "repository": "https://github.com/automl/auto-sklearn",
+  "docs": "https://automl.github.io/auto-sklearn/master/",
+  "nature": "application",
+  "scope": "verticalized",
+  "license": "BSD-3-Clause",
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": false,
+  "description": "Automated ML system built on sklearn. Uses Bayesian optimization and meta-learning to automatically search over 15 classifiers, 14 feature preprocessing methods, and 4 data preprocessing steps. Drop-in sklearn estimator.",
+  "tags": [
+    "AutoML",
+    "meta-learning",
+    "ensemble",
+    "algorithm-selection",
+    "hyperparameter-optimization"
+  ],
+  "stars": 7400,
+  "downloads": 180000,
+  "contributors": [
+    {
+      "name": "Matthias Feurer",
+      "github": "mfeurer"
+    },
+    {
+      "name": "Katharina Eggensperger",
+      "github": "katharina-eggensperger"
+    }
+  ]
+}

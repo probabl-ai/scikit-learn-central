@@ -1,8 +1,12 @@
 /**
  * catalog.js — Scikit-learn Central v3
  *
- * Mirrors data/catalog.json as window.CATALOG so the app works over
- * the file:// protocol without a web server. app.js prefers fetch().
+ * Mirrors data/catalog.json + data/packages/*.json as window.CATALOG
+ * so the app works over file:// protocol without a web server.
+ * app.js prefers fetch() and the atomized package files.
+ *
+ * Generated automatically — do not edit by hand.
+ * Regenerate with: python3 scripts/gen-catalog-js.py (if available)
  */
 /* eslint-disable */
 window.CATALOG = {
@@ -22,7 +26,6 @@ window.CATALOG = {
     "docs": "https://scikit-learn.org/stable/user_guide.html",
     "version": "1.8",
     "license": "BSD-3-Clause",
-    "maintenance": "active",
     "description": "The reference machine learning library for Python. Provides simple and efficient tools for data mining and data analysis via a consistent, well-documented API (fit/predict/transform) used across the entire ecosystem.",
     "tags": [
       "classification",
@@ -37,7 +40,6 @@ window.CATALOG = {
     "stars": 60000,
     "downloads": 150000000,
     "contributors_count": 3000,
-    "ranking": 100,
     "contributors": [
       {
         "name": "Olivier Grisel",
@@ -59,7 +61,8 @@ window.CATALOG = {
         "name": "Guillaume Lemaitre",
         "github": "glemaitre"
       }
-    ]
+    ],
+    "archived": false
   },
   "packages": [
     {
@@ -72,7 +75,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "core",
       "license": "BSD-3-Clause",
-      "maintenance": "active",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": true,
       "description": "Bridges the gap between dataframes and sklearn by providing TableVectorizer, fuzzy joining (AggJoiner, Joiner), and string encoders (MinHashEncoder, GapEncoder) for messy, real-world tabular data.",
@@ -86,7 +89,6 @@ window.CATALOG = {
       ],
       "stars": 1200,
       "downloads": 120000,
-      "ranking": 92,
       "contributors": [
         {
           "name": "Jovan Stojanovic",
@@ -112,7 +114,7 @@ window.CATALOG = {
       "nature": "application",
       "scope": "core",
       "license": "MIT",
-      "maintenance": "active",
+      "archived": false,
       "provides_estimators": false,
       "consumes_estimators": true,
       "description": "Developed by :probabl., skore accelerates ML model development with smarter cross-validation, automated evaluation reports, and methodological guidance \u2014 catching common pitfalls before they reach production.",
@@ -126,7 +128,6 @@ window.CATALOG = {
       ],
       "stars": 650,
       "downloads": 45000,
-      "ranking": 88,
       "contributors": [
         {
           "name": "Arturo Amor",
@@ -148,7 +149,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "core",
       "license": "BSD-3-Clause",
-      "maintenance": "active",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": false,
       "description": "Collection of sklearn-compatible transformers for feature engineering: missing data imputation, categorical encoding, variable transformation, discretization, outlier capping, and feature selection \u2014 all DataFrame-aware.",
@@ -161,7 +162,6 @@ window.CATALOG = {
       ],
       "stars": 1900,
       "downloads": 380000,
-      "ranking": 85,
       "contributors": [
         {
           "name": "Soledad Galli",
@@ -179,7 +179,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "core",
       "license": "BSD-3-Clause",
-      "maintenance": "maintained",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": false,
       "description": "15+ sklearn-compatible categorical encoders including TargetEncoder, WOEEncoder, CatBoostEncoder, BinaryEncoder, and PolynomialEncoder. Supports both supervised and unsupervised encoding strategies.",
@@ -192,7 +192,6 @@ window.CATALOG = {
       ],
       "stars": 2500,
       "downloads": 850000,
-      "ranking": 80,
       "contributors": [
         {
           "name": "Will McGinnis",
@@ -210,7 +209,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "incremental",
       "license": "Apache-2.0",
-      "maintenance": "active",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": false,
       "description": "Optimized, scalable gradient boosting framework with full sklearn compatibility (XGBClassifier, XGBRegressor). Consistently wins Kaggle competitions and is a go-to for tabular data in production.",
@@ -223,7 +222,6 @@ window.CATALOG = {
       ],
       "stars": 26000,
       "downloads": 12000000,
-      "ranking": 95,
       "contributors": [
         {
           "name": "Tianqi Chen",
@@ -245,7 +243,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "incremental",
       "license": "MIT",
-      "maintenance": "active",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": false,
       "description": "Microsoft's leaf-wise gradient boosting framework. Faster training than XGBoost on large datasets with native categorical feature support. Provides LGBMClassifier and LGBMRegressor with full sklearn compatibility.",
@@ -258,7 +256,6 @@ window.CATALOG = {
       ],
       "stars": 17000,
       "downloads": 9000000,
-      "ranking": 94,
       "contributors": [
         {
           "name": "Nikita Titov",
@@ -280,7 +277,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "incremental",
       "license": "Apache-2.0",
-      "maintenance": "active",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": false,
       "description": "Yandex's gradient boosting with native ordered categorical encoding. Minimizes preprocessing effort with automatic handling of categorical features and robust handling of small datasets.",
@@ -292,7 +289,6 @@ window.CATALOG = {
       ],
       "stars": 8200,
       "downloads": 2800000,
-      "ranking": 87,
       "contributors": [
         {
           "name": "Stanislav Kirillov",
@@ -310,7 +306,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "core",
       "license": "MIT",
-      "maintenance": "maintained",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": true,
       "description": "Sklearn-compatible tools for learning from imbalanced datasets. Provides SMOTE, ADASYN, RandomOverSampler, RandomUnderSampler, Tomek Links, and balanced Pipeline for classification on skewed class distributions.",
@@ -323,7 +319,6 @@ window.CATALOG = {
       ],
       "stars": 6900,
       "downloads": 3200000,
-      "ranking": 86,
       "contributors": [
         {
           "name": "Guillaume Lemaitre",
@@ -345,7 +340,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "verticalized",
       "license": "MIT",
-      "maintenance": "active",
+      "archived": false,
       "provides_estimators": false,
       "consumes_estimators": true,
       "description": "SHapley Additive exPlanations \u2014 game-theoretic approach for explaining predictions of any ML model. Provides TreeExplainer (fast), LinearExplainer, and KernelExplainer with rich visualizations for local and global interpretability.",
@@ -358,7 +353,6 @@ window.CATALOG = {
       ],
       "stars": 22500,
       "downloads": 5800000,
-      "ranking": 91,
       "contributors": [
         {
           "name": "Scott Lundberg",
@@ -376,7 +370,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "core",
       "license": "MIT",
-      "maintenance": "active",
+      "archived": false,
       "provides_estimators": false,
       "consumes_estimators": true,
       "description": "State-of-the-art hyperparameter optimization framework using Bayesian optimization, TPE sampler, and CMA-ES. Integrates natively with sklearn via OptunaSearchCV, supporting pruning for faster search.",
@@ -389,7 +383,6 @@ window.CATALOG = {
       ],
       "stars": 13500,
       "downloads": 4500000,
-      "ranking": 89,
       "contributors": [
         {
           "name": "Takuya Akiba",
@@ -411,7 +404,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "verticalized",
       "license": "BSD-2-Clause",
-      "maintenance": "active",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": false,
       "description": "The most comprehensive Python library for outlier and anomaly detection with 45+ algorithms: LOF, COPOD, ECOD, Isolation Forest, AutoEncoder, DeepSVDD. Sklearn-compatible API, works in pipelines.",
@@ -424,7 +417,6 @@ window.CATALOG = {
       ],
       "stars": 8400,
       "downloads": 1200000,
-      "ranking": 83,
       "contributors": [
         {
           "name": "Yue Zhao",
@@ -442,7 +434,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "verticalized",
       "license": "BSD-3-Clause",
-      "maintenance": "active",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": true,
       "description": "Turn any sklearn-compatible regressor into a powerful forecaster. Provides ForecasterRecursive, ForecasterDirect, and ForecasterMultiSeries with exogenous variable support, backtesting, and hyperparameter tuning.",
@@ -455,7 +447,6 @@ window.CATALOG = {
       ],
       "stars": 1200,
       "downloads": 280000,
-      "ranking": 80,
       "contributors": [
         {
           "name": "Joaquin Amat Rodrigo",
@@ -473,17 +464,29 @@ window.CATALOG = {
       "nature": "library",
       "scope": "verticalized",
       "license": "BSD-3-Clause",
-      "maintenance": "active",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": true,
       "description": "Sklearn-compatible toolkit for time series machine learning and data mining. Covers classification, regression, clustering, forecasting, and anomaly detection with a focus on correctness and benchmarking.",
-      "tags": ["time-series", "classification", "regression", "clustering", "forecasting", "anomaly-detection"],
+      "tags": [
+        "time-series",
+        "classification",
+        "regression",
+        "clustering",
+        "forecasting",
+        "anomaly-detection"
+      ],
       "stars": 900,
       "downloads": 100000,
-      "ranking": 73,
       "contributors": [
-        { "name": "Tony Bagnall", "github": "TonyBagnall" },
-        { "name": "Matthew Middlehurst", "github": "MatthewMiddlehurst" }
+        {
+          "name": "Tony Bagnall",
+          "github": "TonyBagnall"
+        },
+        {
+          "name": "Matthew Middlehurst",
+          "github": "MatthewMiddlehurst"
+        }
       ]
     },
     {
@@ -496,16 +499,24 @@ window.CATALOG = {
       "nature": "library",
       "scope": "verticalized",
       "license": "BSD-2-Clause",
-      "maintenance": "active",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": false,
       "description": "Sklearn-compatible machine learning toolkit for time series. Provides DTW-based k-NN, k-means clustering, SVM for time series, soft-DTW, shapelet learning, and preprocessing transformers.",
-      "tags": ["time-series", "DTW", "clustering", "classification", "shapelets"],
+      "tags": [
+        "time-series",
+        "DTW",
+        "clustering",
+        "classification",
+        "shapelets"
+      ],
       "stars": 2800,
       "downloads": 200000,
-      "ranking": 71,
       "contributors": [
-        { "name": "Romain Tavenard", "github": "rtavenar" }
+        {
+          "name": "Romain Tavenard",
+          "github": "rtavenar"
+        }
       ]
     },
     {
@@ -518,7 +529,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "verticalized",
       "license": "BSD-3-Clause",
-      "maintenance": "active",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": true,
       "description": "Unified sklearn-compatible framework for time series: classification, regression, clustering, forecasting, and transformation. Wraps sklearn estimators for TS tasks and ships 300+ native TS algorithms.",
@@ -531,7 +542,6 @@ window.CATALOG = {
       ],
       "stars": 7900,
       "downloads": 1600000,
-      "ranking": 84,
       "contributors": [
         {
           "name": "Franz Kiraly",
@@ -553,7 +563,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "incremental",
       "license": "BSD-3-Clause",
-      "maintenance": "active",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": false,
       "description": "Sklearn for streaming data. River is the leading online machine learning library for Python, offering incremental learning, concept drift detection, and adaptive models for real-time data streams.",
@@ -566,7 +576,6 @@ window.CATALOG = {
       ],
       "stars": 5200,
       "downloads": 220000,
-      "ranking": 79,
       "contributors": [
         {
           "name": "Max Halford",
@@ -588,7 +597,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "verticalized",
       "license": "GPL-3.0",
-      "maintenance": "active",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": false,
       "description": "Survival analysis built on top of sklearn. Implements Cox PH, Random Survival Forest, Survival SVM, and GradientBoostingSurvivalAnalysis. Handles censored data with full sklearn Pipeline compatibility.",
@@ -601,7 +610,6 @@ window.CATALOG = {
       ],
       "stars": 1100,
       "downloads": 95000,
-      "ranking": 75,
       "contributors": [
         {
           "name": "Sebastian P\u00f6lsterl",
@@ -619,7 +627,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "verticalized",
       "license": "BSD-3-Clause",
-      "maintenance": "active",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": false,
       "description": "Uniform Manifold Approximation and Projection \u2014 the most scalable non-linear dimensionality reduction algorithm. Sklearn-compatible transformer that preserves both local and global structure. Widely used for visualization and feature extraction.",
@@ -632,7 +640,6 @@ window.CATALOG = {
       ],
       "stars": 7400,
       "downloads": 2900000,
-      "ranking": 82,
       "contributors": [
         {
           "name": "Leland McInnes",
@@ -650,7 +657,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "verticalized",
       "license": "MIT",
-      "maintenance": "maintained",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": false,
       "description": "Factor analysis toolkit for mixed and categorical data. Provides sklearn-compatible PCA, CA (Correspondence Analysis), MCA (Multiple CA), MFA (Multiple Factor Analysis), and FAMD for datasets with mixed or nominal features.",
@@ -663,7 +670,6 @@ window.CATALOG = {
       ],
       "stars": 1300,
       "downloads": 180000,
-      "ranking": 68,
       "contributors": [
         {
           "name": "Max Halford",
@@ -681,7 +687,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "verticalized",
       "license": "Apache-2.0",
-      "maintenance": "maintained",
+      "archived": false,
       "provides_estimators": false,
       "consumes_estimators": true,
       "description": "Visual analysis and diagnostic tools for sklearn. Sklearn-compatible visualizers for feature analysis (Rank2D, RadViz), model selection (ValidationCurve, LearningCurve), and evaluation (ConfusionMatrix, ROC/AUC, ResidualsPlot).",
@@ -694,7 +700,6 @@ window.CATALOG = {
       ],
       "stars": 4200,
       "downloads": 750000,
-      "ranking": 76,
       "contributors": [
         {
           "name": "Benjamin Bengfort",
@@ -716,7 +721,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "verticalized",
       "license": "MIT",
-      "maintenance": "maintained",
+      "archived": false,
       "provides_estimators": false,
       "consumes_estimators": true,
       "description": "Explain It Like I'm 5 \u2014 debug, inspect, and explain ML classifiers. Provides feature weights, prediction explanations for sklearn, XGBoost, and LightGBM. Integrates with Jupyter for rich HTML explanations.",
@@ -729,7 +734,6 @@ window.CATALOG = {
       ],
       "stars": 2700,
       "downloads": 320000,
-      "ranking": 70,
       "contributors": [
         {
           "name": "Mikhail Korobov",
@@ -747,7 +751,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "core",
       "license": "BSD-3-Clause",
-      "maintenance": "maintained",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": true,
       "description": "Machine learning extensions for sklearn: StackingClassifier, SequentialFeatureSelector, EnsembleVoteClassifier, association rule mining (Apriori), and more practical tools for everyday ML workflows.",
@@ -760,7 +764,6 @@ window.CATALOG = {
       ],
       "stars": 4900,
       "downloads": 1100000,
-      "ranking": 78,
       "contributors": [
         {
           "name": "Sebastian Raschka",
@@ -778,7 +781,7 @@ window.CATALOG = {
       "nature": "application",
       "scope": "core",
       "license": "Apache-2.0",
-      "maintenance": "active",
+      "archived": false,
       "provides_estimators": false,
       "consumes_estimators": true,
       "description": "The standard open-source MLOps platform. Tracks sklearn experiments with autologging (metrics, params, artifacts), registers models with versioning, and deploys to REST endpoints \u2014 all with zero code changes.",
@@ -791,7 +794,6 @@ window.CATALOG = {
       ],
       "stars": 19000,
       "downloads": 8500000,
-      "ranking": 90,
       "contributors": [
         {
           "name": "Matei Zaharia",
@@ -813,7 +815,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "core",
       "license": "MIT",
-      "maintenance": "maintained",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": true,
       "description": "Extra sklearn-compatible building blocks for production ML: GroupedPredictor, EqualOpportunityClassifier (fairness), Thresholder, DecayEstimator, TimeFunctionTransformer, and ColumnDropper for robust pipelines.",
@@ -826,7 +828,6 @@ window.CATALOG = {
       ],
       "stars": 1200,
       "downloads": 95000,
-      "ranking": 67,
       "contributors": [
         {
           "name": "Vincent Warmerdam",
@@ -844,7 +845,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "core",
       "license": "BSD-3-Clause",
-      "maintenance": "active",
+      "archived": false,
       "provides_estimators": false,
       "consumes_estimators": true,
       "description": "Secure sklearn model persistence without pickle vulnerabilities. skops.io uses a custom format; skops.hub_utils simplifies sharing models on Hugging Face Hub with auto-generated model cards.",
@@ -857,7 +858,6 @@ window.CATALOG = {
       ],
       "stars": 420,
       "downloads": 35000,
-      "ranking": 65,
       "contributors": [
         {
           "name": "Benjamin Bossan",
@@ -879,7 +879,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "verticalized",
       "license": "MIT",
-      "maintenance": "maintained",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": true,
       "description": "Microsoft's interpretable ML toolkit with glassbox models (Explainable Boosting Machine \u2014 EBM, which outperforms RF/GBM while staying fully interpretable) and blackbox explainers (LIME, SHAP, Morris sensitivity).",
@@ -892,7 +892,6 @@ window.CATALOG = {
       ],
       "stars": 6100,
       "downloads": 480000,
-      "ranking": 74,
       "contributors": [
         {
           "name": "Paul Koch",
@@ -914,7 +913,7 @@ window.CATALOG = {
       "nature": "library",
       "scope": "verticalized",
       "license": "BSD-2-Clause",
-      "maintenance": "maintained",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": true,
       "description": "Multi-label classification toolkit compatible with sklearn. Provides Binary Relevance, Classifier Chains, Label Powerset, and MLKNN. Works with sparse matrices and wraps any sklearn binary classifier.",
@@ -926,7 +925,6 @@ window.CATALOG = {
       ],
       "stars": 910,
       "downloads": 130000,
-      "ranking": 63,
       "contributors": [
         {
           "name": "Piotr Szymanski",
@@ -944,7 +942,7 @@ window.CATALOG = {
       "nature": "application",
       "scope": "verticalized",
       "license": "BSD-3-Clause",
-      "maintenance": "maintained",
+      "archived": false,
       "provides_estimators": true,
       "consumes_estimators": false,
       "description": "Automated ML system built on sklearn. Uses Bayesian optimization and meta-learning to automatically search over 15 classifiers, 14 feature preprocessing methods, and 4 data preprocessing steps. Drop-in sklearn estimator.",
@@ -957,7 +955,6 @@ window.CATALOG = {
       ],
       "stars": 7400,
       "downloads": 180000,
-      "ranking": 72,
       "contributors": [
         {
           "name": "Matthias Feurer",
@@ -966,6 +963,42 @@ window.CATALOG = {
         {
           "name": "Katharina Eggensperger",
           "github": "katharina-eggensperger"
+        }
+      ]
+    },
+    {
+      "id": "skorch",
+      "name": "skorch",
+      "pypi_name": "skorch",
+      "website": "https://skorch.readthedocs.io",
+      "repository": "https://github.com/skorch-dev/skorch",
+      "docs": "https://skorch.readthedocs.io/en/latest/",
+      "nature": "library",
+      "scope": "incremental",
+      "license": "BSD-3-Clause",
+      "archived": false,
+      "provides_estimators": true,
+      "consumes_estimators": false,
+      "description": "A scikit-learn compatible neural network library that wraps PyTorch. Provides NeuralNetClassifier, NeuralNetRegressor, and NeuralNetBinaryClassifier that plug directly into sklearn Pipelines, GridSearchCV \u2014 bridging deep learning and the sklearn API.",
+      "tags": [
+        "deep-learning",
+        "PyTorch",
+        "neural-network"
+      ],
+      "stars": 6200,
+      "downloads": 100000,
+      "contributors": [
+        {
+          "name": "Benjamin Bossan",
+          "github": "BenjaminBossan"
+        },
+        {
+          "name": "Thomas Fan",
+          "github": "thomasjpfan"
+        },
+        {
+          "name": "Marian Tietz",
+          "github": "githubnemo"
         }
       ]
     }

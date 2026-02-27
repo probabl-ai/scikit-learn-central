@@ -1,0 +1,30 @@
+{
+  "id": "shap",
+  "name": "SHAP",
+  "pypi_name": "shap",
+  "website": "https://shap.readthedocs.io",
+  "repository": "https://github.com/shap/shap",
+  "docs": "https://shap.readthedocs.io",
+  "nature": "library",
+  "scope": "verticalized",
+  "license": "MIT",
+  "archived": false,
+  "provides_estimators": false,
+  "consumes_estimators": true,
+  "description": "SHapley Additive exPlanations \u2014 game-theoretic approach for explaining predictions of any ML model. Provides TreeExplainer (fast), LinearExplainer, and KernelExplainer with rich visualizations for local and global interpretability.",
+  "tags": [
+    "explainability",
+    "SHAP",
+    "feature-importance",
+    "interpretability",
+    "model-explanation"
+  ],
+  "stars": 22500,
+  "downloads": 5800000,
+  "contributors": [
+    {
+      "name": "Scott Lundberg",
+      "github": "slundberg"
+    }
+  ]
+}

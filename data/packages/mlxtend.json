@@ -1,0 +1,30 @@
+{
+  "id": "mlxtend",
+  "name": "mlxtend",
+  "pypi_name": "mlxtend",
+  "website": "https://rasbt.github.io/mlxtend/",
+  "repository": "https://github.com/rasbt/mlxtend",
+  "docs": "https://rasbt.github.io/mlxtend/",
+  "nature": "library",
+  "scope": "core",
+  "license": "BSD-3-Clause",
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": true,
+  "description": "Machine learning extensions for sklearn: StackingClassifier, SequentialFeatureSelector, EnsembleVoteClassifier, association rule mining (Apriori), and more practical tools for everyday ML workflows.",
+  "tags": [
+    "stacking",
+    "feature-selection",
+    "ensemble",
+    "association-rules",
+    "utilities"
+  ],
+  "stars": 4900,
+  "downloads": 1100000,
+  "contributors": [
+    {
+      "name": "Sebastian Raschka",
+      "github": "rasbt"
+    }
+  ]
+}

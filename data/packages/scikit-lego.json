@@ -1,0 +1,30 @@
+{
+  "id": "scikit-lego",
+  "name": "scikit-lego",
+  "pypi_name": "scikit-lego",
+  "website": "https://scikit-lego.netlify.app",
+  "repository": "https://github.com/koaning/scikit-lego",
+  "docs": "https://scikit-lego.netlify.app",
+  "nature": "library",
+  "scope": "core",
+  "license": "MIT",
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": true,
+  "description": "Extra sklearn-compatible building blocks for production ML: GroupedPredictor, EqualOpportunityClassifier (fairness), Thresholder, DecayEstimator, TimeFunctionTransformer, and ColumnDropper for robust pipelines.",
+  "tags": [
+    "fairness",
+    "grouped-models",
+    "production-ml",
+    "transformers",
+    "utilities"
+  ],
+  "stars": 1200,
+  "downloads": 95000,
+  "contributors": [
+    {
+      "name": "Vincent Warmerdam",
+      "github": "koaning"
+    }
+  ]
+}

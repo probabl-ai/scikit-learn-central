@@ -1,0 +1,30 @@
+{
+  "id": "feature-engine",
+  "name": "Feature-engine",
+  "pypi_name": "feature-engine",
+  "website": "https://feature-engine.trainindata.com",
+  "repository": "https://github.com/feature-engine/feature-engine",
+  "docs": "https://feature-engine.trainindata.com/en/latest/",
+  "nature": "library",
+  "scope": "core",
+  "license": "BSD-3-Clause",
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": false,
+  "description": "Collection of sklearn-compatible transformers for feature engineering: missing data imputation, categorical encoding, variable transformation, discretization, outlier capping, and feature selection \u2014 all DataFrame-aware.",
+  "tags": [
+    "feature-engineering",
+    "imputation",
+    "categorical-encoding",
+    "outlier-handling",
+    "discretization"
+  ],
+  "stars": 1900,
+  "downloads": 380000,
+  "contributors": [
+    {
+      "name": "Soledad Galli",
+      "github": "solegalli"
+    }
+  ]
+}

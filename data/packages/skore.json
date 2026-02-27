@@ -1,0 +1,35 @@
+{
+  "id": "skore",
+  "name": "skore",
+  "pypi_name": "skore",
+  "website": "https://skore.probabl.ai",
+  "repository": "https://github.com/probabl-ai/skore",
+  "docs": "https://docs.skore.probabl.ai/stable/",
+  "nature": "application",
+  "scope": "core",
+  "license": "MIT",
+  "archived": false,
+  "provides_estimators": false,
+  "consumes_estimators": true,
+  "description": "Developed by :probabl., skore accelerates ML model development with smarter cross-validation, automated evaluation reports, and methodological guidance \u2014 catching common pitfalls before they reach production.",
+  "tags": [
+    "evaluation",
+    "cross-validation",
+    "model-selection",
+    "reporting",
+    "best-practices",
+    "probabl"
+  ],
+  "stars": 650,
+  "downloads": 45000,
+  "contributors": [
+    {
+      "name": "Arturo Amor",
+      "github": "ArturoAmorQ"
+    },
+    {
+      "name": "Julien Jerphanion",
+      "github": "jjerphan"
+    }
+  ]
+}

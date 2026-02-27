@@ -1,0 +1,34 @@
+{
+  "id": "xgboost",
+  "name": "XGBoost",
+  "pypi_name": "xgboost",
+  "website": "https://xgboost.ai",
+  "repository": "https://github.com/dmlc/xgboost",
+  "docs": "https://xgboost.readthedocs.io",
+  "nature": "library",
+  "scope": "incremental",
+  "license": "Apache-2.0",
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": false,
+  "description": "Optimized, scalable gradient boosting framework with full sklearn compatibility (XGBClassifier, XGBRegressor). Consistently wins Kaggle competitions and is a go-to for tabular data in production.",
+  "tags": [
+    "gradient-boosting",
+    "ensemble",
+    "tabular",
+    "kaggle",
+    "GPU"
+  ],
+  "stars": 26000,
+  "downloads": 12000000,
+  "contributors": [
+    {
+      "name": "Tianqi Chen",
+      "github": "tqchen"
+    },
+    {
+      "name": "Hyunsu Cho",
+      "github": "hcho3"
+    }
+  ]
+}

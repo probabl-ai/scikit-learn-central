@@ -1,0 +1,29 @@
+{
+  "id": "scikit-multilearn",
+  "name": "scikit-multilearn",
+  "pypi_name": "scikit-multilearn",
+  "website": "http://scikit.ml",
+  "repository": "https://github.com/scikit-multilearn/scikit-multilearn",
+  "docs": "http://scikit.ml/api/",
+  "nature": "library",
+  "scope": "verticalized",
+  "license": "BSD-2-Clause",
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": true,
+  "description": "Multi-label classification toolkit compatible with sklearn. Provides Binary Relevance, Classifier Chains, Label Powerset, and MLKNN. Works with sparse matrices and wraps any sklearn binary classifier.",
+  "tags": [
+    "multi-label",
+    "classification",
+    "classifier-chains",
+    "sparse-matrices"
+  ],
+  "stars": 910,
+  "downloads": 130000,
+  "contributors": [
+    {
+      "name": "Piotr Szymanski",
+      "github": "niedakh"
+    }
+  ]
+}

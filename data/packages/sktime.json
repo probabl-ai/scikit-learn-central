@@ -1,0 +1,34 @@
+{
+  "id": "sktime",
+  "name": "sktime",
+  "pypi_name": "sktime",
+  "website": "https://www.sktime.net",
+  "repository": "https://github.com/sktime/sktime",
+  "docs": "https://www.sktime.net/en/stable/",
+  "nature": "library",
+  "scope": "verticalized",
+  "license": "BSD-3-Clause",
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": true,
+  "description": "Unified sklearn-compatible framework for time series: classification, regression, clustering, forecasting, and transformation. Wraps sklearn estimators for TS tasks and ships 300+ native TS algorithms.",
+  "tags": [
+    "time-series",
+    "classification",
+    "forecasting",
+    "regression",
+    "clustering"
+  ],
+  "stars": 7900,
+  "downloads": 1600000,
+  "contributors": [
+    {
+      "name": "Franz Kiraly",
+      "github": "fkiraly"
+    },
+    {
+      "name": "Tony Bagnall",
+      "github": "TonyBagnall"
+    }
+  ]
+}

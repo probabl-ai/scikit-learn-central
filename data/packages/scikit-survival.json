@@ -1,0 +1,30 @@
+{
+  "id": "scikit-survival",
+  "name": "scikit-survival",
+  "pypi_name": "scikit-survival",
+  "website": "https://scikit-survival.readthedocs.io",
+  "repository": "https://github.com/sebp/scikit-survival",
+  "docs": "https://scikit-survival.readthedocs.io",
+  "nature": "library",
+  "scope": "verticalized",
+  "license": "GPL-3.0",
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": false,
+  "description": "Survival analysis built on top of sklearn. Implements Cox PH, Random Survival Forest, Survival SVM, and GradientBoostingSurvivalAnalysis. Handles censored data with full sklearn Pipeline compatibility.",
+  "tags": [
+    "survival-analysis",
+    "time-to-event",
+    "censored-data",
+    "Cox-regression",
+    "healthcare"
+  ],
+  "stars": 1100,
+  "downloads": 95000,
+  "contributors": [
+    {
+      "name": "Sebastian P\u00f6lsterl",
+      "github": "sebp"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "skrub",
+  "name": "skrub",
+  "pypi_name": "skrub",
+  "website": "https://skrub-data.org",
+  "repository": "https://github.com/skrub-data/skrub",
+  "docs": "https://skrub-data.org/stable/",
+  "nature": "library",
+  "scope": "core",
+  "license": "BSD-3-Clause",
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": true,
+  "description": "Bridges the gap between dataframes and sklearn by providing TableVectorizer, fuzzy joining (AggJoiner, Joiner), and string encoders (MinHashEncoder, GapEncoder) for messy, real-world tabular data.",
+  "tags": [
+    "dirty-data",
+    "categorical-encoding",
+    "string-similarity",
+    "tabular",
+    "dataframe",
+    "fuzzy-join"
+  ],
+  "stars": 1200,
+  "downloads": 120000,
+  "contributors": [
+    {
+      "name": "Jovan Stojanovic",
+      "github": "jovan-stojanovic"
+    },
+    {
+      "name": "Guillaume Lemaitre",
+      "github": "glemaitre"
+    },
+    {
+      "name": "Leo Grinsztajn",
+      "github": "LeoGrin"
+    }
+  ]
+}

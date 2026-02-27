@@ -1,0 +1,34 @@
+{
+  "id": "mlflow",
+  "name": "MLflow",
+  "pypi_name": "mlflow",
+  "website": "https://mlflow.org",
+  "repository": "https://github.com/mlflow/mlflow",
+  "docs": "https://mlflow.org/docs/latest/",
+  "nature": "application",
+  "scope": "core",
+  "license": "Apache-2.0",
+  "archived": false,
+  "provides_estimators": false,
+  "consumes_estimators": true,
+  "description": "The standard open-source MLOps platform. Tracks sklearn experiments with autologging (metrics, params, artifacts), registers models with versioning, and deploys to REST endpoints \u2014 all with zero code changes.",
+  "tags": [
+    "experiment-tracking",
+    "MLOps",
+    "model-registry",
+    "autologging",
+    "deployment"
+  ],
+  "stars": 19000,
+  "downloads": 8500000,
+  "contributors": [
+    {
+      "name": "Matei Zaharia",
+      "github": "mateiz"
+    },
+    {
+      "name": "Harutaka Kawamura",
+      "github": "harupy"
+    }
+  ]
+}

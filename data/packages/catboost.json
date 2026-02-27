@@ -1,0 +1,29 @@
+{
+  "id": "catboost",
+  "name": "CatBoost",
+  "pypi_name": "catboost",
+  "website": "https://catboost.ai",
+  "repository": "https://github.com/catboost/catboost",
+  "docs": "https://catboost.ai/docs",
+  "nature": "library",
+  "scope": "incremental",
+  "license": "Apache-2.0",
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": false,
+  "description": "Yandex's gradient boosting with native ordered categorical encoding. Minimizes preprocessing effort with automatic handling of categorical features and robust handling of small datasets.",
+  "tags": [
+    "gradient-boosting",
+    "categorical-native",
+    "ordered-boosting",
+    "ensemble"
+  ],
+  "stars": 8200,
+  "downloads": 2800000,
+  "contributors": [
+    {
+      "name": "Stanislav Kirillov",
+      "github": "StanislavKirillov"
+    }
+  ]
+}
