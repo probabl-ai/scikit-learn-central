@@ -1,0 +1,393 @@
+{
+  "updated_at": "2026-02-28T22:34:06Z",
+  "packages": {
+    "scikit-learn": {
+      "github": {
+        "stars": 65247,
+        "forks": 26736,
+        "watchers": 2108,
+        "open_issues": 2147,
+        "last_commit": "2026-02-27T13:12:16Z"
+      },
+      "pypi": {
+        "downloads": {
+          "last_day": 6298902,
+          "last_week": 40703212,
+          "last_month": 166374582
+        },
+        "version": "1.8.0",
+        "requires_python": ">=3.11",
+        "summary": "A set of python modules for machine learning and data mining",
+        "release_date": "2025-12-10T07:07:39"
+      }
+    },
+    "skrub": {
+      "pypi": {
+        "downloads": {
+          "last_day": 4047,
+          "last_week": 21184,
+          "last_month": 103704
+        },
+        "version": "0.7.2",
+        "requires_python": ">=3.10",
+        "summary": "Machine learning with dataframes",
+        "release_date": "2026-02-10T10:28:40"
+      }
+    },
+    "skore": {
+      "pypi": {
+        "downloads": {
+          "last_day": 108,
+          "last_week": 1414,
+          "last_month": 4646
+        },
+        "version": "0.13.0",
+        "requires_python": ">=3.10",
+        "summary": "Track Your Data Science. Skore's open-source Python library accelerates ML model development with automated evaluation reports, smart methodological guidance, and comprehensive cross-validation analysis.",
+        "release_date": "2026-02-26T15:43:31"
+      }
+    },
+    "feature-engine": {
+      "pypi": {
+        "downloads": {
+          "last_day": 14309,
+          "last_week": 73679,
+          "last_month": 340249
+        },
+        "version": "1.9.4",
+        "requires_python": ">=3.9.0",
+        "summary": "Feature engineering and selection package with Scikit-learn's fit transform functionality",
+        "release_date": "2026-02-27T13:47:19"
+      }
+    },
+    "category-encoders": {
+      "pypi": {
+        "downloads": {
+          "last_day": 108171,
+          "last_week": 625556,
+          "last_month": 2562072
+        },
+        "version": "2.9.0",
+        "requires_python": ">=3.11",
+        "summary": "A package for encoding categorical variables for machine learning",
+        "release_date": "2025-11-02T18:13:35"
+      }
+    },
+    "xgboost": {
+      "pypi": {
+        "downloads": {
+          "last_day": 1454899,
+          "last_week": 9195277,
+          "last_month": 37723327
+        },
+        "version": "3.2.0",
+        "requires_python": ">=3.10",
+        "summary": "XGBoost Python Package",
+        "release_date": "2026-02-10T10:50:57"
+      }
+    },
+    "lightgbm": {
+      "pypi": {
+        "downloads": {
+          "last_day": 479230,
+          "last_week": 3016943,
+          "last_month": 12462069
+        },
+        "version": "4.6.0",
+        "requires_python": ">=3.7",
+        "summary": "LightGBM Python-package",
+        "release_date": "2025-02-15T04:02:50"
+      }
+    },
+    "catboost": {
+      "pypi": {
+        "downloads": {
+          "last_day": 203951,
+          "last_week": 1252991,
+          "last_month": 5081261
+        },
+        "version": "1.2.10",
+        "summary": "CatBoost Python Package",
+        "release_date": "2026-02-18T16:11:29"
+      }
+    },
+    "imbalanced-learn": {
+      "pypi": {
+        "downloads": {
+          "last_day": 445072,
+          "last_week": 3094604,
+          "last_month": 12636455
+        },
+        "version": "0.14.1",
+        "requires_python": ">=3.10",
+        "summary": "Toolbox for imbalanced dataset in machine learning",
+        "release_date": "2025-12-21T21:59:14"
+      }
+    },
+    "shap": {
+      "pypi": {
+        "downloads": {
+          "last_day": 473967,
+          "last_week": 2992092,
+          "last_month": 12405418
+        },
+        "version": "0.50.0",
+        "requires_python": ">=3.11",
+        "summary": "A unified approach to explain the output of any machine learning model.",
+        "release_date": "2025-11-11T18:35:56"
+      }
+    },
+    "optuna": {
+      "pypi": {
+        "downloads": {
+          "last_day": 482814,
+          "last_week": 2997782,
+          "last_month": 12672691
+        },
+        "version": "4.7.0",
+        "requires_python": ">=3.9",
+        "summary": "A hyperparameter optimization framework",
+        "release_date": "2026-01-19T05:45:50"
+      }
+    },
+    "pyod": {
+      "pypi": {
+        "version": "2.0.7",
+        "summary": "A Comprehensive and Scalable Python Library for Outlier Detection (Anomaly Detection)",
+        "release_date": "2026-02-27T09:12:23"
+      }
+    },
+    "skforecast": {
+      "pypi": {
+        "downloads": {
+          "last_day": 2857,
+          "last_week": 24185,
+          "last_month": 101009
+        },
+        "version": "0.20.1",
+        "requires_python": ">=3.10",
+        "summary": "Skforecast is a Python library for time series forecasting using statistical and machine learning models. It works with any estimator compatible with the scikit-learn API, including popular options like LightGBM, XGBoost, CatBoost, Keras, and many others.",
+        "release_date": "2026-02-11T14:25:37"
+      }
+    },
+    "aeon": {
+      "pypi": {
+        "downloads": {
+          "last_day": 762,
+          "last_week": 5445,
+          "last_month": 25944
+        },
+        "version": "1.3.0",
+        "requires_python": "<3.14,>=3.10",
+        "summary": "A toolkit for time series machine learning",
+        "release_date": "2025-09-09T12:46:39"
+      }
+    },
+    "tslearn": {
+      "pypi": {
+        "downloads": {
+          "last_day": 12184,
+          "last_week": 83907,
+          "last_month": 380499
+        },
+        "version": "0.8.0",
+        "requires_python": ">=3.10",
+        "summary": "A machine learning toolkit dedicated to time-series data",
+        "release_date": "2026-02-19T09:09:03"
+      }
+    },
+    "sktime": {
+      "pypi": {
+        "downloads": {
+          "last_day": 39439,
+          "last_week": 280124,
+          "last_month": 1177178
+        },
+        "version": "0.40.1",
+        "requires_python": "<3.15,>=3.10",
+        "summary": "A unified framework for machine learning with time series",
+        "release_date": "2025-11-25T00:03:34"
+      }
+    },
+    "river": {
+      "pypi": {
+        "downloads": {
+          "last_day": 3194,
+          "last_week": 19907,
+          "last_month": 82898
+        },
+        "version": "0.23.0",
+        "requires_python": "<4.0,>=3.10",
+        "summary": "Online machine learning in Python",
+        "release_date": "2025-11-13T19:24:25"
+      }
+    },
+    "scikit-survival": {
+      "pypi": {
+        "downloads": {
+          "last_day": 8949,
+          "last_week": 62974,
+          "last_month": 242734
+        },
+        "version": "0.27.0",
+        "requires_python": ">=3.11",
+        "summary": "Survival analysis built on top of scikit-learn",
+        "release_date": "2026-02-02T19:23:23"
+      }
+    },
+    "umap-learn": {
+      "pypi": {
+        "downloads": {
+          "last_day": 227547,
+          "last_week": 1284058,
+          "last_month": 4653457
+        },
+        "version": "0.5.11",
+        "requires_python": ">=3.9",
+        "summary": "Uniform Manifold Approximation and Projection",
+        "release_date": "2026-01-12T20:44:46"
+      }
+    },
+    "prince": {
+      "pypi": {
+        "downloads": {
+          "last_day": 5398,
+          "last_week": 20574,
+          "last_month": 114927
+        },
+        "version": "0.16.6",
+        "requires_python": ">=3.10",
+        "summary": "Factor analysis in Python: PCA, CA, MCA, MFA, FAMD, GPA",
+        "release_date": "2026-02-27T16:01:46"
+      }
+    },
+    "yellowbrick": {
+      "pypi": {
+        "downloads": {
+          "last_day": 17074,
+          "last_week": 117935,
+          "last_month": 503831
+        },
+        "version": "1.5",
+        "requires_python": ">=3.4, <4",
+        "summary": "A suite of visual analysis and diagnostic tools for machine learning.",
+        "release_date": "2022-08-21T12:47:09"
+      }
+    },
+    "eli5": {
+      "pypi": {
+        "downloads": {
+          "last_day": 4160,
+          "last_week": 28504,
+          "last_month": 121701
+        },
+        "version": "0.16.0",
+        "requires_python": ">=3.9",
+        "summary": "Debug machine learning classifiers and explain their predictions",
+        "release_date": "2025-04-20T16:37:59"
+      }
+    },
+    "mlxtend": {
+      "pypi": {
+        "downloads": {
+          "last_day": 31334,
+          "last_week": 221353,
+          "last_month": 982406
+        },
+        "version": "0.24.0",
+        "summary": "Machine Learning Library Extensions",
+        "release_date": "2025-12-13T22:33:15"
+      }
+    },
+    "mlflow": {
+      "pypi": {
+        "downloads": {
+          "last_day": 1084289,
+          "last_week": 6941292,
+          "last_month": 33861033
+        },
+        "version": "3.10.0",
+        "requires_python": ">=3.10",
+        "summary": "MLflow is an open source platform for the complete machine learning lifecycle",
+        "release_date": "2026-02-20T13:48:08"
+      }
+    },
+    "scikit-lego": {
+      "pypi": {
+        "downloads": {
+          "last_day": 2363,
+          "last_week": 12178,
+          "last_month": 53231
+        },
+        "version": "0.9.8",
+        "requires_python": ">=3.10",
+        "summary": "A collection of lego bricks for scikit-learn pipelines",
+        "release_date": "2026-02-07T22:04:12"
+      }
+    },
+    "skops": {
+      "pypi": {
+        "downloads": {
+          "last_day": 366365,
+          "last_week": 2179684,
+          "last_month": 8501038
+        },
+        "version": "0.13.0",
+        "requires_python": ">=3.9",
+        "summary": "A set of tools, related to machine learning in production.",
+        "release_date": "2025-08-06T09:48:13"
+      }
+    },
+    "interpret": {
+      "pypi": {
+        "downloads": {
+          "last_day": 9657,
+          "last_week": 67242,
+          "last_month": 287722
+        },
+        "version": "0.7.6",
+        "summary": "Fit interpretable models. Explain blackbox machine learning.",
+        "release_date": "2026-02-26T03:51:26"
+      }
+    },
+    "scikit-multilearn": {
+      "pypi": {
+        "downloads": {
+          "last_day": 3919,
+          "last_week": 23854,
+          "last_month": 110814
+        },
+        "version": "0.2.0",
+        "requires_python": "",
+        "summary": "Scikit-multilearn is a BSD-licensed library for multi-label classification that is built on top of the well-known scikit-learn ecosystem.",
+        "release_date": "2018-12-10T16:24:47"
+      }
+    },
+    "auto-sklearn": {
+      "pypi": {
+        "downloads": {
+          "last_day": 281,
+          "last_week": 1789,
+          "last_month": 9678
+        },
+        "version": "0.15.0",
+        "requires_python": ">=3.7",
+        "summary": "Automated machine learning.",
+        "release_date": "2022-09-20T10:30:34"
+      }
+    },
+    "skorch": {
+      "pypi": {
+        "downloads": {
+          "last_day": 2974,
+          "last_week": 19070,
+          "last_month": 92089
+        },
+        "version": "1.3.1",
+        "requires_python": ">=3.10",
+        "summary": "scikit-learn compatible neural network library for pytorch",
+        "release_date": "2025-12-22T16:55:30"
+      }
+    }
+  }
+}

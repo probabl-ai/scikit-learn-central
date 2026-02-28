@@ -1,0 +1,68 @@
+name: Update package stats
+
+# ── Triggers ─────────────────────────────────────────────────────────────────
+on:
+  # Run daily at 06:00 UTC
+  schedule:
+    - cron: '0 6 * * *'
+
+  # Run whenever a human edits catalog.json (new package added / removed)
+  push:
+    branches: [main]
+    paths:
+      - 'data/catalog.json'
+
+  # Allow manual runs from the Actions tab
+  workflow_dispatch:
+
+# ── Permissions ───────────────────────────────────────────────────────────────
+# contents:write  → lets the bot commit data/stats.json back to the repo
+permissions:
+  contents: write
+
+# ── Job ───────────────────────────────────────────────────────────────────────
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check out the repo
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Fetch stats and write data/stats.json
+      #    GITHUB_TOKEN is injected automatically; script uses it for the
+      #    GitHub API (5 000 req/h instead of 60 req/h unauthenticated).
+      - name: Fetch stats
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/update_stats.py
+
+      # 3. Commit only if the file actually changed.
+      #    The commit message intentionally does NOT include [skip ci] so that
+      #    the Pages deploy workflow picks up the fresh stats.json.
+      #    Note: pushes made with GITHUB_TOKEN do not re-trigger this workflow,
+      #    so there is no circular dependency.
+      - name: Commit stats.json
+        id: commit
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/stats.json
+          if git diff --staged --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes — skipping commit."
+          else
+            git commit -m "chore: update package stats"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # 4. Explicitly re-deploy Pages so the new stats are live right away.
+      #    (GITHUB_TOKEN commits don't automatically trigger other workflows.)
+      #    Requires static.yml to have a workflow_dispatch trigger — it does.
+      - name: Trigger Pages deploy
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run static.yml --ref main
