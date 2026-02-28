@@ -18,8 +18,6 @@
     "ordered-boosting",
     "ensemble"
   ],
-  "stars": 8200,
-  "downloads": 2800000,
   "contributors": [
     {
       "name": "Stanislav Kirillov",

@@ -5,8 +5,11 @@
  * Horizontal filter bars with dropdown panels replace the sidebar.
  * Submit button is context-aware: "Submit Package" vs "Submit Use Case".
  *
- * Package data is atomized: catalog.json lists IDs, each package lives in
- * data/packages/{id}.json and is fetched in parallel at startup.
+ * Data loading strategy (all via HTTP fetch — no file:// fallbacks):
+ *   1. data/catalog.json    → catalog structure + package IDs
+ *   2. data/packages/*.json → package metadata (fetched in parallel)
+ *   3. data/stats.json      → live GitHub + PyPI stats (merged into packages)
+ *   4. data/use-cases.json  → use-case dataset
  */
 'use strict';
 
@@ -24,17 +27,24 @@ const state = {
 
 /* ── Bootstrap ──────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', async () => {
-  [catalog, useCases] = await Promise.all([
+  const [catalogData, ucData, statsData] = await Promise.all([
     loadCatalog(),
-    loadData('data/use-cases.json', window.USE_CASES),
+    fetchJSON('data/use-cases.json'),
+    fetchJSON('data/stats.json'),
   ]);
+
+  catalog  = catalogData;
+  useCases = ucData;
 
   if (!catalog) { showCatalogError(); return; }
 
-  // Compute utility scores once both datasets are available
+  // Merge live stats (stars, downloads, version…) into package objects
+  if (statsData) mergeStats(statsData);
+
+  // Compute utility scores once both datasets are ready
   computeUtilityScores();
 
-  setTabCount('catalog',    catalog.packages.length);
+  setTabCount('catalog',   catalog.packages.length);
   if (useCases) setTabCount('use-cases', useCases.use_cases.length);
 
   populateCatalogCounts();
@@ -49,47 +59,58 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 /* ── Data loading ───────────────────────────────────────── */
 
-/**
- * Load the catalog. catalog.json lists package IDs; each package is
- * fetched from data/packages/{id}.json in parallel.
- * Falls back to window.CATALOG (js/catalog.js) when running over file://.
- */
-async function loadCatalog() {
+/** Generic JSON fetch — returns parsed object or null on any failure. */
+async function fetchJSON(url) {
   try {
-    const r = await fetch('data/catalog.json');
-    if (!r.ok) throw new Error('catalog fetch failed');
-    const meta = await r.json();
-
-    // New atomized format: packages is an array of string IDs
-    if (Array.isArray(meta.packages) && (meta.packages.length === 0 || typeof meta.packages[0] === 'string')) {
-      const pkgs = await Promise.all(
-        meta.packages.map(id =>
-          fetch(`data/packages/${id}.json`).then(r => r.ok ? r.json() : null).catch(() => null)
-        )
-      );
-      const assembled = { ...meta, packages: pkgs.filter(Boolean) };
-      // Hide archived packages
-      assembled.packages = assembled.packages.filter(p => !p.archived);
-      return assembled;
-    }
-
-    // Legacy format: packages already an array of objects
-    meta.packages = meta.packages.filter(p => !p.archived);
-    return meta;
-  } catch (_) {}
-
-  // Fallback: window.CATALOG (provided by js/catalog.js)
-  if (window.CATALOG) {
-    const fallback = { ...window.CATALOG };
-    fallback.packages = fallback.packages.filter(p => !p.archived);
-    return fallback;
-  }
-  return null;
+    const r = await fetch(url);
+    return r.ok ? r.json() : null;
+  } catch (_) { return null; }
 }
 
-async function loadData(url, fallback) {
-  try { const r = await fetch(url); if (r.ok) return r.json(); } catch (_) {}
-  return fallback || null;
+/**
+ * Load catalog.json then fetch every package's JSON in parallel.
+ * catalog.json.packages is an array of string IDs; each resolves to
+ * data/packages/{id}.json.  Archived packages are filtered out.
+ */
+async function loadCatalog() {
+  const meta = await fetchJSON('data/catalog.json');
+  if (!meta) return null;
+
+  if (Array.isArray(meta.packages) && typeof meta.packages[0] === 'string') {
+    const pkgs = await Promise.all(
+      meta.packages.map(id => fetchJSON(`data/packages/${id}.json`))
+    );
+    meta.packages = pkgs.filter(p => p && !p.archived);
+  } else {
+    meta.packages = (meta.packages || []).filter(p => !p.archived);
+  }
+  return meta;
+}
+
+/**
+ * Merge data/stats.json into catalog.core and each package object.
+ * stats.json is the single source of truth for stars, forks, downloads,
+ * latest version, etc.  Package JSON files no longer carry these fields.
+ */
+function mergeStats(stats) {
+  if (!stats?.packages) return;
+
+  // ── Core (scikit-learn) ───────────────────────────────
+  const coreStats = stats.packages['scikit-learn'];
+  if (coreStats) {
+    if (coreStats.github?.stars               != null) catalog.core.stars     = coreStats.github.stars;
+    if (coreStats.pypi?.downloads?.last_month != null) catalog.core.downloads = coreStats.pypi.downloads.last_month;
+    catalog.core._stats = coreStats;
+  }
+
+  // ── Ecosystem packages ────────────────────────────────
+  catalog.packages.forEach(pkg => {
+    const s = stats.packages?.[pkg.id];
+    if (!s) return;
+    if (s.github?.stars               != null) pkg.stars     = s.github.stars;
+    if (s.pypi?.downloads?.last_month != null) pkg.downloads = s.pypi.downloads.last_month;
+    pkg._stats = s;  // full stats attached for rich rendering
+  });
 }
 
 /* ── Utility Ranking ────────────────────────────────────── */
@@ -108,8 +129,8 @@ async function loadData(url, fallback) {
  */
 function computeUtilityScores() {
   const pkgs = catalog.packages;
-  const maxStars     = Math.max(...pkgs.map(p => p.stars),     1);
-  const maxDownloads = Math.max(...pkgs.map(p => p.downloads), 1);
+  const maxStars     = Math.max(...pkgs.map(p => p.stars     ?? 0), 1);
+  const maxDownloads = Math.max(...pkgs.map(p => p.downloads ?? 0), 1);
 
   const ucCounts = pkgs.map(p =>
     useCases ? useCases.use_cases.filter(uc => uc.packages.includes(p.id)).length : 0
@@ -117,8 +138,8 @@ function computeUtilityScores() {
   const maxUc = Math.max(...ucCounts, 1);
 
   pkgs.forEach((p, i) => {
-    p._utilStars     = Math.log(p.stars     + 1) / Math.log(maxStars     + 1) * 100;
-    p._utilDownloads = Math.log(p.downloads + 1) / Math.log(maxDownloads + 1) * 100;
+    p._utilStars     = Math.log((p.stars     ?? 0) + 1) / Math.log(maxStars     + 1) * 100;
+    p._utilDownloads = Math.log((p.downloads ?? 0) + 1) / Math.log(maxDownloads + 1) * 100;
     p._utilUc        = (ucCounts[i] / maxUc) * 100;
     p._utilTotal     = (p._utilStars + p._utilDownloads + p._utilUc) / 3;
   });
@@ -179,9 +200,7 @@ function toggleDropdown(groupId) {
   }
 }
 
-/**
- * Update a filter button's active badge count.
- */
+/** Update a filter button's active badge count. */
 function updateFilterBtnState(groupId, stateSet) {
   const group  = document.getElementById(groupId);
   if (!group) return;
@@ -246,8 +265,20 @@ function populateUcCounts() {
 
 function renderCatalogHero() {
   const c = catalog.core;
+  const s = c._stats;  // live stats object (may be undefined before stats.json loads)
+
+  // Prefer live values from stats.json; fall back gracefully
+  const version    = s?.pypi?.version ?? null;
+  const stars      = c.stars     ?? null;
+  const downloads  = c.downloads ?? null;
+  const forks      = s?.github?.forks ?? null;
+  const lastCommit = s?.github?.last_commit
+    ? new Date(s.github.last_commit).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })
+    : null;
+
   const ucCount = useCases
     ? useCases.use_cases.filter(uc => uc.packages.includes('scikit-learn')).length : 0;
+
   document.getElementById('sklearn-hero').innerHTML = `
     <div class="sklearn-hero__corner-tag">★ The Core</div>
     <div class="sklearn-hero__body">
@@ -262,16 +293,18 @@ function renderCatalogHero() {
         <div class="sklearn-hero__badges badges">
           <span class="badge">Library</span><span class="badge badge--core">Core</span>
           <span class="badge badge--license">${c.license}</span>
-          <span class="badge">v${c.version}</span>
+          ${version ? `<span class="badge">v${version}</span>` : ''}
         </div>
         <div class="sklearn-hero__compat">
           <span class="sklearn-hero__compat-pill">✓ Provides Estimators</span>
           <span class="sklearn-hero__compat-pill">✓ Consumes Estimators</span>
         </div>
         <div class="sklearn-hero__stats">
-          <span class="sklearn-hero__stat"><i class="fas fa-star"></i> ${fmt(c.stars)} stars</span>
-          <span class="sklearn-hero__stat"><i class="fas fa-download"></i> ${fmt(c.downloads)}/month</span>
+          ${stars     != null ? `<span class="sklearn-hero__stat"><i class="fas fa-star"></i> ${fmt(stars)} stars</span>` : ''}
+          ${forks     != null ? `<span class="sklearn-hero__stat"><i class="fas fa-code-branch"></i> ${fmt(forks)} forks</span>` : ''}
+          ${downloads != null ? `<span class="sklearn-hero__stat"><i class="fas fa-download"></i> ${fmt(downloads)}/month</span>` : ''}
           <span class="sklearn-hero__stat"><i class="fas fa-users"></i> ${fmt(c.contributors_count)}+ contributors</span>
+          ${lastCommit ? `<span class="sklearn-hero__stat"><i class="fas fa-code-commit"></i> Last commit ${lastCommit}</span>` : ''}
           ${ucCount ? `<span class="sklearn-hero__stat" style="cursor:pointer" onclick="filterUcByPackage('scikit-learn')">
             <i class="fas fa-lightbulb"></i> ${ucCount} use cases</span>` : ''}
         </div>
@@ -296,7 +329,7 @@ function renderCatalogAll() {
 }
 
 function applyFilters() {
-  let r = [...catalog.packages]; // archived packages already excluded at load time
+  let r = [...catalog.packages]; // archived already excluded at load time
   if (state.search) {
     const q = state.search.toLowerCase();
     r = r.filter(p => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q) ||
@@ -307,10 +340,9 @@ function applyFilters() {
   if (state.license.size) r = r.filter(p => state.license.has(p.license));
   r.sort((a, b) => {
     if (state.sortBy === 'name')      return a.name.localeCompare(b.name);
-    if (state.sortBy === 'stars')     return b.stars - a.stars;
-    if (state.sortBy === 'downloads') return b.downloads - a.downloads;
-    // Default: utility ranking
-    return (b._utilTotal ?? 0) - (a._utilTotal ?? 0);
+    if (state.sortBy === 'stars')     return (b.stars ?? 0) - (a.stars ?? 0);
+    if (state.sortBy === 'downloads') return (b.downloads ?? 0) - (a.downloads ?? 0);
+    return (b._utilTotal ?? 0) - (a._utilTotal ?? 0);  // default: utility ranking
   });
   return r;
 }
@@ -365,8 +397,11 @@ function renderCard(pkg) {
     ? `<span class="card__use-cases" onclick="filterUcByPackage('${pkg.id}')">
         <i class="fas fa-lightbulb"></i> ${ucCount} use case${ucCount !== 1 ? 's' : ''}</span>` : '';
 
-  // Utility ranking chip with sub-score tooltip
   const rankChip = pkg._utilTotal != null ? renderRankChip(pkg) : '';
+
+  // Live version badge from stats.json
+  const version = pkg._stats?.pypi?.version;
+  const versionBadge = version ? `<span class="badge badge--version">v${version}</span>` : '';
 
   return `
     <article class="card" data-id="${pkg.id}">
@@ -376,6 +411,7 @@ function renderCard(pkg) {
         <span class="badge ${natur[pkg.nature]||''}">${pkg.nature}</span>
         <span class="badge ${scope[pkg.scope]||''}">${pkg.scope}</span>
         <span class="badge badge--license">${pkg.license}</span>
+        ${versionBadge}
       </div>
       <p class="card__description">${pkg.description}</p>
       <div class="compat-row">
@@ -394,7 +430,7 @@ function renderCard(pkg) {
 
 /**
  * Render the utility ranking chip (top-right of card) with a hover tooltip
- * that shows the three sub-scores as progress bars ("cursors").
+ * that shows the three sub-scores as progress bars.
  */
 function renderRankChip(pkg) {
   const total = Math.round(pkg._utilTotal);
@@ -450,8 +486,8 @@ function applyUcFilters() {
     r = r.filter(uc => uc.title.toLowerCase().includes(q) || uc.synopsis.toLowerCase().includes(q) ||
       uc.industry.some(i => i.includes(q)) || uc.technique.some(t => t.includes(q)) || uc.packages.some(p => p.includes(q)));
   }
-  if (state.industry.size)  r = r.filter(uc => uc.industry.some(i => state.industry.has(i)));
-  if (state.technique.size) r = r.filter(uc => uc.technique.some(t => state.technique.has(t)));
+  if (state.industry.size)   r = r.filter(uc => uc.industry.some(i => state.industry.has(i)));
+  if (state.technique.size)  r = r.filter(uc => uc.technique.some(t => state.technique.has(t)));
   if (state.difficulty.size) r = r.filter(uc => state.difficulty.has(uc.difficulty));
   return r;
 }
@@ -818,12 +854,13 @@ function showCatalogError() {
   const grid = document.getElementById('catalog-grid');
   if (grid) grid.innerHTML = `<div class="state-empty"><div class="state-empty__icon">⚠️</div>
     <div class="state-empty__title">Failed to load catalog</div>
-    <p class="state-empty__subtitle">Please refresh or serve via a local HTTP server.</p></div>`;
+    <p class="state-empty__subtitle">Please refresh the page.</p></div>`;
 }
 
 /* ── Number formatter ───────────────────────────────────── */
 function fmt(n) {
-  if (n >= 1e6) return (n/1e6).toFixed(1).replace(/\.0$/,'')+'M';
-  if (n >= 1e3) return (n/1e3).toFixed(1).replace(/\.0$/,'')+'K';
+  if (n == null) return '—';
+  if (n >= 1e6)  return (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+  if (n >= 1e3)  return (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K';
   return String(n);
 }

@@ -19,8 +19,6 @@
     "algorithm-selection",
     "hyperparameter-optimization"
   ],
-  "stars": 7400,
-  "downloads": 180000,
   "contributors": [
     {
       "name": "Matthias Feurer",

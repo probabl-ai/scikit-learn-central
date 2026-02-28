@@ -19,8 +19,6 @@
     "diagnostics",
     "matplotlib"
   ],
-  "stars": 4200,
-  "downloads": 750000,
   "contributors": [
     {
       "name": "Benjamin Bengfort",

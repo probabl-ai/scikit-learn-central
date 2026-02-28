@@ -19,8 +19,6 @@
     "embedding",
     "clustering"
   ],
-  "stars": 7400,
-  "downloads": 2900000,
   "contributors": [
     {
       "name": "Leland McInnes",

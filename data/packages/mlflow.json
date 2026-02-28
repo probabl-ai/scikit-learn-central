@@ -19,8 +19,6 @@
     "autologging",
     "deployment"
   ],
-  "stars": 19000,
-  "downloads": 8500000,
   "contributors": [
     {
       "name": "Matei Zaharia",
