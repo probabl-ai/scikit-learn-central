@@ -1,0 +1,24 @@
+{
+  "uuid": "df312850-8f5b-5fa7-bb7f-a15cee91d38b",
+  "slug": "customer-segmentation",
+  "title": "Customer Segmentation & Profiling",
+  "synopsis": "Segment customers into distinct groups based on purchasing behavior (RFM analysis) to enable targeted marketing campaigns. Understanding customer segments helps personalize offers and optimize marketing spend allocation.",
+  "industry": [
+    "retail",
+    "marketing",
+    "e-commerce"
+  ],
+  "technique": [
+    "customer-segmentation",
+    "clustering"
+  ],
+  "packages": [
+    "scikit-learn",
+    "skrub",
+    "umap-learn",
+    "yellowbrick"
+  ],
+  "difficulty": "beginner",
+  "archived": false,
+  "has_notebook": false
+}

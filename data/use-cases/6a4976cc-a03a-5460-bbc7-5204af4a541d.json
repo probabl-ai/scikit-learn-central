@@ -1,0 +1,22 @@
+{
+  "uuid": "6a4976cc-a03a-5460-bbc7-5204af4a541d",
+  "slug": "survival-analysis-healthcare",
+  "title": "Patient Survival Time Prediction",
+  "synopsis": "Predict patient survival time and identify high-risk factors in medical datasets to support treatment planning. Accurate survival predictions inform clinical decision-making and personalized medicine strategies.",
+  "industry": [
+    "healthcare",
+    "insurance"
+  ],
+  "technique": [
+    "survival-analysis",
+    "regression"
+  ],
+  "packages": [
+    "scikit-learn",
+    "scikit-survival",
+    "shap"
+  ],
+  "difficulty": "advanced",
+  "archived": false,
+  "has_notebook": false
+}

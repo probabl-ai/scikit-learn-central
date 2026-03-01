@@ -1,0 +1,24 @@
+{
+  "uuid": "ad551b7b-e205-5c7a-a269-dbcb506d81c5",
+  "slug": "loan-default-prediction",
+  "title": "Loan Default Risk Assessment",
+  "synopsis": "Predict loan default risk to improve credit underwriting and portfolio management. Accurate default predictions enable better risk pricing, approval decisions, and portfolio composition.",
+  "industry": [
+    "banking"
+  ],
+  "technique": [
+    "credit-scoring",
+    "classification",
+    "explainability"
+  ],
+  "packages": [
+    "scikit-learn",
+    "imbalanced-learn",
+    "catboost",
+    "skore",
+    "mlflow"
+  ],
+  "difficulty": "intermediate",
+  "archived": false,
+  "has_notebook": false
+}

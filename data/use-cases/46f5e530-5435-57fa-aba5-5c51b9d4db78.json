@@ -1,0 +1,25 @@
+{
+  "uuid": "46f5e530-5435-57fa-aba5-5c51b9d4db78",
+  "slug": "predictive-maintenance",
+  "title": "Equipment Failure Prediction",
+  "synopsis": "Predict machinery failures before they occur using sensor data to minimize unplanned downtime and maintenance costs. Proactive maintenance scheduling based on failure predictions improves operational efficiency and safety.",
+  "industry": [
+    "manufacturing",
+    "energy"
+  ],
+  "technique": [
+    "predictive-maintenance",
+    "classification",
+    "time-series"
+  ],
+  "packages": [
+    "scikit-learn",
+    "sktime",
+    "shap",
+    "optuna",
+    "mlflow"
+  ],
+  "difficulty": "advanced",
+  "archived": false,
+  "has_notebook": false
+}

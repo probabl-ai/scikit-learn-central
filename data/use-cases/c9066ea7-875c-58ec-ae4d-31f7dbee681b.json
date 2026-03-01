@@ -1,0 +1,23 @@
+{
+  "uuid": "c9066ea7-875c-58ec-ae4d-31f7dbee681b",
+  "slug": "disease-prediction",
+  "title": "Chronic Disease Risk Prediction",
+  "synopsis": "Predict risk of chronic diseases in patients based on medical and demographic indicators to enable preventive healthcare. Early risk identification allows clinicians to intervene with lifestyle modifications and preventive treatments.",
+  "industry": [
+    "healthcare"
+  ],
+  "technique": [
+    "classification",
+    "explainability"
+  ],
+  "packages": [
+    "scikit-learn",
+    "skrub",
+    "shap",
+    "skore",
+    "interpret"
+  ],
+  "difficulty": "intermediate",
+  "archived": false,
+  "has_notebook": false
+}

@@ -1,0 +1,25 @@
+{
+  "uuid": "2f0d1820-008b-502b-8b51-0e585f7ee575",
+  "slug": "credit-scoring",
+  "title": "Credit Risk Scoring",
+  "synopsis": "Develop a credit scoring model to assess the creditworthiness of loan applicants based on financial indicators. Accurate credit scoring reduces default risk and improves portfolio profitability for lending institutions.",
+  "industry": [
+    "banking",
+    "insurance"
+  ],
+  "technique": [
+    "credit-scoring",
+    "classification",
+    "explainability"
+  ],
+  "packages": [
+    "scikit-learn",
+    "feature-engine",
+    "interpret",
+    "optuna",
+    "skore"
+  ],
+  "difficulty": "intermediate",
+  "archived": false,
+  "has_notebook": false
+}

@@ -1,0 +1,23 @@
+{
+  "uuid": "b825fab1-905d-5e6b-98b2-4934b7c21cc4",
+  "slug": "recommendation-engine",
+  "title": "Collaborative Filtering Recommendation",
+  "synopsis": "Build a collaborative filtering system to recommend products based on user behavior and preferences. Effective recommendations increase conversion rates and customer satisfaction in e-commerce platforms.",
+  "industry": [
+    "e-commerce",
+    "retail",
+    "marketing"
+  ],
+  "technique": [
+    "recommendation",
+    "clustering"
+  ],
+  "packages": [
+    "scikit-learn",
+    "umap-learn",
+    "prince"
+  ],
+  "difficulty": "beginner",
+  "archived": false,
+  "has_notebook": false
+}

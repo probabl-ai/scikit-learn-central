@@ -1,0 +1,24 @@
+{
+  "uuid": "30000103-b658-585f-a681-276a51ba770b",
+  "slug": "employee-attrition",
+  "title": "Employee Attrition Prediction",
+  "synopsis": "Predict which employees are at risk of leaving the organization to enable targeted retention programs. Understanding attrition drivers helps HR teams implement proactive strategies to retain top talent and reduce replacement costs.",
+  "industry": [
+    "hr"
+  ],
+  "technique": [
+    "churn-prediction",
+    "classification",
+    "explainability"
+  ],
+  "packages": [
+    "scikit-learn",
+    "skrub",
+    "category-encoders",
+    "shap",
+    "eli5"
+  ],
+  "difficulty": "beginner",
+  "archived": false,
+  "has_notebook": false
+}

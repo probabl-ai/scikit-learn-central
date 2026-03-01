@@ -1,0 +1,23 @@
+{
+  "uuid": "d38e9d15-51bd-546e-9146-f71862cd82b0",
+  "slug": "insurance-claim-severity",
+  "title": "Insurance Claim Severity Prediction",
+  "synopsis": "Predict the monetary severity of insurance claims to improve reserving and pricing accuracy. Accurate severity predictions enable better risk assessment and pricing strategies in insurance portfolios.",
+  "industry": [
+    "insurance"
+  ],
+  "technique": [
+    "regression",
+    "classification"
+  ],
+  "packages": [
+    "scikit-learn",
+    "feature-engine",
+    "catboost",
+    "imbalanced-learn",
+    "shap"
+  ],
+  "difficulty": "intermediate",
+  "archived": false,
+  "has_notebook": false
+}

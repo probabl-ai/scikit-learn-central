@@ -29,7 +29,7 @@ const state = {
 document.addEventListener('DOMContentLoaded', async () => {
   const [catalogData, ucData, statsData] = await Promise.all([
     loadCatalog(),
-    fetchJSON('data/use-cases.json'),
+    loadUseCases(),
     fetchJSON('data/stats.json'),
   ]);
 
@@ -65,6 +65,38 @@ async function fetchJSON(url) {
     const r = await fetch(url);
     return r.ok ? r.json() : null;
   } catch (_) { return null; }
+}
+
+/** Generic plain-text fetch — returns string or null on any failure. */
+async function fetchText(url) {
+  try {
+    const r = await fetch(url);
+    return r.ok ? r.text() : null;
+  } catch (_) { return null; }
+}
+
+/**
+ * Load data/use-cases.json (index), then fetch every individual use-case
+ * JSON in parallel.  Archived use cases are filtered out, mirroring loadCatalog().
+ *
+ * Each element of ucIndex.use_cases is a UUID string that resolves to
+ * data/use-cases/{uuid}.json.  The returned object keeps the same shape
+ * the rest of app.js expects: { meta: {…}, use_cases: [{…}, …] }
+ */
+async function loadUseCases() {
+  const ucIndex = await fetchJSON('data/use-cases.json');
+  if (!ucIndex) return null;
+
+  if (Array.isArray(ucIndex.use_cases) && typeof ucIndex.use_cases[0] === 'string') {
+    const items = await Promise.all(
+      ucIndex.use_cases.map(uuid => fetchJSON(`data/use-cases/${uuid}.json`))
+    );
+    ucIndex.use_cases = items.filter(uc => uc && !uc.archived);
+  } else {
+    // Graceful fallback: old embedded-object format — just filter archived
+    ucIndex.use_cases = (ucIndex.use_cases || []).filter(uc => !uc.archived);
+  }
+  return ucIndex;
 }
 
 /**
@@ -516,7 +548,7 @@ function renderUcCard(uc) {
   }).join('');
 
   return `
-    <article class="uc-card" data-uc-id="${uc.id}">
+    <article class="uc-card" data-uc-id="${uc.slug}">
       <div class="uc-card__difficulty"><span class="difficulty-badge difficulty-badge--${uc.difficulty}">${uc.difficulty}</span></div>
       <div class="uc-card__title">${uc.title}</div>
       <p class="uc-card__synopsis">${uc.synopsis}</p>
@@ -524,7 +556,7 @@ function renderUcCard(uc) {
       <div class="uc-card__packages">${pkgChips}</div>
       <div class="uc-card__footer">
         <div></div>
-        <button class="btn--view-code" onclick="openCodeModal('${uc.id}')"><i class="fas fa-code"></i> View Code</button>
+        <button class="btn--view-code" onclick="openCodeModal('${uc.slug}')"><i class="fas fa-code"></i> View Code</button>
       </div>
     </article>`;
 }
@@ -546,9 +578,10 @@ function renderUcActiveFilters() {
    CODE MODAL
    ═══════════════════════════════════════════════════════════ */
 
-function openCodeModal(ucId) {
-  const uc = useCases?.use_cases.find(u => u.id === ucId);
+async function openCodeModal(ucSlug) {
+  const uc = useCases?.use_cases.find(u => u.slug === ucSlug);
   if (!uc) return;
+
   document.getElementById('code-modal-title').textContent = uc.title;
   document.getElementById('code-modal-synopsis').textContent = uc.synopsis;
 
@@ -567,14 +600,18 @@ function openCodeModal(ucId) {
     ).join('');
   }
 
+  // Show modal immediately with a loading placeholder in the code block
   const pre = document.getElementById('code-modal-pre');
-  if (pre) {
-    pre.textContent = uc.sample_code;
-    if (window.hljs) { pre.removeAttribute('data-highlighted'); window.hljs.highlightElement(pre); }
-  }
-
+  if (pre) { pre.textContent = 'Loading…'; pre.removeAttribute('data-highlighted'); }
   document.getElementById('code-modal-backdrop').classList.add('is-open');
   document.body.style.overflow = 'hidden';
+
+  // Lazily fetch the .py file — only now, when the user has asked for it
+  const code = await fetchText(`data/use-cases/${uc.uuid}.py`);
+  if (pre) {
+    pre.textContent = code ?? '# Code not available.';
+    if (window.hljs) { pre.removeAttribute('data-highlighted'); window.hljs.highlightElement(pre); }
+  }
 }
 
 function closeCodeModal() {
