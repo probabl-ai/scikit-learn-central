@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-03-01T06:11:19Z",
+  "updated_at": "2026-03-01T07:41:39Z",
   "packages": {
     "scikit-learn": {
       "github": {
-        "stars": 65249,
-        "forks": 26736,
+        "stars": 65250,
+        "forks": 26735,
         "watchers": 2108,
         "open_issues": 2148,
         "last_commit": "2026-02-27T13:12:16Z",
@@ -113,6 +113,11 @@
         "latest_release_date": "2026-02-10T08:14:33Z"
       },
       "pypi": {
+        "downloads": {
+          "last_day": 1070617,
+          "last_week": 9197573,
+          "last_month": 37522129
+        },
         "version": "3.2.0",
         "requires_python": ">=3.10",
         "summary": "XGBoost Python Package",
@@ -195,11 +200,6 @@
         "latest_release_date": "2025-11-11T18:24:12Z"
       },
       "pypi": {
-        "downloads": {
-          "last_day": 319862,
-          "last_week": 3007850,
-          "last_month": 12264631
-        },
         "version": "0.50.0",
         "requires_python": ">=3.11",
         "summary": "A unified approach to explain the output of any machine learning model.",
@@ -208,10 +208,10 @@
     },
     "optuna": {
       "github": {
-        "stars": 13588,
+        "stars": 13589,
         "forks": 1260,
         "watchers": 124,
-        "open_issues": 40,
+        "open_issues": 41,
         "last_commit": "2026-02-26T09:08:29Z",
         "latest_release": "v4.7.0",
         "latest_release_date": "2026-01-19T05:45:13Z"
@@ -239,6 +239,11 @@
         "latest_release_date": "2026-02-27T09:21:37Z"
       },
       "pypi": {
+        "downloads": {
+          "last_day": 35238,
+          "last_week": 292276,
+          "last_month": 1111185
+        },
         "version": "2.0.7",
         "summary": "A Comprehensive and Scalable Python Library for Outlier Detection (Anomaly Detection)",
         "release_date": "2026-02-27T09:12:23"
@@ -312,7 +317,7 @@
     },
     "sktime": {
       "github": {
-        "stars": 9566,
+        "stars": 9567,
         "forks": 1867,
         "watchers": 113,
         "open_issues": 1858,
@@ -337,12 +342,17 @@
         "stars": 5730,
         "forks": 607,
         "watchers": 80,
-        "open_issues": 114,
-        "last_commit": "2026-02-26T15:03:48Z",
+        "open_issues": 113,
+        "last_commit": "2026-03-01T07:19:41Z",
         "latest_release": "0.23.0",
         "latest_release_date": "2025-11-13T19:29:35Z"
       },
       "pypi": {
+        "downloads": {
+          "last_day": 1920,
+          "last_week": 20192,
+          "last_month": 82382
+        },
         "version": "0.23.0",
         "requires_python": "<4.0,>=3.10",
         "summary": "Online machine learning in Python",
@@ -424,11 +434,6 @@
         "latest_release_date": "2022-08-21T12:49:43Z"
       },
       "pypi": {
-        "downloads": {
-          "last_day": 11579,
-          "last_week": 116993,
-          "last_month": 499099
-        },
         "version": "1.5",
         "requires_python": ">=3.4, <4",
         "summary": "A suite of visual analysis and diagnostic tools for machine learning.",
@@ -444,11 +449,6 @@
         "last_commit": "2026-02-10T06:22:08Z"
       },
       "pypi": {
-        "downloads": {
-          "last_day": 2780,
-          "last_week": 28197,
-          "last_month": 119866
-        },
         "version": "0.16.0",
         "requires_python": ">=3.9",
         "summary": "Debug machine learning classifiers and explain their predictions",
@@ -458,7 +458,7 @@
     "mlxtend": {
       "github": {
         "stars": 5119,
-        "forks": 899,
+        "forks": 900,
         "watchers": 116,
         "open_issues": 157,
         "last_commit": "2026-01-24T17:35:51Z",
@@ -473,10 +473,10 @@
     },
     "mlflow": {
       "github": {
-        "stars": 24482,
+        "stars": 24483,
         "forks": 5337,
         "watchers": 315,
-        "open_issues": 2024,
+        "open_issues": 2026,
         "last_commit": "2026-03-01T04:23:41Z",
         "latest_release": "v3.10.0",
         "latest_release_date": "2026-02-20T16:05:05Z"
@@ -569,6 +569,11 @@
         "latest_release_date": "2018-12-10T10:51:36Z"
       },
       "pypi": {
+        "downloads": {
+          "last_day": 1581,
+          "last_week": 23562,
+          "last_month": 108701
+        },
         "version": "0.2.0",
         "requires_python": "",
         "summary": "Scikit-multilearn is a BSD-licensed library for multi-label classification that is built on top of the well-known scikit-learn ecosystem.",
@@ -603,6 +608,11 @@
         "latest_release_date": "2025-12-22T16:58:19Z"
       },
       "pypi": {
+        "downloads": {
+          "last_day": 1963,
+          "last_week": 19186,
+          "last_month": 90513
+        },
         "version": "1.3.1",
         "requires_python": ">=3.10",
         "summary": "scikit-learn compatible neural network library for pytorch",
