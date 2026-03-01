@@ -1,0 +1,25 @@
+{
+  "uuid": "70c0bf1c-89fc-531e-8fa1-22f321678c43",
+  "slug": "churn-prediction-telecom",
+  "title": "Customer Churn Prediction",
+  "synopsis": "Predict which telecom customers are likely to cancel their subscriptions to enable proactive retention campaigns. Understanding churn drivers helps identify at-risk segments and optimize service retention strategies.",
+  "industry": [
+    "telecom",
+    "retail"
+  ],
+  "technique": [
+    "churn-prediction",
+    "classification",
+    "explainability"
+  ],
+  "packages": [
+    "scikit-learn",
+    "skrub",
+    "lightgbm",
+    "shap",
+    "skore"
+  ],
+  "difficulty": "intermediate",
+  "archived": false,
+  "has_notebook": false
+}

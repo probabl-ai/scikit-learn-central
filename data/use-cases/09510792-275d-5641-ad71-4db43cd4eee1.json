@@ -1,0 +1,22 @@
+{
+  "uuid": "09510792-275d-5641-ad71-4db43cd4eee1",
+  "slug": "anomaly-detection-cybersecurity",
+  "title": "Network Intrusion Detection",
+  "synopsis": "Detect network intrusions and cyber attacks using machine learning on network traffic patterns. Real-time anomaly detection enables swift response to security threats and protects critical infrastructure.",
+  "industry": [
+    "cybersecurity"
+  ],
+  "technique": [
+    "anomaly-detection",
+    "classification"
+  ],
+  "packages": [
+    "scikit-learn",
+    "pyod",
+    "umap-learn",
+    "shap"
+  ],
+  "difficulty": "intermediate",
+  "archived": false,
+  "has_notebook": false
+}

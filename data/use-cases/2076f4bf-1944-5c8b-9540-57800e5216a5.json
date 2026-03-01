@@ -1,0 +1,23 @@
+{
+  "uuid": "2076f4bf-1944-5c8b-9540-57800e5216a5",
+  "slug": "crop-yield-prediction",
+  "title": "Crop Yield Prediction",
+  "synopsis": "Predict crop yields based on environmental and agricultural factors to optimize farming decisions. Yield predictions enable better resource planning, pricing forecasts, and crop management strategies.",
+  "industry": [
+    "agriculture"
+  ],
+  "technique": [
+    "regression",
+    "demand-forecasting"
+  ],
+  "packages": [
+    "scikit-learn",
+    "feature-engine",
+    "xgboost",
+    "optuna",
+    "mlflow"
+  ],
+  "difficulty": "intermediate",
+  "archived": false,
+  "has_notebook": false
+}

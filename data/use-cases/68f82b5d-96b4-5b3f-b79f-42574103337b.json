@@ -1,0 +1,22 @@
+{
+  "uuid": "68f82b5d-96b4-5b3f-b79f-42574103337b",
+  "slug": "online-fraud-detection",
+  "title": "Real-Time Transaction Fraud (Streaming)",
+  "synopsis": "Detect fraudulent transactions in real-time using streaming machine learning for payment systems. Streaming fraud detection with concept drift adaptation enables quick response to evolving fraud patterns.",
+  "industry": [
+    "banking",
+    "e-commerce"
+  ],
+  "technique": [
+    "fraud-detection",
+    "anomaly-detection"
+  ],
+  "packages": [
+    "scikit-learn",
+    "river",
+    "pyod"
+  ],
+  "difficulty": "advanced",
+  "archived": false,
+  "has_notebook": false
+}

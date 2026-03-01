@@ -1,0 +1,24 @@
+{
+  "uuid": "fc02ec64-ab6b-527e-9143-23b8b85c9379",
+  "slug": "fraud-detection-banking",
+  "title": "Credit Card Fraud Detection",
+  "synopsis": "Detect fraudulent transactions among millions of legitimate credit card purchases using machine learning. Fraud accounts for only 0.03% of transactions, requiring specialized handling of class imbalance and focus on detecting the rare positive class.",
+  "industry": [
+    "banking",
+    "insurance"
+  ],
+  "technique": [
+    "fraud-detection",
+    "anomaly-detection",
+    "classification"
+  ],
+  "packages": [
+    "scikit-learn",
+    "imbalanced-learn",
+    "xgboost",
+    "shap"
+  ],
+  "difficulty": "intermediate",
+  "archived": false,
+  "has_notebook": false
+}

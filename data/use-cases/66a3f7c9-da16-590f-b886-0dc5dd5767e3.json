@@ -1,0 +1,23 @@
+{
+  "uuid": "66a3f7c9-da16-590f-b886-0dc5dd5767e3",
+  "slug": "energy-consumption-forecasting",
+  "title": "Energy Demand Forecasting",
+  "synopsis": "Forecast energy consumption patterns at hourly intervals to optimize power generation and grid management. Accurate energy demand forecasts enable better resource allocation and reduce energy costs.",
+  "industry": [
+    "energy"
+  ],
+  "technique": [
+    "time-series",
+    "demand-forecasting",
+    "regression"
+  ],
+  "packages": [
+    "scikit-learn",
+    "skforecast",
+    "lightgbm",
+    "sktime"
+  ],
+  "difficulty": "intermediate",
+  "archived": false,
+  "has_notebook": false
+}

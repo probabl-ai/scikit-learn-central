@@ -1,0 +1,23 @@
+{
+  "uuid": "1ae93d9c-259d-5ea5-b803-686e8f62c2dd",
+  "slug": "document-routing",
+  "title": "Automated Document Classification",
+  "synopsis": "Automatically classify documents into categories for efficient document routing and processing. Automated classification reduces manual processing time and routing errors in high-volume document workflows.",
+  "industry": [
+    "banking",
+    "insurance",
+    "healthcare"
+  ],
+  "technique": [
+    "nlp",
+    "classification"
+  ],
+  "packages": [
+    "scikit-learn",
+    "mlxtend",
+    "eli5"
+  ],
+  "difficulty": "beginner",
+  "archived": false,
+  "has_notebook": false
+}

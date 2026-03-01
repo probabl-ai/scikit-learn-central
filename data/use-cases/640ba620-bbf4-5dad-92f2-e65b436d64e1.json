@@ -1,0 +1,25 @@
+{
+  "uuid": "640ba620-bbf4-5dad-92f2-e65b436d64e1",
+  "slug": "demand-forecasting",
+  "title": "Retail Demand Forecasting",
+  "synopsis": "Forecast daily retail sales using historical data and seasonal patterns to optimize inventory management. Accurate demand forecasts reduce stockouts and overstock situations, improving cash flow and customer satisfaction.",
+  "industry": [
+    "retail",
+    "logistics"
+  ],
+  "technique": [
+    "demand-forecasting",
+    "time-series",
+    "regression"
+  ],
+  "packages": [
+    "scikit-learn",
+    "skforecast",
+    "lightgbm",
+    "feature-engine",
+    "mlflow"
+  ],
+  "difficulty": "intermediate",
+  "archived": false,
+  "has_notebook": false
+}

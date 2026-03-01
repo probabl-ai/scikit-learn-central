@@ -1,0 +1,23 @@
+{
+  "uuid": "e4946125-4d52-5278-b3ba-2b3873b4e6f9",
+  "slug": "price-optimization",
+  "title": "Dynamic Pricing Optimization",
+  "synopsis": "Optimize product pricing dynamically based on demand, competition, and market conditions to maximize revenue. Machine learning-driven pricing strategies balance profitability with competitiveness and market demand.",
+  "industry": [
+    "e-commerce",
+    "retail"
+  ],
+  "technique": [
+    "price-optimization",
+    "regression"
+  ],
+  "packages": [
+    "scikit-learn",
+    "lightgbm",
+    "optuna",
+    "shap"
+  ],
+  "difficulty": "advanced",
+  "archived": false,
+  "has_notebook": false
+}
