@@ -16,9 +16,11 @@ on:
   workflow_dispatch:
 
 # ── Permissions ───────────────────────────────────────────────────────────────
-# contents:write  → lets the bot commit data/stats.json back to the repo
+# contents: write  → lets the bot commit data/stats.json back to the repo
+# actions:  write  → lets the bot dispatch static.yml (Pages deploy) via gh CLI
 permissions:
   contents: write
+  actions:  write
 
 # ── Job ───────────────────────────────────────────────────────────────────────
 jobs:
