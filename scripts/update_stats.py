@@ -137,7 +137,7 @@ def fetch_pypi_stats(pkg_id):
             if files:
                 result["release_date"] = files[0].get("upload_time")
 
-    time.sleep(1.5)    # pypistats rate-limits aggressively; 1.5 s keeps us safe
+    time.sleep(2)    # pypistats rate-limits aggressively; 2 s keeps us safe
 
     return {k: v for k, v in result.items() if v is not None}
 
