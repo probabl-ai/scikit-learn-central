@@ -173,7 +173,8 @@ function computeFitScores() {
     p._fitStars     = Math.log((p.stars     ?? 0) + 1) / Math.log(maxStars     + 1) * 100;
     p._fitDownloads = Math.log((p.downloads ?? 0) + 1) / Math.log(maxDownloads + 1) * 100;
     p._fitUc        = (ucCounts[i] / maxUc) * 100;
-    p._fitTotal     = (p._fitStars + p._fitDownloads + p._fitUc) / 3;
+    p._fitBase      = (p._fitStars + p._fitDownloads + p._fitUc) / 3;
+    p._fitTotal     = p._fitBase + (p.probabl ? 100 : 0); // boost floats probabl to top; display uses _fitBase
   });
 }
 
@@ -465,7 +466,47 @@ function renderCard(pkg) {
  * that shows the three sub-scores as progress bars.
  */
 function renderRankChip(pkg) {
-  const total = Math.round(pkg._fitTotal);
+  // Special treatment: probabl packages in fit score sort get a branded badge
+  if (pkg.probabl && state.sortBy === 'ranking') {
+    const stars = Math.round(pkg._fitStars);
+    const dl    = Math.round(pkg._fitDownloads);
+    const uc    = Math.round(pkg._fitUc);
+    const bar = (pct) =>
+      `<div class="ranking-tooltip__track"><div class="ranking-tooltip__fill" style="width:${pct}%"></div></div>`;
+    return `
+      <div class="card__ranking card__ranking--probabl">
+        <svg width="20" height="20" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Featured by Probabl">
+          <circle cx="200" cy="200" r="200" fill="#1E22AA"/>
+          <path d="M110.452 145.278H141.492C144.142 145.278 145.278 144.142 145.278 141.493V110.452C145.278 107.803 144.142 106.667 141.492 106.667H110.452C107.802 106.667 106.667 107.803 106.667 110.452V141.493C106.667 144.142 107.802 145.278 110.452 145.278Z" fill="#F68D2E"/>
+          <path d="M110.452 292.001H141.492C144.142 292.001 145.278 290.865 145.278 288.215V257.175C145.278 254.525 144.142 253.39 141.492 253.39H110.452C107.802 253.39 106.667 254.525 106.667 257.175V288.215C106.667 290.865 107.802 292.001 110.452 292.001Z" fill="#F68D2E"/>
+          <path d="M257.174 292.001H288.214C290.864 292.001 292 290.865 292 288.215V257.175C292 254.525 290.864 253.39 288.214 253.39H257.174C254.524 253.39 253.389 254.525 253.389 257.175V288.215C253.389 290.865 254.524 292.001 257.174 292.001Z" fill="#F68D2E"/>
+        </svg>
+        <div class="ranking-tooltip ranking-tooltip--probabl">
+          <div class="ranking-tooltip__title">Featured by :probabl.</div>
+          <p class="ranking-tooltip__probabl-body">This library is maintained by Probabl, the open-source company behind scikit-learn.</p>
+          <div class="ranking-tooltip__divider"></div>
+          <div class="ranking-tooltip__title ranking-tooltip__title--fitscore">Fit Score</div>
+          <div class="ranking-tooltip__row">
+            <span class="ranking-tooltip__label"><i class="fas fa-star"></i> Stars</span>
+            ${bar(stars)}
+            <span class="ranking-tooltip__val">${stars}</span>
+          </div>
+          <div class="ranking-tooltip__row">
+            <span class="ranking-tooltip__label"><i class="fas fa-download"></i> Downloads</span>
+            ${bar(dl)}
+            <span class="ranking-tooltip__val">${dl}</span>
+          </div>
+          <div class="ranking-tooltip__row">
+            <span class="ranking-tooltip__label"><i class="fas fa-lightbulb"></i> Use Cases</span>
+            ${bar(uc)}
+            <span class="ranking-tooltip__val">${uc}</span>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  // Default: numeric fit score chip (use _fitBase so probabl boost never leaks into display)
+  const total = Math.round(pkg._fitBase ?? pkg._fitTotal);
   const stars = Math.round(pkg._fitStars);
   const dl    = Math.round(pkg._fitDownloads);
   const uc    = Math.round(pkg._fitUc);

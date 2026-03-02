@@ -684,6 +684,45 @@
   flex-shrink: 0;
 }
 
+/* Probabl-featured badge — circular SVG logo, no extra background */
+.card__ranking--probabl {
+  background: transparent;
+  padding: 0;
+  line-height: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card__ranking--probabl svg {
+  display: block;
+}
+
+/* Probabl tooltip variant — wider to fit featured message + score rows */
+.ranking-tooltip--probabl {
+  width: 220px;
+  padding-top: 12px; /* match the 12px gap above "Fit Score" from the divider */
+}
+
+.ranking-tooltip__probabl-body {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(255, 255, 255, .85);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.ranking-tooltip__divider {
+  height: 1px;
+  background: rgba(255, 255, 255, .15);
+  margin: 12px 0;
+}
+
+.ranking-tooltip__title--fitscore {
+  color: rgba(255, 255, 255, .5);
+  margin-bottom: 12px;
+}
+
 .card__name {
   font-family: var(--font-mono);
   font-size: var(--text-lg);
