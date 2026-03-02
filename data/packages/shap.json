@@ -18,11 +18,5 @@
     "feature-importance",
     "interpretability",
     "model-explanation"
-  ],
-  "contributors": [
-    {
-      "name": "Scott Lundberg",
-      "github": "slundberg"
-    }
   ]
 }

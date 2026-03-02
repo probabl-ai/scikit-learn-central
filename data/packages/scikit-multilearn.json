@@ -17,11 +17,5 @@
     "classification",
     "classifier-chains",
     "sparse-matrices"
-  ],
-  "contributors": [
-    {
-      "name": "Piotr Szymanski",
-      "github": "niedakh"
-    }
   ]
 }

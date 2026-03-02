@@ -18,15 +18,5 @@
     "model-registry",
     "autologging",
     "deployment"
-  ],
-  "contributors": [
-    {
-      "name": "Matei Zaharia",
-      "github": "mateiz"
-    },
-    {
-      "name": "Harutaka Kawamura",
-      "github": "harupy"
-    }
   ]
 }

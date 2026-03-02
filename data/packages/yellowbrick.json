@@ -18,15 +18,5 @@
     "feature-analysis",
     "diagnostics",
     "matplotlib"
-  ],
-  "contributors": [
-    {
-      "name": "Benjamin Bengfort",
-      "github": "bbengfort"
-    },
-    {
-      "name": "Rebecca Bilbro",
-      "github": "rebeccabilbro"
-    }
   ]
 }

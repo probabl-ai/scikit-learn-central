@@ -18,15 +18,5 @@
     "glassbox",
     "LIME",
     "sensitivity-analysis"
-  ],
-  "contributors": [
-    {
-      "name": "Paul Koch",
-      "github": "paulkoch"
-    },
-    {
-      "name": "Samuel Jenkins",
-      "github": "samjkwong"
-    }
   ]
 }

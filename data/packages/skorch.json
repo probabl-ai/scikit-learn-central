@@ -17,19 +17,5 @@
     "deep-learning",
     "PyTorch",
     "neural-network"
-  ],
-  "contributors": [
-    {
-      "name": "Benjamin Bossan",
-      "github": "BenjaminBossan"
-    },
-    {
-      "name": "Thomas Fan",
-      "github": "thomasjpfan"
-    },
-    {
-      "name": "Marian Tietz",
-      "github": "githubnemo"
-    }
   ]
 }

@@ -18,11 +18,5 @@
     "autoregressive",
     "exogenous",
     "backtesting"
-  ],
-  "contributors": [
-    {
-      "name": "Joaquin Amat Rodrigo",
-      "github": "JoaquinAmatRodrigo"
-    }
   ]
 }

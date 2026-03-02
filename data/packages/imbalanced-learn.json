@@ -18,15 +18,5 @@
     "oversampling",
     "undersampling",
     "resampling"
-  ],
-  "contributors": [
-    {
-      "name": "Guillaume Lemaitre",
-      "github": "glemaitre"
-    },
-    {
-      "name": "Fernando Nogueira",
-      "github": "fmfnogueira"
-    }
   ]
 }

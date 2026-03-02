@@ -18,15 +18,5 @@
     "AutoML",
     "pruning",
     "parallelism"
-  ],
-  "contributors": [
-    {
-      "name": "Takuya Akiba",
-      "github": "toshihikoyanase"
-    },
-    {
-      "name": "Shotaro Sano",
-      "github": "not-Karot"
-    }
   ]
 }

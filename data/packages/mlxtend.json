@@ -18,11 +18,5 @@
     "ensemble",
     "association-rules",
     "utilities"
-  ],
-  "contributors": [
-    {
-      "name": "Sebastian Raschka",
-      "github": "rasbt"
-    }
   ]
 }

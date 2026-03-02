@@ -17,11 +17,5 @@
     "categorical-native",
     "ordered-boosting",
     "ensemble"
-  ],
-  "contributors": [
-    {
-      "name": "Stanislav Kirillov",
-      "github": "StanislavKirillov"
-    }
   ]
 }

@@ -18,11 +18,5 @@
     "categorical-encoding",
     "outlier-handling",
     "discretization"
-  ],
-  "contributors": [
-    {
-      "name": "Soledad Galli",
-      "github": "solegalli"
-    }
   ]
 }

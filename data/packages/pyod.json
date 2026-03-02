@@ -18,11 +18,5 @@
     "unsupervised",
     "deep-learning",
     "isolation-forest"
-  ],
-  "contributors": [
-    {
-      "name": "Yue Zhao",
-      "github": "yzhao062"
-    }
   ]
 }

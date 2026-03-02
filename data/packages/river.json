@@ -18,15 +18,5 @@
     "incremental",
     "concept-drift",
     "real-time"
-  ],
-  "contributors": [
-    {
-      "name": "Max Halford",
-      "github": "MaxHalford"
-    },
-    {
-      "name": "Saulo Martiello Mastelini",
-      "github": "smastelini"
-    }
   ]
 }

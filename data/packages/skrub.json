@@ -20,19 +20,5 @@
     "tabular",
     "dataframe",
     "fuzzy-join"
-  ],
-  "contributors": [
-    {
-      "name": "Jovan Stojanovic",
-      "github": "jovan-stojanovic"
-    },
-    {
-      "name": "Guillaume Lemaitre",
-      "github": "glemaitre"
-    },
-    {
-      "name": "Leo Grinsztajn",
-      "github": "LeoGrin"
-    }
   ]
 }

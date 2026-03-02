@@ -18,15 +18,5 @@
     "tabular",
     "kaggle",
     "GPU"
-  ],
-  "contributors": [
-    {
-      "name": "Tianqi Chen",
-      "github": "tqchen"
-    },
-    {
-      "name": "Hyunsu Cho",
-      "github": "hcho3"
-    }
   ]
 }

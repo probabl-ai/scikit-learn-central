@@ -18,15 +18,5 @@
     "forecasting",
     "regression",
     "clustering"
-  ],
-  "contributors": [
-    {
-      "name": "Franz Kiraly",
-      "github": "fkiraly"
-    },
-    {
-      "name": "Tony Bagnall",
-      "github": "TonyBagnall"
-    }
   ]
 }

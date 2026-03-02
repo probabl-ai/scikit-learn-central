@@ -18,11 +18,5 @@
     "debugging",
     "text-models",
     "lime"
-  ],
-  "contributors": [
-    {
-      "name": "Mikhail Korobov",
-      "github": "kmike"
-    }
   ]
 }

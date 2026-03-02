@@ -19,15 +19,5 @@
     "clustering",
     "forecasting",
     "anomaly-detection"
-  ],
-  "contributors": [
-    {
-      "name": "Tony Bagnall",
-      "github": "TonyBagnall"
-    },
-    {
-      "name": "Matthew Middlehurst",
-      "github": "MatthewMiddlehurst"
-    }
   ]
 }

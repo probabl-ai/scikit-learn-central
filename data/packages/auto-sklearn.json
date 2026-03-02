@@ -18,15 +18,5 @@
     "ensemble",
     "algorithm-selection",
     "hyperparameter-optimization"
-  ],
-  "contributors": [
-    {
-      "name": "Matthias Feurer",
-      "github": "mfeurer"
-    },
-    {
-      "name": "Katharina Eggensperger",
-      "github": "katharina-eggensperger"
-    }
   ]
 }

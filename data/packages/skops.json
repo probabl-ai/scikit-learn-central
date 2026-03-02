@@ -19,15 +19,5 @@
     "Hugging-Face",
     "serialization",
     "model-cards"
-  ],
-  "contributors": [
-    {
-      "name": "Benjamin Bossan",
-      "github": "BenjaminBossan"
-    },
-    {
-      "name": "Adrin Jalali",
-      "github": "adrinjalali"
-    }
   ]
 }

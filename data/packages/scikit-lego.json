@@ -18,11 +18,5 @@
     "production-ml",
     "transformers",
     "utilities"
-  ],
-  "contributors": [
-    {
-      "name": "Vincent Warmerdam",
-      "github": "koaning"
-    }
   ]
 }

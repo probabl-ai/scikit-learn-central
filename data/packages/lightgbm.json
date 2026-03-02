@@ -18,15 +18,5 @@
     "fast-training",
     "categorical",
     "GPU"
-  ],
-  "contributors": [
-    {
-      "name": "Nikita Titov",
-      "github": "StrikerRUS"
-    },
-    {
-      "name": "Yu Shi",
-      "github": "shiyu1994"
-    }
   ]
 }
