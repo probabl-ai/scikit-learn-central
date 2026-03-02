@@ -26,28 +26,6 @@
     "provides_estimators": true,
     "consumes_estimators": true,
     "contributors_count": 3000,
-    "contributors": [
-      {
-        "name": "Olivier Grisel",
-        "github": "ogrisel"
-      },
-      {
-        "name": "Thomas Fan",
-        "github": "thomasjpfan"
-      },
-      {
-        "name": "Gael Varoquaux",
-        "github": "GaelVaroquaux"
-      },
-      {
-        "name": "Andreas Mueller",
-        "github": "amueller"
-      },
-      {
-        "name": "Guillaume Lemaitre",
-        "github": "glemaitre"
-      }
-    ],
     "archived": false
   },
   "packages": [
