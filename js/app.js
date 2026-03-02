@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Merge live stats (stars, downloads, version…) into package objects
   if (statsData) mergeStats(statsData);
 
-  // Compute utility scores once both datasets are ready
-  computeUtilityScores();
+  // Compute fit scores once both datasets are ready
+  computeFitScores();
 
   setTabCount('catalog',   catalog.packages.length);
   if (useCases) setTabCount('use-cases', useCases.use_cases.length);
@@ -145,11 +145,11 @@ function mergeStats(stats) {
   });
 }
 
-/* ── Utility Ranking ────────────────────────────────────── */
+/* ── Fit Score Ranking ────────────────────────────────────── */
 
 /**
- * Compute the "utility ranking" for every package and attach scores as
- * private properties (_utilTotal, _utilStars, _utilDownloads, _utilUc).
+ * Compute the "fit score" for every package and attach scores as
+ * private properties (_fitTotal, _fitStars, _fitDownloads, _fitUc).
  *
  * Formula (each sub-score 0–100, equal weight 1/3):
  *   stars_score     = log(stars + 1)     / log(maxStars + 1)     × 100  (log scale)
@@ -159,7 +159,7 @@ function mergeStats(stats) {
  * Normalisation is relative to the best package in the ecosystem catalog
  * (scikit-learn core is shown separately as the hero card and excluded).
  */
-function computeUtilityScores() {
+function computeFitScores() {
   const pkgs = catalog.packages;
   const maxStars     = Math.max(...pkgs.map(p => p.stars     ?? 0), 1);
   const maxDownloads = Math.max(...pkgs.map(p => p.downloads ?? 0), 1);
@@ -170,10 +170,10 @@ function computeUtilityScores() {
   const maxUc = Math.max(...ucCounts, 1);
 
   pkgs.forEach((p, i) => {
-    p._utilStars     = Math.log((p.stars     ?? 0) + 1) / Math.log(maxStars     + 1) * 100;
-    p._utilDownloads = Math.log((p.downloads ?? 0) + 1) / Math.log(maxDownloads + 1) * 100;
-    p._utilUc        = (ucCounts[i] / maxUc) * 100;
-    p._utilTotal     = (p._utilStars + p._utilDownloads + p._utilUc) / 3;
+    p._fitStars     = Math.log((p.stars     ?? 0) + 1) / Math.log(maxStars     + 1) * 100;
+    p._fitDownloads = Math.log((p.downloads ?? 0) + 1) / Math.log(maxDownloads + 1) * 100;
+    p._fitUc        = (ucCounts[i] / maxUc) * 100;
+    p._fitTotal     = (p._fitStars + p._fitDownloads + p._fitUc) / 3;
   });
 }
 
@@ -374,7 +374,7 @@ function applyFilters() {
     if (state.sortBy === 'name')      return a.name.localeCompare(b.name);
     if (state.sortBy === 'stars')     return (b.stars ?? 0) - (a.stars ?? 0);
     if (state.sortBy === 'downloads') return (b.downloads ?? 0) - (a.downloads ?? 0);
-    return (b._utilTotal ?? 0) - (a._utilTotal ?? 0);  // default: utility ranking
+    return (b._fitTotal ?? 0) - (a._fitTotal ?? 0);  // default: fit score ranking
   });
   return r;
 }
@@ -429,7 +429,7 @@ function renderCard(pkg) {
     ? `<span class="card__use-cases" onclick="filterUcByPackage('${pkg.id}')">
         <i class="fas fa-lightbulb"></i> ${ucCount} use case${ucCount !== 1 ? 's' : ''}</span>` : '';
 
-  const rankChip = pkg._utilTotal != null ? renderRankChip(pkg) : '';
+  const rankChip = pkg._fitTotal != null ? renderRankChip(pkg) : '';
 
   // Live version badge from stats.json
   const version = pkg._stats?.pypi?.version;
@@ -461,14 +461,14 @@ function renderCard(pkg) {
 }
 
 /**
- * Render the utility ranking chip (top-right of card) with a hover tooltip
+ * Render the fit score chip (top-right of card) with a hover tooltip
  * that shows the three sub-scores as progress bars.
  */
 function renderRankChip(pkg) {
-  const total = Math.round(pkg._utilTotal);
-  const stars = Math.round(pkg._utilStars);
-  const dl    = Math.round(pkg._utilDownloads);
-  const uc    = Math.round(pkg._utilUc);
+  const total = Math.round(pkg._fitTotal);
+  const stars = Math.round(pkg._fitStars);
+  const dl    = Math.round(pkg._fitDownloads);
+  const uc    = Math.round(pkg._fitUc);
 
   const bar = (pct) =>
     `<div class="ranking-tooltip__track"><div class="ranking-tooltip__fill" style="width:${pct}%"></div></div>`;
@@ -477,7 +477,7 @@ function renderRankChip(pkg) {
     <div class="card__ranking">
       ${total}
       <div class="ranking-tooltip">
-        <div class="ranking-tooltip__title">Utility Score</div>
+        <div class="ranking-tooltip__title">Fit Score</div>
         <div class="ranking-tooltip__row">
           <span class="ranking-tooltip__label"><i class="fas fa-star"></i> Stars</span>
           ${bar(stars)}

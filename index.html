@@ -200,7 +200,7 @@
       <!-- Sort + Clear -->
       <div class="filter-bar__end">
         <select id="sort-select" class="sort-select--inline" title="Sort by">
-          <option value="ranking" selected>Sort: Utility</option>
+          <option value="ranking" selected>Sort: Fit Score</option>
           <option value="stars">Sort: Stars</option>
           <option value="downloads">Sort: Monthly Downloads</option>
           <option value="name">Sort: Name A–Z</option>
@@ -433,7 +433,7 @@
         <section class="about-section">
           <h2 class="about-section__title">Ranking Methodology</h2>
           <div class="about-section__body">
-            <p>Each ecosystem package is assigned a <strong>Utility Score</strong> (0–100) displayed as a chip in the top-right corner of its card. Hovering over the chip reveals the three underlying sub-scores.</p>
+            <p>Each ecosystem package is assigned a <strong>Fit Score</strong> (0–100) displayed as a chip in the top-right corner of its card. Hovering over the chip reveals the three underlying sub-scores.</p>
 
             <div class="ranking-methodology">
 
@@ -464,7 +464,7 @@
             </div>
 
             <p class="ranking-formula">
-              <strong>Utility Score</strong> = (Stars<sub>log</sub> + Downloads<sub>log</sub> + UseCases<sub>linear</sub>) ÷ 3
+              <strong>Fit Score</strong> = (Stars<sub>log</sub> + Downloads<sub>log</sub> + UseCases<sub>linear</sub>) ÷ 3
             </p>
             <p>Scores are computed dynamically from live catalog data and renormalised whenever the catalog is updated. The catalog is deliberately neutral — scikit-learn core is excluded from the normalisation pool since it is displayed separately as the ecosystem foundation.</p>
           </div>
