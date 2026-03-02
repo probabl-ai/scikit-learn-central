@@ -8,7 +8,6 @@
   "nature": "library",
   "scope": "incremental",
   "license": "BSD-3-Clause",
-  "probabl": true,
   "archived": false,
   "provides_estimators": true,
   "consumes_estimators": false,
