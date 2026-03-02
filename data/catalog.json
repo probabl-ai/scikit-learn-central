@@ -79,6 +79,8 @@
     "interpret",
     "scikit-multilearn",
     "auto-sklearn",
-    "skorch"
+    "skorch",
+    "fairlearn",
+    "hazardous"
   ]
 }

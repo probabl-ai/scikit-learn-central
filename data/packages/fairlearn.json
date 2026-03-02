@@ -1,0 +1,23 @@
+{
+  "id": "fairlearn",
+  "name": "fairlearn",
+  "pypi_name": "fairlearn",
+  "website": "https://fairlearn.org",
+  "repository": "https://github.com/fairlearn/fairlearn",
+  "docs": "https://fairlearn.org",
+  "nature": "library",
+  "scope": "verticalized",
+  "license": "MIT",
+  "probabl": true,
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": true,
+  "description": "Assess and mitigate fairness issues in ML models. Provides group fairness metrics to identify disparities across demographic groups, and mitigation algorithms (ExponentiatedGradient, GridSearch, ThresholdOptimizer) that wrap sklearn estimators to reduce allocation and quality-of-service harms.",
+  "tags": [
+    "fairness",
+    "bias",
+    "responsible-AI",
+    "metrics",
+    "mitigation"
+  ]
+}
