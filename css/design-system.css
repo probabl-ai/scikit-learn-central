@@ -83,6 +83,14 @@
   --status-archived:     #57606A;
   --status-archived-bg:  #F1F5F9;
 
+  /* ── Release changelog tag colours ───────────────────────── */
+  --tag-major-feature: var(--probabl-orange);
+  --tag-feature:       var(--probabl-blue);
+  --tag-efficiency:    #16A34A;
+  --tag-enhancement:   #7C3AED;
+  --tag-fix:           #DC2626;
+  --tag-api-change:    #D97706;
+
   /* ── Typography ───────────────────────────────────────────── */
   --font-mono:   'Geist Mono', 'Courier New', monospace;
   --font-body:   'Geist', system-ui, -apple-system, sans-serif;

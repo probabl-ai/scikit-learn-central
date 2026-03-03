@@ -2502,6 +2502,74 @@ a.release-card__version-link:hover {
   padding-top: var(--space-2);
 }
 
+/* ── Release stats: stacked bar + pills ─────────────────── */
+.release-card__stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Stacked proportional bar */
+.release-stats-bar {
+  display: flex;
+  height: 7px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--neutral-200);
+}
+
+.release-stats-bar__seg {
+  height: 100%;
+  transition: opacity 0.15s;
+}
+
+.release-stats-bar__seg:hover {
+  opacity: 0.72;
+  cursor: default;
+}
+
+.release-stats-bar__seg--major-feature { background: var(--tag-major-feature); }
+.release-stats-bar__seg--feature       { background: var(--tag-feature);       }
+.release-stats-bar__seg--efficiency    { background: var(--tag-efficiency);    }
+.release-stats-bar__seg--enhancement   { background: var(--tag-enhancement);   }
+.release-stats-bar__seg--fix           { background: var(--tag-fix);           }
+.release-stats-bar__seg--api-change    { background: var(--tag-api-change);    }
+
+/* Pills row */
+.release-stats-pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.release-stats-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  line-height: 1.6;
+}
+
+.release-stats-pill--major-feature { background: #FFF3E0; color: var(--tag-major-feature); }
+.release-stats-pill--feature       { background: #EAEAFF; color: var(--tag-feature);       }
+.release-stats-pill--efficiency    { background: #DCFCE7; color: var(--tag-efficiency);    }
+.release-stats-pill--enhancement   { background: #F3E8FF; color: var(--tag-enhancement);   }
+.release-stats-pill--fix           { background: #FEE2E2; color: var(--tag-fix);           }
+.release-stats-pill--api-change    { background: #FEF3C7; color: var(--tag-api-change);    }
+.release-stats-pill--contributors  {
+  background: var(--neutral-100);
+  color: var(--neutral-600);
+  margin-left: auto;
+}
+
 /* Outline style for white-card releases */
 .btn--outline-blue {
   background: transparent;

@@ -889,6 +889,58 @@ function renderReleasesAll() {
   renderReleasesBlogStrip();
 }
 
+const TAG_CONFIG = [
+  { key: 'major_feature', label: 'Major',   cssClass: 'major-feature' },
+  { key: 'feature',       label: 'Feature', cssClass: 'feature'       },
+  { key: 'efficiency',    label: 'Perf',    cssClass: 'efficiency'    },
+  { key: 'enhancement',   label: 'Enh',     cssClass: 'enhancement'   },
+  { key: 'fix',           label: 'Fix',     cssClass: 'fix'           },
+  { key: 'api_change',    label: 'API',     cssClass: 'api-change'    },
+];
+
+function renderReleaseStats(rel) {
+  const s = rel.stats;
+  if (!s || !s.tag_counts) return '';
+
+  const tc = s.tag_counts;
+  const total = Object.values(tc).reduce((a, b) => a + b, 0);
+  if (total === 0 && !s.contributor_count) return '';
+
+  const barSegments = total > 0
+    ? TAG_CONFIG
+        .filter(t => tc[t.key] > 0)
+        .map(t => {
+          const pct      = (tc[t.key] / total * 100).toFixed(2);
+          const fullLabel = t.key.replace(/_/g, ' ');
+          return `<div class="release-stats-bar__seg release-stats-bar__seg--${t.cssClass}"
+                       style="width:${pct}%"
+                       title="${tc[t.key]} ${fullLabel}"></div>`;
+        }).join('')
+    : '';
+
+  const bar = total > 0
+    ? `<div class="release-stats-bar" title="${total} changelog entries">${barSegments}</div>`
+    : '';
+
+  const tagPills = TAG_CONFIG
+    .filter(t => tc[t.key] > 0)
+    .map(t => `<span class="release-stats-pill release-stats-pill--${t.cssClass}"
+                     title="${tc[t.key]} ${t.key.replace(/_/g, ' ')}">${tc[t.key]} ${t.label}</span>`)
+    .join('');
+
+  const contribPill = s.contributor_count
+    ? `<span class="release-stats-pill release-stats-pill--contributors"
+               title="${s.contributor_count} contributors">
+         <i class="fas fa-users"></i> ${s.contributor_count}
+       </span>`
+    : '';
+
+  return `<div class="release-card__stats">
+      ${bar}
+      <div class="release-stats-pills">${tagPills}${contribPill}</div>
+    </div>`;
+}
+
 function renderReleaseCard(rel) {
   const isFuture   = rel.version === 'future';
   const versionLabel = isFuture ? 'FUTURE RELEASE' : `v${rel.version}`;
@@ -947,6 +999,7 @@ function renderReleaseCard(rel) {
         <div class="release-card__date">${dateLabel}</div>
       </div>
       <ul class="release-card__highlights">${highlights}</ul>
+      ${renderReleaseStats(rel)}
       ${blogLinks}
       <div class="release-card__actions">
         ${releaseNotesBtn}
