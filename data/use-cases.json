@@ -1,29 +1,10 @@
 {
   "meta": {
-    "version": "4.0",
-    "count": 20,
-    "updated": "2026-03-01"
+    "version": "5.0",
+    "count": 1,
+    "updated": "2026-03-03"
   },
   "use_cases": [
-    "fc02ec64-ab6b-527e-9143-23b8b85c9379",
-    "70c0bf1c-89fc-531e-8fa1-22f321678c43",
-    "2f0d1820-008b-502b-8b51-0e585f7ee575",
-    "46f5e530-5435-57fa-aba5-5c51b9d4db78",
-    "df312850-8f5b-5fa7-bb7f-a15cee91d38b",
-    "640ba620-bbf4-5dad-92f2-e65b436d64e1",
-    "09510792-275d-5641-ad71-4db43cd4eee1",
-    "4640ed73-b8be-5b13-bdcd-1ccfedd6c9ac",
-    "c9066ea7-875c-58ec-ae4d-31f7dbee681b",
-    "30000103-b658-585f-a681-276a51ba770b",
-    "e4946125-4d52-5278-b3ba-2b3873b4e6f9",
-    "d38e9d15-51bd-546e-9146-f71862cd82b0",
-    "6a4976cc-a03a-5460-bbc7-5204af4a541d",
-    "2076f4bf-1944-5c8b-9540-57800e5216a5",
-    "66a3f7c9-da16-590f-b886-0dc5dd5767e3",
-    "b825fab1-905d-5e6b-98b2-4934b7c21cc4",
-    "5fa7feba-7b07-51c5-a9e7-67fa09e0408c",
-    "1ae93d9c-259d-5ea5-b803-686e8f62c2dd",
-    "ad551b7b-e205-5c7a-a269-dbcb506d81c5",
-    "68f82b5d-96b4-5b3f-b79f-42574103337b"
+    "fc02ec64-ab6b-527e-9143-23b8b85c9379"
   ]
 }
