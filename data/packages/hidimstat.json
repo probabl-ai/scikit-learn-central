@@ -1,0 +1,22 @@
+{
+  "id": "hidimstat",
+  "name": "HiDimStat",
+  "pypi_name": "hidimstat",
+  "website": "https://hidimstat.github.io",
+  "repository": "https://github.com/mind-inria/hidimstat",
+  "docs": "https://hidimstat.github.io",
+  "nature": "library",
+  "scope": "verticalized",
+  "license": "BSD-3-Clause",
+  "archived": false,
+  "provides_estimators": false,
+  "consumes_estimators": true,
+  "description": "Statistical inference methods for variable importance evaluation in high-dimensional and spatially structured data. Provides conditional permutation importance, LOCO, CPI, and related tools for rigorous feature selection with p-values and confidence intervals.",
+  "tags": [
+    "feature-importance",
+    "statistical-inference",
+    "high-dimensional",
+    "interpretability",
+    "variable-selection"
+  ]
+}

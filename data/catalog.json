@@ -59,6 +59,7 @@
     "auto-sklearn",
     "skorch",
     "fairlearn",
-    "hazardous"
+    "hazardous",
+    "hidimstat"
   ]
 }
