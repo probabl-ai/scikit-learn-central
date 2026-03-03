@@ -1,0 +1,71 @@
+name: Update release metadata
+
+# ── Triggers ─────────────────────────────────────────────────────────────────
+on:
+  # Run weekly on Monday at 06:00 UTC
+  schedule:
+    - cron: '0 6 * * 1'
+
+  # Run whenever a release is manually added to the JSON
+  push:
+    branches: [main]
+    paths:
+      - 'data/releases/scikit-learn.json'
+
+  # Allow manual runs from the Actions tab
+  workflow_dispatch:
+
+# ── Permissions ───────────────────────────────────────────────────────────────
+# contents: write  → lets the bot commit data/releases/scikit-learn.json back
+# actions:  write  → lets the bot dispatch static.yml (Pages deploy) via gh CLI
+permissions:
+  contents: write
+  actions:  write
+
+# ── Job ───────────────────────────────────────────────────────────────────────
+jobs:
+  update-release-metadata:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check out the repo
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Install HTML-parsing dependencies (not needed by other scripts)
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4 lxml
+
+      # 3. Fetch tag counts, contributor counts, and auto-populate any empty
+      #    highlights arrays. Skips releases whose stats are already present;
+      #    only fetches data for newly added releases. Use workflow_dispatch
+      #    with --force to refresh all releases manually.
+      - name: Fetch release metadata
+        run: python3 scripts/update_release_metadata.py
+
+      # 4. Commit only if the file actually changed.
+      #    Note: pushes made with GITHUB_TOKEN do not re-trigger this workflow,
+      #    so there is no circular dependency.
+      - name: Commit scikit-learn.json
+        id: commit
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/releases/scikit-learn.json
+          if git diff --staged --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes — skipping commit."
+          else
+            git commit -m "chore: update release metadata"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # 5. Explicitly re-deploy Pages so the new metadata is live right away.
+      #    (GITHUB_TOKEN commits don't automatically trigger other workflows.)
+      #    Requires static.yml to have a workflow_dispatch trigger — it does.
+      - name: Trigger Pages deploy
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run static.yml --ref main

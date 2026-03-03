@@ -4,7 +4,8 @@
     "updated": "2026-03-03",
     "note": "Dates verified against https://github.com/scikit-learn/scikit-learn/releases. Reaction counts are baked in by scripts/update_release_reactions.py. Note: 1.6.x is a maintenance/LTS branch released in parallel with 1.7/1.8 development.",
     "dates_updated_at": "2026-03-03T14:31:11Z",
-    "reactions_updated_at": "2026-03-03T14:31:11Z"
+    "reactions_updated_at": "2026-03-03T14:31:11Z",
+    "metadata_updated_at": "2026-03-03T16:17:26Z"
   },
   "releases": [
     {
@@ -88,7 +89,18 @@
           "reaction_count": null
         }
       ],
-      "blog_posts": []
+      "blog_posts": [],
+      "stats": {
+        "tag_counts": {
+          "major_feature": 0,
+          "api_change": 0,
+          "feature": 0,
+          "efficiency": 0,
+          "enhancement": 1,
+          "fix": 6
+        },
+        "contributor_count": 170
+      }
     },
     {
       "version": "1.8.0",
@@ -130,7 +142,18 @@
           "date": "2024-11-27",
           "author": "Guillaume Lemaitre"
         }
-      ]
+      ],
+      "stats": {
+        "tag_counts": {
+          "major_feature": 1,
+          "api_change": 9,
+          "feature": 29,
+          "efficiency": 13,
+          "enhancement": 13,
+          "fix": 31
+        },
+        "contributor_count": 183
+      }
     },
     {
       "version": "1.6.0",
@@ -160,7 +183,18 @@
           "reaction_count": null
         }
       ],
-      "blog_posts": []
+      "blog_posts": [],
+      "stats": {
+        "tag_counts": {
+          "major_feature": 2,
+          "api_change": 14,
+          "feature": 35,
+          "efficiency": 5,
+          "enhancement": 20,
+          "fix": 27
+        },
+        "contributor_count": 170
+      }
     },
     {
       "version": "1.7.2",
@@ -185,7 +219,18 @@
           "reaction_count": null
         }
       ],
-      "blog_posts": []
+      "blog_posts": [],
+      "stats": {
+        "tag_counts": {
+          "major_feature": 0,
+          "api_change": 0,
+          "feature": 0,
+          "efficiency": 0,
+          "enhancement": 0,
+          "fix": 5
+        },
+        "contributor_count": 177
+      }
     },
     {
       "version": "1.7.1",
@@ -210,7 +255,18 @@
           "reaction_count": null
         }
       ],
-      "blog_posts": []
+      "blog_posts": [],
+      "stats": {
+        "tag_counts": {
+          "major_feature": 0,
+          "api_change": 0,
+          "feature": 0,
+          "efficiency": 0,
+          "enhancement": 0,
+          "fix": 6
+        },
+        "contributor_count": 177
+      }
     },
     {
       "version": "1.7.0",
@@ -252,7 +308,18 @@
           "date": "2024-11-27",
           "author": "Guillaume Lemaitre"
         }
-      ]
+      ],
+      "stats": {
+        "tag_counts": {
+          "major_feature": 0,
+          "api_change": 7,
+          "feature": 17,
+          "efficiency": 3,
+          "enhancement": 16,
+          "fix": 27
+        },
+        "contributor_count": 177
+      }
     },
     {
       "version": "1.5.2",
@@ -277,7 +344,18 @@
           "reaction_count": null
         }
       ],
-      "blog_posts": []
+      "blog_posts": [],
+      "stats": {
+        "tag_counts": {
+          "major_feature": 0,
+          "api_change": 0,
+          "feature": 0,
+          "efficiency": 0,
+          "enhancement": 0,
+          "fix": 6
+        },
+        "contributor_count": 176
+      }
     },
     {
       "version": "1.5.1",
@@ -302,7 +380,18 @@
           "reaction_count": null
         }
       ],
-      "blog_posts": []
+      "blog_posts": [],
+      "stats": {
+        "tag_counts": {
+          "major_feature": 0,
+          "api_change": 1,
+          "feature": 0,
+          "efficiency": 1,
+          "enhancement": 0,
+          "fix": 8
+        },
+        "contributor_count": 176
+      }
     },
     {
       "version": "1.5.0",
@@ -332,7 +421,18 @@
           "reaction_count": null
         }
       ],
-      "blog_posts": []
+      "blog_posts": [],
+      "stats": {
+        "tag_counts": {
+          "major_feature": 1,
+          "api_change": 15,
+          "feature": 14,
+          "efficiency": 6,
+          "enhancement": 17,
+          "fix": 22
+        },
+        "contributor_count": 176
+      }
     },
     {
       "version": "1.4.0",
@@ -369,7 +469,18 @@
           "date": "2024-02-26",
           "author": "Adrin Jalali"
         }
-      ]
+      ],
+      "stats": {
+        "tag_counts": {
+          "major_feature": 5,
+          "api_change": 15,
+          "feature": 14,
+          "efficiency": 14,
+          "enhancement": 22,
+          "fix": 36
+        },
+        "contributor_count": 165
+      }
     },
     {
       "version": "1.3.0",
@@ -399,7 +510,18 @@
           "reaction_count": null
         }
       ],
-      "blog_posts": []
+      "blog_posts": [],
+      "stats": {
+        "tag_counts": {
+          "major_feature": 5,
+          "api_change": 18,
+          "feature": 14,
+          "efficiency": 6,
+          "enhancement": 29,
+          "fix": 41
+        },
+        "contributor_count": 188
+      }
     },
     {
       "version": "1.2.0",
@@ -429,7 +551,18 @@
           "reaction_count": null
         }
       ],
-      "blog_posts": []
+      "blog_posts": [],
+      "stats": {
+        "tag_counts": {
+          "major_feature": 4,
+          "api_change": 15,
+          "feature": 15,
+          "efficiency": 6,
+          "enhancement": 38,
+          "fix": 32
+        },
+        "contributor_count": 332
+      }
     },
     {
       "version": "1.1.0",
@@ -459,7 +592,18 @@
           "reaction_count": null
         }
       ],
-      "blog_posts": []
+      "blog_posts": [],
+      "stats": {
+        "tag_counts": {
+          "major_feature": 3,
+          "api_change": 17,
+          "feature": 16,
+          "efficiency": 9,
+          "enhancement": 76,
+          "fix": 65
+        },
+        "contributor_count": 305
+      }
     },
     {
       "version": "1.0.0",
@@ -489,7 +633,18 @@
           "reaction_count": null
         }
       ],
-      "blog_posts": []
+      "blog_posts": [],
+      "stats": {
+        "tag_counts": {
+          "major_feature": 1,
+          "api_change": 34,
+          "feature": 17,
+          "efficiency": 9,
+          "enhancement": 25,
+          "fix": 64
+        },
+        "contributor_count": 279
+      }
     },
     {
       "version": "0.24.0",
@@ -519,7 +674,18 @@
           "reaction_count": null
         }
       ],
-      "blog_posts": []
+      "blog_posts": [],
+      "stats": {
+        "tag_counts": {
+          "major_feature": 3,
+          "api_change": 13,
+          "feature": 29,
+          "efficiency": 10,
+          "enhancement": 36,
+          "fix": 43
+        },
+        "contributor_count": 262
+      }
     },
     {
       "version": "0.23.0",
@@ -549,7 +715,18 @@
           "reaction_count": null
         }
       ],
-      "blog_posts": []
+      "blog_posts": [],
+      "stats": {
+        "tag_counts": {
+          "major_feature": 7,
+          "api_change": 17,
+          "feature": 10,
+          "efficiency": 10,
+          "enhancement": 22,
+          "fix": 55
+        },
+        "contributor_count": 189
+      }
     },
     {
       "version": "0.22.0",
@@ -579,7 +756,18 @@
           "reaction_count": null
         }
       ],
-      "blog_posts": []
+      "blog_posts": [],
+      "stats": {
+        "tag_counts": {
+          "major_feature": 7,
+          "api_change": 15,
+          "feature": 32,
+          "efficiency": 9,
+          "enhancement": 30,
+          "fix": 61
+        },
+        "contributor_count": 278
+      }
     }
   ]
 }
