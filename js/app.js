@@ -868,10 +868,24 @@ window.filterByTechnique = function(technique) {
    RELEASES RENDERING
    ═══════════════════════════════════════════════════════════ */
 
+function compareVersions(a, b) {
+  // 'future' always sorts first
+  if (a.version === 'future') return -1;
+  if (b.version === 'future') return 1;
+  const pa = a.version.split('.').map(Number);
+  const pb = b.version.split('.').map(Number);
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    const diff = (pb[i] || 0) - (pa[i] || 0);
+    if (diff !== 0) return diff;
+  }
+  return 0;
+}
+
 function renderReleasesAll() {
   const grid = document.getElementById('releases-grid');
   if (!releases?.releases || !grid) return;
-  grid.innerHTML = releases.releases.map(renderReleaseCard).join('');
+  const sorted = [...releases.releases].sort(compareVersions);
+  grid.innerHTML = sorted.map(renderReleaseCard).join('');
   renderReleasesBlogStrip();
 }
 
