@@ -703,40 +703,117 @@ function closeFeedbackModal() {
   document.body.style.overflow = '';
 }
 
-function handleFeedbackSubmit(e) {
-  e.preventDefault();
-  const type = e.target.querySelector('[name="type"]')?.value?.trim();
-  if (!type) return;
-  e.target.innerHTML = `<div style="text-align:center;padding:var(--space-8)">
-    <div style="font-size:2rem;margin-bottom:var(--space-4)">🙏</div>
-    <div style="font-family:var(--font-mono);font-size:var(--text-lg);font-weight:700;color:var(--probabl-blue)">Thank you!</div>
-    <p style="color:var(--neutral-600);margin-top:var(--space-3)">Your feedback has been received.</p>
-    <button class="btn btn--primary" style="margin-top:var(--space-6)" onclick="closeFeedbackModal()">Close</button>
+/* ── Form submission helpers ─────────────────────────────── */
+
+const WEBHOOK_URL = 'https://probabl.app.n8n.cloud/webhook/7a6c6cfb-0631-4f86-80bc-80f29691372b';
+
+/** Strip HTML tags and trim; cap at maxLen characters. */
+function sanitizeText(str, maxLen = 2000) {
+  if (typeof str !== 'string') return '';
+  return str.replace(/<[^>]*>/g, '').trim().slice(0, maxLen);
+}
+
+/** POST a JSON payload to the webhook. Throws on network or HTTP errors. */
+async function postToWebhook(payload) {
+  const r = await fetch(WEBHOOK_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+}
+
+/** Replace form body with a success message. */
+function showFormSuccess(form, emoji, heading, body, closeCallback) {
+  form.innerHTML = `<div style="text-align:center;padding:var(--space-8)">
+    <div style="font-size:2rem;margin-bottom:var(--space-4)">${emoji}</div>
+    <div style="font-family:var(--font-mono);font-size:var(--text-lg);font-weight:700;color:var(--probabl-blue)">${heading}</div>
+    <p style="color:var(--neutral-600);margin-top:var(--space-3)">${body}</p>
+    <button class="btn btn--primary" style="margin-top:var(--space-6)" onclick="${closeCallback}()">Close</button>
   </div>`;
 }
 
-function handleSubmit(e) {
-  e.preventDefault();
-  const name = e.target.querySelector('[name="name"]')?.value?.trim();
-  if (!name) return;
-  e.target.innerHTML = `<div style="text-align:center;padding:var(--space-8)">
-    <div style="font-size:2rem;margin-bottom:var(--space-4)">🎉</div>
-    <div style="font-family:var(--font-mono);font-size:var(--text-lg);font-weight:700;color:var(--probabl-blue)">Thank you!</div>
-    <p style="color:var(--neutral-600);margin-top:var(--space-3)">We received your submission for <strong>${name}</strong>.</p>
-    <button class="btn btn--primary" style="margin-top:var(--space-6)" onclick="closePackageModal()">Close</button>
-  </div>`;
+/** Show an inline error notice at the bottom of the form and re-enable the submit button. */
+function showFormError(form, submitBtn) {
+  submitBtn.disabled = false;
+  submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit';
+  let errEl = form.querySelector('.form-submit-error');
+  if (!errEl) {
+    errEl = document.createElement('p');
+    errEl.className = 'form-submit-error';
+    errEl.style.cssText = 'color:#c2640a;font-size:var(--text-sm);margin-top:var(--space-3);text-align:center';
+    form.querySelector('.modal__footer')?.before(errEl);
+  }
+  errEl.textContent = 'Something went wrong. Please try again.';
 }
 
-function handleUcSubmit(e) {
+/** Set submit button to a loading state. */
+function setSubmitting(btn) {
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+}
+
+/* ── Form handlers ───────────────────────────────────────── */
+
+async function handleFeedbackSubmit(e) {
   e.preventDefault();
-  const title = e.target.querySelector('[name="title"]')?.value?.trim();
-  if (!title) return;
-  e.target.innerHTML = `<div style="text-align:center;padding:var(--space-8)">
-    <div style="font-size:2rem;margin-bottom:var(--space-4)">🎉</div>
-    <div style="font-family:var(--font-mono);font-size:var(--text-lg);font-weight:700;color:var(--probabl-blue)">Thank you!</div>
-    <p style="color:var(--neutral-600);margin-top:var(--space-3)">We received your use case: <strong>${title}</strong>.</p>
-    <button class="btn btn--primary" style="margin-top:var(--space-6)" onclick="closeUcModal()">Close</button>
-  </div>`;
+  const form      = e.target;
+  const submitBtn = form.querySelector('[type="submit"]');
+  const type    = sanitizeText(form.querySelector('[name="type"]')?.value);
+  const message = sanitizeText(form.querySelector('[name="message"]')?.value);
+  if (!type || !message) return;
+
+  setSubmitting(submitBtn);
+  try {
+    await postToWebhook({ form_name: 'feedback', type, message });
+    showFormSuccess(form, '🙏', 'Thank you!', 'Your feedback has been received.', 'closeFeedbackModal');
+  } catch (_) {
+    showFormError(form, submitBtn);
+  }
+}
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  const form      = e.target;
+  const submitBtn = form.querySelector('[type="submit"]');
+  const name        = sanitizeText(form.querySelector('[name="name"]')?.value);
+  const pypi_name   = sanitizeText(form.querySelector('[name="pypi_name"]')?.value);
+  const repository  = sanitizeText(form.querySelector('[name="repository"]')?.value);
+  const description = sanitizeText(form.querySelector('[name="description"]')?.value);
+  if (!name || !pypi_name || !repository) return;
+
+  setSubmitting(submitBtn);
+  try {
+    await postToWebhook({ form_name: 'submit_package', name, pypi_name, repository, description });
+    showFormSuccess(form, '🎉', 'Thank you!',
+      `We received your submission for <strong>${name}</strong>.`,
+      'closePackageModal');
+  } catch (_) {
+    showFormError(form, submitBtn);
+  }
+}
+
+async function handleUcSubmit(e) {
+  e.preventDefault();
+  const form      = e.target;
+  const submitBtn = form.querySelector('[type="submit"]');
+  const title       = sanitizeText(form.querySelector('[name="title"]')?.value);
+  const industry    = sanitizeText(form.querySelector('[name="industry"]')?.value);
+  const technique   = sanitizeText(form.querySelector('[name="technique"]')?.value);
+  const packages    = sanitizeText(form.querySelector('[name="packages"]')?.value);
+  const synopsis    = sanitizeText(form.querySelector('[name="synopsis"]')?.value);
+  const sample_code = sanitizeText(form.querySelector('[name="sample_code"]')?.value, 10000);
+  if (!title || !industry || !technique || !packages || !synopsis) return;
+
+  setSubmitting(submitBtn);
+  try {
+    await postToWebhook({ form_name: 'submit_use_case', title, industry, technique, packages, synopsis, sample_code });
+    showFormSuccess(form, '🎉', 'Thank you!',
+      `We received your use case: <strong>${title}</strong>.`,
+      'closeUcModal');
+  } catch (_) {
+    showFormError(form, submitBtn);
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════
