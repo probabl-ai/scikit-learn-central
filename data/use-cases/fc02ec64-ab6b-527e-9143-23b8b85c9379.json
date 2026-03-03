@@ -13,10 +13,7 @@
     "classification"
   ],
   "packages": [
-    "scikit-learn",
-    "imbalanced-learn",
-    "xgboost",
-    "shap"
+    "scikit-learn"
   ],
   "difficulty": "intermediate",
   "archived": false,
