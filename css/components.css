@@ -1082,6 +1082,26 @@
   margin-top: var(--space-6);
 }
 
+/* Cancel buttons inside the footer share the modal__close class for JS
+   binding, but must not inherit the absolute-position rule. */
+.modal__footer .modal__close {
+  position: static;
+}
+
+/* btn--ghost is designed for dark backgrounds (header); inside a light modal
+   override it to look appropriate on a white surface. */
+.modal .btn--ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: var(--border-default);
+}
+
+.modal .btn--ghost:hover {
+  background: var(--neutral-100, #f4f4f5);
+  color: var(--text-primary);
+  transform: none;
+}
+
 .form-checkboxes {
   display: flex;
   flex-direction: column;
