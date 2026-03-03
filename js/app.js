@@ -16,6 +16,7 @@
 /* ── State ──────────────────────────────────────────────── */
 let catalog  = null;
 let useCases = null;
+let releases = null;
 
 const state = {
   view: 'catalog',
@@ -27,14 +28,16 @@ const state = {
 
 /* ── Bootstrap ──────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', async () => {
-  const [catalogData, ucData, statsData] = await Promise.all([
+  const [catalogData, ucData, statsData, releasesData] = await Promise.all([
     loadCatalog(),
     loadUseCases(),
     fetchJSON('data/stats.json'),
+    fetchJSON('data/releases/scikit-learn.json'),
   ]);
 
   catalog  = catalogData;
   useCases = ucData;
+  releases = releasesData;
 
   if (!catalog) { showCatalogError(); return; }
 
@@ -46,6 +49,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   setTabCount('catalog',   catalog.packages.length);
   if (useCases) setTabCount('use-cases', useCases.use_cases.length);
+  if (releases) setTabCount('releases', releases.releases.filter(r => r.version !== 'future').length);
 
   populateCatalogCounts();
   if (useCases) populateUcCounts();
@@ -53,6 +57,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderCatalogHero();
   renderCatalogAll();
   if (useCases) renderUcAll();
+  if (releases) renderReleasesAll();
 
   bindEvents();
 });
@@ -194,13 +199,14 @@ function switchView(view) {
   document.getElementById('uc-filter-bar').style.display      = view === 'use-cases'  ? '' : 'none';
 
   // Content views
+  document.getElementById('view-releases').style.display   = view === 'releases'   ? '' : 'none';
   document.getElementById('view-catalog').style.display    = view === 'catalog'    ? '' : 'none';
   document.getElementById('view-use-cases').style.display  = view === 'use-cases'  ? '' : 'none';
   document.getElementById('view-about').style.display      = view === 'about'      ? '' : 'none';
 
   // Context-aware submit button
   const label = document.getElementById('btn-submit-label');
-  const labelMap = { catalog: 'Submit Package', 'use-cases': 'Submit Use Case', about: 'Submit Feedback' };
+  const labelMap = { releases: 'Contribute', catalog: 'Submit Package', 'use-cases': 'Submit Use Case', about: 'Submit Feedback' };
   if (label) label.textContent = labelMap[view] || 'Submit Package';
 }
 
@@ -859,6 +865,115 @@ window.filterByTechnique = function(technique) {
 };
 
 /* ═══════════════════════════════════════════════════════════
+   RELEASES RENDERING
+   ═══════════════════════════════════════════════════════════ */
+
+function renderReleasesAll() {
+  const grid = document.getElementById('releases-grid');
+  if (!releases?.releases || !grid) return;
+  grid.innerHTML = releases.releases.map(renderReleaseCard).join('');
+  renderReleasesBlogStrip();
+}
+
+function renderReleaseCard(rel) {
+  const isFuture   = rel.version === 'future';
+  const versionLabel = isFuture ? 'FUTURE RELEASE' : `v${rel.version}`;
+  const dateLabel    = rel.date
+    ? new Date(rel.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+    : 'Upcoming';
+
+  const versionEl = rel.github_url
+    ? `<a href="${rel.github_url}" target="_blank" rel="noopener" class="release-card__version-link">${versionLabel}</a>`
+    : `<span class="release-card__version-link">${versionLabel}</span>`;
+
+  const highlights = (rel.highlights || []).map(h => {
+    // h can be { text, github_issue_url, reaction_count } or a plain string (legacy)
+    const text     = typeof h === 'string' ? h : h.text;
+    const issueUrl = typeof h === 'object' ? h.github_issue_url : null;
+    const count    = typeof h === 'object' ? h.reaction_count   : null;
+
+    let voteHtml = '';
+    if (issueUrl) {
+      const countStr = count != null ? fmt(count) : '';
+      voteHtml = `<a href="${issueUrl}" target="_blank" rel="noopener"
+                     class="release-highlight__vote" title="Vote on GitHub (👍 this issue)">
+                    <i class="fas fa-thumbs-up"></i>${countStr ? `<span>${countStr}</span>` : ''}
+                  </a>`;
+    }
+    return `<li class="release-highlight">${text}${voteHtml}</li>`;
+  }).join('');
+
+  const releaseNotesBtn = rel.release_notes_url
+    ? `<a href="${rel.release_notes_url}" target="_blank" rel="noopener"
+          class="btn btn--sm ${isFuture ? 'btn--outline-white' : 'btn--outline-blue'}">
+         RELEASE NOTES
+       </a>`
+    : '';
+
+  const ctaBtn = isFuture
+    ? `<a href="https://github.com/scikit-learn/scikit-learn/contribute"
+          target="_blank" rel="noopener" class="btn btn--sm btn--cta">CONTRIBUTE</a>`
+    : `<a href="https://probabl.ai/support?utm_source=skl-central&utm_campaign=get_scikit-learn_support_v${rel.version}"
+          target="_blank" rel="noopener" class="btn btn--sm btn--cta">GET SUPPORT</a>`;
+
+  const blogLinks = rel.blog_posts?.length
+    ? `<div class="release-card__blog-posts">
+        ${rel.blog_posts.map(bp =>
+          `<a href="${bp.url}" target="_blank" rel="noopener" class="release-card__blog-link">
+             <i class="fas fa-newspaper"></i> ${bp.title}
+           </a>`
+        ).join('')}
+       </div>`
+    : '';
+
+  return `
+    <article class="release-card ${isFuture ? 'release-card--future' : ''}">
+      <div class="release-card__header">
+        <div class="release-card__version">${versionEl}</div>
+        <div class="release-card__date">${dateLabel}</div>
+      </div>
+      <ul class="release-card__highlights">${highlights}</ul>
+      ${blogLinks}
+      <div class="release-card__actions">
+        ${releaseNotesBtn}
+        ${ctaBtn}
+      </div>
+    </article>`;
+}
+
+function renderReleasesBlogStrip() {
+  const el = document.getElementById('releases-blog-strip');
+  if (!el) return;
+
+  // Collect unique blog posts across all releases (deduplicated by URL)
+  const seen  = new Set();
+  const posts = [];
+  releases.releases.forEach(r => {
+    (r.blog_posts || []).forEach(bp => {
+      if (!seen.has(bp.url)) { seen.add(bp.url); posts.push(bp); }
+    });
+  });
+  if (!posts.length) { el.innerHTML = ''; return; }
+
+  el.innerHTML = `
+    <div class="releases-blog-strip">
+      <span class="releases-blog-strip__label"><i class="fas fa-rss"></i> From our blog</span>
+      ${posts.map(bp => {
+        const d = new Date(bp.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+        return `<a href="${bp.url}" target="_blank" rel="noopener" class="releases-blog-strip__item">
+                  <span class="releases-blog-strip__title">${bp.title}</span>
+                  <span class="releases-blog-strip__meta">${bp.author} · ${d}</span>
+                </a>`;
+      }).join('')}
+      <div class="releases-blog-strip__spacer"></div>
+      <a href="https://blog.probabl.ai/tag/scikit-learn" target="_blank" rel="noopener"
+         class="releases-blog-strip__more">probabl.ai blog →</a>
+      <a href="https://blog.scikit-learn.org" target="_blank" rel="noopener"
+         class="releases-blog-strip__more">sklearn blog →</a>
+    </div>`;
+}
+
+/* ═══════════════════════════════════════════════════════════
    EVENT BINDING
    ═══════════════════════════════════════════════════════════ */
 
@@ -946,7 +1061,8 @@ function bindEvents() {
 
   // ── Context-aware submit button ───────────────────────── //
   document.getElementById('btn-submit')?.addEventListener('click', () => {
-    if (state.view === 'catalog') openPackageModal();
+    if (state.view === 'releases')   window.open('https://github.com/scikit-learn/scikit-learn/contribute', '_blank');
+    else if (state.view === 'catalog') openPackageModal();
     else if (state.view === 'use-cases') openUcModal();
     else openFeedbackModal();
   });

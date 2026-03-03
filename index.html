@@ -72,6 +72,10 @@
        VIEW TABS
        ═══════════════════════════════════════════════════════ -->
   <nav class="view-tabs" role="tablist">
+    <button class="view-tab" data-view="releases" role="tab">
+      <i class="fas fa-tag"></i> Releases
+      <span class="view-tab__count">—</span>
+    </button>
     <button class="view-tab is-active" data-view="catalog" role="tab">
       <i class="fas fa-cubes"></i> Ecosystem Catalog
       <span class="view-tab__count">—</span>
@@ -316,6 +320,18 @@
     <div id="uc-active-filters" class="chips-bar" aria-label="Active use-case filters"></div>
 
   </div><!-- /uc-filter-bar -->
+
+  <!-- ═══════════════════════════════════════════════════════
+       RELEASES VIEW
+       ═══════════════════════════════════════════════════════ -->
+  <div id="view-releases" class="view" role="tabpanel" aria-label="Scikit-learn Releases" style="display:none">
+    <div class="page-content">
+      <div id="releases-blog-strip"></div>
+      <div id="releases-grid" class="releases-grid">
+        <div class="state-loading"><div class="spinner"></div><span>Loading releases…</span></div>
+      </div>
+    </div>
+  </div>
 
   <!-- ═══════════════════════════════════════════════════════
        CATALOG VIEW

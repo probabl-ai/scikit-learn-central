@@ -1,0 +1,207 @@
+{
+  "meta": {
+    "version": "1.0",
+    "updated": "2026-03-03",
+    "note": "Release dates should be verified against https://github.com/scikit-learn/scikit-learn/releases. Reaction counts are baked in by scripts/update_release_reactions.py"
+  },
+  "releases": [
+    {
+      "version": "future",
+      "label": "Upcoming",
+      "date": null,
+      "github_url": null,
+      "release_notes_url": null,
+      "highlights": [
+        { "text": "Array API adoption expansion across more estimators", "github_issue_url": "https://github.com/scikit-learn/scikit-learn/issues/22352", "reaction_count": null },
+        { "text": "Callbacks API (SLEP023) for training monitoring", "github_issue_url": "https://github.com/scikit-learn/enhancement_proposals/pull/79", "reaction_count": null },
+        { "text": "Model inspection visualizations and displays", "github_issue_url": null, "reaction_count": null },
+        { "text": "Statistical correctness and sample weight handling", "github_issue_url": null, "reaction_count": null },
+        { "text": "Histogram gradient-boosting performance improvements", "github_issue_url": null, "reaction_count": null },
+        { "text": "Metadata routing visualization tools", "github_issue_url": null, "reaction_count": null },
+        { "text": "Python 3.13 free-threaded compatibility", "github_issue_url": "https://github.com/scikit-learn/scikit-learn/issues/29746", "reaction_count": null }
+      ],
+      "blog_posts": [
+        {
+          "title": "Scikit-learn's Priorities at Probabl",
+          "url": "https://blog.probabl.ai/scikit-learns-priorities-at-probabl",
+          "date": "2024-02-26",
+          "author": "Adrin Jalali"
+        },
+        {
+          "title": "Open Source Priorities – Chapter 2",
+          "url": "https://blog.probabl.ai/open-source-priorities-chapter-2",
+          "date": "2024-11-27",
+          "author": "Guillaume Lemaitre"
+        }
+      ]
+    },
+    {
+      "version": "1.6.1",
+      "label": "Released",
+      "date": "2025-01-09",
+      "github_url": "https://github.com/scikit-learn/scikit-learn/releases/tag/1.6.1",
+      "release_notes_url": "https://scikit-learn.org/stable/auto_examples/release_highlights/plot_release_highlights_1_6_0.html",
+      "highlights": [
+        { "text": "Bug fixes and stability improvements for 1.6.x", "github_issue_url": null, "reaction_count": null },
+        { "text": "Compatibility fixes for Python 3.13", "github_issue_url": null, "reaction_count": null },
+        { "text": "Documentation and example corrections", "github_issue_url": null, "reaction_count": null }
+      ],
+      "blog_posts": []
+    },
+    {
+      "version": "1.6.0",
+      "label": "Released",
+      "date": "2024-11-21",
+      "github_url": "https://github.com/scikit-learn/scikit-learn/releases/tag/1.6.0",
+      "release_notes_url": "https://scikit-learn.org/stable/auto_examples/release_highlights/plot_release_highlights_1_6_0.html",
+      "highlights": [
+        { "text": "Free-threaded Python 3.13 experimental support", "github_issue_url": null, "reaction_count": null },
+        { "text": "New FrozenEstimator to wrap a fitted estimator and prevent re-fitting", "github_issue_url": null, "reaction_count": null },
+        { "text": "New LinearDiscriminantAnalysis solver based on eigendecomposition", "github_issue_url": null, "reaction_count": null },
+        { "text": "Improved metadata routing support in more estimators", "github_issue_url": null, "reaction_count": null },
+        { "text": "Expanded Array API support across estimators", "github_issue_url": null, "reaction_count": null }
+      ],
+      "blog_posts": [
+        {
+          "title": "Open Source Priorities – Chapter 2",
+          "url": "https://blog.probabl.ai/open-source-priorities-chapter-2",
+          "date": "2024-11-27",
+          "author": "Guillaume Lemaitre"
+        }
+      ]
+    },
+    {
+      "version": "1.5.0",
+      "label": "Released",
+      "date": "2024-05-02",
+      "github_url": "https://github.com/scikit-learn/scikit-learn/releases/tag/1.5.0",
+      "release_notes_url": "https://scikit-learn.org/stable/auto_examples/release_highlights/plot_release_highlights_1_5_0.html",
+      "highlights": [
+        { "text": "New FixedThresholdClassifier for single-threshold post-hoc tuning", "github_issue_url": null, "reaction_count": null },
+        { "text": "New TunedThresholdClassifierCV for cross-validated threshold tuning", "github_issue_url": null, "reaction_count": null },
+        { "text": "Improved set_output API for pandas and polars outputs", "github_issue_url": null, "reaction_count": null },
+        { "text": "New HalvingRandomSearchCV sample-budget parameter", "github_issue_url": null, "reaction_count": null }
+      ],
+      "blog_posts": []
+    },
+    {
+      "version": "1.4.0",
+      "label": "Released",
+      "date": "2024-01-08",
+      "github_url": "https://github.com/scikit-learn/scikit-learn/releases/tag/1.4.0",
+      "release_notes_url": "https://scikit-learn.org/stable/auto_examples/release_highlights/plot_release_highlights_1_4_0.html",
+      "highlights": [
+        { "text": "polars DataFrame support via set_output API", "github_issue_url": null, "reaction_count": null },
+        { "text": "Improved feature names propagation in pipelines", "github_issue_url": null, "reaction_count": null },
+        { "text": "New interaction_cst parameter in HistGradientBoosting", "github_issue_url": null, "reaction_count": null },
+        { "text": "Metadata routing prototype (SLEP006)", "github_issue_url": null, "reaction_count": null }
+      ],
+      "blog_posts": [
+        {
+          "title": "Scikit-learn's Priorities at Probabl",
+          "url": "https://blog.probabl.ai/scikit-learns-priorities-at-probabl",
+          "date": "2024-02-26",
+          "author": "Adrin Jalali"
+        }
+      ]
+    },
+    {
+      "version": "1.3.0",
+      "label": "Released",
+      "date": "2023-06-29",
+      "github_url": "https://github.com/scikit-learn/scikit-learn/releases/tag/1.3.0",
+      "release_notes_url": "https://scikit-learn.org/stable/auto_examples/release_highlights/plot_release_highlights_1_3_0.html",
+      "highlights": [
+        { "text": "New TargetEncoder for high-cardinality categorical features", "github_issue_url": null, "reaction_count": null },
+        { "text": "Metadata routing infrastructure prototype", "github_issue_url": null, "reaction_count": null },
+        { "text": "Revised and expanded user guide", "github_issue_url": null, "reaction_count": null },
+        { "text": "New CalibratedClassifierCV improvements", "github_issue_url": null, "reaction_count": null }
+      ],
+      "blog_posts": []
+    },
+    {
+      "version": "1.2.0",
+      "label": "Released",
+      "date": "2022-12-08",
+      "github_url": "https://github.com/scikit-learn/scikit-learn/releases/tag/1.2.0",
+      "release_notes_url": "https://scikit-learn.org/stable/auto_examples/release_highlights/plot_release_highlights_1_2_0.html",
+      "highlights": [
+        { "text": "Interaction constraints for HistGradientBoosting", "github_issue_url": null, "reaction_count": null },
+        { "text": "Pandas output via set_output API", "github_issue_url": null, "reaction_count": null },
+        { "text": "New SplineTransformer for non-linear feature engineering", "github_issue_url": null, "reaction_count": null },
+        { "text": "Improved SVM performance on large datasets", "github_issue_url": null, "reaction_count": null }
+      ],
+      "blog_posts": []
+    },
+    {
+      "version": "1.1.0",
+      "label": "Released",
+      "date": "2022-05-12",
+      "github_url": "https://github.com/scikit-learn/scikit-learn/releases/tag/1.1.0",
+      "release_notes_url": "https://scikit-learn.org/stable/auto_examples/release_highlights/plot_release_highlights_1_1_0.html",
+      "highlights": [
+        { "text": "New SequentialFeatureSelector with cross-validation", "github_issue_url": null, "reaction_count": null },
+        { "text": "Improved KMeans++ initialization speed", "github_issue_url": null, "reaction_count": null },
+        { "text": "Quantile regression in GradientBoostingRegressor", "github_issue_url": null, "reaction_count": null },
+        { "text": "New class_weight support in ColumnTransformer", "github_issue_url": null, "reaction_count": null }
+      ],
+      "blog_posts": []
+    },
+    {
+      "version": "1.0.0",
+      "label": "Released",
+      "date": "2021-09-24",
+      "github_url": "https://github.com/scikit-learn/scikit-learn/releases/tag/1.0",
+      "release_notes_url": "https://scikit-learn.org/stable/auto_examples/release_highlights/plot_release_highlights_1_0_0.html",
+      "highlights": [
+        { "text": "Keyword-only arguments enforced throughout the API", "github_issue_url": null, "reaction_count": null },
+        { "text": "Feature names now propagated through pipelines", "github_issue_url": null, "reaction_count": null },
+        { "text": "HistGradientBoosting supports monotonic constraints", "github_issue_url": null, "reaction_count": null },
+        { "text": "New Poisson, Gamma, and Tweedie losses in HistGradientBoosting", "github_issue_url": null, "reaction_count": null }
+      ],
+      "blog_posts": []
+    },
+    {
+      "version": "0.24.0",
+      "label": "Released",
+      "date": "2020-12-22",
+      "github_url": "https://github.com/scikit-learn/scikit-learn/releases/tag/0.24.0",
+      "release_notes_url": "https://scikit-learn.org/stable/auto_examples/release_highlights/plot_release_highlights_0_24_0.html",
+      "highlights": [
+        { "text": "New SequentialFeatureSelector (forward/backward)", "github_issue_url": null, "reaction_count": null },
+        { "text": "Successive Halving hyperparameter search (experimental)", "github_issue_url": null, "reaction_count": null },
+        { "text": "New SelfTrainingClassifier for semi-supervised learning", "github_issue_url": null, "reaction_count": null },
+        { "text": "Improved OneHotEncoder with handle_unknown='infrequent_if_exist'", "github_issue_url": null, "reaction_count": null }
+      ],
+      "blog_posts": []
+    },
+    {
+      "version": "0.23.0",
+      "label": "Released",
+      "date": "2020-05-12",
+      "github_url": "https://github.com/scikit-learn/scikit-learn/releases/tag/0.23.0",
+      "release_notes_url": "https://scikit-learn.org/stable/auto_examples/release_highlights/plot_release_highlights_0_23_0.html",
+      "highlights": [
+        { "text": "New Generalized Linear Models (Poisson, Gamma, Tweedie regressors)", "github_issue_url": null, "reaction_count": null },
+        { "text": "HistGradientBoosting native categorical feature support (experimental)", "github_issue_url": null, "reaction_count": null },
+        { "text": "Improved KNNImputer with weighted imputation", "github_issue_url": null, "reaction_count": null },
+        { "text": "New OrdinalEncoder handle_unknown parameter", "github_issue_url": null, "reaction_count": null }
+      ],
+      "blog_posts": []
+    },
+    {
+      "version": "0.22.0",
+      "label": "Released",
+      "date": "2019-12-03",
+      "github_url": "https://github.com/scikit-learn/scikit-learn/releases/tag/0.22.0",
+      "release_notes_url": "https://scikit-learn.org/stable/auto_examples/release_highlights/plot_release_highlights_0_22_0.html",
+      "highlights": [
+        { "text": "New plot_* visualization functions (ROC, precision-recall, confusion matrix)", "github_issue_url": null, "reaction_count": null },
+        { "text": "New StackingClassifier and StackingRegressor", "github_issue_url": null, "reaction_count": null },
+        { "text": "Permutation-based feature importance in all estimators", "github_issue_url": null, "reaction_count": null },
+        { "text": "Improved ROC AUC score for multiclass problems", "github_issue_url": null, "reaction_count": null }
+      ],
+      "blog_posts": []
+    }
+  ]
+}

@@ -2227,3 +2227,348 @@
   color: var(--probabl-orange);
 }
 
+/* ═══════════════════════════════════════════════════════════
+   RELEASES TAB
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Blog strip ─────────────────────────────────────────── */
+.releases-blog-strip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-5);
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.releases-blog-strip__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  margin-right: var(--space-1);
+}
+
+.releases-blog-strip__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-decoration: none;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.releases-blog-strip__item:hover {
+  border-color: var(--probabl-blue);
+  box-shadow: 0 2px 8px rgba(30,34,170,.08);
+}
+
+.releases-blog-strip__title {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.releases-blog-strip__meta {
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+}
+
+.releases-blog-strip__spacer {
+  flex: 1;
+}
+
+.releases-blog-strip__more {
+  font-size: var(--text-xs);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--probabl-blue);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: var(--space-1) 0;
+}
+
+.releases-blog-strip__more:hover {
+  text-decoration: underline;
+}
+
+/* ── Releases grid — 3 fixed columns ────────────────────── */
+.releases-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+}
+
+@media (max-width: 1024px) {
+  .releases-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .releases-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Base release card — mirrors .card ──────────────────── */
+.release-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border-subtle);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+
+.release-card:hover {
+  border-color: var(--probabl-blue);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ── Future card — blue, mirrors .sklearn-hero ──────────── */
+.release-card--future {
+  background: var(--probabl-blue);
+  border-color: var(--probabl-blue);
+}
+
+.release-card--future:hover {
+  border-color: var(--probabl-orange);
+  box-shadow: 0 8px 32px rgba(30,34,170,.35);
+}
+
+/* ── Card header: version left, date right ──────────────── */
+.release-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.release-card__version-link {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  color: var(--probabl-blue);
+}
+
+.release-card--future .release-card__version-link {
+  color: var(--probabl-orange);
+}
+
+a.release-card__version-link:hover {
+  text-decoration: underline;
+}
+
+.release-card__date {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+  white-space: nowrap;
+  padding-top: 2px;
+}
+
+.release-card--future .release-card__date {
+  color: rgba(255,255,255,0.55);
+}
+
+/* ── Highlights list ────────────────────────────────────── */
+.release-card__highlights {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1;
+}
+
+.release-highlight {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  padding-left: var(--space-4);
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.release-highlight::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--probabl-blue);
+  font-size: 0.6em;
+  top: 0.3em;
+}
+
+.release-card--future .release-highlight {
+  color: rgba(255,255,255,0.85);
+}
+
+.release-card--future .release-highlight::before {
+  color: var(--probabl-orange);
+}
+
+/* ── Vote / reaction icon ───────────────────────────────── */
+.release-highlight__vote {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: auto;
+  flex-shrink: 0;
+  font-size: var(--text-xs);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--neutral-400);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+
+.release-highlight__vote:hover {
+  color: var(--probabl-blue);
+  border-color: var(--probabl-blue);
+  background: var(--blue-050);
+}
+
+.release-card--future .release-highlight__vote {
+  color: rgba(255,255,255,0.45);
+  border-color: rgba(255,255,255,0.2);
+  background: transparent;
+}
+
+.release-card--future .release-highlight__vote:hover {
+  color: white;
+  border-color: var(--probabl-orange);
+  background: rgba(246,141,46,.15);
+}
+
+/* ── Blog post links inside card ────────────────────────── */
+.release-card__blog-posts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  border-top: 1px solid rgba(255,255,255,.15);
+  padding-top: var(--space-2);
+  margin-top: var(--space-1);
+}
+
+.release-card:not(.release-card--future) .release-card__blog-posts {
+  border-top-color: var(--border-subtle);
+}
+
+.release-card__blog-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  text-decoration: none;
+  color: rgba(255,255,255,0.65);
+  transition: color 0.15s;
+}
+
+.release-card--future .release-card__blog-link:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.release-card:not(.release-card--future) .release-card__blog-link {
+  color: var(--probabl-blue);
+}
+
+.release-card:not(.release-card--future) .release-card__blog-link:hover {
+  text-decoration: underline;
+}
+
+/* ── Action buttons row ─────────────────────────────────── */
+.release-card__actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: var(--space-2);
+}
+
+/* Outline style for white-card releases */
+.btn--outline-blue {
+  background: transparent;
+  border: 1.5px solid var(--probabl-blue);
+  color: var(--probabl-blue);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn--outline-blue:hover {
+  background: var(--probabl-blue);
+  color: white;
+}
+
+/* Outline style for blue (future) cards */
+.btn--outline-white {
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,0.4);
+  color: white;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn--outline-white:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: white;
+}
+
+/* Orange CTA — used on both card types */
+.btn--cta {
+  background: var(--probabl-orange);
+  color: var(--probabl-blue);
+  border: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+
+.btn--cta:hover {
+  opacity: 0.88;
+}
