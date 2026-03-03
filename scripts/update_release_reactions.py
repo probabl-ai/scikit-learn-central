@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 """
-Fetch GitHub reaction counts (👍) for release highlights that have a github_issue_url.
-Updates reaction_count in-place in data/releases/scikit-learn.json.
+Update release dates and reaction counts in data/releases/scikit-learn.json.
 
-The script supports both issues and pull requests from any public GitHub repository
-(useful for SLEPs which live in scikit-learn/enhancement_proposals).
+Step 1 — Dates: fetches published_at from the GitHub Releases API and overwrites
+         the date field for every non-future release.  This is the authoritative
+         source and removes the need to manually maintain dates in the JSON.
+
+Step 2 — Reactions: fetches the 👍 reaction count for every highlight that has a
+         github_issue_url (supports issues and pull requests, including SLEPs in
+         scikit-learn/enhancement_proposals).
 
 Usage:
   python3 scripts/update_release_reactions.py          # uses GITHUB_TOKEN env var if set
@@ -59,6 +63,37 @@ def fetch_json(url, token=None, _retries=4, _backoff=5):
 
 
 # ---------------------------------------------------------------------------
+# Date fetching
+# ---------------------------------------------------------------------------
+
+def fetch_release_dates(token=None):
+    """
+    Fetch all scikit-learn release dates from the GitHub Releases API.
+    Returns a dict mapping version string → "YYYY-MM-DD".
+    Handles both "1.8.0" and "v1.8.0" tag formats.
+    """
+    dates = {}
+    page = 1
+    while True:
+        url = (
+            "https://api.github.com/repos/scikit-learn/scikit-learn/releases"
+            f"?per_page=100&page={page}"
+        )
+        data = fetch_json(url, token=token)
+        if not data:
+            break
+        for release in data:
+            tag = release.get("tag_name", "").lstrip("v")
+            published = release.get("published_at", "")
+            if tag and published:
+                dates[tag] = published[:10]   # "YYYY-MM-DD"
+        if len(data) < 100:
+            break
+        page += 1
+    return dates
+
+
+# ---------------------------------------------------------------------------
 # Reaction fetching
 # ---------------------------------------------------------------------------
 
@@ -100,8 +135,36 @@ def main():
         print("⚠  No GITHUB_TOKEN found — GitHub API limited to 60 req/hour\n")
 
     releases_data = json.loads(RELEASES_PATH.read_text())
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    updated = 0
+    # ── Step 1: sync release dates from GitHub Releases API ─────────────────
+    print("── Step 1: fetching release dates ──────────────────────────────")
+    release_dates = fetch_release_dates(token=token)
+    print(f"  found {len(release_dates)} releases on GitHub")
+
+    dates_updated = 0
+    for rel in releases_data["releases"]:
+        version = rel.get("version")
+        if version == "future":
+            continue
+        if version in release_dates:
+            new_date = release_dates[version]
+            old_date = rel.get("date")
+            if old_date != new_date:
+                print(f"  [{version}] {old_date} → {new_date}  ✎")
+                rel["date"] = new_date
+                dates_updated += 1
+            else:
+                print(f"  [{version}] {new_date}  (unchanged)")
+        else:
+            print(f"  [{version}] ✗ not found in GitHub releases — date unchanged")
+
+    releases_data["meta"]["dates_updated_at"] = now
+    print(f"  {dates_updated} date(s) updated\n")
+
+    # ── Step 2: fetch reaction counts ────────────────────────────────────────
+    print("── Step 2: fetching reaction counts ────────────────────────────")
+    reactions_updated = 0
     skipped = 0
 
     for rel in releases_data["releases"]:
@@ -118,19 +181,22 @@ def main():
             if count is not None:
                 h["reaction_count"] = count
                 print(f"           👍 {count}")
-                updated += 1
+                reactions_updated += 1
             else:
                 h["reaction_count"] = None
                 print(f"           ✗ could not fetch")
 
             time.sleep(0.25)   # stay well inside rate limits
 
-    releases_data["meta"]["reactions_updated_at"] = (
-        datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    )
+    releases_data["meta"]["reactions_updated_at"] = now
 
     RELEASES_PATH.write_text(json.dumps(releases_data, indent=2) + "\n")
-    print(f"\n✓  {RELEASES_PATH} updated — {updated} counts fetched, {skipped} highlights without issue URL")
+    print(
+        f"\n✓  {RELEASES_PATH} updated — "
+        f"{dates_updated} date(s) synced, "
+        f"{reactions_updated} reaction count(s) fetched, "
+        f"{skipped} highlight(s) without issue URL"
+    )
 
 
 if __name__ == "__main__":
