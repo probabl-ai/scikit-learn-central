@@ -2,7 +2,7 @@
   "uuid": "5fa7feba-7b07-51c5-a9e7-67fa09e0408c",
   "slug": "real-estate-valuation",
   "title": "Real Estate Price Estimation",
-  "synopsis": "Estimate real estate property values using machine learning on property features and market data. Accurate price predictions support property valuation, market analysis, and investment decisions.",
+  "synopsis": "Estimate real estate property values using machine learning. Accurate price predictions support property valuation, market analysis, and investment decisions.",
   "industry": [
     "real-estate"
   ],
@@ -12,10 +12,7 @@
   ],
   "packages": [
     "scikit-learn",
-    "skrub",
-    "xgboost",
-    "shap",
-    "yellowbrick"
+    "skrub"
   ],
   "difficulty": "beginner",
   "archived": false,
