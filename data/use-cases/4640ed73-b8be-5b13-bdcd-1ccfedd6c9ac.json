@@ -15,7 +15,7 @@
   ],
   "packages": [
     "scikit-learn",
-    "mlxtend"
+    "skrub"
   ],
   "difficulty": "beginner",
   "archived": false,
