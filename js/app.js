@@ -936,8 +936,8 @@ function renderReleaseStats(rel) {
     : '';
 
   return `<div class="release-card__stats">
-      ${bar}
       <div class="release-stats-pills">${tagPills}${contribPill}</div>
+      ${bar}
     </div>`;
 }
 
@@ -982,15 +982,15 @@ function renderReleaseCard(rel) {
     : `<a href="https://probabl.ai/support?utm_source=skl-central&utm_campaign=get_scikit-learn_support_v${rel.version}"
           target="_blank" rel="noopener" class="btn btn--sm btn--cta">GET SUPPORT</a>`;
 
-  const blogLinks = rel.blog_posts?.length
-    ? `<div class="release-card__blog-posts">
-        ${rel.blog_posts.map(bp =>
-          `<a href="${bp.url}" target="_blank" rel="noopener" class="release-card__blog-link">
-             <i class="fas fa-newspaper"></i> ${bp.title}
-           </a>`
-        ).join('')}
-       </div>`
-    : '';
+  const blogBtns = (rel.blog_posts || []).map(bp =>
+    `<a href="${bp.url}" target="_blank" rel="noopener"
+        class="btn btn--sm ${isFuture ? 'btn--outline-white' : 'btn--outline-blue'} release-card__blog-btn"
+        title="${bp.title}">
+       <i class="fas fa-newspaper"></i>
+     </a>`
+  ).join('');
+
+  const stats = renderReleaseStats(rel);
 
   return `
     <article class="release-card ${isFuture ? 'release-card--future' : ''}">
@@ -999,11 +999,11 @@ function renderReleaseCard(rel) {
         <div class="release-card__date">${dateLabel}</div>
       </div>
       <ul class="release-card__highlights">${highlights}</ul>
-      ${renderReleaseStats(rel)}
-      ${blogLinks}
+      ${stats}
       <div class="release-card__actions">
         ${releaseNotesBtn}
         ${ctaBtn}
+        ${blogBtns}
       </div>
     </article>`;
 }

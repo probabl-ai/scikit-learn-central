@@ -2498,8 +2498,15 @@ a.release-card__version-link:hover {
   display: flex;
   gap: var(--space-2);
   flex-wrap: wrap;
-  margin-top: auto;
-  padding-top: var(--space-2);
+  align-items: center;
+  padding-top: var(--space-3);
+}
+
+/* ── Icon-only blog button (right-aligned in actions row) ── */
+.release-card__blog-btn {
+  margin-left: auto;
+  padding: var(--space-2);
+  line-height: 1;
 }
 
 /* ── Release stats: stacked bar + pills ─────────────────── */
@@ -2508,7 +2515,6 @@ a.release-card__version-link:hover {
   flex-direction: column;
   gap: var(--space-2);
   padding-top: var(--space-3);
-  border-top: 1px solid var(--border-subtle);
 }
 
 /* Stacked proportional bar */
