@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-03-04T06:38:50Z",
+  "updated_at": "2026-03-04T10:26:24Z",
   "packages": {
     "scikit-learn": {
       "github": {
-        "stars": 65260,
+        "stars": 65264,
         "forks": 26745,
         "watchers": 2107,
-        "open_issues": 2139,
+        "open_issues": 2140,
         "last_commit": "2026-03-03T23:55:33Z",
         "latest_release": "1.8.0",
         "latest_release_date": "2025-12-10T13:32:02Z"
@@ -46,15 +46,6 @@
       }
     },
     "skore": {
-      "github": {
-        "stars": 590,
-        "forks": 126,
-        "watchers": 7,
-        "open_issues": 169,
-        "last_commit": "2026-03-03T15:44:14Z",
-        "latest_release": "skore/0.13.0",
-        "latest_release_date": "2026-02-26T15:39:00Z"
-      },
       "pypi": {
         "downloads": {
           "last_day": 74,
@@ -105,10 +96,10 @@
     "xgboost": {
       "github": {
         "stars": 28075,
-        "forks": 8846,
+        "forks": 8845,
         "watchers": 885,
         "open_issues": 475,
-        "last_commit": "2026-03-03T19:50:14Z",
+        "last_commit": "2026-03-04T09:19:04Z",
         "latest_release": "v3.2.0",
         "latest_release_date": "2026-02-10T08:14:33Z"
       },
@@ -152,7 +143,7 @@
         "forks": 1266,
         "watchers": 187,
         "open_issues": 682,
-        "last_commit": "2026-03-04T04:43:55Z",
+        "last_commit": "2026-03-04T08:39:13Z",
         "latest_release": "v1.2.10",
         "latest_release_date": "2026-02-19T12:38:26Z"
       },
@@ -191,28 +182,33 @@
     },
     "shap": {
       "github": {
-        "stars": 25080,
+        "stars": 25079,
         "forks": 3476,
         "watchers": 242,
         "open_issues": 578,
-        "last_commit": "2026-03-03T18:37:54Z",
-        "latest_release": "v0.50.0",
-        "latest_release_date": "2025-11-11T18:24:12Z"
+        "last_commit": "2026-03-04T09:04:18Z",
+        "latest_release": "v0.51.0",
+        "latest_release_date": "2026-03-04T09:04:18Z"
       },
       "pypi": {
-        "version": "0.50.0",
+        "downloads": {
+          "last_day": 500097,
+          "last_week": 3052458,
+          "last_month": 12581165
+        },
+        "version": "0.51.0",
         "requires_python": ">=3.11",
         "summary": "A unified approach to explain the output of any machine learning model.",
-        "release_date": "2025-11-11T18:35:56"
+        "release_date": "2026-03-04T09:17:24"
       }
     },
     "optuna": {
       "github": {
-        "stars": 13601,
+        "stars": 13602,
         "forks": 1262,
         "watchers": 124,
-        "open_issues": 33,
-        "last_commit": "2026-03-04T02:52:51Z",
+        "open_issues": 31,
+        "last_commit": "2026-03-04T07:20:19Z",
         "latest_release": "v4.7.0",
         "latest_release_date": "2026-01-19T05:45:13Z"
       },
@@ -230,7 +226,7 @@
     },
     "pyod": {
       "github": {
-        "stars": 9731,
+        "stars": 9732,
         "forks": 1459,
         "watchers": 149,
         "open_issues": 239,
@@ -255,7 +251,7 @@
         "forks": 182,
         "watchers": 10,
         "open_issues": 21,
-        "last_commit": "2026-03-03T22:24:28Z",
+        "last_commit": "2026-03-04T10:09:41Z",
         "latest_release": "v0.20.1",
         "latest_release_date": "2026-02-11T14:28:14Z"
       },
@@ -299,7 +295,7 @@
         "forks": 366,
         "watchers": 58,
         "open_issues": 92,
-        "last_commit": "2026-03-03T12:59:01Z",
+        "last_commit": "2026-03-04T09:11:16Z",
         "latest_release": "v0.8.0",
         "latest_release_date": "2026-02-19T08:54:37Z"
       },
@@ -318,9 +314,9 @@
     "sktime": {
       "github": {
         "stars": 9580,
-        "forks": 1891,
+        "forks": 1893,
         "watchers": 113,
-        "open_issues": 1874,
+        "open_issues": 1873,
         "last_commit": "2026-03-03T15:02:52Z",
         "latest_release": "v0.40.1",
         "latest_release_date": "2025-11-25T00:02:03Z"
@@ -364,8 +360,8 @@
         "stars": 1275,
         "forks": 223,
         "watchers": 20,
-        "open_issues": 32,
-        "last_commit": "2026-03-01T00:13:26Z",
+        "open_issues": 29,
+        "last_commit": "2026-03-04T06:59:16Z",
         "latest_release": "v0.27.0",
         "latest_release_date": "2026-02-02T18:51:21Z"
       },
@@ -466,11 +462,11 @@
     },
     "mlflow": {
       "github": {
-        "stars": 24524,
-        "forks": 5347,
+        "stars": 24526,
+        "forks": 5350,
         "watchers": 315,
-        "open_issues": 2083,
-        "last_commit": "2026-03-04T06:41:50Z",
+        "open_issues": 2078,
+        "last_commit": "2026-03-04T09:45:37Z",
         "latest_release": "v3.10.0",
         "latest_release_date": "2026-02-20T16:05:05Z"
       },
