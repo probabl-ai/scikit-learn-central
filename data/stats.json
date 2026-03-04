@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-03-04T06:10:49Z",
+  "updated_at": "2026-03-04T06:38:50Z",
   "packages": {
     "scikit-learn": {
       "github": {
         "stars": 65260,
-        "forks": 26744,
+        "forks": 26745,
         "watchers": 2107,
         "open_issues": 2139,
         "last_commit": "2026-03-03T23:55:33Z",
@@ -200,11 +200,6 @@
         "latest_release_date": "2025-11-11T18:24:12Z"
       },
       "pypi": {
-        "downloads": {
-          "last_day": 500097,
-          "last_week": 3052458,
-          "last_month": 12581165
-        },
         "version": "0.50.0",
         "requires_python": ">=3.11",
         "summary": "A unified approach to explain the output of any machine learning model.",
@@ -216,7 +211,7 @@
         "stars": 13601,
         "forks": 1262,
         "watchers": 124,
-        "open_issues": 35,
+        "open_issues": 33,
         "last_commit": "2026-03-04T02:52:51Z",
         "latest_release": "v4.7.0",
         "latest_release_date": "2026-01-19T05:45:13Z"
@@ -493,11 +488,11 @@
     },
     "mlflow": {
       "github": {
-        "stars": 24520,
+        "stars": 24524,
         "forks": 5347,
         "watchers": 315,
-        "open_issues": 2082,
-        "last_commit": "2026-03-04T04:31:54Z",
+        "open_issues": 2083,
+        "last_commit": "2026-03-04T06:41:50Z",
         "latest_release": "v3.10.0",
         "latest_release_date": "2026-02-20T16:05:05Z"
       },
@@ -515,7 +510,7 @@
     },
     "scikit-lego": {
       "github": {
-        "stars": 1383,
+        "stars": 1382,
         "forks": 124,
         "watchers": 20,
         "open_issues": 42,
@@ -546,6 +541,11 @@
         "latest_release_date": "2025-08-06T09:50:24Z"
       },
       "pypi": {
+        "downloads": {
+          "last_day": 371932,
+          "last_week": 2261569,
+          "last_month": 8809852
+        },
         "version": "0.13.0",
         "requires_python": ">=3.9",
         "summary": "A set of tools, related to machine learning in production.",
@@ -701,6 +701,28 @@
         "requires_python": "<4,>=3.10",
         "summary": "High-dimensional statistical inference tools for Python",
         "release_date": "2025-12-08T15:22:27"
+      }
+    },
+    "tabicl": {
+      "github": {
+        "stars": 565,
+        "forks": 74,
+        "watchers": 19,
+        "open_issues": 7,
+        "last_commit": "2026-03-02T20:53:04Z",
+        "latest_release": "v2.0.3",
+        "latest_release_date": "2026-03-02T20:53:04Z"
+      },
+      "pypi": {
+        "downloads": {
+          "last_day": 2861,
+          "last_week": 16539,
+          "last_month": 62262
+        },
+        "version": "2.0.3",
+        "requires_python": ">=3.10",
+        "summary": "TabICL: A state-of-the-art tabular foundation model",
+        "release_date": "2026-03-02T20:43:07"
       }
     }
   }
