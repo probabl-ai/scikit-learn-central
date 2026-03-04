@@ -1,0 +1,24 @@
+{
+  "id": "cuml",
+  "name": "cuML",
+  "pypi_name": "cuml-cu12",
+  "website": "https://rapids.ai",
+  "repository": "https://github.com/rapidsai/cuml",
+  "docs": "https://docs.rapids.ai/api/cuml/stable/",
+  "nature": "library",
+  "scope": "incremental",
+  "license": "Apache-2.0",
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": false,
+  "description": "RAPIDS GPU-accelerated machine learning library with a scikit-learn-compatible API. Runs KMeans, PCA, Random Forests, SVM, UMAP, t-SNE, and more on NVIDIA GPUs — often 10–50× faster than CPU equivalents for large datasets.",
+  "tags": [
+    "GPU",
+    "RAPIDS",
+    "CUDA",
+    "accelerated",
+    "clustering",
+    "dimensionality-reduction",
+    "tabular"
+  ]
+}

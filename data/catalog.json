@@ -60,6 +60,9 @@
     "fairlearn",
     "hazardous",
     "hidimstat",
-    "tabicl"
+    "tabicl",
+    "cuml",
+    "bertopic",
+    "lightshap"
   ]
 }

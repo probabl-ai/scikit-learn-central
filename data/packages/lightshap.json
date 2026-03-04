@@ -1,0 +1,22 @@
+{
+  "id": "lightshap",
+  "name": "LightSHAP",
+  "pypi_name": "lightshap",
+  "website": "https://mayer79.github.io/LightSHAP/",
+  "repository": "https://github.com/mayer79/LightSHAP",
+  "docs": "https://mayer79.github.io/LightSHAP/",
+  "nature": "library",
+  "scope": "verticalized",
+  "license": "MIT",
+  "archived": false,
+  "provides_estimators": false,
+  "consumes_estimators": true,
+  "description": "Lightweight SHAP explainability library built on numpy/pandas. Provides TreeSHAP wrappers for XGBoost, LightGBM, and CatBoost, plus model-agnostic Permutation and Kernel SHAP with parallel processing, multi-output support, and bar/beeswarm/waterfall visualizations.",
+  "tags": [
+    "explainability",
+    "SHAP",
+    "feature-importance",
+    "interpretability",
+    "lightweight"
+  ]
+}
