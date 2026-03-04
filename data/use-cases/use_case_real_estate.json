@@ -1,0 +1,24 @@
+{
+  "uuid": "use_case_real_estate",
+  "slug": "real-estate",
+  "title": "Real Estate Pricing",
+  "synopsis": "Estimate real estate property values using machine learning. Accurate price predictions support property valuation, market analysis, and investment decisions. Use skrub to understand your data. Use scikit-learn to fit and predict from your data. Use skore to track your data science. Evaluate models, compare them, select them.",
+  "industry": [
+    "e-commerce",
+    "marketing",
+    "retail"
+  ],
+  "technique": [
+    "linear-regression",
+    "tree",
+    "cross-validation"
+  ],
+  "packages": [
+    "scikit-learn",
+    "skrub",
+    "skore"
+  ],
+  "difficulty": "beginner",
+  "archived": false,
+  "has_notebook": false
+}
