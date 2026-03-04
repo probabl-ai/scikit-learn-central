@@ -60,6 +60,7 @@
     "skorch",
     "fairlearn",
     "hazardous",
-    "hidimstat"
+    "hidimstat",
+    "tabicl"
   ]
 }
