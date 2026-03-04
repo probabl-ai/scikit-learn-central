@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (releases) renderReleasesAll();
 
   bindEvents();
+  applyHash();
 });
 
 /* ── Data loading ───────────────────────────────────────── */
@@ -189,6 +190,7 @@ function computeFitScores() {
 
 function switchView(view) {
   state.view = view;
+  history.replaceState(null, '', '#' + view);
   closeAllDropdowns();
 
   // Tabs
@@ -602,7 +604,7 @@ function renderUcCard(uc) {
       <div class="uc-card__tags">${industryTags}${techTags}</div>
       <div class="uc-card__packages">${pkgChips}</div>
       <div class="uc-card__footer">
-        <div></div>
+        <button class="uc-card__copy-link" onclick="copyUseCaseLink('${uc.slug}')" title="Copy link to this use case"><i class="fas fa-link"></i> Copy link</button>
         <button class="btn--view-code" onclick="openCodeModal('${uc.slug}')"><i class="fas fa-code"></i> View Code</button>
       </div>
     </article>`;
@@ -1158,7 +1160,46 @@ function bindEvents() {
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') { closeCodeModal(); closePackageModal(); closeUcModal(); closeFeedbackModal(); closeAllDropdowns(); }
   });
+
+  // ── Hash-based navigation (browser back/forward) ──────── //
+  window.addEventListener('hashchange', () => applyHash());
 }
+
+/* ═══════════════════════════════════════════════════════════
+   HASH-BASED ROUTING
+   ═══════════════════════════════════════════════════════════ */
+
+function applyHash() {
+  const raw = window.location.hash.replace('#', '');
+  if (!raw) return;
+  const [view, slug] = raw.split('+');
+  const validViews = ['catalog', 'use-cases', 'releases', 'about'];
+  if (!validViews.includes(view)) return;
+  switchView(view);
+  if (slug && view === 'use-cases') {
+    history.replaceState(null, '', '#' + raw); // restore full hash (switchView strips slug)
+    scrollToUseCase(slug);
+  }
+}
+
+function scrollToUseCase(slug) {
+  const card = document.querySelector(`.uc-card[data-uc-id="${slug}"]`);
+  if (!card) return;
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  card.classList.add('uc-card--highlighted');
+  setTimeout(() => card.classList.remove('uc-card--highlighted'), 2000);
+  openCodeModal(slug);
+}
+
+window.copyUseCaseLink = function(slug) {
+  const url = window.location.origin + window.location.pathname + '#use-cases+' + slug;
+  const btn = document.querySelector(`.uc-card[data-uc-id="${slug}"] .uc-card__copy-link`);
+  navigator.clipboard.writeText(url).then(() => {
+    if (btn) { btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy link', 1500); }
+  }).catch(() => {
+    if (btn) { btn.textContent = 'Copy failed'; setTimeout(() => btn.textContent = 'Copy link', 1500); }
+  });
+};
 
 /* ═══════════════════════════════════════════════════════════
    GLOBAL RESET HELPERS

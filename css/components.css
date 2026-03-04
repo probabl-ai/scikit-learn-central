@@ -1164,7 +1164,25 @@
 
 @media (max-width: 640px) {
   .app-header__tagline { display: none; }
+  .app-header__subtitle { display: none; }
   .app-header__title { font-size: var(--text-lg); }
+
+  /* Hide external links in header; keep only Submit button */
+  .app-header__actions .btn--ghost { display: none; }
+
+  /* Make tab bar horizontally scrollable instead of overflowing off-screen */
+  .view-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0 var(--space-3);
+  }
+  .view-tabs::-webkit-scrollbar { display: none; }
+  .view-tab {
+    padding: var(--space-2) var(--space-3);
+    font-size: 11px;
+    flex-shrink: 0;
+  }
 }
 
 
@@ -1473,6 +1491,37 @@
 
 .btn--view-code:hover {
   background: #161aa0;
+}
+
+.uc-card__copy-link {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: .02em;
+  padding: var(--space-2) var(--space-4);
+  background: transparent;
+  color: var(--neutral-500);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  transition: color .15s, border-color .15s;
+}
+
+.uc-card__copy-link:hover {
+  color: var(--probabl-blue);
+  border-color: var(--probabl-blue);
+}
+
+/* Deep-link highlight animation */
+@keyframes uc-highlight {
+  0%   { box-shadow: 0 0 0 3px var(--probabl-blue); }
+  100% { box-shadow: var(--shadow-card); }
+}
+.uc-card--highlighted {
+  animation: uc-highlight 2s ease-out forwards;
 }
 
 /* ── Code Modal ─────────────────────────────────────────── */
