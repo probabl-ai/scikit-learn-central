@@ -423,28 +423,6 @@
         "release_date": "2026-02-27T16:01:46"
       }
     },
-    "yellowbrick": {
-      "github": {
-        "stars": 4395,
-        "forks": 570,
-        "watchers": 103,
-        "open_issues": 109,
-        "last_commit": "2025-02-19T20:59:35Z",
-        "latest_release": "v1.5",
-        "latest_release_date": "2022-08-21T12:49:43Z"
-      },
-      "pypi": {
-        "downloads": {
-          "last_day": 16280,
-          "last_week": 120970,
-          "last_month": 508449
-        },
-        "version": "1.5",
-        "requires_python": ">=3.4, <4",
-        "summary": "A suite of visual analysis and diagnostic tools for machine learning.",
-        "release_date": "2022-08-21T12:47:09"
-      }
-    },
     "eli5": {
       "github": {
         "stars": 2772,

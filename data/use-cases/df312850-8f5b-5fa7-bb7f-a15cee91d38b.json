@@ -15,8 +15,7 @@
   "packages": [
     "scikit-learn",
     "skrub",
-    "umap-learn",
-    "yellowbrick"
+    "umap-learn"
   ],
   "difficulty": "beginner",
   "archived": false,

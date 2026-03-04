@@ -48,7 +48,6 @@
     "scikit-survival",
     "umap-learn",
     "prince",
-    "yellowbrick",
     "eli5",
     "mlxtend",
     "mlflow",
