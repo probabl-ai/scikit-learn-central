@@ -600,7 +600,7 @@ function renderUcCard(uc) {
     <article class="uc-card" data-uc-id="${uc.slug}">
       <div class="uc-card__difficulty"><span class="difficulty-badge difficulty-badge--${uc.difficulty}">${uc.difficulty}</span></div>
       <div class="uc-card__title">${uc.title}</div>
-      <p class="uc-card__synopsis">${uc.synopsis}</p>
+      <p class="uc-card__synopsis" onclick="this.classList.toggle('is-expanded')">${uc.synopsis}</p>
       <div class="uc-card__tags">${industryTags}${techTags}</div>
       <div class="uc-card__packages">${pkgChips}</div>
       <div class="uc-card__footer">

@@ -1378,6 +1378,13 @@
   display: -webkit-box;
   -webkit-line-clamp: 3;
   overflow: hidden;
+  cursor: pointer;
+}
+
+.uc-card__synopsis.is-expanded {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
 }
 
 /* Industry tags */
