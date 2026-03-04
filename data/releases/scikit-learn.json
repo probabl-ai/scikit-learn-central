@@ -51,20 +51,7 @@
           "reaction_count": 0
         }
       ],
-      "blog_posts": [
-        {
-          "title": "Scikit-learn's Priorities at Probabl",
-          "url": "https://blog.probabl.ai/scikit-learns-priorities-at-probabl",
-          "date": "2024-02-26",
-          "author": "Adrin Jalali"
-        },
-        {
-          "title": "Open Source Priorities \u2013 Chapter 2",
-          "url": "https://blog.probabl.ai/open-source-priorities-chapter-2",
-          "date": "2024-11-27",
-          "author": "Guillaume Lemaitre"
-        }
-      ]
+      "blog_posts": []
     },
     {
       "version": "1.6.1",
