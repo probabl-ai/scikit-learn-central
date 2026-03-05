@@ -13,7 +13,8 @@
     "classification"
   ],
   "packages": [
-    "scikit-learn"
+    "scikit-learn",
+    "skore"
   ],
   "difficulty": "intermediate",
   "archived": false,
