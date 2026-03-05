@@ -1,0 +1,17 @@
+Copyright (c) 2024–2026 Probabl SAS. All rights reserved.
+
+The source code in this repository is made available for reference and
+transparency purposes only. No other rights are granted.
+
+You may NOT, without explicit written permission from Probabl SAS:
+- Copy, fork, or redistribute this code in whole or in part
+- Modify, adapt, or create derivative works
+- Use this code or any portion of it in another product or service,
+  whether commercial or non-commercial
+- Deploy a publicly accessible instance of this software
+
+The scikit-learn name and logo are trademarks of Probabl SAS and are
+protected separately under applicable trademark law. This license does
+not grant any rights to use those marks.
+
+For licensing inquiries, contact: contact@probabl.ai
