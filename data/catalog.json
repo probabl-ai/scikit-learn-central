@@ -8,7 +8,7 @@
   "core": {
     "id": "scikit-learn",
     "name": "scikit-learn",
-    "pypi_name": "sklearn",
+    "pypi_name": "scikit-learn",
     "is_core": true,
     "website": "https://scikit-learn.org",
     "repository": "https://github.com/scikit-learn/scikit-learn",

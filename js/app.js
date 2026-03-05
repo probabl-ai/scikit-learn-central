@@ -353,7 +353,7 @@ function renderCatalogHero() {
           <a href="${c.website}" target="_blank" class="sklearn-hero__link sklearn-hero__link--filled"><i class="fas fa-globe"></i> Homepage</a>
           <a href="${c.repository}" target="_blank" class="sklearn-hero__link"><i class="fab fa-github"></i> Repo</a>
           <a href="${c.docs}" target="_blank" class="sklearn-hero__link"><i class="fas fa-book"></i> Docs</a>
-          <span class="sklearn-hero__link" style="cursor:default;opacity:.7;"><i class="fas fa-terminal"></i> pip install ${c.pypi_name}</span>
+          <span class="sklearn-hero__link" style="cursor:default;opacity:.7;text-transform:none;"><i class="fas fa-terminal"></i> pip install ${c.pypi_name}</span>
         </div>
       </div>
     </div>`;
