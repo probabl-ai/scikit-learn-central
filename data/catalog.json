@@ -36,6 +36,8 @@
     "xgboost",
     "lightgbm",
     "catboost",
+    "glum",
+    "skglm",
     "imbalanced-learn",
     "shap",
     "optuna",

@@ -1,0 +1,22 @@
+{
+  "id": "glum",
+  "name": "GLUM",
+  "pypi_name": "glum",
+  "website": "https://glum.readthedocs.io",
+  "repository": "https://github.com/Quantco/glum",
+  "docs": "https://glum.readthedocs.io",
+  "nature": "library",
+  "scope": "incremental",
+  "license": "BSD-3-Clause",
+  "archived": false,
+  "provides_estimators": true,
+  "consumes_estimators": false,
+  "description": "High-performance Python-first GLM library by QuantCo offering significantly faster estimation than scikit-learn for large datasets, with support for L1/L2/elastic-net regularization and multiple distributions (Normal, Poisson, Gamma, Tweedie, logistic).",
+  "tags": [
+    "linear-models",
+    "GLM",
+    "regularization",
+    "high-performance",
+    "statistical-modeling"
+  ]
+}
