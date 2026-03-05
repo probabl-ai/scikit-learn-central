@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-05T05:46:58Z",
+  "updated_at": "2026-03-05T06:12:24Z",
   "packages": {
     "scikit-learn": {
       "github": {
@@ -104,7 +104,7 @@
     },
     "xgboost": {
       "github": {
-        "stars": 28083,
+        "stars": 28084,
         "forks": 8845,
         "watchers": 885,
         "open_issues": 474,
@@ -513,11 +513,11 @@
     },
     "mlflow": {
       "github": {
-        "stars": 24567,
+        "stars": 24568,
         "forks": 5352,
         "watchers": 315,
         "open_issues": 2077,
-        "last_commit": "2026-03-05T05:46:43Z",
+        "last_commit": "2026-03-05T06:06:17Z",
         "latest_release": "v3.10.0",
         "latest_release_date": "2026-02-20T16:05:05Z"
       },
