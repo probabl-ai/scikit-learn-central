@@ -1,10 +1,15 @@
+"""
+Sentiment classification of customer reviews with skore, skrub and scikit-learn.
+"""
+
 import numpy as np
 import pandas as pd
 from skrub import StringEncoder, ApplyToCols
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import make_pipeline
-from sklearn.model_selection import cross_val_score
+from skore import CrossValidationReport
 
+# Let's start by creating a dataset of positive and negative reviews
 positive_reviews = [
     "Absolutely loved this product, exceeded all my expectations",
     "Fast shipping and the item was exactly as described",
@@ -52,22 +57,30 @@ negative_reviews = [
 ]
 
 X = pd.DataFrame({"review": positive_reviews + negative_reviews})
-y  = np.array([1] * len(positive_reviews) + [0] * len(negative_reviews))
+y = np.array(
+    ["satisfied"] * len(positive_reviews) + ["dissatisfied"] * len(negative_reviews)
+)
 
+# skrub encodes text; sklearn fits a classifier; pipeline chains them
 pipe = make_pipeline(
     ApplyToCols(StringEncoder(random_state=42), cols="review"),
     LogisticRegression(),
 )
 
-scores = cross_val_score(pipe, X, y)
-print(f"Accuracy: {scores.mean():.3f} ± {scores.std():.3f}")
+# skore runs cross-validation and exposes metrics + fitted estimator
+cv_report = CrossValidationReport(pipe, X, y, pos_label="satisfied")
+print(cv_report.metrics.summarize().frame())
 
-pipe.fit(X, y)
+# Predict on new text using the estimator fitted on full data
+new_samples = pd.DataFrame(
+    {
+        "review": [
+            "Really happy with this product, works great and arrived quickly",
+            "It seems okay but nothing special, took a while to arrive",
+            "Broke after one day and customer support never replied",
+        ]
+    }
+)
+new_samples["sentiment"] = cv_report.estimator_.predict(new_samples[["review"]])
 
-samples = pd.DataFrame({"review": [
-    "Really happy with this product, works great and arrived quickly",
-    "It seems okay but nothing special, took a while to arrive",
-    "Broke after one day and customer support never replied",
-]})
-samples["sentiment"] = np.where(pipe.predict(samples[["review"]]), "satisfied", "dissatisfied")
-print(samples.to_string())
+print(new_samples.to_string())

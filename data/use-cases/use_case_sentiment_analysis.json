@@ -15,7 +15,8 @@
   ],
   "packages": [
     "scikit-learn",
-    "skrub"
+    "skrub",
+    "skore"
   ],
   "difficulty": "beginner",
   "archived": false,
