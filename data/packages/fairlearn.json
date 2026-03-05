@@ -6,7 +6,7 @@
   "repository": "https://github.com/fairlearn/fairlearn",
   "docs": "https://fairlearn.org",
   "nature": "library",
-  "scope": "verticalized",
+  "scope": "core",
   "license": "MIT",
   "probabl": true,
   "archived": false,

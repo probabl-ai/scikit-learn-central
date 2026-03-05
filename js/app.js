@@ -164,6 +164,12 @@ function mergeStats(stats) {
  *
  * Normalisation is relative to the best package in the ecosystem catalog
  * (scikit-learn core is shown separately as the hero card and excluded).
+ *
+ * Editorial boost: packages where (probabl === true && scope === 'core') receive a flat
+ * +100 added to _fitTotal only. This guarantees Probabl core libraries always sort above
+ * the general ecosystem under the default fit-score ranking. The boost is intentional and
+ * disclosed in the card tooltip. _fitBase is NEVER modified and is the only value shown
+ * in the UI.
  */
 function computeFitScores() {
   const pkgs = catalog.packages;
@@ -180,7 +186,11 @@ function computeFitScores() {
     p._fitDownloads = Math.log((p.downloads ?? 0) + 1) / Math.log(maxDownloads + 1) * 100;
     p._fitUc        = (ucCounts[i] / maxUc) * 100;
     p._fitBase      = (p._fitStars + p._fitDownloads + p._fitUc) / 3;
-    p._fitTotal     = p._fitBase + (p.probabl ? 100 : 0); // boost floats probabl to top; display uses _fitBase
+    // Editorial boost (+100 to _fitTotal, not _fitBase): applied only to packages where
+    // probabl === true AND scope === 'core' (Probabl core libraries). This pins them above
+    // all ecosystem packages in the default fit-score sort. _fitBase is unchanged and is
+    // the only score shown in the UI — the boost never appears in any displayed number.
+    p._fitTotal     = p._fitBase + ((p.probabl && p.scope === 'core') ? 100 : 0);
   });
 }
 
@@ -474,8 +484,8 @@ function renderCard(pkg) {
  * that shows the three sub-scores as progress bars.
  */
 function renderRankChip(pkg) {
-  // Special treatment: probabl packages in fit score sort get a branded badge
-  if (pkg.probabl && state.sortBy === 'ranking') {
+  // Show branded badge only for Probabl core packages (probabl && scope === 'core') in fit-score sort
+  if (pkg.probabl && pkg.scope === 'core' && state.sortBy === 'ranking') {
     const stars = Math.round(pkg._fitStars);
     const dl    = Math.round(pkg._fitDownloads);
     const uc    = Math.round(pkg._fitUc);
@@ -491,7 +501,7 @@ function renderRankChip(pkg) {
         </svg>
         <div class="ranking-tooltip ranking-tooltip--probabl">
           <div class="ranking-tooltip__title">Featured by :probabl.</div>
-          <p class="ranking-tooltip__probabl-body">This library is maintained by Probabl, the open-source company behind scikit-learn.</p>
+          <p class="ranking-tooltip__probabl-body">A core project of Probabl, the company behind scikit-learn. It is editorially pinned at the top of the Fit Score ranking — the score shown (stars · downloads · use cases) does not include the ranking boost.</p>
           <div class="ranking-tooltip__divider"></div>
           <div class="ranking-tooltip__title ranking-tooltip__title--fitscore">Fit Score</div>
           <div class="ranking-tooltip__row">
