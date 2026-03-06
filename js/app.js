@@ -1148,11 +1148,13 @@ function bindEvents() {
 
   // ── Package modal ─────────────────────────────────────── //
   document.querySelectorAll('#modal-backdrop .modal__close').forEach(btn => btn.addEventListener('click', closePackageModal));
+  document.getElementById('package-modal-cancel')?.addEventListener('click', closePackageModal);
   document.getElementById('modal-backdrop')?.addEventListener('click', e => { if (e.target.id === 'modal-backdrop') closePackageModal(); });
   document.getElementById('submission-form')?.addEventListener('submit', handleSubmit);
 
   // ── Use-case modal ────────────────────────────────────── //
   document.querySelectorAll('#uc-modal-backdrop .modal__close').forEach(btn => btn.addEventListener('click', closeUcModal));
+  document.getElementById('uc-modal-cancel')?.addEventListener('click', closeUcModal);
   document.getElementById('uc-modal-backdrop')?.addEventListener('click', e => { if (e.target.id === 'uc-modal-backdrop') closeUcModal(); });
   document.getElementById('uc-submission-form')?.addEventListener('submit', handleUcSubmit);
 
