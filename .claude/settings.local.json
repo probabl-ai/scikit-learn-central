@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:blog.scikit-learn.org)",
+      "WebFetch(domain:blog.probabl.ai)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:probabl-ai.github.io)",
+      "Bash(python3 -c \":*)",
+      "Bash(python3 scripts/update_release_metadata.py --dry-run --version 1.7.0 --version 0.24.0 --force-highlights)",
+      "mcp__Claude_Preview__preview_start",
+      "WebFetch(domain:pypi.org)",
+      "WebFetch(domain:contrib.scikit-learn.org)",
+      "WebFetch(domain:glum.readthedocs.io)",
+      "Bash(git add LICENSE)",
+      "Bash(git commit:*)",
+      "Bash(grep -h '\"\"probabl\"\":\\\\|\"\"core\"\":\\\\|\"\"is_core\"\":' \"/Users/yann/Documents/Claude Sandbox/scikit-learn central/data/packages\"/*.json)",
+      "Bash(find \"/Users/yann/Documents/Claude Sandbox/scikit-learn central/data/packages\" -name \"*.json\" -exec grep -l '\"\"probabl\"\": true' {} ;)",
+      "WebFetch(domain:www.opengraph.io)",
+      "WebFetch(domain:ogpreview.app)",
+      "WebFetch(domain:blog.daveallie.com)",
+      "WebFetch(domain:scikit-learn-central.probabl.ai)",
+      "Bash(curl -s -I https://scikit-learn-central.probabl.ai/)",
+      "WebFetch(domain:darekkay.com)",
+      "WebFetch(domain:www.ctrl.blog)",
+      "Bash(curl -s https://scikit-learn-central.probabl.ai/)",
+      "Bash(python3:*)"
+    ]
+  }
+}

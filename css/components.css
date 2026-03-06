@@ -2244,8 +2244,8 @@
 }
 
 .ranking-method-weight {
-  font-size: var(--text-xs);
-  font-weight: 400;
+  font-size: var(--text-xl);
+  font-weight: 700;
   color: var(--probabl-orange);
   margin-left: 4px;
 }
