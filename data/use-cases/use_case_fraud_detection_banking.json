@@ -1,5 +1,5 @@
 {
-  "uuid": "fc02ec64-ab6b-527e-9143-23b8b85c9379",
+  "uuid": "use_case_fraud_detection_banking",
   "slug": "fraud-detection-banking",
   "title": "Credit Card Fraud Detection",
   "synopsis": "Detect fraudulent transactions among millions of legitimate credit card purchases using machine learning. Credit risk may require a probability score that can drive graduated responses: a borderline transaction might need additional authentication, while a high-risk score may lead to immediate rejection.",

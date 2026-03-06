@@ -1,5 +1,5 @@
 {
-  "uuid": "4640ed73-b8be-5b13-bdcd-1ccfedd6c9ac",
+  "uuid": "use_case_sentiment_analysis",
   "slug": "sentiment-analysis",
   "title": "Customer Review Sentiment Analysis",
   "synopsis": "Classify customer reviews as positive or negative to monitor brand reputation and product satisfaction. Automated sentiment analysis at scale enables quick identification of dissatisfied customers and service improvement opportunities.",
