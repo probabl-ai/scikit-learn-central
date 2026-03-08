@@ -1680,23 +1680,21 @@
   color: #fff;
 }
 
-/* Square GitHub link button — matches adjacent button style */
+/* Square GitHub link button — matches adjacent button height */
 .btn--github-square {
-  width: 32px;
-  height: 32px;
-  padding: 0;
+  padding: var(--space-2);
   background: transparent;
   border: 1.5px solid var(--probabl-blue);
   color: var(--probabl-blue);
   border-radius: var(--radius-sm);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-flex;
   flex-shrink: 0;
   transition: background .12s, color .12s;
   text-decoration: none;
-  font-size: 14px;
+  font-size: var(--text-xs);
+  line-height: 1;
+  aspect-ratio: 1;
 }
 
 .btn--github-square:hover {
