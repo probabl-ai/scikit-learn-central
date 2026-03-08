@@ -617,8 +617,10 @@ function renderUcCard(uc) {
       <div class="uc-card__packages">${pkgChips}</div>
       <div class="uc-card__footer">
         <button class="uc-card__copy-link" onclick="copyUseCaseLink('${uc.slug}')" title="Copy link to this use case"><i class="fas fa-link"></i> Copy link</button>
-        <a href="${githubUrl}" target="_blank" rel="noopener" class="btn--github-square" title="View on GitHub"><i class="fab fa-github"></i></a>
-        <button class="btn--view-code" onclick="openCodeModal('${uc.slug}')"><i class="fas fa-code"></i> View Code</button>
+        <div class="uc-card__actions">
+          <a href="${githubUrl}" target="_blank" rel="noopener" class="btn--github-square" title="View on GitHub"><i class="fab fa-github"></i></a>
+          <button class="btn--view-code" onclick="openCodeModal('${uc.slug}')"><i class="fas fa-code"></i> View Code</button>
+        </div>
       </div>
     </article>`;
 }
