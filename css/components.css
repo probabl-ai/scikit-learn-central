@@ -1680,6 +1680,30 @@
   color: #fff;
 }
 
+/* Square GitHub link button — matches adjacent button style */
+.btn--github-square {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: transparent;
+  border: 1.5px solid var(--probabl-blue);
+  color: var(--probabl-blue);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background .12s, color .12s;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.btn--github-square:hover {
+  background: var(--probabl-blue);
+  color: #fff;
+}
+
 /* ── Updated header for v3 (subtitle + actions) ─────────── */
 .app-header__brand {
   display: flex;

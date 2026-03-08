@@ -600,9 +600,12 @@
           <div class="code-modal__packages-label">Libraries used</div>
           <div class="code-modal__package-chips" id="code-modal-packages"></div>
         </div>
-        <button id="btn-copy-code" class="btn--copy-code" onclick="copyCode(this)">
-          <i class="fas fa-copy"></i> Copy Code
-        </button>
+        <div style="display:flex;gap:var(--space-2);align-items:center;">
+          <a id="btn-github-code" href="#" target="_blank" rel="noopener" class="btn--github-square" title="View on GitHub"><i class="fab fa-github"></i></a>
+          <button id="btn-copy-code" class="btn--copy-code" onclick="copyCode(this)">
+            <i class="fas fa-copy"></i> Copy Code
+          </button>
+        </div>
       </div>
     </div>
   </div>

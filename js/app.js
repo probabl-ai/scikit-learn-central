@@ -606,6 +606,8 @@ function renderUcCard(uc) {
     return `<span class="uc-package-chip${isSk?' uc-package-chip--core':''}" onclick="viewPackageInCatalog('${pid}')" title="View in catalog">${pid}</span>`;
   }).join('');
 
+  const githubUrl = `https://github.com/probabl-ai/scikit-learn-central/blob/main/data/use-cases/${uc.uuid}.py`;
+
   return `
     <article class="uc-card" data-uc-id="${uc.slug}">
       <div class="uc-card__difficulty"><span class="difficulty-badge difficulty-badge--${uc.difficulty}">${uc.difficulty}</span></div>
@@ -615,6 +617,7 @@ function renderUcCard(uc) {
       <div class="uc-card__packages">${pkgChips}</div>
       <div class="uc-card__footer">
         <button class="uc-card__copy-link" onclick="copyUseCaseLink('${uc.slug}')" title="Copy link to this use case"><i class="fas fa-link"></i> Copy link</button>
+        <a href="${githubUrl}" target="_blank" rel="noopener" class="btn--github-square" title="View on GitHub"><i class="fab fa-github"></i></a>
         <button class="btn--view-code" onclick="openCodeModal('${uc.slug}')"><i class="fas fa-code"></i> View Code</button>
       </div>
     </article>`;
@@ -643,6 +646,12 @@ async function openCodeModal(ucSlug) {
 
   document.getElementById('code-modal-title').textContent = uc.title;
   document.getElementById('code-modal-synopsis').textContent = uc.synopsis;
+
+  // Set GitHub link
+  const githubBtn = document.getElementById('btn-github-code');
+  if (githubBtn) {
+    githubBtn.href = `https://github.com/probabl-ai/scikit-learn-central/blob/main/data/use-cases/${uc.uuid}.py`;
+  }
 
   const metaEl = document.getElementById('code-modal-meta');
   if (metaEl) {
