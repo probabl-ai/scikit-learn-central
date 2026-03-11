@@ -1,0 +1,7 @@
+name = "sklearn-central-mcp"
+main = "worker.py"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["python_workers"]
+
+[build]
+command = "python3 generate_bundle.py"
