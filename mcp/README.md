@@ -1,4 +1,4 @@
-# scikit-learn Central MCP Server
+# [EXPERIMENTAL] scikit-learn Central MCP Server
 
 A remote MCP server that exposes the scikit-learn Central use case library and
 ecosystem catalog to AI coding assistants (Claude Code, Cursor, etc.).
