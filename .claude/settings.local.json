@@ -23,7 +23,9 @@
       "WebFetch(domain:darekkay.com)",
       "WebFetch(domain:www.ctrl.blog)",
       "Bash(curl -s https://scikit-learn-central.probabl.ai/)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(curl -s -X POST https://sklearn-central-mcp.probabl.workers.dev/mcp -H \"Content-Type: application/json\" -d '{\"\"jsonrpc\"\":\"\"2.0\"\",\"\"id\"\":1,\"\"method\"\":\"\"tools/list\"\"}')",
+      "Bash(curl -s -X POST https://sklearn-central-mcp.probabl.workers.dev/mcp -H \"Content-Type: application/json\" -d '{\"\"jsonrpc\"\":\"\"2.0\"\",\"\"id\"\":2,\"\"method\"\":\"\"tools/call\"\",\"\"params\"\":{\"\"name\"\":\"\"search_use_cases\"\",\"\"arguments\"\":{\"\"query\"\":\"\"fraud detection\"\"}}}')"
     ]
   }
 }
