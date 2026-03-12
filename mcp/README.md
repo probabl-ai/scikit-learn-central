@@ -20,7 +20,7 @@ outdated training data.
 
 The server is deployed at:
 ```
-https://sklearn-central-mcp.YOUR_ACCOUNT.workers.dev/mcp
+https://sklearn-central-mcp.probabl.workers.dev/mcp
 ```
 
 ### Claude Code
@@ -32,7 +32,7 @@ Add to `.claude/mcp.json` in your project root (or `~/.claude.json` globally):
   "mcpServers": {
     "sklearn-central": {
       "command": "npx",
-      "args": ["mcp-remote@latest", "https://sklearn-central-mcp.YOUR_ACCOUNT.workers.dev/mcp"]
+      "args": ["mcp-remote@latest", "https://sklearn-central-mcp.probabl.workers.dev/mcp"]
     }
   }
 }
@@ -47,7 +47,7 @@ Add to `.cursor/mcp.json` in your project (or `~/.cursor/mcp.json` globally):
   "mcpServers": {
     "sklearn-central": {
       "command": "npx",
-      "args": ["mcp-remote@latest", "https://sklearn-central-mcp.YOUR_ACCOUNT.workers.dev/mcp"]
+      "args": ["mcp-remote@latest", "https://sklearn-central-mcp.probabl.workers.dev/mcp"]
     }
   }
 }
