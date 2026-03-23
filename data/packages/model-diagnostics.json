@@ -1,0 +1,22 @@
+{
+  "id": "model-diagnostics",
+  "name": "model-diagnostics",
+  "pypi_name": "model-diagnostics",
+  "website": "https://lorentzenchr.github.io/model-diagnostics/",
+  "repository": "https://github.com/lorentzenchr/model-diagnostics",
+  "docs": "https://lorentzenchr.github.io/model-diagnostics/",
+  "nature": "library",
+  "scope": "verticalized",
+  "license": "MIT",
+  "archived": false,
+  "provides_estimators": false,
+  "consumes_estimators": true,
+  "description": "Tools for diagnostics and assessment of (machine learning) models. Covers calibration assessment via identification functions and reliability diagrams, strictly consistent scoring functions with score decomposition, and bias plots for point predictions (mean, median, quantiles, expectiles).",
+  "tags": [
+    "diagnostics",
+    "calibration",
+    "evaluation",
+    "model-assessment",
+    "scoring"
+  ]
+}

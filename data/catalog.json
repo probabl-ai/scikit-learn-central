@@ -65,6 +65,7 @@
     "tabicl",
     "cuml",
     "bertopic",
-    "lightshap"
+    "lightshap",
+    "model-diagnostics"
   ]
 }
