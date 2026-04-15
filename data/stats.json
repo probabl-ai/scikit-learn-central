@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-04-14T06:31:45Z",
+  "updated_at": "2026-04-15T06:32:08Z",
   "packages": {
     "scikit-learn": {
       "github": {
-        "stars": 65812,
-        "forks": 26941,
-        "watchers": 2131,
-        "open_issues": 2056,
-        "last_commit": "2026-04-13T16:56:22Z",
+        "stars": 65824,
+        "forks": 26943,
+        "watchers": 2132,
+        "open_issues": 2049,
+        "last_commit": "2026-04-14T14:26:18Z",
         "latest_release": "1.8.0",
         "latest_release_date": "2025-12-10T13:32:02Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 7038599,
-          "last_week": 45701383,
-          "last_month": 197535985
+          "last_day": 7324301,
+          "last_week": 45676382,
+          "last_month": 199799834
         },
         "version": "1.8.0",
         "requires_python": ">=3.11",
@@ -28,16 +28,16 @@
         "stars": 1592,
         "forks": 212,
         "watchers": 19,
-        "open_issues": 150,
+        "open_issues": 151,
         "last_commit": "2026-04-10T12:53:37Z",
         "latest_release": "0.8.0",
         "latest_release_date": "2026-03-25T13:18:42Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 5440,
-          "last_week": 39110,
-          "last_month": 181884
+          "last_day": 6728,
+          "last_week": 39384,
+          "last_month": 180355
         },
         "version": "0.8.0",
         "requires_python": ">=3.10",
@@ -47,19 +47,19 @@
     },
     "skore": {
       "github": {
-        "stars": 630,
+        "stars": 631,
         "forks": 138,
         "watchers": 6,
         "open_issues": 165,
-        "last_commit": "2026-04-13T23:55:36Z",
+        "last_commit": "2026-04-14T14:53:59Z",
         "latest_release": "skore/0.15.0",
         "latest_release_date": "2026-04-02T09:34:45Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 463,
-          "last_week": 1751,
-          "last_month": 6329
+          "last_day": 662,
+          "last_week": 2015,
+          "last_month": 6967
         },
         "version": "0.15.0",
         "requires_python": ">=3.10",
@@ -70,9 +70,9 @@
     "feature-engine": {
       "pypi": {
         "downloads": {
-          "last_day": 15749,
-          "last_week": 79904,
-          "last_month": 335316
+          "last_day": 14239,
+          "last_week": 81215,
+          "last_month": 345016
         },
         "version": "1.9.4",
         "requires_python": ">=3.9.0",
@@ -92,9 +92,9 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 101773,
-          "last_week": 680878,
-          "last_month": 2912396
+          "last_day": 102432,
+          "last_week": 675902,
+          "last_month": 2953405
         },
         "version": "2.9.0",
         "requires_python": ">=3.11",
@@ -104,19 +104,19 @@
     },
     "xgboost": {
       "github": {
-        "stars": 28266,
+        "stars": 28272,
         "forks": 8867,
-        "watchers": 885,
-        "open_issues": 469,
-        "last_commit": "2026-04-14T02:14:37Z",
+        "watchers": 884,
+        "open_issues": 467,
+        "last_commit": "2026-04-14T16:40:20Z",
         "latest_release": "v3.2.0",
         "latest_release_date": "2026-02-10T08:14:33Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 1497805,
-          "last_week": 9827840,
-          "last_month": 42476741
+          "last_day": 1516962,
+          "last_week": 9889427,
+          "last_month": 42905512
         },
         "version": "3.2.0",
         "requires_python": ">=3.10",
@@ -126,8 +126,8 @@
     },
     "lightgbm": {
       "github": {
-        "stars": 18247,
-        "forks": 3998,
+        "stars": 18255,
+        "forks": 3999,
         "watchers": 427,
         "open_issues": 497,
         "last_commit": "2026-04-14T04:06:18Z",
@@ -136,9 +136,9 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 583919,
-          "last_week": 3496539,
-          "last_month": 17059448
+          "last_day": 571150,
+          "last_week": 3483882,
+          "last_month": 17320637
         },
         "version": "4.6.0",
         "requires_python": ">=3.7",
@@ -148,19 +148,19 @@
     },
     "catboost": {
       "github": {
-        "stars": 8893,
+        "stars": 8895,
         "forks": 1282,
         "watchers": 187,
         "open_issues": 693,
-        "last_commit": "2026-04-14T02:16:43Z",
+        "last_commit": "2026-04-14T16:41:29Z",
         "latest_release": "v1.2.10",
         "latest_release_date": "2026-02-19T12:38:26Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 230107,
-          "last_week": 1437079,
-          "last_month": 6346875
+          "last_day": 232577,
+          "last_week": 1424810,
+          "last_month": 6459497
         },
         "version": "1.2.10",
         "summary": "CatBoost Python Package",
@@ -172,21 +172,21 @@
         "stars": 371,
         "forks": 33,
         "watchers": 16,
-        "open_issues": 32,
-        "last_commit": "2026-04-01T16:15:33Z",
-        "latest_release": "3.2.3",
-        "latest_release_date": "2026-03-18T14:58:09Z"
+        "open_issues": 33,
+        "last_commit": "2026-04-14T14:21:42Z",
+        "latest_release": "v3.3.0",
+        "latest_release_date": "2026-04-14T14:21:42Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 14152,
-          "last_week": 43183,
-          "last_month": 158801
+          "last_day": 15660,
+          "last_week": 51795,
+          "last_month": 172438
         },
-        "version": "3.2.3",
+        "version": "3.3.0",
         "requires_python": ">=3.10",
         "summary": "High performance Python GLMs with all the features!",
-        "release_date": "2026-03-18T15:06:32"
+        "release_date": "2026-04-14T14:31:41"
       }
     },
     "skglm": {
@@ -199,9 +199,9 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 452,
-          "last_week": 1634,
-          "last_month": 6558
+          "last_day": 700,
+          "last_week": 2133,
+          "last_month": 7175
         },
         "version": "0.5",
         "requires_python": ">=3.9",
@@ -212,7 +212,7 @@
     "imbalanced-learn": {
       "github": {
         "stars": 7095,
-        "forks": 1336,
+        "forks": 1337,
         "watchers": 135,
         "open_issues": 65,
         "last_commit": "2026-04-13T17:51:14Z",
@@ -220,11 +220,6 @@
         "latest_release_date": "2025-12-21T22:11:48Z"
       },
       "pypi": {
-        "downloads": {
-          "last_day": 478041,
-          "last_week": 2984880,
-          "last_month": 13219899
-        },
         "version": "0.14.1",
         "requires_python": ">=3.10",
         "summary": "Toolbox for imbalanced dataset in machine learning",
@@ -233,19 +228,19 @@
     },
     "shap": {
       "github": {
-        "stars": 25293,
-        "forks": 3609,
-        "watchers": 244,
-        "open_issues": 733,
-        "last_commit": "2026-04-13T23:39:35Z",
+        "stars": 25297,
+        "forks": 3620,
+        "watchers": 245,
+        "open_issues": 756,
+        "last_commit": "2026-04-14T19:17:18Z",
         "latest_release": "v0.51.0",
         "latest_release_date": "2026-03-04T09:04:18Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 523576,
-          "last_week": 3349819,
-          "last_month": 14442206
+          "last_day": 531106,
+          "last_week": 3335433,
+          "last_month": 14641213
         },
         "version": "0.51.0",
         "requires_python": ">=3.11",
@@ -255,8 +250,8 @@
     },
     "optuna": {
       "github": {
-        "stars": 13943,
-        "forks": 1302,
+        "stars": 13956,
+        "forks": 1303,
         "watchers": 121,
         "open_issues": 30,
         "last_commit": "2026-04-08T05:05:30Z",
@@ -265,9 +260,9 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 595709,
-          "last_week": 3551307,
-          "last_month": 21439976
+          "last_day": 602941,
+          "last_week": 3576165,
+          "last_month": 21396157
         },
         "version": "4.8.0",
         "requires_python": ">=3.9",
@@ -277,24 +272,24 @@
     },
     "pyod": {
       "github": {
-        "stars": 9783,
+        "stars": 9787,
         "forks": 1463,
         "watchers": 150,
-        "open_issues": 235,
-        "last_commit": "2026-04-14T06:00:18Z",
-        "latest_release": "v3.1.0",
-        "latest_release_date": "2026-04-14T00:16:43Z"
+        "open_issues": 234,
+        "last_commit": "2026-04-14T21:26:17Z",
+        "latest_release": "v3.2.0",
+        "latest_release_date": "2026-04-14T07:48:20Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 104720,
-          "last_week": 564435,
-          "last_month": 2035554
+          "last_day": 106793,
+          "last_week": 587293,
+          "last_month": 2114699
         },
-        "version": "3.1.0",
+        "version": "3.2.0",
         "requires_python": ">=3.9",
         "summary": "A Python library for anomaly detection across tabular, time series, graph, text, and image data. 60+ detectors, benchmark-backed ADEngine orchestration, and an agentic workflow for AI agents.",
-        "release_date": "2026-04-14T00:15:47"
+        "release_date": "2026-04-14T07:44:38"
       }
     },
     "skforecast": {
@@ -303,15 +298,15 @@
         "forks": 187,
         "watchers": 13,
         "open_issues": 23,
-        "last_commit": "2026-04-13T20:14:41Z",
+        "last_commit": "2026-04-14T20:12:38Z",
         "latest_release": "v0.21.0",
         "latest_release_date": "2026-03-13T09:34:48Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 3781,
-          "last_week": 26312,
-          "last_month": 99709
+          "last_day": 3894,
+          "last_week": 26311,
+          "last_month": 100685
         },
         "version": "0.21.0",
         "requires_python": ">=3.10",
@@ -331,9 +326,9 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 1848,
-          "last_week": 9911,
-          "last_month": 34662
+          "last_day": 742,
+          "last_week": 9603,
+          "last_month": 34664
         },
         "version": "1.4.0",
         "requires_python": "<3.15,>=3.11",
@@ -343,7 +338,7 @@
     },
     "tslearn": {
       "github": {
-        "stars": 3138,
+        "stars": 3139,
         "forks": 370,
         "watchers": 58,
         "open_issues": 92,
@@ -353,9 +348,9 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 12142,
-          "last_week": 80018,
-          "last_month": 307299
+          "last_day": 12728,
+          "last_week": 78854,
+          "last_month": 311228
         },
         "version": "0.8.1",
         "requires_python": ">=3.10",
@@ -365,19 +360,19 @@
     },
     "sktime": {
       "github": {
-        "stars": 9731,
-        "forks": 2090,
+        "stars": 9735,
+        "forks": 2094,
         "watchers": 111,
-        "open_issues": 2129,
-        "last_commit": "2026-04-13T21:27:18Z",
+        "open_issues": 2141,
+        "last_commit": "2026-04-14T21:13:28Z",
         "latest_release": "v0.40.1",
         "latest_release_date": "2025-11-25T00:02:03Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 40040,
-          "last_week": 265124,
-          "last_month": 1137118
+          "last_day": 41081,
+          "last_week": 258752,
+          "last_month": 1147510
         },
         "version": "0.40.1",
         "requires_python": "<3.15,>=3.10",
@@ -387,29 +382,29 @@
     },
     "river": {
       "github": {
-        "stars": 5791,
-        "forks": 614,
+        "stars": 5792,
+        "forks": 618,
         "watchers": 79,
-        "open_issues": 79,
-        "last_commit": "2026-04-14T05:19:41Z",
-        "latest_release": "0.23.0",
-        "latest_release_date": "2025-11-13T19:29:35Z"
+        "open_issues": 88,
+        "last_commit": "2026-04-14T22:08:36Z",
+        "latest_release": "0.24.1",
+        "latest_release_date": "2026-04-14T21:31:41Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 4458,
-          "last_week": 32059,
-          "last_month": 126434
+          "last_day": 7076,
+          "last_week": 34194,
+          "last_month": 130995
         },
-        "version": "0.23.0",
-        "requires_python": "<4.0,>=3.10",
+        "version": "0.24.1",
+        "requires_python": ">=3.11",
         "summary": "Online machine learning in Python",
-        "release_date": "2025-11-13T19:24:25"
+        "release_date": "2026-04-14T21:30:41"
       }
     },
     "scikit-survival": {
       "github": {
-        "stars": 1291,
+        "stars": 1292,
         "forks": 223,
         "watchers": 20,
         "open_issues": 29,
@@ -418,11 +413,6 @@
         "latest_release_date": "2026-02-02T18:51:21Z"
       },
       "pypi": {
-        "downloads": {
-          "last_day": 13582,
-          "last_week": 77122,
-          "last_month": 276426
-        },
         "version": "0.27.0",
         "requires_python": ">=3.11",
         "summary": "Survival analysis built on top of scikit-learn",
@@ -431,7 +421,7 @@
     },
     "umap-learn": {
       "github": {
-        "stars": 8147,
+        "stars": 8149,
         "forks": 862,
         "watchers": 122,
         "open_issues": 521,
@@ -441,9 +431,9 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 292653,
-          "last_week": 1534090,
-          "last_month": 5681888
+          "last_day": 272562,
+          "last_week": 1602019,
+          "last_month": 5836880
         },
         "version": "0.5.12",
         "requires_python": ">=3.9",
@@ -461,9 +451,9 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 3592,
-          "last_week": 28596,
-          "last_month": 160835
+          "last_day": 4291,
+          "last_week": 25765,
+          "last_month": 164059
         },
         "version": "0.17.0",
         "requires_python": ">=3.10",
@@ -481,9 +471,9 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 4948,
-          "last_week": 32329,
-          "last_month": 139725
+          "last_day": 5135,
+          "last_week": 31975,
+          "last_month": 141734
         },
         "version": "0.16.0",
         "requires_python": ">=3.9",
@@ -493,8 +483,8 @@
     },
     "mlxtend": {
       "github": {
-        "stars": 5129,
-        "forks": 902,
+        "stars": 5130,
+        "forks": 903,
         "watchers": 117,
         "open_issues": 159,
         "last_commit": "2026-01-24T17:35:51Z",
@@ -503,9 +493,9 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 40137,
-          "last_week": 264133,
-          "last_month": 1032876
+          "last_day": 42606,
+          "last_week": 267033,
+          "last_month": 1051314
         },
         "version": "0.24.0",
         "summary": "Machine Learning Library Extensions",
@@ -514,20 +504,15 @@
     },
     "mlflow": {
       "github": {
-        "stars": 25342,
-        "forks": 5571,
+        "stars": 25373,
+        "forks": 5575,
         "watchers": 317,
-        "open_issues": 1994,
-        "last_commit": "2026-04-14T06:27:28Z",
+        "open_issues": 1996,
+        "last_commit": "2026-04-15T05:15:31Z",
         "latest_release": "v3.11.1",
         "latest_release_date": "2026-04-08T05:29:25Z"
       },
       "pypi": {
-        "downloads": {
-          "last_day": 1335235,
-          "last_week": 8358868,
-          "last_month": 33349274
-        },
         "version": "3.11.1",
         "requires_python": ">=3.10",
         "summary": "MLflow is an open source platform for the complete machine learning lifecycle",
@@ -539,16 +524,16 @@
         "stars": 1388,
         "forks": 124,
         "watchers": 20,
-        "open_issues": 47,
-        "last_commit": "2026-04-14T01:58:47Z",
+        "open_issues": 36,
+        "last_commit": "2026-04-14T08:38:00Z",
         "latest_release": "v0.9.8",
         "latest_release_date": "2026-02-07T22:05:31Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 2210,
-          "last_week": 12400,
-          "last_month": 53102
+          "last_day": 2130,
+          "last_week": 12797,
+          "last_month": 54144
         },
         "version": "0.9.8",
         "requires_python": ">=3.10",
@@ -568,9 +553,9 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 493815,
-          "last_week": 3168660,
-          "last_month": 11761917
+          "last_day": 507091,
+          "last_week": 3157669,
+          "last_month": 12034007
         },
         "version": "0.13.0",
         "requires_python": ">=3.9",
@@ -580,19 +565,19 @@
     },
     "interpret": {
       "github": {
-        "stars": 6825,
-        "forks": 785,
+        "stars": 6827,
+        "forks": 784,
         "watchers": 142,
-        "open_issues": 114,
-        "last_commit": "2026-04-11T01:35:57Z",
+        "open_issues": 113,
+        "last_commit": "2026-04-15T05:53:11Z",
         "latest_release": "v0.7.8",
         "latest_release_date": "2026-03-17T23:06:18Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 13732,
-          "last_week": 100989,
-          "last_month": 369228
+          "last_day": 11262,
+          "last_week": 92698,
+          "last_month": 373198
         },
         "version": "0.7.8",
         "summary": "Fit interpretable models. Explain blackbox machine learning.",
@@ -610,11 +595,6 @@
         "latest_release_date": "2018-12-10T10:51:36Z"
       },
       "pypi": {
-        "downloads": {
-          "last_day": 2699,
-          "last_week": 17330,
-          "last_month": 87658
-        },
         "version": "0.2.0",
         "requires_python": "",
         "summary": "Scikit-multilearn is a BSD-licensed library for multi-label classification that is built on top of the well-known scikit-learn ecosystem.",
@@ -633,9 +613,9 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 190,
-          "last_week": 1539,
-          "last_month": 7727
+          "last_day": 213,
+          "last_week": 1443,
+          "last_month": 7773
         },
         "version": "0.15.0",
         "requires_python": ">=3.7",
@@ -645,7 +625,7 @@
     },
     "skorch": {
       "github": {
-        "stars": 6155,
+        "stars": 6156,
         "forks": 405,
         "watchers": 76,
         "open_issues": 66,
@@ -654,11 +634,6 @@
         "latest_release_date": "2025-12-22T16:58:19Z"
       },
       "pypi": {
-        "downloads": {
-          "last_day": 3218,
-          "last_week": 20881,
-          "last_month": 91888
-        },
         "version": "1.3.1",
         "requires_python": ">=3.10",
         "summary": "scikit-learn compatible neural network library for pytorch",
@@ -670,16 +645,16 @@
         "stars": 2227,
         "forks": 492,
         "watchers": 36,
-        "open_issues": 137,
-        "last_commit": "2026-04-14T00:46:56Z",
+        "open_issues": 136,
+        "last_commit": "2026-04-14T09:06:14Z",
         "latest_release": "v0.13.0",
         "latest_release_date": "2025-10-19T19:59:21Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 8012,
-          "last_week": 39484,
-          "last_month": 175030
+          "last_day": 7682,
+          "last_week": 41555,
+          "last_month": 179986
         },
         "version": "0.13.0",
         "requires_python": ">=3.9",
@@ -689,7 +664,7 @@
     },
     "hazardous": {
       "github": {
-        "stars": 116,
+        "stars": 117,
         "forks": 19,
         "watchers": 8,
         "open_issues": 12,
@@ -697,9 +672,9 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 1,
-          "last_week": 29,
-          "last_month": 174
+          "last_day": 4,
+          "last_week": 30,
+          "last_month": 178
         },
         "version": "0.1.0",
         "requires_python": ">=3.9",
@@ -712,16 +687,16 @@
         "stars": 38,
         "forks": 16,
         "watchers": 3,
-        "open_issues": 221,
-        "last_commit": "2026-04-13T12:12:34Z",
+        "open_issues": 219,
+        "last_commit": "2026-04-14T09:11:27Z",
         "latest_release": "0.3.0",
         "latest_release_date": "2025-12-08T15:31:38Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 4,
-          "last_week": 22,
-          "last_month": 127
+          "last_day": 8,
+          "last_week": 25,
+          "last_month": 135
         },
         "version": "0.3.0",
         "requires_python": "<4,>=3.10",
@@ -731,7 +706,7 @@
     },
     "tabicl": {
       "github": {
-        "stars": 741,
+        "stars": 743,
         "forks": 93,
         "watchers": 17,
         "open_issues": 17,
@@ -741,9 +716,9 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 2497,
-          "last_week": 17932,
-          "last_month": 80376
+          "last_day": 2878,
+          "last_week": 17780,
+          "last_month": 81862
         },
         "version": "2.0.3",
         "requires_python": ">=3.10",
@@ -753,19 +728,19 @@
     },
     "cuml": {
       "github": {
-        "stars": 5175,
+        "stars": 5176,
         "forks": 621,
         "watchers": 74,
-        "open_issues": 851,
-        "last_commit": "2026-04-13T21:41:56Z",
+        "open_issues": 849,
+        "last_commit": "2026-04-14T21:02:11Z",
         "latest_release": "v26.04.00",
         "latest_release_date": "2026-04-09T06:04:35Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 71,
-          "last_week": 393,
-          "last_month": 3319
+          "last_day": 60,
+          "last_week": 391,
+          "last_month": 3008
         },
         "version": "0.6.1.post1",
         "requires_python": "",
@@ -775,19 +750,19 @@
     },
     "bertopic": {
       "github": {
-        "stars": 7528,
-        "forks": 889,
+        "stars": 7534,
+        "forks": 888,
         "watchers": 57,
-        "open_issues": 436,
+        "open_issues": 435,
         "last_commit": "2026-02-20T13:28:24Z",
         "latest_release": "v0.17.4",
         "latest_release_date": "2025-12-03T14:22:33Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 13557,
-          "last_week": 84548,
-          "last_month": 359399
+          "last_day": 14108,
+          "last_week": 83581,
+          "last_month": 364918
         },
         "version": "0.17.4",
         "requires_python": ">=3.10",
@@ -807,7 +782,7 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 2,
+          "last_day": 0,
           "last_week": 4,
           "last_month": 31
         },
@@ -819,7 +794,7 @@
     },
     "model-diagnostics": {
       "github": {
-        "stars": 43,
+        "stars": 44,
         "forks": 5,
         "watchers": 2,
         "open_issues": 11,
@@ -828,11 +803,6 @@
         "latest_release_date": "2025-12-30T17:17:32Z"
       },
       "pypi": {
-        "downloads": {
-          "last_day": 17,
-          "last_week": 43,
-          "last_month": 245
-        },
         "version": "1.4.3",
         "requires_python": ">=3.11",
         "summary": "Tools for diagnostics and assessment of (machine learning) models",
