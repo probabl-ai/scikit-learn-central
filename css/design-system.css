@@ -1,163 +1,205 @@
 /* ═══════════════════════════════════════════════════════════
-   :probabl. Design System — CSS Custom Properties
-   Brand Guidelines v1 · Persian Blue × Sea Buckthorn
-   Google Fonts: Geist Mono (mono) + Geist (body)
+   Probabl Design System — Scikit-learn Central
+   New Probabl brand: midnight indigo · sky blue · orange spark
+   IBM Plex Serif · Switzer · IBM Plex Mono
    ═══════════════════════════════════════════════════════════ */
 
-/* ── Google Fonts ──────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&family=Geist:wght@300;400;500;600;700&display=swap');
+/* ── Switzer (UI/body) ──────────────────────────────────────── */
+@font-face {
+  font-family: "Switzer";
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: url("../fonts/Switzer-Light.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Switzer";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url("../fonts/Switzer-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Switzer";
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url("../fonts/Switzer-Medium.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Switzer";
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url("../fonts/Switzer-Semibold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Switzer";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url("../fonts/Switzer-Bold.woff2") format("woff2");
+}
 
-/* ── Brand Color Scale ─────────────────────────────────────── */
+/* ── IBM Plex Serif + Mono via Google Fonts ────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:wght@300;400;500&display=swap');
+
 :root {
-  /* Primary */
-  --probabl-blue:        #1E22AA;   /* Persian Blue   — primary brand */
-  --probabl-orange:      #F68D2E;   /* Sea Buckthorn  — accent */
+  /* ── New Probabl palette ──────────────────────────────────── */
+  --color-midnight:     #040524;
+  --color-midnight-2:   #0E1049;
+  --color-midnight-3:   #1B1D58;
+  --color-midnight-line:#34366D;
+  --color-sky:          #4CD0FF;
+  --color-orange:       #FF7900;
+  --color-bone:         #F4F2EC;
+  --color-near-black:   #0F101C;
+  --color-mist:         #CCCCD7;
+  --color-slate:        #8C8EA8;
+  --color-graphite:     #3C3E60;
 
-  /* Blue scale (dark → light) */
-  --blue-900:            #0D1060;
-  --blue-800:            #151776;   /* Deep Koamaru */
-  --blue-700:            #1B1E99;   /* Jackson Purple */
-  --blue-600:            #1E22AA;   /* Persian Blue ← primary */
-  --blue-500:            #282DC8;
-  --blue-400:            #2E33E0;   /* Royal Blue */
-  --blue-300:            #353BFF;   /* Dodger Blue */
-  --blue-200:            #7478FF;
-  --blue-100:            #B8BAFF;
-  --blue-050:            #EAEAFF;
+  /* ── Legacy token aliases — remapped to new brand ─────────── */
+  --probabl-blue:        var(--color-midnight);   /* primary dark */
+  --probabl-orange:      var(--color-orange);     /* accent */
 
-  /* Orange scale (dark → light) */
-  --orange-900:          #7A3F0F;
-  --orange-800:          #AC6220;   /* Desert */
-  --orange-700:          #C47024;   /* Piper */
-  --orange-600:          #DD7E29;   /* Ochre */
-  --orange-500:          #F68D2E;   /* Sea Buckthorn ← accent */
-  --orange-400:          #F69842;   /* Casablanca */
-  --orange-300:          #F7A357;
-  --orange-200:          #F8B87C;
-  --orange-100:          #FBCFA5;
-  --orange-050:          #FEF0E2;
+  /* Blue scale → midnight scale (dark→light) */
+  --blue-900:            #02031A;
+  --blue-800:            #040524;
+  --blue-700:            #0A0B36;
+  --blue-600:            #0E1049;   /* midnight-2 */
+  --blue-500:            #1B1D58;   /* midnight-3 */
+  --blue-400:            #2A2D7A;
+  --blue-300:            #4CD0FF;   /* sky used as bright accent */
+  --blue-200:            #9DE3FF;
+  --blue-100:            #CFEFFF;
+  --blue-050:            #EAF8FF;
 
-  /* Neutral / Cream scale */
+  /* Orange scale */
+  --orange-900:          #7A3A00;
+  --orange-800:          #A85100;
+  --orange-700:          #CC6300;
+  --orange-600:          #E66D00;
+  --orange-500:          #FF7900;   /* primary orange */
+  --orange-400:          #FF9333;
+  --orange-300:          #FFAA5C;
+  --orange-200:          #FFC48A;
+  --orange-100:          #FFD9B0;
+  --orange-050:          #FFEFDC;
+
+  /* Neutrals — warm bone palette */
   --neutral-950:         #000000;
-  --neutral-900:         #1A1A1A;
-  --neutral-800:         #30302F;   /* Tuatara */
-  --neutral-700:         #484847;   /* Fuscous Gray */
-  --neutral-600:         #797977;   /* Friar Gray */
-  --neutral-500:         #A4A3A0;
-  --neutral-400:         #C2C1BE;   /* Cloud */
-  --neutral-300:         #DAD9D6;   /* Quill Gray */
-  --neutral-200:         #F3F2EE;   /* Cararra */
-  --neutral-150:         #F7F1DB;   /* Albescent White */
-  --neutral-100:         #FBF8ED;   /* Rum Swizzle */
-  --neutral-050:         #FDFCF9;   /* Merino */
+  --neutral-900:         #0F101C;   /* near-black */
+  --neutral-800:         #1A1B2A;
+  --neutral-700:         #3C3E60;   /* graphite */
+  --neutral-600:         #50526E;
+  --neutral-500:         #8C8EA8;   /* slate */
+  --neutral-400:         #B4B5C5;
+  --neutral-300:         #DCDAD2;   /* line */
+  --neutral-200:         #E8E5DB;
+  --neutral-150:         #EFEDE3;
+  --neutral-100:         #F4F2EC;   /* bone */
+  --neutral-050:         #FAF8F2;
   --neutral-000:         #FFFFFF;
 
-  /* ── Semantic Tokens ──────────────────────────────────────── */
+  /* ── Semantic tokens ──────────────────────────────────────── */
+  --bg-page:             var(--color-bone);
+  --bg-surface:          var(--neutral-000);
+  --bg-surface-alt:      var(--neutral-100);
+  --bg-primary:          var(--color-midnight);
+  --bg-accent:           var(--color-orange);
 
-  /* Backgrounds */
-  --bg-page:             var(--neutral-050);    /* Merino cream */
-  --bg-surface:          var(--neutral-000);    /* White */
-  --bg-surface-alt:      var(--neutral-200);    /* Cararra */
-  --bg-primary:          var(--probabl-blue);   /* Header, hero */
-  --bg-accent:           var(--probabl-orange); /* CTAs, highlights */
-
-  /* Text */
-  --text-primary:        var(--neutral-950);
+  --text-primary:        var(--color-near-black);
   --text-secondary:      var(--neutral-700);
   --text-muted:          var(--neutral-600);
   --text-on-blue:        var(--neutral-000);
-  --text-on-orange:      var(--probabl-blue);
+  --text-on-orange:      var(--color-near-black);
 
-  /* Borders */
   --border-subtle:       var(--neutral-300);
   --border-default:      var(--neutral-300);
-  --border-focus:        var(--probabl-blue);
+  --border-focus:        var(--color-sky);
 
   /* Status colors */
-  --status-active:       #1A7F37;
+  --status-active:       #2EA875;
   --status-active-bg:    #DCFCE7;
-  --status-maintained:   #0969DA;
-  --status-maintained-bg:#DBEAFE;
-  --status-deprecated:   #9A6700;
-  --status-deprecated-bg:#FEF9C3;
-  --status-archived:     #57606A;
-  --status-archived-bg:  #F1F5F9;
+  --status-maintained:   #1B58CC;
+  --status-maintained-bg:#EAF8FF;
+  --status-deprecated:   #B25C00;
+  --status-deprecated-bg:#FFEFDC;
+  --status-archived:     #50526E;
+  --status-archived-bg:  #E8E5DB;
 
-  /* ── Release changelog tag colours ───────────────────────── */
-  --tag-major-feature: var(--probabl-orange);
-  --tag-feature:       var(--probabl-blue);
-  --tag-efficiency:    #16A34A;
+  /* Release changelog tag colors */
+  --tag-major-feature: var(--color-orange);
+  --tag-feature:       var(--color-sky);
+  --tag-efficiency:    #2EA875;
   --tag-enhancement:   #7C3AED;
-  --tag-fix:           #DC2626;
+  --tag-fix:           #DC4C4C;
   --tag-api-change:    #D97706;
 
   /* ── Typography ───────────────────────────────────────────── */
-  --font-mono:   'Geist Mono', 'Courier New', monospace;
-  --font-body:   'Geist', system-ui, -apple-system, sans-serif;
+  --font-serif:  "IBM Plex Serif", "Source Serif Pro", Georgia, serif;
+  --font-sans:   "Switzer", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-mono:   "IBM Plex Mono", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-body:   var(--font-sans);
 
   /* Type scale */
-  --text-xs:     0.65rem;    /* 10.4px */
-  --text-sm:     0.75rem;    /* 12px   */
-  --text-base:   0.875rem;   /* 14px   */
-  --text-md:     1rem;       /* 16px   */
-  --text-lg:     1.125rem;   /* 18px   */
-  --text-xl:     1.375rem;   /* 22px   */
-  --text-2xl:    1.75rem;    /* 28px   */
-  --text-3xl:    2.25rem;    /* 36px   */
+  --text-xs:     0.75rem;     /* 12px   */
+  --text-sm:     0.8125rem;   /* 13px   */
+  --text-base:   0.875rem;    /* 14px   */
+  --text-md:     1rem;        /* 16px   */
+  --text-lg:     1.125rem;    /* 18px   */
+  --text-xl:     1.375rem;    /* 22px   */
+  --text-2xl:    1.75rem;     /* 28px   */
+  --text-3xl:    2.25rem;     /* 36px   */
 
-  /* Tracking — brand spec uses -1% for headings */
+  /* Tracking */
   --tracking-tight:   -0.01em;
+  --tracking-display: -0.02em;
   --tracking-normal:   0em;
   --tracking-wide:     0.04em;
   --tracking-wider:    0.08em;
   --tracking-widest:   0.12em;
 
-  /* ── Spacing ──────────────────────────────────────────────── */
+  /* Spacing */
   --space-1:  4px;
   --space-2:  8px;
   --space-3:  12px;
   --space-4:  16px;
   --space-5:  20px;
   --space-6:  24px;
-  --space-7:  28px;
-  --space-8:  32px;
-  --space-10: 40px;
-  --space-12: 48px;
-  --space-16: 64px;
+  --space-7:  32px;
+  --space-8:  40px;
+  --space-10: 64px;
+  --space-12: 80px;
+  --space-16: 128px;
 
-  /* ── Radii ────────────────────────────────────────────────── */
-  --radius-sm:   6px;
-  --radius-md:   10px;
-  --radius-lg:   16px;
-  --radius-xl:   20px;
+  /* Radii — sharp Probabl style */
+  --radius-sm:   2px;
+  --radius-md:   4px;
+  --radius-lg:   4px;   /* cards still nearly square */
+  --radius-xl:   6px;
   --radius-full: 9999px;
 
-  /* ── Shadows ──────────────────────────────────────────────── */
-  --shadow-sm:  0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
-  --shadow-md:  0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04);
-  --shadow-lg:  0 8px 28px rgba(30,34,170,.10), 0 4px 8px rgba(0,0,0,.04);
-  --shadow-xl:  0 20px 48px rgba(30,34,170,.15);
+  /* Shadows */
+  --shadow-sm:  0 1px 2px rgba(4,5,36,0.08);
+  --shadow-md:  0 4px 16px rgba(4,5,36,0.10);
+  --shadow-lg:  0 16px 48px rgba(4,5,36,0.18);
+  --shadow-xl:  0 20px 64px rgba(4,5,36,0.22);
 
-  /* ── Transitions ──────────────────────────────────────────── */
-  --ease:        cubic-bezier(.4,0,.2,1);
-  --duration-sm: 150ms;
+  /* Transitions */
+  --ease:        cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-sm: 120ms;
   --duration-md: 220ms;
-  --duration-lg: 350ms;
+  --duration-lg: 420ms;
 
-  /* ── Layout ───────────────────────────────────────────────── */
-  --header-h:    60px;
+  /* Layout */
+  --header-h:    64px;
   --sidebar-w:   272px;
-  --content-max: 1100px;
+  --content-max: 1200px;
 }
 
 /* ── Reset & Base ──────────────────────────────────────────── */
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 html {
   font-size: 16px;
@@ -167,21 +209,24 @@ html {
 }
 
 body {
-  font-family: var(--font-body);
+  font-family: var(--font-sans);
   font-size: var(--text-md);
   line-height: 1.6;
   color: var(--text-primary);
   background: var(--bg-page);
   min-height: 100vh;
+  text-rendering: optimizeLegibility;
 }
 
 a {
-  color: var(--probabl-blue);
-  text-decoration: none;
+  color: var(--color-near-black);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
   transition: color var(--duration-sm) var(--ease);
 }
 
-a:hover { color: var(--blue-400); }
+a:hover { color: var(--color-orange); }
 
 img, svg { display: block; max-width: 100%; }
 
@@ -190,13 +235,13 @@ button, input, select, textarea {
   font-size: inherit;
 }
 
+::selection { background: var(--color-sky); color: var(--color-near-black); }
+
 /* ── Utility Classes ───────────────────────────────────────── */
 .sr-only {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
   overflow: hidden;
   clip: rect(0,0,0,0);
   white-space: nowrap;
@@ -204,7 +249,7 @@ button, input, select, textarea {
 }
 
 .mono { font-family: var(--font-mono); }
-
+.serif { font-family: var(--font-serif); font-weight: 300; letter-spacing: var(--tracking-display); }
 .text-muted { color: var(--text-muted); }
 .text-primary { color: var(--text-primary); }
 
@@ -214,73 +259,112 @@ button, input, select, textarea {
   white-space: nowrap;
 }
 
+/* Eyebrow — UPPERCASE wide-tracked label, paired with the spark glyph */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+}
+
 /* ── Shared Button Base ────────────────────────────────────── */
 .btn {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: 9px 20px;
+  padding: 9px 18px;
   border: none;
-  border-radius: var(--radius-sm);
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
   text-decoration: none;
   cursor: pointer;
-  transition: all var(--duration-md) var(--ease);
+  transition: opacity var(--duration-md) var(--ease),
+              background var(--duration-md) var(--ease),
+              border-color var(--duration-md) var(--ease),
+              color var(--duration-md) var(--ease);
   white-space: nowrap;
   user-select: none;
+  line-height: 1;
 }
 
 .btn:focus-visible {
-  outline: 2px solid var(--probabl-orange);
-  outline-offset: 2px;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(76,208,255,0.30);
 }
 
-.btn--primary {
-  background: var(--probabl-orange);
-  color: var(--probabl-blue);
+.btn:hover { opacity: 0.92; }
+.btn:active { opacity: 0.85; }
+
+/* Primary — orange fill on midnight, dark fill on light */
+.btn--primary,
+.btn--primary:hover,
+.btn--primary:visited {
+  background: var(--color-orange);
+  color: var(--color-near-black);
+  text-decoration: none;
 }
 
 .btn--primary:hover {
-  background: var(--orange-400);
-  color: var(--probabl-blue);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  background: var(--color-orange);
+  color: var(--color-near-black);
+  opacity: 0.92;
+}
+
+/* Ghost — transparent w/ hairline, used on dark headers */
+.btn--ghost,
+.btn--ghost:hover,
+.btn--ghost:visited {
+  color: #fff;
+  text-decoration: none;
 }
 
 .btn--ghost {
-  background: rgba(255,255,255,0.10);
-  color: var(--neutral-000);
-  border: 1.5px solid rgba(255,255,255,0.25);
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.20);
+  border-radius: var(--radius-full);
 }
 
 .btn--ghost:hover {
-  background: rgba(255,255,255,0.18);
-  color: var(--neutral-000);
-  transform: translateY(-1px);
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.35);
+  color: #fff;
+}
+
+/* Outline — light surface */
+.btn--outline,
+.btn--outline:hover,
+.btn--outline:visited {
+  color: var(--color-near-black);
+  text-decoration: none;
 }
 
 .btn--outline {
   background: transparent;
-  color: var(--probabl-blue);
-  border: 1.5px solid var(--border-default);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-full);
 }
 
 .btn--outline:hover {
-  border-color: var(--probabl-blue);
-  background: var(--blue-050);
+  border-color: var(--color-near-black);
+  background: transparent;
 }
 
 .btn--sm {
-  padding: 5px 12px;
-  font-size: var(--text-xs);
+  padding: 6px 14px;
+  font-size: 13px;
 }
 
 /* ── Scrollbar ─────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--neutral-300); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--neutral-400); }
+::-webkit-scrollbar-thumb { background: var(--neutral-300); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--neutral-500); }

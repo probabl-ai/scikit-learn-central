@@ -331,14 +331,10 @@ function renderCatalogHero() {
     ? useCases.use_cases.filter(uc => uc.packages.includes('scikit-learn')).length : 0;
 
   document.getElementById('sklearn-hero').innerHTML = `
-    <div class="sklearn-hero__corner-tag">★ The Core</div>
+    <div class="sklearn-hero__corner-tag">The Core</div>
     <div class="sklearn-hero__body">
-      <div class="sklearn-hero__logo">
-        <img src="https://scikit-learn.org/stable/_static/scikit-learn-logo-notext.png" alt="scikit-learn logo"
-          onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg';">
-      </div>
       <div class="sklearn-hero__content">
-        <div class="sklearn-hero__pill">★ Core Library — Foundation of the Ecosystem</div>
+        <div class="sklearn-hero__pill">Core Library — Foundation of the Ecosystem</div>
         <div class="sklearn-hero__name">${c.name}</div>
         <p class="sklearn-hero__description">${c.description}</p>
         <div class="sklearn-hero__badges badges">
