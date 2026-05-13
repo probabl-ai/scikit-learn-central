@@ -71,7 +71,10 @@ pipe = make_pipeline(
 cv_report = CrossValidationReport(pipe, X, y, pos_label="satisfied")
 print(cv_report.metrics.summarize().frame())
 
-# Predict on new text using the estimator fitted on full data
+# CrossValidationReport only fits clones of `pipe` on each fold — the prototype
+# is never fitted on the full data. Fit it explicitly before predicting on new text.
+pipe.fit(X, y)
+
 new_samples = pd.DataFrame(
     {
         "review": [
@@ -81,6 +84,6 @@ new_samples = pd.DataFrame(
         ]
     }
 )
-new_samples["sentiment"] = cv_report.estimator_.predict(new_samples[["review"]])
+new_samples["sentiment"] = pipe.predict(new_samples[["review"]])
 
 print(new_samples.to_string())
