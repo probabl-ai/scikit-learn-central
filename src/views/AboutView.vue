@@ -40,14 +40,14 @@ const committees: Committee[] = [
 </script>
 
 <template>
-  <div id="view-about" class="view" role="tabpanel" aria-label="About Scikit-learn Central">
+  <div id="view-about" class="view" role="tabpanel" aria-label="About scikit-learn Central">
     <div class="page-content">
       <div class="about-page">
         <section class="about-section">
           <h2 class="about-section__title">Purpose</h2>
           <div class="about-section__body">
             <p>
-              Scikit-learn Central is a community resource dedicated to serving the
+              scikit-learn Central is a community resource dedicated to serving the
               broader scientific Python and machine learning ecosystem. It's curated,
               hosted, and governed by Probabl, with contributions from the community at
               large.

@@ -20,7 +20,7 @@ defineEmits<{
           />
         </div>
         <div class="app-header__titles">
-          <h1 class="app-header__title">Scikit-learn Central</h1>
+          <h1 class="app-header__title">scikit-learn Central</h1>
           <span class="app-header__subtitle">
             Ecosystem catalog &amp; use case explorer · by <strong>:probabl.</strong>
           </span>

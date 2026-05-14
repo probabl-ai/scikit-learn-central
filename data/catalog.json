@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "3.0",
-    "name": "Scikit-learn Central",
+    "name": "scikit-learn Central",
     "updated": "2026-02-23",
     "description": "The official curated catalog of the scikit-learn ecosystem, maintained by :probabl."
   },

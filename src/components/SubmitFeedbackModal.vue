@@ -51,7 +51,7 @@ function close(): void {
   <BaseModal
     :open="open"
     title="Submit Feedback"
-    subtitle="Share your thoughts, suggestions, or ideas to help improve Scikit-learn Central."
+    subtitle="Share your thoughts, suggestions, or ideas to help improve scikit-learn Central."
     @close="close"
   >
     <FormSuccess

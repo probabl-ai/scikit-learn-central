@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   Scikit-learn Central v2 — Component Styles
+   scikit-learn Central v2 — Component Styles
    ═══════════════════════════════════════════════════════════ */
 
 /* ── App Shell ─────────────────────────────────────────────── */
@@ -280,7 +280,7 @@
   background: rgba(255,255,255,.15);
 }
 
-/* ── Scikit-learn Hero Card ────────────────────────────────── */
+/* ── scikit-learn Hero Card ────────────────────────────────── */
 /* Always visible — the core of the ecosystem, never filtered */
 .sklearn-hero {
   background: var(--color-midnight);
@@ -1269,7 +1269,7 @@
 
 
 /* ═══════════════════════════════════════════════════════════
-   Scikit-learn Central v3 — Additional Components
+   scikit-learn Central v3 — Additional Components
    ═══════════════════════════════════════════════════════════ */
 
 /* ── View Tabs (Catalog / Use Cases) ────────────────────── */
@@ -1908,7 +1908,7 @@
 
 
 /* ═══════════════════════════════════════════════════════════
-   Scikit-learn Central v3 — Horizontal Filter Bar
+   scikit-learn Central v3 — Horizontal Filter Bar
    Replaces sidebar layout with an inline filter strip.
    ═══════════════════════════════════════════════════════════ */
 
