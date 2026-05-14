@@ -15,5 +15,14 @@
     "tabular",
     "foundation-model",
     "in-context-learning"
-  ]
+  ],
+  "docs_quality": {
+    "getting_started": true,
+    "api_reference": true,
+    "narrative_guide": true
+  },
+  "testing": {
+    "has_tests": true,
+    "test_coverage": null
+  }
 }

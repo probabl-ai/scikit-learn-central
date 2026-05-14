@@ -1,4 +1,4 @@
-import { ref, type Ref } from 'vue'
+import { computed, ref, type ComputedRef, type Ref } from 'vue'
 import useCasesIndex from '@data/use-cases.json'
 import type { UseCase, UseCasesIndex } from '@/types/usecase'
 
@@ -35,6 +35,19 @@ function loadAll(): UseCase[] {
 
 const cache: Ref<UseCase[]> = ref(loadAll())
 
+/** Map of packageId → list of use cases that reference it. */
+const useCasesByPackage: ComputedRef<Map<string, UseCase[]>> = computed(() => {
+  const m = new Map<string, UseCase[]>()
+  for (const uc of cache.value) {
+    for (const id of uc.packages) {
+      const list = m.get(id)
+      if (list) list.push(uc)
+      else m.set(id, [uc])
+    }
+  }
+  return m
+})
+
 export function useUseCases() {
-  return { useCases: cache }
+  return { useCases: cache, useCasesByPackage }
 }

@@ -19,5 +19,14 @@
     "clustering",
     "forecasting",
     "anomaly-detection"
-  ]
+  ],
+  "docs_quality": {
+    "getting_started": true,
+    "api_reference": true,
+    "narrative_guide": true
+  },
+  "testing": {
+    "has_tests": true,
+    "test_coverage": 90.4
+  }
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import FilterDropdown from '@/components/FilterDropdown.vue'
 import UseCaseCard from '@/components/UseCaseCard.vue'
 import CodeModal from '@/components/CodeModal.vue'
@@ -7,6 +8,8 @@ import { useUseCases } from '@/composables/useUseCases'
 import type { Difficulty, UseCase } from '@/types/usecase'
 
 const { useCases } = useUseCases()
+const route = useRoute()
+const router = useRouter()
 
 const search = ref('')
 const industrySel = ref<Set<string>>(new Set())
@@ -169,7 +172,21 @@ function openCode(uc: UseCase): void {
 }
 function closeCode(): void {
   activeUseCase.value = null
+  /* Clean ?slug= from the URL so reload doesn't re-open the modal. */
+  if (route.query.slug) router.replace({ query: {} })
 }
+
+/* Deep-link support: /#/use-cases?slug=fraud-detection-banking. Used by
+   PackageInsightCard so users can jump from a package to its concrete use
+   case in one click. */
+function openFromQuery(): void {
+  const slug = route.query.slug
+  if (typeof slug !== 'string' || !slug) return
+  const match = useCases.value.find((uc) => uc.slug === slug)
+  if (match) activeUseCase.value = match
+}
+onMounted(openFromQuery)
+watch(() => route.query.slug, openFromQuery)
 </script>
 
 <template>

@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import FilterDropdown from '@/components/FilterDropdown.vue'
 import SklearnHero from '@/components/SklearnHero.vue'
-import PackageCard from '@/components/PackageCard.vue'
+import PackageInsightCard from '@/components/PackageInsightCard.vue'
 import UseCaseCard from '@/components/UseCaseCard.vue'
 import ReleaseCard from '@/components/ReleaseCard.vue'
 import ReleasesBlogStrip from '@/components/ReleasesBlogStrip.vue'
@@ -20,24 +20,23 @@ import { useReleases } from '@/composables/useReleases'
 import type { UseCase } from '@/types/usecase'
 
 const { core, packages } = usePackages()
-const { useCases } = useUseCases()
+const { useCases, useCasesByPackage } = useUseCases()
 const { releases } = useReleases()
 
 /* ── Sample data picks ───────────────────────────────────── */
-const ucCountByPkg = computed(() => {
-  const m = new Map<string, number>()
-  for (const uc of useCases.value) {
-    for (const id of uc.packages) m.set(id, (m.get(id) ?? 0) + 1)
-  }
-  return m
-})
-
 const probablBoosted = computed(() =>
   packages.value.find((p) => p.probabl && p.scope === 'core'),
 )
-const regularPkg = computed(() =>
-  packages.value.find((p) => !(p.probabl && p.scope === 'core')),
-)
+/* Pick a regular package that has at least one curated use case so the
+   sandbox actually exercises the "concrete use cases" section of the card. */
+const regularPkg = computed(() => {
+  const withUc = packages.value.find(
+    (p) =>
+      !(p.probabl && p.scope === 'core') &&
+      (useCasesByPackage.value.get(p.id)?.length ?? 0) > 0,
+  )
+  return withUc ?? packages.value.find((p) => !(p.probabl && p.scope === 'core'))
+})
 const sampleUseCase = computed(() => useCases.value[0])
 const sampleRelease = computed(() => releases.value.find((r) => r.version !== 'future'))
 const futureRelease = computed(() => releases.value.find((r) => r.version === 'future'))
@@ -93,25 +92,30 @@ const fbOpen = ref(false)
         <h2 class="sandbox-section__title">SklearnHero</h2>
         <SklearnHero
           :core="core"
-          :use-case-count="ucCountByPkg.get('scikit-learn') ?? 0"
+          :use-case-count="useCasesByPackage.get('scikit-learn')?.length ?? 0"
         />
       </section>
 
       <!-- ──────────────────────────── -->
       <section class="sandbox-section">
-        <h2 class="sandbox-section__title">PackageCard — boosted vs regular</h2>
+        <h2 class="sandbox-section__title">PackageInsightCard — boosted vs regular</h2>
+        <p class="sandbox-section__hint">
+          Re-design guided by Nadi &amp; Sakr (EMSE 2022). Surfaces "best for"
+          tasks, recent activity, adoption signals, and concrete use-case
+          titles linked into the Use Cases view.
+        </p>
         <div class="sandbox-grid">
-          <PackageCard
+          <PackageInsightCard
             v-if="probablBoosted"
             :pkg="probablBoosted"
-            :use-case-count="ucCountByPkg.get(probablBoosted.id) ?? 0"
+            :use-cases="useCasesByPackage.get(probablBoosted.id) ?? []"
             :show-fit-chip="true"
             :is-probabl-boosted="true"
           />
-          <PackageCard
+          <PackageInsightCard
             v-if="regularPkg"
             :pkg="regularPkg"
-            :use-case-count="ucCountByPkg.get(regularPkg.id) ?? 0"
+            :use-cases="useCasesByPackage.get(regularPkg.id) ?? []"
             :show-fit-chip="true"
             :is-probabl-boosted="false"
           />

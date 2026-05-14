@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import SklearnHero from '@/components/SklearnHero.vue'
-import PackageCard from '@/components/PackageCard.vue'
+import PackageInsightCard from '@/components/PackageInsightCard.vue'
 import FilterDropdown from '@/components/FilterDropdown.vue'
 import { usePackages } from '@/composables/usePackages'
 import { useUseCases } from '@/composables/useUseCases'
@@ -10,7 +10,7 @@ import type { Nature, Scope, License } from '@/types/package'
 type SortKey = 'ranking' | 'stars' | 'downloads' | 'name'
 
 const { core, packages } = usePackages()
-const { useCases } = useUseCases()
+const { useCasesByPackage } = useUseCases()
 
 const search = ref('')
 const natureSel = ref<Set<Nature>>(new Set())
@@ -43,13 +43,11 @@ function cap(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-const useCaseCountByPkg = computed(() => {
-  const map = new Map<string, number>()
-  for (const uc of useCases.value) {
-    for (const id of uc.packages) map.set(id, (map.get(id) ?? 0) + 1)
-  }
-  return map
-})
+/** Use cases for the sklearn hero (count only). The per-card cards pull
+    the full UseCase[] list from useCasesByPackage so they can render titles. */
+const ucForCorePkg = computed(
+  () => useCasesByPackage.value.get('scikit-learn')?.length ?? 0,
+)
 
 const filtered = computed(() => {
   let r = [...packages.value]
@@ -128,7 +126,6 @@ const activeChips = computed<ActiveChip[]>(() => {
   return chips
 })
 
-const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 0)
 </script>
 
 <template>
@@ -184,7 +181,7 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
 
   <div id="view-catalog" class="view" role="tabpanel" aria-label="Package catalog">
     <div class="page-content">
-      <SklearnHero :core="core" :use-case-count="ucForCore" />
+      <SklearnHero :core="core" :use-case-count="ucForCorePkg" />
 
       <div class="catalog-header">
         <h2 class="catalog-header__title">Ecosystem Packages</h2>
@@ -201,11 +198,11 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
       </div>
 
       <div v-else id="catalog-grid" class="catalog-grid">
-        <PackageCard
+        <PackageInsightCard
           v-for="pkg in filtered"
           :key="pkg.id"
           :pkg="pkg"
-          :use-case-count="useCaseCountByPkg.get(pkg.id) ?? 0"
+          :use-cases="useCasesByPackage.get(pkg.id) ?? []"
           :show-fit-chip="true"
           :is-probabl-boosted="
             sortBy === 'ranking' && pkg.probabl === true && pkg.scope === 'core'

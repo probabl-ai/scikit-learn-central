@@ -17,5 +17,14 @@
     "classification",
     "classifier-chains",
     "sparse-matrices"
-  ]
+  ],
+  "docs_quality": {
+    "getting_started": false,
+    "api_reference": false,
+    "narrative_guide": false
+  },
+  "testing": {
+    "has_tests": true,
+    "test_coverage": null
+  }
 }

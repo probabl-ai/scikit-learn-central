@@ -8,6 +8,7 @@ Sources
 - GitHub REST API  → stars, forks, watchers, open issues, last commit, latest release
 - pypistats.org    → downloads per day / week / month
 - pypi.org JSON    → latest version, release date, requires-python, summary
+- codecov.io API   → public test coverage % when available (unauth, public repos)
 
 Usage
 -----
@@ -143,6 +144,83 @@ def fetch_pypi_stats(pkg_id):
 
 
 # ---------------------------------------------------------------------------
+# Codecov
+# ---------------------------------------------------------------------------
+
+def fetch_codecov_stats(repo_url, codecov_slug=None):
+    """Return {coverage, active, branch} from codecov.io, or None if not found.
+
+    Public API, unauthenticated. Endpoint:
+        https://api.codecov.io/api/v2/github/{owner}/repos/{repo}
+
+    By default the slug is derived from `repo_url` (the GitHub repository).
+    Some projects use a different name on codecov (e.g. feature-engine ships
+    on GitHub as `feature-engine/feature-engine` but codecov stores it under
+    `feature-engine/feature_engine`). In that case the package JSON can set
+    `codecov_slug: "owner/repo"` to override.
+
+    Codecov registers a lot of repos (even ones that never uploaded), so a
+    200 response doesn't guarantee data — we only emit a coverage block when
+    `totals.coverage` is present.
+    """
+    if codecov_slug:
+        slug = codecov_slug
+    else:
+        if "github.com" not in repo_url:
+            return None
+        slug = _parse_github_slug(repo_url)
+    owner, repo = slug.split("/", 1)
+    url = f"https://api.codecov.io/api/v2/github/{owner}/repos/{repo}"
+    data = fetch_json(url)
+    if not isinstance(data, dict):
+        return None
+    totals = data.get("totals")
+    if not isinstance(totals, dict):
+        return None
+    coverage = totals.get("coverage")
+    if coverage is None:
+        return None
+    return {
+        "coverage": round(coverage, 2),
+        "active": data.get("active", False),
+        "branch": data.get("branch"),
+    }
+
+
+# ---------------------------------------------------------------------------
+# Coveralls
+# ---------------------------------------------------------------------------
+
+def fetch_coveralls_stats(repo_url, coveralls_slug=None):
+    """Return {coverage, branch} from coveralls.io, or None if not found.
+
+    Public endpoint, unauthenticated:
+        https://coveralls.io/github/{owner}/{repo}.json
+
+    Used as a fallback when codecov doesn't have data — some projects (e.g.
+    pyod) publish to coveralls instead. The package JSON can set
+    `coveralls_slug: "owner/repo"` to override the auto-derived slug.
+    """
+    if coveralls_slug:
+        slug = coveralls_slug
+    else:
+        if "github.com" not in repo_url:
+            return None
+        slug = _parse_github_slug(repo_url)
+    url = f"https://coveralls.io/github/{slug}.json"
+    data = fetch_json(url)
+    if not isinstance(data, dict):
+        return None
+    cov = data.get("covered_percent")
+    if cov is None:
+        return None
+    return {
+        "coverage": round(cov, 2),
+        "branch": data.get("branch"),
+    }
+
+
+# ---------------------------------------------------------------------------
 # Per-package orchestration
 # ---------------------------------------------------------------------------
 
@@ -162,6 +240,20 @@ def collect_stats(pkg_data, token=None):
     py = fetch_pypi_stats(pkg_id)
     if py:
         stats["pypi"] = py
+
+    if "github.com" in repo_url or pkg_data.get("codecov_slug"):
+        print(f"      codecov…")
+        cc = fetch_codecov_stats(repo_url, codecov_slug=pkg_data.get("codecov_slug"))
+        if cc:
+            stats["codecov"] = cc
+
+    # Only probe coveralls when codecov gave nothing — avoids 37 extra
+    # requests per run for packages that publish to codecov anyway.
+    if "codecov" not in stats and ("github.com" in repo_url or pkg_data.get("coveralls_slug")):
+        print(f"      coveralls…")
+        cv = fetch_coveralls_stats(repo_url, coveralls_slug=pkg_data.get("coveralls_slug"))
+        if cv:
+            stats["coveralls"] = cv
 
     return stats
 

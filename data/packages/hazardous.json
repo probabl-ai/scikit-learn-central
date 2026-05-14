@@ -19,5 +19,14 @@
     "time-to-event",
     "gradient-boosting",
     "censored-data"
-  ]
+  ],
+  "docs_quality": {
+    "getting_started": true,
+    "api_reference": true,
+    "narrative_guide": false
+  },
+  "testing": {
+    "has_tests": true,
+    "test_coverage": null
+  }
 }
