@@ -30,3 +30,6 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+
+# Claude Code local settings
+.claude/
