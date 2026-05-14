@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   Scikit-learn Central v2 — Component Styles
+   scikit-learn Central v2 — Component Styles
    ═══════════════════════════════════════════════════════════ */
 
 /* ── App Shell ─────────────────────────────────────────────── */
@@ -45,8 +45,8 @@
 
 /* Title */
 .app-header__title {
-  font-family: var(--font-serif);
-  font-size: 20px;
+  font-family: var(--brand-typography--title);
+  font-size: var(--brand-typography-size--body-xl); /* 1.25rem / 20 px */
   font-weight: 300;
   letter-spacing: var(--tracking-tight);
   color: #fff;
@@ -280,7 +280,7 @@
   background: rgba(255,255,255,.15);
 }
 
-/* ── Scikit-learn Hero Card ────────────────────────────────── */
+/* ── scikit-learn Hero Card ────────────────────────────────── */
 /* Always visible — the core of the ecosystem, never filtered */
 .sklearn-hero {
   background: var(--color-midnight);
@@ -359,7 +359,7 @@
   width: 26px;
   height: 16px;
   margin-right: 10px;
-  background-image: url('../images/spark.svg');
+  background-image: url('/images/spark.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -368,12 +368,12 @@
 }
 
 .sklearn-hero__name {
-  font-family: var(--font-serif);
-  font-size: 44px;
+  font-family: var(--brand-typography--title);
+  font-size: var(--brand-typography-size--heading-h2); /* 3.5rem / 56 px — probabl H2 */
   font-weight: 300;
   color: #fff;
   letter-spacing: var(--tracking-display);
-  line-height: 1.05;
+  line-height: 1.1;
   margin-bottom: var(--space-4);
 }
 
@@ -452,7 +452,9 @@
   letter-spacing: 0;
   text-transform: none;
   text-decoration: none;
-  transition: all var(--duration-md) var(--ease);
+  transition: background var(--duration-md) var(--ease-out),
+              border-color var(--duration-md) var(--ease-out),
+              color var(--duration-md) var(--ease-out);
 }
 
 .sklearn-hero__link:hover {
@@ -529,12 +531,12 @@
 }
 
 .catalog-header__title {
-  font-family: var(--font-serif);
-  font-size: 28px;
+  font-family: var(--brand-typography--title);
+  font-size: var(--brand-typography-size--heading-h5); /* 2rem / 32 px — probabl H5 */
   font-weight: 300;
   color: var(--text-primary);
   letter-spacing: var(--tracking-tight);
-  line-height: 1.1;
+  line-height: 1.5;
 }
 
 .catalog-header__count {
@@ -581,6 +583,44 @@
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: var(--space-5);
 }
+
+/* Staggered entry — keep delays short (40 ms between cards) so the grid
+   never feels slow. Stagger only the first ~8 cards; remaining cards
+   land at the same time (the trailing delay of 280 ms feels right and
+   stays under 300 ms total). */
+@keyframes card-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.catalog-grid > .card,
+.uc-grid > .uc-card,
+.releases-grid > .release-card {
+  animation: card-enter 280ms var(--ease-out) both;
+}
+.catalog-grid  > .card:nth-child(1),
+.uc-grid       > .uc-card:nth-child(1),
+.releases-grid > .release-card:nth-child(1)  { animation-delay: 0ms; }
+.catalog-grid  > .card:nth-child(2),
+.uc-grid       > .uc-card:nth-child(2),
+.releases-grid > .release-card:nth-child(2)  { animation-delay: 40ms; }
+.catalog-grid  > .card:nth-child(3),
+.uc-grid       > .uc-card:nth-child(3),
+.releases-grid > .release-card:nth-child(3)  { animation-delay: 80ms; }
+.catalog-grid  > .card:nth-child(4),
+.uc-grid       > .uc-card:nth-child(4),
+.releases-grid > .release-card:nth-child(4)  { animation-delay: 120ms; }
+.catalog-grid  > .card:nth-child(5),
+.uc-grid       > .uc-card:nth-child(5),
+.releases-grid > .release-card:nth-child(5)  { animation-delay: 160ms; }
+.catalog-grid  > .card:nth-child(6),
+.uc-grid       > .uc-card:nth-child(6),
+.releases-grid > .release-card:nth-child(6)  { animation-delay: 200ms; }
+.catalog-grid  > .card:nth-child(7),
+.uc-grid       > .uc-card:nth-child(7),
+.releases-grid > .release-card:nth-child(7)  { animation-delay: 240ms; }
+.catalog-grid  > .card:nth-child(n+8),
+.uc-grid       > .uc-card:nth-child(n+8),
+.releases-grid > .release-card:nth-child(n+8) { animation-delay: 280ms; }
 
 /* ── Package Card ──────────────────────────────────────────── */
 .card {
@@ -634,14 +674,18 @@
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-4px);
-  transition: opacity .15s ease, visibility .15s ease, transform .15s ease;
+  /* Start slightly scaled and shifted; never animate from scale(0). */
+  transform: translateY(-4px) scale(0.97);
+  transform-origin: top center;
+  transition: opacity 125ms var(--ease-out),
+              visibility 125ms,
+              transform 125ms var(--ease-out);
 }
 
 .card__ranking:hover .ranking-tooltip {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 .ranking-tooltip__title {
@@ -922,7 +966,8 @@
   color: var(--text-secondary);
   text-decoration: none;
   text-align: center;
-  transition: all var(--duration-sm) var(--ease);
+  transition: border-color var(--duration-sm) var(--ease-out),
+              color var(--duration-sm) var(--ease-out);
 }
 
 .card__link:hover {
@@ -943,7 +988,8 @@
   border-radius: var(--radius-sm);
   padding: 4px var(--space-3);
   cursor: pointer;
-  transition: all var(--duration-sm) var(--ease);
+  transition: border-color var(--duration-sm) var(--ease-out),
+              color var(--duration-sm) var(--ease-out);
 }
 
 .card__install:hover {
@@ -997,23 +1043,34 @@
   border: 3px solid var(--border-subtle);
   border-top-color: var(--color-near-black);
   border-radius: 50%;
-  animation: spin .8s linear infinite;
+  animation: spin 600ms linear infinite;
   margin: 0 auto var(--space-4);
 }
 
 /* ── Submission Modal ──────────────────────────────────────── */
+/* Modal: backdrop fades, inner box scales from center (modals are exempt
+   from origin-aware scaling per the skill — they're not anchored to a
+   trigger). Toggle opacity/visibility instead of display so transitions
+   actually play. */
 .modal-backdrop {
-  display: none;
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,.5);
   z-index: 500;
   overflow-y: auto;
   padding: var(--space-8) var(--space-5);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--duration-lg) var(--ease-out),
+              visibility var(--duration-lg);
 }
 
 .modal-backdrop.is-open {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .modal {
@@ -1023,6 +1080,13 @@
   border-radius: var(--radius-xl);
   padding: var(--space-10);
   position: relative;
+
+  transform: scale(0.97);
+  transition: transform var(--duration-lg) var(--ease-out);
+}
+
+.modal-backdrop.is-open .modal {
+  transform: scale(1);
 }
 
 .modal__close {
@@ -1205,7 +1269,7 @@
 
 
 /* ═══════════════════════════════════════════════════════════
-   Scikit-learn Central v3 — Additional Components
+   scikit-learn Central v3 — Additional Components
    ═══════════════════════════════════════════════════════════ */
 
 /* ── View Tabs (Catalog / Use Cases) ────────────────────── */
@@ -1493,35 +1557,20 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   padding-top: var(--space-3);
   border-top: 1px solid var(--neutral-100);
   margin-top: auto;
   gap: var(--space-2);
 }
 
-.btn--open-lab {
-  font-family: var(--font-sans);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0;
-  height: 32px;
-  padding: 0 14px;
-  background: var(--color-orange);
-  color: var(--color-near-black);
-  border: none;
-  border-radius: var(--radius-full);
-  cursor: pointer;
-  display: inline-flex;
+/* The right-hand cluster: GitHub-square + Open in JupyterLite.
+   Wraps so the buttons never overflow the card on narrow viewports. */
+.uc-card__actions {
+  display: flex;
   align-items: center;
-  gap: 6px;
-  text-decoration: none;
-  transition: opacity .15s;
-}
-
-.btn--open-lab:hover {
-  background: var(--color-orange);
-  color: var(--color-near-black);
-  opacity: 0.92;
+  flex-wrap: wrap;
+  gap: var(--space-3);
 }
 
 .uc-card__copy-link {
@@ -1553,6 +1602,203 @@
 }
 .uc-card--highlighted {
   animation: uc-highlight 2s ease-out forwards;
+}
+
+/* ── Code Modal ─────────────────────────────────────────── */
+.code-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(14,17,90,.55);
+  backdrop-filter: blur(4px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--duration-lg) var(--ease-out),
+              visibility var(--duration-lg);
+}
+
+.code-modal-backdrop.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.code-modal {
+  background: var(--bg-surface);
+  border-radius: var(--radius-xl);
+  width: 100%;
+  max-width: 780px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(14,17,90,.35);
+
+  transform: scale(0.97);
+  transition: transform var(--duration-lg) var(--ease-out);
+}
+
+.code-modal-backdrop.is-open .code-modal {
+  transform: scale(1);
+}
+
+.code-modal__header {
+  background: var(--color-near-black);
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-shrink: 0;
+}
+
+.code-modal__title {
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--color-orange);
+  line-height: 1.2;
+}
+
+.code-modal__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+}
+
+.code-modal__close {
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.2);
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background .12s;
+}
+
+.code-modal__close:hover {
+  background: rgba(255,255,255,.22);
+}
+
+.code-modal__synopsis {
+  padding: var(--space-4) var(--space-6);
+  background: var(--neutral-050, #f8f8fc);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--neutral-700);
+  line-height: 1.65;
+  border-bottom: 1px solid var(--neutral-200);
+  flex-shrink: 0;
+}
+
+.code-modal__body {
+  flex: 1;
+  overflow: auto;
+  padding: 0;
+}
+
+/* Syntax-highlighted code block */
+.code-modal__pre {
+  margin: 0;
+  padding: var(--space-5) var(--space-6);
+  background: #1a1b2e;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.65;
+  color: #e2e8f0;
+  white-space: pre;
+  min-height: 200px;
+}
+
+/* highlight.js overrides */
+.hljs { background: #1a1b2e !important; }
+
+.code-modal__footer {
+  padding: var(--space-3) var(--space-6);
+  border-top: 1px solid var(--neutral-200);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-shrink: 0;
+  background: var(--bg-surface);
+}
+
+.code-modal__packages-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+  font-weight: 600;
+}
+
+.code-modal__package-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.btn--copy-code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: var(--space-2) var(--space-4);
+  background: transparent;
+  border: 1.5px solid var(--color-near-black);
+  color: var(--color-near-black);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  transition: background .12s, color .12s;
+  flex-shrink: 0;
+}
+
+.btn--copy-code:hover {
+  background: var(--color-near-black);
+  color: #fff;
+}
+
+/* "Open in JupyterLite" CTA — same pill geometry as other card actions. */
+.btn--open-lab {
+  font-family: var(--brand-typography--texte);
+  font-size: var(--brand-typography-size--body-s);
+  font-weight: 500;
+  letter-spacing: 0;
+  height: 32px;
+  padding: 0 14px;
+  background: var(--color-orange);
+  color: var(--color-near-black);
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: opacity var(--duration-sm) var(--ease-out);
+}
+/* Pin background + text on hover so the global `a:hover { color: orange }`
+   rule doesn't make the label disappear into the orange background. */
+.btn--open-lab:hover {
+  background: var(--color-orange);
+  color: var(--color-near-black);
+  opacity: 0.92;
 }
 
 /* Square GitHub link button — matches adjacent button height */
@@ -1667,7 +1913,7 @@
 
 
 /* ═══════════════════════════════════════════════════════════
-   Scikit-learn Central v3 — Horizontal Filter Bar
+   scikit-learn Central v3 — Horizontal Filter Bar
    Replaces sidebar layout with an inline filter strip.
    ═══════════════════════════════════════════════════════════ */
 
@@ -1823,8 +2069,10 @@
 }
 
 /* ── Filter Dropdown Panel ────────────────────────────────── */
+/* Origin-aware popover: scales in from its trigger (top-left), per the
+   emil-design-eng skill. We toggle opacity/visibility/scale rather than
+   display:none → block so the transition is actually visible. */
 .filter-panel {
-  display: none;
   position: absolute;
   top: calc(100% + 6px);
   left: 0;
@@ -1839,10 +2087,22 @@
   padding: var(--space-2) 0;
   scrollbar-width: thin;
   scrollbar-color: var(--neutral-300) transparent;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.97);
+  transform-origin: top left;
+  transition: opacity 180ms var(--ease-out),
+              transform 180ms var(--ease-out),
+              visibility 180ms;
 }
 
 .filter-panel.is-open {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: scale(1);
 }
 
 /* Wider panel for long labels */

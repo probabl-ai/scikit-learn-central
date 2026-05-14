@@ -1,8 +1,13 @@
 /* ═══════════════════════════════════════════════════════════
-   Probabl Design System — Scikit-learn Central
+   Probabl Design System — scikit-learn Central
    New Probabl brand: midnight indigo · sky blue · orange spark
    IBM Plex Serif · Switzer · IBM Plex Mono
    ═══════════════════════════════════════════════════════════ */
+
+/* ── IBM Plex Serif + JetBrains Mono via Google Fonts (must come before @font-face) ─
+   Aligns with the probabl.ai brand: serif title font is IBM Plex Serif (Light 300),
+   monospace is JetBrains Mono. */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 /* ── Switzer (UI/body) ──────────────────────────────────────── */
 @font-face {
@@ -10,39 +15,36 @@
   font-weight: 300;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/Switzer-Light.woff2") format("woff2");
+  src: url("/fonts/Switzer-Light.woff2") format("woff2");
 }
 @font-face {
   font-family: "Switzer";
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/Switzer-Regular.woff2") format("woff2");
+  src: url("/fonts/Switzer-Regular.woff2") format("woff2");
 }
 @font-face {
   font-family: "Switzer";
   font-weight: 500;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/Switzer-Medium.woff2") format("woff2");
+  src: url("/fonts/Switzer-Medium.woff2") format("woff2");
 }
 @font-face {
   font-family: "Switzer";
   font-weight: 600;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/Switzer-Semibold.woff2") format("woff2");
+  src: url("/fonts/Switzer-Semibold.woff2") format("woff2");
 }
 @font-face {
   font-family: "Switzer";
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/Switzer-Bold.woff2") format("woff2");
+  src: url("/fonts/Switzer-Bold.woff2") format("woff2");
 }
-
-/* ── IBM Plex Serif + Mono via Google Fonts ────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:wght@300;400;500&display=swap');
 
 :root {
   /* ── New Probabl palette ──────────────────────────────────── */
@@ -136,21 +138,44 @@
   --tag-fix:           #DC4C4C;
   --tag-api-change:    #D97706;
 
-  /* ── Typography ───────────────────────────────────────────── */
+  /* ── Typography ───────────────────────────────────────────────
+     Aligned with the probabl.ai design system. The `--brand-*` tokens
+     below mirror their canonical CSS variables; prefer them in new
+     components. The legacy `--font-*` / `--text-*` aliases remain so
+     existing rules keep working. */
   --font-serif:  "IBM Plex Serif", "Source Serif Pro", Georgia, serif;
   --font-sans:   "Switzer", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-  --font-mono:   "IBM Plex Mono", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-mono:   "JetBrains Mono", "JetBrains Mono Variable", ui-monospace, "SF Mono", Menlo, monospace;
   --font-body:   var(--font-sans);
 
-  /* Type scale */
-  --text-xs:     0.75rem;     /* 12px   */
-  --text-sm:     0.8125rem;   /* 13px   */
-  --text-base:   0.875rem;    /* 14px   */
-  --text-md:     1rem;        /* 16px   */
-  --text-lg:     1.125rem;    /* 18px   */
-  --text-xl:     1.375rem;    /* 22px   */
-  --text-2xl:    1.75rem;     /* 28px   */
-  --text-3xl:    2.25rem;     /* 36px   */
+  /* Brand typography families (probabl canonical names) */
+  --brand-typography--title: var(--font-serif);
+  --brand-typography--texte: var(--font-sans);
+
+  /* Brand heading scale (probabl canonical sizes) */
+  --brand-typography-size--heading-h1: 3.75rem;   /* 60 px */
+  --brand-typography-size--heading-h2: 3.5rem;    /* 56 px */
+  --brand-typography-size--heading-h3: 3rem;      /* 48 px */
+  --brand-typography-size--heading-h4: 2.5rem;    /* 40 px */
+  --brand-typography-size--heading-h5: 2rem;      /* 32 px */
+  --brand-typography-size--heading-h6: 1.625rem;  /* 26 px */
+
+  /* Brand body scale (probabl canonical sizes) */
+  --brand-typography-size--body-xl: 1.25rem;      /* 20 px */
+  --brand-typography-size--body-l:  1.125rem;     /* 18 px */
+  --brand-typography-size--body-m:  1rem;         /* 16 px */
+  --brand-typography-size--body-s:  0.875rem;     /* 14 px */
+  --brand-typography-size--body-xs: 0.75rem;      /* 12 px */
+
+  /* Legacy type scale (now aligned to the brand body scale) */
+  --text-xs:     var(--brand-typography-size--body-xs);   /* 12 px */
+  --text-sm:     var(--brand-typography-size--body-s);    /* 14 px */
+  --text-base:   var(--brand-typography-size--body-s);    /* 14 px */
+  --text-md:     var(--brand-typography-size--body-m);    /* 16 px */
+  --text-lg:     var(--brand-typography-size--body-l);    /* 18 px */
+  --text-xl:     var(--brand-typography-size--body-xl);   /* 20 px */
+  --text-2xl:    var(--brand-typography-size--heading-h6); /* 26 px */
+  --text-3xl:    var(--brand-typography-size--heading-h5); /* 32 px */
 
   /* Tracking */
   --tracking-tight:   -0.01em;
@@ -186,11 +211,18 @@
   --shadow-lg:  0 16px 48px rgba(4,5,36,0.18);
   --shadow-xl:  0 20px 64px rgba(4,5,36,0.22);
 
-  /* Transitions */
-  --ease:        cubic-bezier(0.16, 1, 0.3, 1);
-  --duration-sm: 120ms;
-  --duration-md: 220ms;
-  --duration-lg: 420ms;
+  /* Transitions — curated easing curves (strong custom variants, per the
+     emil-design-eng skill: stock CSS easings are too weak for UI). */
+  --ease-out:     cubic-bezier(0.23, 1, 0.32, 1); /* strong ease-out for entry/exit */
+  --ease-in-out:  cubic-bezier(0.77, 0, 0.175, 1); /* on-screen movement */
+  --ease-drawer:  cubic-bezier(0.32, 0.72, 0, 1);  /* iOS-like drawer curve */
+  /* Legacy alias — kept so existing rules keep working. */
+  --ease:         var(--ease-out);
+
+  --duration-press: 160ms; /* button :active feedback */
+  --duration-sm:    120ms; /* hover color/border changes */
+  --duration-md:    200ms; /* default UI transitions */
+  --duration-lg:    280ms; /* modal/drawer entry (was 420ms — too slow) */
 
   /* Layout */
   --header-h:    64px;
@@ -211,7 +243,7 @@ html {
 body {
   font-family: var(--font-sans);
   font-size: var(--text-md);
-  line-height: 1.6;
+  line-height: 1.5;
   color: var(--text-primary);
   background: var(--bg-page);
   min-height: 100vh;
@@ -236,6 +268,75 @@ button, input, select, textarea {
 }
 
 ::selection { background: var(--color-sky); color: var(--color-near-black); }
+
+/* ── Brand heading styles (mirror probabl.ai .heading-style-h*) ────
+   All probabl headings share the same recipe: IBM Plex Serif, weight 300,
+   tight letter-spacing. Use these classes on any <h1..h6> element. */
+.heading-style-h1 {
+  font-family: var(--brand-typography--title);
+  font-size: var(--brand-typography-size--heading-h1);
+  font-weight: 300;
+  line-height: 1.1;
+}
+.heading-style-h2 {
+  font-family: var(--brand-typography--title);
+  font-size: var(--brand-typography-size--heading-h2);
+  font-weight: 300;
+  line-height: 1.2;
+}
+.heading-style-h3 {
+  font-family: var(--brand-typography--title);
+  font-size: var(--brand-typography-size--heading-h3);
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+.heading-style-h4 {
+  font-family: var(--brand-typography--title);
+  font-size: var(--brand-typography-size--heading-h4);
+  font-weight: 300;
+  line-height: 1.3;
+}
+.heading-style-h5 {
+  font-family: var(--brand-typography--title);
+  font-size: var(--brand-typography-size--heading-h5);
+  font-weight: 300;
+  line-height: 1.5;
+}
+.heading-style-h6 {
+  font-family: var(--brand-typography--title);
+  font-size: var(--brand-typography-size--heading-h6);
+  font-weight: 300;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+}
+
+/* ── Reduced motion ────────────────────────────────────────
+   Users with prefers-reduced-motion get gentler animations: opacity and
+   color still transition (they aid comprehension), but transforms and
+   movement are reduced to instant. Per the emil-design-eng skill. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+  /* Re-allow opacity transitions (they don't cause motion sickness). */
+  .modal-backdrop,
+  .code-modal-backdrop,
+  .filter-panel,
+  .ranking-tooltip {
+    transition-property: opacity, visibility !important;
+    transition-duration: 120ms !important;
+  }
+  .modal,
+  .code-modal {
+    transform: none !important;
+  }
+}
 
 /* ── Utility Classes ───────────────────────────────────────── */
 .sr-only {
@@ -277,20 +378,21 @@ button, input, select, textarea {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: 9px 18px;
+  padding: 0.75rem 1rem; /* 12px 16px — matches probabl .button */
   border: none;
   border-radius: var(--radius-full);
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 500;
+  font-family: var(--brand-typography--texte);
+  font-size: var(--brand-typography-size--body-s); /* 14 px */
+  font-weight: 400; /* probabl .button weight */
   letter-spacing: 0;
   text-transform: none;
   text-decoration: none;
   cursor: pointer;
-  transition: opacity var(--duration-md) var(--ease),
-              background var(--duration-md) var(--ease),
-              border-color var(--duration-md) var(--ease),
-              color var(--duration-md) var(--ease);
+  transition: transform var(--duration-press) var(--ease-out),
+              opacity var(--duration-md) var(--ease-out),
+              background var(--duration-md) var(--ease-out),
+              border-color var(--duration-md) var(--ease-out),
+              color var(--duration-md) var(--ease-out);
   white-space: nowrap;
   user-select: none;
   line-height: 1;
@@ -302,7 +404,12 @@ button, input, select, textarea {
 }
 
 .btn:hover { opacity: 0.92; }
-.btn:active { opacity: 0.85; }
+/* Press feedback — makes the UI feel like it heard the click.
+   transform: scale stays GPU-accelerated and runs in 160 ms. */
+.btn:active {
+  opacity: 0.85;
+  transform: scale(0.97);
+}
 
 /* Primary — orange fill on midnight, dark fill on light */
 .btn--primary,
@@ -359,8 +466,8 @@ button, input, select, textarea {
 }
 
 .btn--sm {
-  padding: 6px 14px;
-  font-size: 13px;
+  padding: 0.5rem 1rem; /* 8px 16px — matches probabl .button.is-small */
+  font-size: var(--brand-typography-size--body-xs); /* 12 px */
 }
 
 /* ── Scrollbar ─────────────────────────────────────────────── */

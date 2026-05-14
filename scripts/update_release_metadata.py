@@ -234,7 +234,7 @@ def count_contributors(soup):
     This count is page-level and covers the entire major.minor release cycle
     (all patch releases on the same whats_new page share the same count).
 
-    Scikit-learn docs use a Sphinx rubric directive which renders as
+    scikit-learn docs use a Sphinx rubric directive which renders as
     <p class="rubric">Code and documentation contributors</p> followed by
     an intro <p> and then a <p> with comma-separated contributor names.
 
