@@ -16,6 +16,12 @@ const tabs: Array<{ key: string; to: string; icon: string; label: string }> = [
   { key: 'about', to: '/about', icon: 'fa-info-circle', label: 'About' },
 ]
 
+// Dev-only Components sandbox tab. The branch is dead-code-eliminated in
+// production builds because Vite replaces import.meta.env.DEV with false.
+if (import.meta.env.DEV) {
+  tabs.push({ key: 'components', to: '/components', icon: 'fa-flask', label: 'Components' })
+}
+
 function countFor(key: string): string {
   const n = props.counts[key]
   return n == null ? '—' : String(n)
@@ -39,7 +45,12 @@ function countFor(key: string): string {
         @click="navigate"
       >
         <i class="fas" :class="tab.icon"></i> {{ tab.label }}
-        <span v-if="tab.key !== 'about'" class="view-tab__count">{{ countFor(tab.key) }}</span>
+        <span
+          v-if="tab.key !== 'about' && tab.key !== 'components'"
+          class="view-tab__count"
+        >
+          {{ countFor(tab.key) }}
+        </span>
       </button>
     </router-link>
   </nav>

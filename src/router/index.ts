@@ -31,6 +31,18 @@ const routes: RouteRecordRaw[] = [
   },
 ]
 
+// Dev-only sandbox. `import.meta.env.DEV` is statically replaced by Vite at
+// build time, so this whole branch (and the dynamic import below) is dead-code
+// eliminated in production — Components.vue is not bundled.
+if (import.meta.env.DEV) {
+  routes.push({
+    path: '/components',
+    name: 'components',
+    component: () => import('@/views/Components.vue'),
+    meta: { tabKey: 'components' },
+  })
+}
+
 export const router = createRouter({
   history: createWebHashHistory(),
   routes,
