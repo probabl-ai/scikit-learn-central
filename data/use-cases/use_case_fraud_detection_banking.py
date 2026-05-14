@@ -1,47 +1,93 @@
-"""
-Credit risk (good/bad) classification for banking with skore and scikit-learn.
-"""
+# %% [markdown]
+#
+# # Credit risk classification for banking with skore, skrub, and scikit-learn.
+#
+# ## Environment setup
+#
+# We need to install some extra dependencies for this notebook if needed (when
+# running jupyterlite).
 
+# %%
+# %pip install skore skrub
+
+# %% [markdown]
+#
+# ## Data loading
+#
+# The bundled CSV is based on the **UCI Statlog German Credit Data** benchmark:
+# each row is a loan applicant, and the target is **credit risk** (`good` vs
+# `bad`), i.e. repayment / creditworthiness—not card or payment *fraud* in the
+# narrow sense.
+#
+# This repository ships a **subset** of the classic attributes only:
+# `checking_status`, `credit_amount`, `duration`, `personal_status`,
+# `other_payment_plans`, and `target`, so the table stays small and runs
+# offline in JupyterLite.
+#
+# Expect a **compact, complete** tabular dataset with **categorical** and
+# **numeric** predictors, and usually **more `good` than `bad`** labels (class
+# imbalance). The original UCI task also documents **asymmetric** costs
+# (missing a bad risk is worse than over-flagging a good one), so plain accuracy
+# is not always enough to judge a model.
+
+# %%
 import pandas as pd
-from sklearn.datasets import fetch_openml
-from sklearn.ensemble import HistGradientBoostingClassifier
-from skore import train_test_split, EstimatorReport
 
-# German Credit (UCI): subset of features for predicting good/bad credit
-german_credit = fetch_openml(data_id=31, as_frame=True, parser="pandas")
-X, y = german_credit.data, german_credit.target
-features_of_interest = [
-    "checking_status",
-    "credit_amount",
-    "duration",
-    "personal_status",
-    "other_payment_plans",
-]
-X = X[features_of_interest]
-
-# Split data
-split_data = train_test_split(
-    X=X, y=y, test_size=0.2, random_state=42, as_dict=True
+german_credit = pd.read_csv(
+    "datasets/german_credit.csv",
+    dtype={
+        "checking_status": "category",
+        "personal_status": "category",
+        "other_payment_plans": "category",
+    },
 )
+y = german_credit.pop("target")
+X = german_credit
 
-# Fit the estimator and create a report with skore
-report = EstimatorReport(
-    HistGradientBoostingClassifier(categorical_features="from_dtype", random_state=42),
-    pos_label="bad",
-    **split_data,
+# %% [markdown]
+#
+# Here we use **skrub** and **skore** together. **skrub**'s `tabular_pipeline("classifier")`
+# builds a strong default tabular pipeline that handles mixed types without hand-written
+# preprocessing. **skore**'s `evaluate` fits that pipeline, evaluates it, and returns a
+# report with metrics, checks, and a fitted estimator you can reuse on new rows.
+#
+# Evaluation uses one shuffled train-test split; `splitter=0.25` reserves 25% of rows
+# for testing (see the `skore.evaluate` documentation for other options).
+
+# %%
+import skore
+import skrub
+
+report = skore.evaluate(
+    skrub.tabular_pipeline("classifier"), X, y, splitter=0.25, pos_label="good"
 )
+report
 
-# Report the metrics of the estimator
-print("\n\nSummary of the metrics:")
-print(report.metrics.summarize().frame().to_string())
+# %% [markdown]
+#
+# Looking at the checks summary, we can spot potential issues. Let's inspect them in
+# more detail.
 
-# Inspect which features drive predictions effortlessly
-# using permutation importance on test set
-feature_importance = report.inspection.permutation_importance().frame()
-print("\n\nPermutation importance on test set:")
-print(feature_importance.to_string())
+# %%
+report.checks.summarize()
 
-# Score new applicants with the fitted estimator
+# %% [markdown]
+#
+# The checks may flag **overfitting**. Comparing metrics on the training and test sets
+# helps confirm whether the model fits the training data much better than it generalizes.
+
+# %%
+report.metrics.summarize(data_source="both").frame()
+
+# %% [markdown]
+#
+# If training scores look much better than test scores, common mitigations include
+# fewer boosting iterations, shallower trees, stronger regularization, or a lower
+# learning rate (often together with more iterations), depending on the base estimator.
+#
+# Let's use the fitted pipeline to score hypothetical new applicants.
+
+# %%
 samples = pd.DataFrame(
     [
         {
@@ -59,7 +105,10 @@ samples = pd.DataFrame(
             "other_payment_plans": "bank",
         },
     ]
-)
-samples["p(fraud)"] = report.estimator_.predict_proba(samples)[:, 1].round(3)
-print("\n\nNew applicants:")
-print(samples.to_string())
+).infer_objects()
+
+# %%
+classes = list(report.estimator_.classes_)
+proba = report.estimator_.predict_proba(samples)
+samples["p(good)"] = proba[:, classes.index("good")].round(3)
+samples

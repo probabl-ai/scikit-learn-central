@@ -60,13 +60,17 @@ pixi run preview    # serves dist/ at http://localhost:4173 for verification
 | Task | What it does |
 |---|---|
 | `pixi run install` | `npm install` (cached; only re-runs when `package.json` changes) |
-| `pixi run dev` | Vite dev server with HMR |
-| `pixi run build` | `vue-tsc --build && vite build` → `dist/` |
-| `pixi run preview` | Serve the production build locally |
-| `pixi run type-check` | Run `vue-tsc` without emitting files |
-| `pixi run update-stats` | Refresh `data/stats.json` from GitHub + PyPI |
-| `pixi run -e scripts update-releases` | Refresh `data/releases/scikit-learn.json` (uses the `scripts` env — adds requests/bs4/lxml) |
-| `pixi run mcp-bundle` | Regenerate the MCP worker data bundle |
+| `pixi run dev` | Vite dev server with HMR. Also runs `link-jupyterlite` so the in-browser notebooks work in dev once you've built them. |
+| `pixi run build` | **Full production build**: Vue site → `dist/` and JupyterLite → `dist/jupyterlite/`. Orchestrates `build-frontend` + `build-jupyterlite`. |
+| `pixi run build-frontend` | Vue site only (faster iteration when notebooks haven't changed). |
+| `pixi run -e jupyterlite build-jupyterlite` | JupyterLite only — converts `data/use-cases/*.py` → `.ipynb` via jupytext, then `jupyter lite build`. |
+| `pixi run link-jupyterlite` | Symlink `public/jupyterlite` → `dist/jupyterlite` so the Vite dev server can serve `/jupyterlite/...`. Idempotent; warns if you haven't built yet. |
+| `pixi run unlink-jupyterlite` | Remove the symlink (auto-run before `build-frontend` so it never leaks into production `dist/`). |
+| `pixi run preview` | Serve the production build locally on `http://localhost:4173`. |
+| `pixi run type-check` | Run `vue-tsc` without emitting files. |
+| `pixi run update-stats` | Refresh `data/stats.json` from GitHub + PyPI + codecov + coveralls. |
+| `pixi run -e scripts update-releases` | Refresh `data/releases/scikit-learn.json` (uses the `scripts` env — adds requests/bs4/lxml). |
+| `pixi run mcp-bundle` | Regenerate the MCP worker data bundle. |
 
 ---
 
@@ -75,7 +79,7 @@ pixi run preview    # serves dist/ at http://localhost:4173 for verification
 | Route | Component | Notes |
 |---|---|---|
 | `/catalog` | `PackagesView` | Sklearn hero + filter bar (nature/scope/license + sort) + ranked package grid with Fit Score chip |
-| `/use-cases` | `UseCasesView` | Filter bar (industry/technique/difficulty) + use-case grid + lazy-loaded code modal with syntax highlighting |
+| `/use-cases` | `UseCasesView` | Filter bar (industry/technique/difficulty) + use-case grid. Each card has an **Open in JupyterLite** action that deep-links to the in-browser notebook for that use case. |
 | `/releases` | `ReleasesView` | Blog strip + release cards with version, highlights (with GitHub reaction counts), tag-stats bar, CTA buttons |
 | `/about` | `AboutView` | Purpose, sub-committees, ranking methodology, feedback CTA |
 | `/components` | `Components` | **Dev-only** sandbox mounting every component with live data — excluded from production builds |
@@ -114,15 +118,14 @@ All three submission forms POST a JSON payload to `https://probabl.app.n8n.cloud
 │   │   └── Components.vue        # dev-only sandbox (tree-shaken from prod)
 │   ├── components/
 │   │   ├── AppHeader.vue
-│   │   ├── ViewTabs.vue          # button-based tabs (no underline regression)
-│   │   ├── FilterDropdown.vue    # generic over filter-value type
+│   │   ├── ViewTabs.vue                # button-based tabs (no underline regression)
+│   │   ├── FilterDropdown.vue          # generic over filter-value type
 │   │   ├── SklearnHero.vue
-│   │   ├── PackageCard.vue       # Fit-score chip + Probabl-boost variant
-│   │   ├── UseCaseCard.vue
+│   │   ├── PackageInsightCard.vue      # 6-axis Fit-score chip + use-case + activity signals
+│   │   ├── UseCaseCard.vue             # icon-only copy-link + GitHub + Open-in-JupyterLite
 │   │   ├── ReleaseCard.vue
 │   │   ├── ReleasesBlogStrip.vue
-│   │   ├── CodeModal.vue         # lazy-loads .py source per use case
-│   │   ├── BaseModal.vue         # reusable modal shell (ESC, backdrop, scroll-lock)
+│   │   ├── BaseModal.vue               # reusable modal shell (ESC, backdrop, scroll-lock)
 │   │   ├── FormSuccess.vue
 │   │   ├── SubmitPackageModal.vue
 │   │   ├── SubmitUseCaseModal.vue
@@ -154,10 +157,19 @@ All three submission forms POST a JSON payload to `https://probabl.app.n8n.cloud
 │   ├── releases/scikit-learn.json
 │   └── stats.json         # auto-refreshed daily
 │
-├── scripts/               # Python data-refresh scripts (pixi-managed)
-├── mcp/                   # Cloudflare Python Worker (separate deploy)
-├── skills/                # repo-tracked skills (sklearn-expert)
-└── .github/workflows/     # CI: Pages deploy, stats cron, release cron, MCP deploy
+├── scripts/                          # Python helper scripts (all pixi-managed)
+│   ├── update_stats.py               # daily GitHub + PyPI + codecov + coveralls refresh
+│   ├── update_release_metadata.py    # weekly sklearn-releases refresh (uses `scripts` env)
+│   ├── update_release_reactions.py
+│   ├── build_jupyterlite.py          # data/use-cases/*.py → dist/jupyterlite/
+│   └── link_jupyterlite.py           # dev-only symlink helper (see below)
+│
+├── data/jupyterlite/                 # ↳ NOT in repo — built into dist/jupyterlite/
+├── public/jupyterlite                # ↳ NOT in repo — dev-only symlink to dist/jupyterlite
+│
+├── mcp/                              # Cloudflare Python Worker (separate deploy)
+├── skills/                           # repo-tracked skills (sklearn-expert)
+└── .github/workflows/                # CI: Pages deploy, stats cron, release cron, MCP deploy
 ```
 
 ### How `data/` is consumed at build time
@@ -239,21 +251,40 @@ CI builds the JupyterLite distribution on every deploy: `.py` files under `data/
 
 The whole toolchain — jupytext + jupyterlite-core + the Pyodide kernel + jupyter-server — is managed by pixi under a dedicated `jupyterlite` environment, so there is no separate `pip install` step.
 
-To preview locally:
+### Local preview (production build)
 
 ```bash
-pixi run build                                 # Vue site + JupyterLite → dist/
-pixi run preview                               # serve dist/ at http://localhost:4173
+pixi run build       # Vue site + JupyterLite → dist/
+pixi run preview     # serve dist/ at http://localhost:4173
 ```
 
-`pixi run build` orchestrates both: the Vue/Vite build (default env) and the JupyterLite build (cross-env into `dist/jupyterlite/`). For a faster iteration loop when you don't need the notebooks rebuilt:
+`pixi run build` orchestrates both: the Vue/Vite build (default env) and the JupyterLite build (cross-env into `dist/jupyterlite/`).
+
+### Local dev with a working "Open in JupyterLite" link
+
+`pixi run dev` only serves the Vue source — `/jupyterlite/...` would 404. To make the link work in dev:
 
 ```bash
-pixi run build-frontend                        # Vue only (skips JupyterLite)
-pixi run -e jupyterlite build-jupyterlite      # JupyterLite only
+pixi run -e jupyterlite build-jupyterlite   # once: builds dist/jupyterlite/
+pixi run dev                                # symlinks public/jupyterlite → dist/jupyterlite, starts Vite
 ```
 
-Pyodide ships `numpy`, `pandas`, `scikit-learn`, and `matplotlib`. `skrub`, `skore`, `ipywidgets`, and `pyodide-http` aren't bundled, so `scripts/build_jupyterlite.py` prepends a `%pip install -q …` cell to every generated notebook — piplite resolves the wheels from PyPI on first run.
+`pixi run dev` runs `link-jupyterlite` as a dependency every time, so the symlink is always fresh. The link is dev-only — `pixi run build-frontend` automatically removes it via `unlink-jupyterlite` so production `dist/` never includes it.
+
+Cross-platform note: on Windows without developer mode the symlink call falls back to a recursive copy. Slower (~1 s) but functional.
+
+### Faster iteration loops
+
+```bash
+pixi run build-frontend                       # Vue only (skips JupyterLite)
+pixi run -e jupyterlite build-jupyterlite     # JupyterLite only
+```
+
+### How notebooks become runnable in the browser
+
+Pyodide ships `numpy`, `pandas`, `scikit-learn`, and `matplotlib` out of the box. Anything else a notebook needs (e.g. `skrub`, `skore`) must be installed by an explicit `%pip install …` cell **authored in the `.py` source** using a jupytext cell marker — `scripts/build_jupyterlite.py` no longer injects a synthetic setup cell. piplite resolves the wheels from PyPI on first run.
+
+Datasets used by the use cases live in `data/use-cases/datasets/` and are copied next to the notebooks in the build, so `pd.read_csv("datasets/…")` resolves with no network round-trip.
 
 ---
 

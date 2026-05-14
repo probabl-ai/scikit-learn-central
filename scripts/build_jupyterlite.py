@@ -4,10 +4,15 @@
 Pipeline:
 
   1. Convert each ``data/use-cases/*.py`` to ``.ipynb`` via jupytext.
-  2. Prepend a ``%pip install …`` setup cell so the notebooks can actually
-     run in Pyodide (skrub/skore/ipywidgets/pyodide-http are not bundled).
+  2. Mirror ``data/use-cases/datasets/`` next to the notebooks so relative
+     reads like ``pd.read_csv("datasets/foo.csv")`` resolve in Pyodide.
   3. Run ``jupyter lite build`` with those notebooks as content into the
      requested output directory.
+
+Notebooks are emitted as-is from the ``.py`` source. Any per-notebook setup
+(``%pip install``, kernel patches, etc.) should be authored directly in the
+``.py`` file using jupytext cell markers — this script no longer injects a
+synthetic setup cell.
 
 Cross-platform replacement for the original bash script. Driven by pixi
 under the ``jupyterlite`` environment.
@@ -20,53 +25,11 @@ Usage
 from __future__ import annotations
 
 import argparse
-import json
 import shutil
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
-
-
-# ── Packages we piplite-install at notebook startup ───────────────────────────
-PIPLITE_PACKAGES = ["skrub", "skore", "ipywidgets", "pyodide-http"]
-
-SETUP_MD = (
-    "## Setup\n"
-    "\n"
-    "This notebook runs in your browser via the Pyodide kernel. "
-    "The cell below installs the scikit-learn ecosystem packages that aren't "
-    "bundled with Pyodide by default and patches `urllib` so dataset loaders "
-    "like `sklearn.datasets.fetch_*` work over browser fetch. "
-    "Run it once before the rest of the notebook."
-)
-SETUP_CODE = (
-    "%pip install -q " + " ".join(PIPLITE_PACKAGES) + "\n"
-    "import pyodide_http; pyodide_http.patch_all()\n"
-    "# api.openml.org 301-redirects without CORS headers; talk to www.openml.org directly\n"
-    "import sklearn.datasets._openml as _openml\n"
-    "_openml._OPENML_PREFIX = 'https://www.openml.org/'\n"
-    "# skrub.TableReport.open() starts a local TCP server (not supported in Pyodide);\n"
-    "# render the report inline via IPython.display instead.\n"
-    "from skrub import TableReport\n"
-    "from IPython.display import display, HTML\n"
-    "TableReport.open = lambda self: display(HTML(self.html()))"
-)
-
-
-def _prepend_setup_cell(nb_path: Path) -> None:
-    """Insert a markdown + code setup cell at the top of the notebook."""
-    nb = json.loads(nb_path.read_text())
-    md_cell = {"cell_type": "markdown", "metadata": {}, "source": SETUP_MD}
-    code_cell = {
-        "cell_type": "code",
-        "execution_count": None,
-        "metadata": {},
-        "outputs": [],
-        "source": SETUP_CODE,
-    }
-    nb["cells"] = [md_cell, code_cell] + nb["cells"]
-    nb_path.write_text(json.dumps(nb, indent=1))
 
 
 def _convert_use_cases(src_dir: Path, dest_dir: Path) -> list[Path]:
@@ -80,9 +43,26 @@ def _convert_use_cases(src_dir: Path, dest_dir: Path) -> list[Path]:
             ["jupytext", "--to", "ipynb", "--output", str(ipynb), str(py)],
             check=True,
         )
-        _prepend_setup_cell(ipynb)
         out.append(ipynb)
     return out
+
+
+def _copy_datasets(src_dir: Path, dest_dir: Path) -> int:
+    """Mirror data/use-cases/datasets/ next to the generated notebooks so
+    relative paths like 'datasets/california_housing.csv' resolve in
+    JupyterLite. Returns the number of files copied (0 if no datasets/)."""
+    src_datasets = src_dir / "datasets"
+    if not src_datasets.is_dir():
+        return 0
+    dest_datasets = dest_dir / "datasets"
+    dest_datasets.mkdir(parents=True, exist_ok=True)
+    n = 0
+    for f in sorted(src_datasets.iterdir()):
+        if f.is_file():
+            shutil.copy2(f, dest_datasets / f.name)
+            print(f"  • datasets/{f.name}")
+            n += 1
+    return n
 
 
 def main() -> int:
@@ -115,6 +95,10 @@ def main() -> int:
         notebooks_dir = contents_root / "use-cases"
         notebooks = _convert_use_cases(src_dir, notebooks_dir)
         print(f"  ✓ converted {len(notebooks)} notebook(s)")
+
+        n_datasets = _copy_datasets(src_dir, notebooks_dir)
+        if n_datasets:
+            print(f"  ✓ embedded {n_datasets} dataset file(s)")
 
         if out_dir.exists():
             shutil.rmtree(out_dir)

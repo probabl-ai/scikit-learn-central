@@ -2,16 +2,13 @@
   "uuid": "use_case_real_estate",
   "slug": "real-estate",
   "title": "Real Estate Pricing",
-  "synopsis": "Estimate real estate property values using machine learning. Accurate price predictions support property valuation, market analysis, and investment decisions. Use skrub to understand your data. Use scikit-learn to fit and predict from your data. Use skore to track your data science. Evaluate models, compare them, select them.",
+  "synopsis": "Compare a random forest and a Ridge regressor on California housing with skrub pipelines, using skore.evaluate for 5-fold cross-validation, checks, and aggregated metrics.",
   "industry": [
-    "e-commerce",
-    "marketing",
-    "retail"
+    "real-estate"
   ],
   "technique": [
-    "linear-regression",
-    "tree",
-    "cross-validation"
+    "regression",
+    "price-optimization"
   ],
   "packages": [
     "scikit-learn",
