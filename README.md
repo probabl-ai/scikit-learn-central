@@ -16,4 +16,4 @@ python -m http.server 8000
 # open http://localhost:8000/
 ```
 
-Pyodide ships `numpy`, `pandas`, `scikit-learn`, and `matplotlib`. `skrub` and `skore` aren't bundled, so `scripts/add_setup_cell.py` prepends a `%pip install -q skrub skore` cell to every generated notebook — piplite resolves the wheels from PyPI on first run.
+Pyodide ships `numpy`, `pandas`, `scikit-learn`, and `matplotlib`. `skrub`, `skore`, `ipywidgets`, and `pyodide-http` aren't bundled, so `scripts/add_setup_cell.py` prepends a `%pip install -q skrub skore ipywidgets pyodide-http` cell to every generated notebook — piplite resolves the wheels from PyPI on first run.
