@@ -1,4 +1,5 @@
-# Build the Vue/Vite frontend with pixi and deploy the dist/ artifact to GitHub Pages
+# Build the Vue/Vite frontend AND the JupyterLite distribution, both via pixi,
+# then deploy the combined dist/ tree to GitHub Pages.
 name: Deploy static content to Pages
 
 on:
@@ -23,13 +24,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup pixi
+      - name: Setup pixi (default + jupyterlite environments)
         uses: prefix-dev/setup-pixi@v0.8.1
         with:
           pixi-version: latest
           cache: true
+          environments: default jupyterlite
 
-      - name: Build site
+      - name: Build site (dist/ + dist/jupyterlite/)
         run: pixi run build
 
       - name: Setup Pages
@@ -38,7 +40,6 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload the built site
           path: dist
 
   deploy:

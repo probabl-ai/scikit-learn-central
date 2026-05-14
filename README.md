@@ -231,6 +231,32 @@ The reference skill lives at `.claude/skills/emil-design-eng/SKILL.md` (loaded b
 
 ---
 
+## JupyterLite integration
+
+Each use-case card has an **Open in JupyterLite** action that launches a fully interactive JupyterLab tab with the use case's notebook pre-opened. The kernel is Pyodide (Python + scikit-learn in WebAssembly), so it runs entirely client-side.
+
+CI builds the JupyterLite distribution on every deploy: `.py` files under `data/use-cases/` are converted to `.ipynb` via [jupytext](https://jupytext.readthedocs.io/), then `jupyter lite build` writes the static site into `dist/jupyterlite/` (served at `/jupyterlite/` by GitHub Pages, alongside the Vue app).
+
+The whole toolchain — jupytext + jupyterlite-core + the Pyodide kernel + jupyter-server — is managed by pixi under a dedicated `jupyterlite` environment, so there is no separate `pip install` step.
+
+To preview locally:
+
+```bash
+pixi run build                                 # Vue site + JupyterLite → dist/
+pixi run preview                               # serve dist/ at http://localhost:4173
+```
+
+`pixi run build` orchestrates both: the Vue/Vite build (default env) and the JupyterLite build (cross-env into `dist/jupyterlite/`). For a faster iteration loop when you don't need the notebooks rebuilt:
+
+```bash
+pixi run build-frontend                        # Vue only (skips JupyterLite)
+pixi run -e jupyterlite build-jupyterlite      # JupyterLite only
+```
+
+Pyodide ships `numpy`, `pandas`, `scikit-learn`, and `matplotlib`. `skrub`, `skore`, `ipywidgets`, and `pyodide-http` aren't bundled, so `scripts/build_jupyterlite.py` prepends a `%pip install -q …` cell to every generated notebook — piplite resolves the wheels from PyPI on first run.
+
+---
+
 ## License
 
 See [LICENSE](./LICENSE) — source-available for reference only; commercial use, forks, and public re-deployment require permission from Probabl SAS.

@@ -15,6 +15,16 @@ const githubUrl = computed(
     `https://github.com/probabl-ai/scikit-learn-central/blob/main/data/use-cases/${props.useCase.uuid}.py`,
 )
 
+/**
+ * Deep link into the JupyterLite distribution shipped alongside the Vue
+ * build (see scripts/build_jupyterlite.py). Each .py is converted to
+ * <uuid>.ipynb and opened in JupyterLab when the user clicks the button.
+ * The path is relative so it works regardless of base URL.
+ */
+const jupyterliteUrl = computed(
+  () => `jupyterlite/lab/index.html?path=use-cases/${props.useCase.uuid}.ipynb`,
+)
+
 function viewCode(): void {
   emit('view-code', props.useCase)
 }
@@ -79,6 +89,15 @@ async function copyLink(): Promise<void> {
         <button class="btn--view-code" @click="viewCode">
           <i class="fas fa-code"></i> View Code
         </button>
+        <a
+          :href="jupyterliteUrl"
+          target="_blank"
+          rel="noopener"
+          class="btn--open-lab"
+          title="Open this use case in JupyterLite (Pyodide kernel, runs in your browser)"
+        >
+          <i class="fas fa-flask"></i> Open in JupyterLite
+        </a>
       </div>
     </div>
   </article>

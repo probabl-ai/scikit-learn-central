@@ -15,9 +15,20 @@ requests = "*"
 beautifulsoup4 = "*"
 lxml = "*"
 
+# JupyterLite toolchain — converts use-case .py → .ipynb and builds the
+# in-browser JupyterLab static site. Versions pinned to the same ones the
+# upstream skeleton-deploy ships.
+[feature.jupyterlite.dependencies]
+python = ">=3.11,<3.13"
+jupyterlite-core = ">=0.4,<0.5"
+jupyterlite-pyodide-kernel = ">=0.4,<0.5"
+jupyter_server = ">=2.14,<3"
+jupytext = ">=1.16,<2"
+
 [environments]
 default = { solve-group = "default" }
 scripts = { features = ["scripts"], solve-group = "default" }
+jupyterlite = { features = ["jupyterlite"], no-default-feature = true }
 
 [tasks.install]
 cmd = "npm install"
@@ -31,9 +42,16 @@ depends-on = ["install"]
 description = "Start Vite dev server with hot reload."
 
 [tasks.build]
+depends-on = [
+  "build-frontend",
+  { task = "build-jupyterlite", environment = "jupyterlite" },
+]
+description = "Full production build: Vue site (dist/) + JupyterLite (dist/jupyterlite/)."
+
+[tasks.build-frontend]
 cmd = "npm run build"
 depends-on = ["install"]
-description = "Type-check and produce a production build in dist/."
+description = "Build the Vue site only (no JupyterLite). Faster when you don't need the in-browser notebooks."
 
 [tasks.preview]
 cmd = "npm run preview"
@@ -60,3 +78,10 @@ description = "Refresh release reaction counts."
 [tasks.mcp-bundle]
 cmd = "python mcp/generate_bundle.py"
 description = "Regenerate the MCP worker data bundle from data/."
+
+# Builds dist/jupyterlite/ from data/use-cases/*.py. Lives in the jupyterlite
+# env so the heavy Jupyter stack isn't pulled into the default env (which only
+# needs Node for the Vue build).
+[feature.jupyterlite.tasks.build-jupyterlite]
+cmd = "python scripts/build_jupyterlite.py"
+description = "Convert use-case .py to .ipynb (jupytext) and build the in-browser JupyterLite site into dist/jupyterlite/."

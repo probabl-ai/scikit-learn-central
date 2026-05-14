@@ -1563,50 +1563,45 @@
   gap: var(--space-2);
 }
 
-.uc-card__actions {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin-left: auto;
-}
-
-.btn--view-code {
+.btn--open-lab {
   font-family: var(--font-sans);
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0;
-  padding: 7px 14px;
+  height: 32px;
+  padding: 0 14px;
   background: var(--color-orange);
   color: var(--color-near-black);
   border: none;
   border-radius: var(--radius-full);
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
+  text-decoration: none;
   transition: opacity .15s;
 }
 
-.btn--view-code:hover {
+.btn--open-lab:hover {
   background: var(--color-orange);
   color: var(--color-near-black);
   opacity: 0.92;
 }
 
 .uc-card__copy-link {
-  font-family: var(--font-mono);
   font-size: var(--text-xs);
-  font-weight: 600;
-  letter-spacing: .02em;
-  padding: var(--space-2) var(--space-4);
+  width: 32px;
+  height: 32px;
+  padding: 0;
   background: transparent;
   color: var(--neutral-500);
   border: 1px solid var(--neutral-200);
   border-radius: var(--radius-sm);
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
+  justify-content: center;
+  line-height: 1;
   transition: color .15s, border-color .15s;
 }
 
@@ -1794,21 +1789,47 @@
   color: #fff;
 }
 
+/* "Open in JupyterLite" CTA — same pill geometry as other card actions. */
+.btn--open-lab {
+  font-family: var(--brand-typography--texte);
+  font-size: var(--brand-typography-size--body-s);
+  font-weight: 500;
+  letter-spacing: 0;
+  height: 32px;
+  padding: 0 14px;
+  background: var(--color-orange);
+  color: var(--color-near-black);
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: opacity var(--duration-sm) var(--ease-out);
+}
+.btn--open-lab:hover {
+  opacity: 0.92;
+}
+
 /* Square GitHub link button — matches adjacent button height */
 .btn--github-square {
-  padding: var(--space-2);
+  width: 32px;
+  height: 32px;
+  padding: 0;
   background: transparent;
   border: 1.5px solid var(--color-near-black);
   color: var(--color-near-black);
   border-radius: var(--radius-sm);
   cursor: pointer;
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   transition: background .12s, color .12s;
   text-decoration: none;
   font-size: var(--text-xs);
   line-height: 1;
-  aspect-ratio: 1;
 }
 
 .btn--github-square:hover {
@@ -1897,11 +1918,6 @@
 @media (max-width: 900px) {
   .uc-grid {
     grid-template-columns: 1fr;
-  }
-  .code-modal {
-    max-width: 100%;
-    max-height: 100vh;
-    border-radius: 0;
   }
 }
 
