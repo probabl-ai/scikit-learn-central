@@ -29,6 +29,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" />
+
+    <!-- Highlight.js — used by the use-case code modal -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+
+    <style>
+      /* Sticky stacking: header → view-tabs → filter-bar */
+      .view-tabs { position: sticky; top: var(--header-h); z-index: 190; }
+      .filter-bar { position: sticky; top: calc(var(--header-h) + 40px); z-index: 180; }
+    </style>
   </head>
   <body>
     <div id="app"></div>

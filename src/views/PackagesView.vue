@@ -182,33 +182,36 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
     </div>
   </div>
 
-  <main class="catalog-main">
-    <SklearnHero :core="core" :use-case-count="ucForCore" />
+  <div id="view-catalog" class="view" role="tabpanel" aria-label="Package catalog">
+    <div class="page-content">
+      <SklearnHero :core="core" :use-case-count="ucForCore" />
 
-    <div class="catalog-toolbar">
-      <span class="catalog-toolbar__count">
-        {{ filtered.length }} package{{ filtered.length !== 1 ? 's' : '' }}
-      </span>
-    </div>
+      <div class="catalog-header">
+        <h2 class="catalog-header__title">Ecosystem Packages</h2>
+        <span class="catalog-header__count" aria-live="polite">
+          {{ filtered.length }} package{{ filtered.length !== 1 ? 's' : '' }}
+        </span>
+      </div>
 
-    <div v-if="filtered.length === 0" class="state-empty">
-      <div class="state-empty__icon">🔭</div>
-      <div class="state-empty__title">No packages found</div>
-      <p class="state-empty__subtitle">Try different search terms or reset your filters.</p>
-      <button class="btn btn--outline" @click="resetFilters">Reset Filters</button>
-    </div>
+      <div v-if="filtered.length === 0" class="state-empty">
+        <div class="state-empty__icon">🔭</div>
+        <div class="state-empty__title">No packages found</div>
+        <p class="state-empty__subtitle">Try different search terms or reset your filters.</p>
+        <button class="btn btn--outline" @click="resetFilters">Reset Filters</button>
+      </div>
 
-    <div v-else class="catalog-grid" id="catalog-grid">
-      <PackageCard
-        v-for="pkg in filtered"
-        :key="pkg.id"
-        :pkg="pkg"
-        :use-case-count="useCaseCountByPkg.get(pkg.id) ?? 0"
-        :show-fit-chip="true"
-        :is-probabl-boosted="
-          sortBy === 'ranking' && pkg.probabl === true && pkg.scope === 'core'
-        "
-      />
+      <div v-else id="catalog-grid" class="catalog-grid">
+        <PackageCard
+          v-for="pkg in filtered"
+          :key="pkg.id"
+          :pkg="pkg"
+          :use-case-count="useCaseCountByPkg.get(pkg.id) ?? 0"
+          :show-fit-chip="true"
+          :is-probabl-boosted="
+            sortBy === 'ranking' && pkg.probabl === true && pkg.scope === 'core'
+          "
+        />
+      </div>
     </div>
-  </main>
+  </div>
 </template>

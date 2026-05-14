@@ -31,7 +31,17 @@
       "Bash(curl -sf http://localhost:5173/ -o /tmp/dev_index.html)",
       "Read(//tmp/**)",
       "Bash(curl -sf http://localhost:5173/src/main.ts -o /dev/null)",
-      "Bash(curl -sf http://localhost:5173/fonts/Switzer-Regular.woff2 -o /dev/null)"
+      "Bash(curl -sf http://localhost:5173/fonts/Switzer-Regular.woff2 -o /dev/null)",
+      "Bash(curl -sf -I http://localhost:4173/fonts/Switzer-Regular.woff2)",
+      "Bash(curl -sf http://localhost:4173/)",
+      "WebFetch(domain:probabl.ai)",
+      "Bash(curl -sL https://probabl.ai/ -o /tmp/probabl.html)",
+      "Bash(curl -sL https://cdn.prod.website-files.com/69dcdbceda2296885506eea4/css/probabl-2.webflow.shared.59547570a.css -o /tmp/probabl.css)",
+      "Bash(curl -sf http://localhost:5173/src/views/UseCasesView.vue -o /dev/null)",
+      "Bash(curl -sf http://localhost:5173/src/views/ReleasesView.vue -o /dev/null)",
+      "Bash(curl -sf http://localhost:5173/src/views/AboutView.vue -o /dev/null)",
+      "Bash(curl -sf http://localhost:5173/src/composables/useReleases.ts -o /dev/null)",
+      "Bash(curl -sf \"http://localhost:5173/data/use-cases/use_case_real_estate.py?raw\" -o /dev/null)"
     ]
   }
 }

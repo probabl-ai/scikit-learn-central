@@ -1,11 +1,18 @@
+<script setup lang="ts">
+import ReleaseCard from '@/components/ReleaseCard.vue'
+import ReleasesBlogStrip from '@/components/ReleasesBlogStrip.vue'
+import { useReleases } from '@/composables/useReleases'
+
+const { releases } = useReleases()
+</script>
+
 <template>
-  <main class="catalog-main">
-    <div class="state-empty">
-      <div class="state-empty__icon">🚧</div>
-      <div class="state-empty__title">Releases view — to be ported</div>
-      <p class="state-empty__subtitle">
-        Migration of the scikit-learn releases timeline is pending.
-      </p>
+  <div id="view-releases" class="view" role="tabpanel" aria-label="Scikit-learn Releases">
+    <div class="page-content">
+      <ReleasesBlogStrip />
+      <div class="releases-grid">
+        <ReleaseCard v-for="rel in releases" :key="rel.version" :release="rel" />
+      </div>
     </div>
-  </main>
+  </div>
 </template>

@@ -2,6 +2,10 @@
 defineProps<{
   submitLabel: string
 }>()
+
+defineEmits<{
+  submit: []
+}>()
 </script>
 
 <template>
@@ -30,7 +34,7 @@ defineProps<{
         <a href="https://scikit-learn.org" target="_blank" class="btn btn--ghost btn--sm">
           <i class="fas fa-globe"></i> scikit-learn.org
         </a>
-        <button class="btn btn--primary btn--sm">
+        <button class="btn btn--primary btn--sm" @click="$emit('submit')">
           <i class="fas fa-plus"></i>
           <span>{{ submitLabel }}</span>
         </button>

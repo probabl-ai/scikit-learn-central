@@ -5,3 +5,13 @@ declare module '*.vue' {
   const component: DefineComponent<object, object, unknown>
   export default component
 }
+
+declare global {
+  interface Window {
+    hljs?: {
+      highlightElement: (el: HTMLElement) => void
+    }
+  }
+}
+
+export {}

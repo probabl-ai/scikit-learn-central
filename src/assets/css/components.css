@@ -45,8 +45,8 @@
 
 /* Title */
 .app-header__title {
-  font-family: var(--font-serif);
-  font-size: 20px;
+  font-family: var(--brand-typography--title);
+  font-size: var(--brand-typography-size--body-xl); /* 1.25rem / 20 px */
   font-weight: 300;
   letter-spacing: var(--tracking-tight);
   color: #fff;
@@ -368,12 +368,12 @@
 }
 
 .sklearn-hero__name {
-  font-family: var(--font-serif);
-  font-size: 44px;
+  font-family: var(--brand-typography--title);
+  font-size: var(--brand-typography-size--heading-h2); /* 3.5rem / 56 px — probabl H2 */
   font-weight: 300;
   color: #fff;
   letter-spacing: var(--tracking-display);
-  line-height: 1.05;
+  line-height: 1.1;
   margin-bottom: var(--space-4);
 }
 
@@ -529,12 +529,12 @@
 }
 
 .catalog-header__title {
-  font-family: var(--font-serif);
-  font-size: 28px;
+  font-family: var(--brand-typography--title);
+  font-size: var(--brand-typography-size--heading-h5); /* 2rem / 32 px — probabl H5 */
   font-weight: 300;
   color: var(--text-primary);
   letter-spacing: var(--tracking-tight);
-  line-height: 1.1;
+  line-height: 1.5;
 }
 
 .catalog-header__count {

@@ -28,12 +28,19 @@ function countFor(key: string): string {
       v-for="tab in tabs"
       :key="tab.key"
       :to="tab.to"
-      role="tab"
-      class="view-tab"
-      :class="{ 'is-active': activeKey === tab.key }"
+      custom
+      v-slot="{ navigate }"
     >
-      <i class="fas" :class="tab.icon"></i> {{ tab.label }}
-      <span v-if="tab.key !== 'about'" class="view-tab__count">{{ countFor(tab.key) }}</span>
+      <button
+        type="button"
+        role="tab"
+        class="view-tab"
+        :class="{ 'is-active': activeKey === tab.key }"
+        @click="navigate"
+      >
+        <i class="fas" :class="tab.icon"></i> {{ tab.label }}
+        <span v-if="tab.key !== 'about'" class="view-tab__count">{{ countFor(tab.key) }}</span>
+      </button>
     </router-link>
   </nav>
 </template>
