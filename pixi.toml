@@ -38,8 +38,18 @@ description = "Install npm dependencies (runs automatically on first dev/build).
 
 [tasks.dev]
 cmd = "npm run dev"
-depends-on = ["install"]
-description = "Start Vite dev server with hot reload."
+depends-on = ["install", "link-jupyterlite"]
+description = "Start Vite dev server with hot reload. Symlinks dist/jupyterlite into public/ so the Open-in-JupyterLite link works in dev (silently no-ops if JupyterLite hasn't been built yet)."
+
+# Dev-only helpers — keep the JupyterLite tree out of public/ during prod builds
+# (Vite's publicDir copy would otherwise duplicate or break it).
+[tasks.link-jupyterlite]
+cmd = "python scripts/link_jupyterlite.py"
+description = "Symlink public/jupyterlite → dist/jupyterlite so Vite dev serves /jupyterlite/."
+
+[tasks.unlink-jupyterlite]
+cmd = "python scripts/link_jupyterlite.py --remove"
+description = "Remove the dev-only symlink (called before prod builds)."
 
 [tasks.build]
 depends-on = [
@@ -50,7 +60,7 @@ description = "Full production build: Vue site (dist/) + JupyterLite (dist/jupyt
 
 [tasks.build-frontend]
 cmd = "npm run build"
-depends-on = ["install"]
+depends-on = ["install", "unlink-jupyterlite"]
 description = "Build the Vue site only (no JupyterLite). Faster when you don't need the in-browser notebooks."
 
 [tasks.preview]

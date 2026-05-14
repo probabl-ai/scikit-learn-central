@@ -17,6 +17,9 @@ dist-ssr/
 jupyterlite/
 .jupyterlite.doit.db
 
+# Dev-only symlink into dist/jupyterlite (created by link-jupyterlite pixi task)
+public/jupyterlite
+
 # Python
 __pycache__/
 *.pyc

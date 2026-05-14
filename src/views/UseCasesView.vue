@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue'
 import FilterDropdown from '@/components/FilterDropdown.vue'
 import UseCaseCard from '@/components/UseCaseCard.vue'
-import CodeModal from '@/components/CodeModal.vue'
 import { useUseCases } from '@/composables/useUseCases'
 import type { Difficulty, UseCase } from '@/types/usecase'
 
@@ -163,13 +162,6 @@ const activeChips = computed<ActiveChip[]>(() => {
   return chips
 })
 
-const activeUseCase = ref<UseCase | null>(null)
-function openCode(uc: UseCase): void {
-  activeUseCase.value = uc
-}
-function closeCode(): void {
-  activeUseCase.value = null
-}
 </script>
 
 <template>
@@ -235,9 +227,6 @@ function closeCode(): void {
         <span class="uc-count" aria-live="polite">
           {{ filtered.length }} use case{{ filtered.length !== 1 ? 's' : '' }}
         </span>
-        <span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--neutral-500);">
-          Click <strong style="color:var(--probabl-blue)">View Code</strong> for a runnable Python example
-        </span>
       </div>
 
       <div v-if="filtered.length === 0" class="state-empty">
@@ -248,15 +237,8 @@ function closeCode(): void {
       </div>
 
       <div v-else class="uc-grid">
-        <UseCaseCard
-          v-for="uc in filtered"
-          :key="uc.uuid"
-          :use-case="uc"
-          @view-code="openCode"
-        />
+        <UseCaseCard v-for="uc in filtered" :key="uc.uuid" :use-case="uc" />
       </div>
     </div>
   </div>
-
-  <CodeModal :use-case="activeUseCase" @close="closeCode" />
 </template>

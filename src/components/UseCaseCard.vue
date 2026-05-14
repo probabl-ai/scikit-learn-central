@@ -6,10 +6,6 @@ const props = defineProps<{
   useCase: UseCase
 }>()
 
-const emit = defineEmits<{
-  'view-code': [useCase: UseCase]
-}>()
-
 const githubUrl = computed(
   () =>
     `https://github.com/probabl-ai/scikit-learn-central/blob/main/data/use-cases/${props.useCase.uuid}.py`,
@@ -24,10 +20,6 @@ const githubUrl = computed(
 const jupyterliteUrl = computed(
   () => `jupyterlite/lab/index.html?path=use-cases/${props.useCase.uuid}.ipynb`,
 )
-
-function viewCode(): void {
-  emit('view-code', props.useCase)
-}
 
 async function copyLink(): Promise<void> {
   const url = `${window.location.origin}${window.location.pathname}#/use-cases?slug=${props.useCase.slug}`
@@ -73,8 +65,13 @@ async function copyLink(): Promise<void> {
     </div>
 
     <div class="uc-card__footer">
-      <button class="uc-card__copy-link" title="Copy link to this use case" @click="copyLink">
-        <i class="fas fa-link"></i> Copy link
+      <button
+        class="uc-card__copy-link"
+        title="Copy link to this use case"
+        aria-label="Copy link to this use case"
+        @click="copyLink"
+      >
+        <i class="fas fa-link"></i>
       </button>
       <div class="uc-card__actions">
         <a
@@ -83,12 +80,10 @@ async function copyLink(): Promise<void> {
           rel="noopener"
           class="btn--github-square"
           title="View on GitHub"
+          aria-label="View on GitHub"
         >
           <i class="fab fa-github"></i>
         </a>
-        <button class="btn--view-code" @click="viewCode">
-          <i class="fas fa-code"></i> View Code
-        </button>
         <a
           :href="jupyterliteUrl"
           target="_blank"
