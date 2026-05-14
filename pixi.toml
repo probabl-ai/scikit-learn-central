@@ -24,11 +24,22 @@ jupyterlite-core = ">=0.4,<0.5"
 jupyterlite-pyodide-kernel = ">=0.4,<0.5"
 jupyter_server = ">=2.14,<3"
 jupytext = ">=1.16,<2"
+ipywidgets = ">=8.1.8,<9"
+
+# One-off dataset refresh: pull california housing + german credit and commit
+# them as CSV under data/use-cases/datasets/. Heavy ML deps so they live in
+# their own env, not in the daily Vue dev workflow.
+[feature.datasets.dependencies]
+python = ">=3.11,<3.13"
+pandas = "*"
+scikit-learn = "*"
+pyarrow = "*"
 
 [environments]
 default = { solve-group = "default" }
 scripts = { features = ["scripts"], solve-group = "default" }
 jupyterlite = { features = ["jupyterlite"], no-default-feature = true }
+datasets = { features = ["datasets"], no-default-feature = true }
 
 [tasks.install]
 cmd = "npm install"
@@ -88,6 +99,12 @@ description = "Refresh release reaction counts."
 [tasks.mcp-bundle]
 cmd = "python mcp/generate_bundle.py"
 description = "Regenerate the MCP worker data bundle from data/."
+
+# One-off helper: refresh embedded CSVs under data/use-cases/datasets/. Run
+# whenever a new use case is added or an upstream dataset changes.
+[feature.datasets.tasks.fetch-datasets]
+cmd = "python scripts/fetch_datasets.py"
+description = "Download california housing + german credit and commit as CSV under data/use-cases/datasets/."
 
 # Builds dist/jupyterlite/ from data/use-cases/*.py. Lives in the jupyterlite
 # env so the heavy Jupyter stack isn't pulled into the default env (which only

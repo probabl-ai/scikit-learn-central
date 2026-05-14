@@ -2,7 +2,7 @@
   "uuid": "use_case_sentiment_analysis",
   "slug": "sentiment-analysis",
   "title": "Customer Review Sentiment Analysis",
-  "synopsis": "Classify customer reviews as positive or negative to monitor brand reputation and product satisfaction. Automated sentiment analysis at scale enables quick identification of dissatisfied customers and service improvement opportunities.",
+  "synopsis": "Classify toy product reviews as satisfied or dissatisfied using skrub's default tabular classifier pipeline on text, with skore.evaluate for 5-fold cross-validation, checks, and aggregated metrics.",
   "industry": [
     "e-commerce",
     "marketing",
