@@ -211,11 +211,18 @@
   --shadow-lg:  0 16px 48px rgba(4,5,36,0.18);
   --shadow-xl:  0 20px 64px rgba(4,5,36,0.22);
 
-  /* Transitions */
-  --ease:        cubic-bezier(0.16, 1, 0.3, 1);
-  --duration-sm: 120ms;
-  --duration-md: 220ms;
-  --duration-lg: 420ms;
+  /* Transitions — curated easing curves (strong custom variants, per the
+     emil-design-eng skill: stock CSS easings are too weak for UI). */
+  --ease-out:     cubic-bezier(0.23, 1, 0.32, 1); /* strong ease-out for entry/exit */
+  --ease-in-out:  cubic-bezier(0.77, 0, 0.175, 1); /* on-screen movement */
+  --ease-drawer:  cubic-bezier(0.32, 0.72, 0, 1);  /* iOS-like drawer curve */
+  /* Legacy alias — kept so existing rules keep working. */
+  --ease:         var(--ease-out);
+
+  --duration-press: 160ms; /* button :active feedback */
+  --duration-sm:    120ms; /* hover color/border changes */
+  --duration-md:    200ms; /* default UI transitions */
+  --duration-lg:    280ms; /* modal/drawer entry (was 420ms — too slow) */
 
   /* Layout */
   --header-h:    64px;
@@ -304,6 +311,33 @@ button, input, select, textarea {
   letter-spacing: -0.5px;
 }
 
+/* ── Reduced motion ────────────────────────────────────────
+   Users with prefers-reduced-motion get gentler animations: opacity and
+   color still transition (they aid comprehension), but transforms and
+   movement are reduced to instant. Per the emil-design-eng skill. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+  /* Re-allow opacity transitions (they don't cause motion sickness). */
+  .modal-backdrop,
+  .code-modal-backdrop,
+  .filter-panel,
+  .ranking-tooltip {
+    transition-property: opacity, visibility !important;
+    transition-duration: 120ms !important;
+  }
+  .modal,
+  .code-modal {
+    transform: none !important;
+  }
+}
+
 /* ── Utility Classes ───────────────────────────────────────── */
 .sr-only {
   position: absolute;
@@ -354,10 +388,11 @@ button, input, select, textarea {
   text-transform: none;
   text-decoration: none;
   cursor: pointer;
-  transition: opacity var(--duration-md) var(--ease),
-              background var(--duration-md) var(--ease),
-              border-color var(--duration-md) var(--ease),
-              color var(--duration-md) var(--ease);
+  transition: transform var(--duration-press) var(--ease-out),
+              opacity var(--duration-md) var(--ease-out),
+              background var(--duration-md) var(--ease-out),
+              border-color var(--duration-md) var(--ease-out),
+              color var(--duration-md) var(--ease-out);
   white-space: nowrap;
   user-select: none;
   line-height: 1;
@@ -369,7 +404,12 @@ button, input, select, textarea {
 }
 
 .btn:hover { opacity: 0.92; }
-.btn:active { opacity: 0.85; }
+/* Press feedback — makes the UI feel like it heard the click.
+   transform: scale stays GPU-accelerated and runs in 160 ms. */
+.btn:active {
+  opacity: 0.85;
+  transform: scale(0.97);
+}
 
 /* Primary — orange fill on midnight, dark fill on light */
 .btn--primary,

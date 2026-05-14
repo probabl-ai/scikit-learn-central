@@ -452,7 +452,9 @@
   letter-spacing: 0;
   text-transform: none;
   text-decoration: none;
-  transition: all var(--duration-md) var(--ease);
+  transition: background var(--duration-md) var(--ease-out),
+              border-color var(--duration-md) var(--ease-out),
+              color var(--duration-md) var(--ease-out);
 }
 
 .sklearn-hero__link:hover {
@@ -582,6 +584,44 @@
   gap: var(--space-5);
 }
 
+/* Staggered entry — keep delays short (40 ms between cards) so the grid
+   never feels slow. Stagger only the first ~8 cards; remaining cards
+   land at the same time (the trailing delay of 280 ms feels right and
+   stays under 300 ms total). */
+@keyframes card-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.catalog-grid > .card,
+.uc-grid > .uc-card,
+.releases-grid > .release-card {
+  animation: card-enter 280ms var(--ease-out) both;
+}
+.catalog-grid  > .card:nth-child(1),
+.uc-grid       > .uc-card:nth-child(1),
+.releases-grid > .release-card:nth-child(1)  { animation-delay: 0ms; }
+.catalog-grid  > .card:nth-child(2),
+.uc-grid       > .uc-card:nth-child(2),
+.releases-grid > .release-card:nth-child(2)  { animation-delay: 40ms; }
+.catalog-grid  > .card:nth-child(3),
+.uc-grid       > .uc-card:nth-child(3),
+.releases-grid > .release-card:nth-child(3)  { animation-delay: 80ms; }
+.catalog-grid  > .card:nth-child(4),
+.uc-grid       > .uc-card:nth-child(4),
+.releases-grid > .release-card:nth-child(4)  { animation-delay: 120ms; }
+.catalog-grid  > .card:nth-child(5),
+.uc-grid       > .uc-card:nth-child(5),
+.releases-grid > .release-card:nth-child(5)  { animation-delay: 160ms; }
+.catalog-grid  > .card:nth-child(6),
+.uc-grid       > .uc-card:nth-child(6),
+.releases-grid > .release-card:nth-child(6)  { animation-delay: 200ms; }
+.catalog-grid  > .card:nth-child(7),
+.uc-grid       > .uc-card:nth-child(7),
+.releases-grid > .release-card:nth-child(7)  { animation-delay: 240ms; }
+.catalog-grid  > .card:nth-child(n+8),
+.uc-grid       > .uc-card:nth-child(n+8),
+.releases-grid > .release-card:nth-child(n+8) { animation-delay: 280ms; }
+
 /* ── Package Card ──────────────────────────────────────────── */
 .card {
   background: var(--bg-surface);
@@ -634,14 +674,18 @@
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-4px);
-  transition: opacity .15s ease, visibility .15s ease, transform .15s ease;
+  /* Start slightly scaled and shifted; never animate from scale(0). */
+  transform: translateY(-4px) scale(0.97);
+  transform-origin: top center;
+  transition: opacity 125ms var(--ease-out),
+              visibility 125ms,
+              transform 125ms var(--ease-out);
 }
 
 .card__ranking:hover .ranking-tooltip {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 .ranking-tooltip__title {
@@ -922,7 +966,8 @@
   color: var(--text-secondary);
   text-decoration: none;
   text-align: center;
-  transition: all var(--duration-sm) var(--ease);
+  transition: border-color var(--duration-sm) var(--ease-out),
+              color var(--duration-sm) var(--ease-out);
 }
 
 .card__link:hover {
@@ -943,7 +988,8 @@
   border-radius: var(--radius-sm);
   padding: 4px var(--space-3);
   cursor: pointer;
-  transition: all var(--duration-sm) var(--ease);
+  transition: border-color var(--duration-sm) var(--ease-out),
+              color var(--duration-sm) var(--ease-out);
 }
 
 .card__install:hover {
@@ -997,23 +1043,34 @@
   border: 3px solid var(--border-subtle);
   border-top-color: var(--color-near-black);
   border-radius: 50%;
-  animation: spin .8s linear infinite;
+  animation: spin 600ms linear infinite;
   margin: 0 auto var(--space-4);
 }
 
 /* ── Submission Modal ──────────────────────────────────────── */
+/* Modal: backdrop fades, inner box scales from center (modals are exempt
+   from origin-aware scaling per the skill — they're not anchored to a
+   trigger). Toggle opacity/visibility instead of display so transitions
+   actually play. */
 .modal-backdrop {
-  display: none;
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,.5);
   z-index: 500;
   overflow-y: auto;
   padding: var(--space-8) var(--space-5);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--duration-lg) var(--ease-out),
+              visibility var(--duration-lg);
 }
 
 .modal-backdrop.is-open {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .modal {
@@ -1023,6 +1080,13 @@
   border-radius: var(--radius-xl);
   padding: var(--space-10);
   position: relative;
+
+  transform: scale(0.97);
+  transition: transform var(--duration-lg) var(--ease-out);
+}
+
+.modal-backdrop.is-open .modal {
+  transform: scale(1);
 }
 
 .modal__close {
@@ -1567,14 +1631,22 @@
   background: rgba(14,17,90,.55);
   backdrop-filter: blur(4px);
   z-index: 500;
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: var(--space-6);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--duration-lg) var(--ease-out),
+              visibility var(--duration-lg);
 }
 
 .code-modal-backdrop.is-open {
-  display: flex;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .code-modal {
@@ -1587,6 +1659,13 @@
   flex-direction: column;
   overflow: hidden;
   box-shadow: 0 24px 80px rgba(14,17,90,.35);
+
+  transform: scale(0.97);
+  transition: transform var(--duration-lg) var(--ease-out);
+}
+
+.code-modal-backdrop.is-open .code-modal {
+  transform: scale(1);
 }
 
 .code-modal__header {
@@ -1985,8 +2064,10 @@
 }
 
 /* ── Filter Dropdown Panel ────────────────────────────────── */
+/* Origin-aware popover: scales in from its trigger (top-left), per the
+   emil-design-eng skill. We toggle opacity/visibility/scale rather than
+   display:none → block so the transition is actually visible. */
 .filter-panel {
-  display: none;
   position: absolute;
   top: calc(100% + 6px);
   left: 0;
@@ -2001,10 +2082,22 @@
   padding: var(--space-2) 0;
   scrollbar-width: thin;
   scrollbar-color: var(--neutral-300) transparent;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.97);
+  transform-origin: top left;
+  transition: opacity 180ms var(--ease-out),
+              transform 180ms var(--ease-out),
+              visibility 180ms;
 }
 
 .filter-panel.is-open {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: scale(1);
 }
 
 /* Wider panel for long labels */
