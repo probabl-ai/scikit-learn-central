@@ -612,11 +612,9 @@ function renderUcCard(uc) {
       <div class="uc-card__tags">${industryTags}${techTags}</div>
       <div class="uc-card__packages">${pkgChips}</div>
       <div class="uc-card__footer">
-        <button class="uc-card__copy-link" onclick="copyUseCaseLink('${uc.slug}')" title="Copy link to this use case"><i class="fas fa-link"></i> Copy link</button>
-        <div class="uc-card__actions">
-          <a href="${githubUrl}" target="_blank" rel="noopener" class="btn--github-square" title="View on GitHub"><i class="fab fa-github"></i></a>
-          <button class="btn--view-code" onclick="openCodeModal('${uc.slug}')"><i class="fas fa-code"></i> View Code</button>
-        </div>
+        <button class="uc-card__copy-link" onclick="copyUseCaseLink('${uc.slug}')" aria-label="Copy link" title="Copy link to this use case"><i class="fas fa-link"></i></button>
+        <a href="${githubUrl}" target="_blank" rel="noopener" class="btn--github-square" title="View on GitHub"><i class="fab fa-github"></i></a>
+        <a href="jupyterlite/lab/index.html?path=use-cases/${uc.uuid}.ipynb" target="_blank" rel="noopener" class="btn--open-lab" title="Open this use case in JupyterLite"><i class="fas fa-flask"></i> Open in JupyterLite</a>
       </div>
     </article>`;
 }
@@ -633,66 +631,6 @@ function renderUcActiveFilters() {
   container.innerHTML = tags.join('');
   container.classList.toggle('is-visible', tags.length > 0);
 }
-
-/* ═══════════════════════════════════════════════════════════
-   CODE MODAL
-   ═══════════════════════════════════════════════════════════ */
-
-async function openCodeModal(ucSlug) {
-  const uc = useCases?.use_cases.find(u => u.slug === ucSlug);
-  if (!uc) return;
-
-  document.getElementById('code-modal-title').textContent = uc.title;
-  document.getElementById('code-modal-synopsis').textContent = uc.synopsis;
-
-  // Set GitHub link
-  const githubBtn = document.getElementById('btn-github-code');
-  if (githubBtn) {
-    githubBtn.href = `https://github.com/probabl-ai/scikit-learn-central/blob/main/data/use-cases/${uc.uuid}.py`;
-  }
-
-  const metaEl = document.getElementById('code-modal-meta');
-  if (metaEl) {
-    metaEl.innerHTML =
-      `<span class="difficulty-badge difficulty-badge--${uc.difficulty}">${uc.difficulty}</span>` +
-      uc.industry.map(i => `<span class="industry-tag">${i}</span>`).join('') +
-      uc.technique.map(t => `<span class="technique-tag">${t.replace(/-/g,' ')}</span>`).join('');
-  }
-
-  const pkgEl = document.getElementById('code-modal-packages');
-  if (pkgEl) {
-    pkgEl.innerHTML = uc.packages.map(pid =>
-      `<span class="uc-package-chip${pid==='scikit-learn'?' uc-package-chip--core':''}">${pid}</span>`
-    ).join('');
-  }
-
-  // Show modal immediately with a loading placeholder in the code block
-  const pre = document.getElementById('code-modal-pre');
-  if (pre) { pre.textContent = 'Loading…'; pre.removeAttribute('data-highlighted'); }
-  document.getElementById('code-modal-backdrop').classList.add('is-open');
-  document.body.style.overflow = 'hidden';
-
-  // Lazily fetch the .py file — only now, when the user has asked for it
-  const code = await fetchText(`data/use-cases/${uc.uuid}.py`);
-  if (pre) {
-    pre.textContent = code ?? '# Code not available.';
-    if (window.hljs) { pre.removeAttribute('data-highlighted'); window.hljs.highlightElement(pre); }
-  }
-}
-
-function closeCodeModal() {
-  document.getElementById('code-modal-backdrop').classList.remove('is-open');
-  document.body.style.overflow = '';
-}
-
-window.copyCode = function(el) {
-  const pre = document.getElementById('code-modal-pre');
-  if (!pre) return;
-  navigator.clipboard.writeText(pre.textContent).then(() => {
-    el.innerHTML = '<i class="fas fa-check"></i> Copied!';
-    setTimeout(() => { el.innerHTML = '<i class="fas fa-copy"></i> Copy Code'; }, 2000);
-  });
-};
 
 /* ═══════════════════════════════════════════════════════════
    SUBMISSION MODALS
@@ -1165,10 +1103,6 @@ function bindEvents() {
   document.getElementById('uc-modal-backdrop')?.addEventListener('click', e => { if (e.target.id === 'uc-modal-backdrop') closeUcModal(); });
   document.getElementById('uc-submission-form')?.addEventListener('submit', handleUcSubmit);
 
-  // ── Code modal ────────────────────────────────────────── //
-  document.getElementById('code-modal-backdrop')?.addEventListener('click', e => { if (e.target.id === 'code-modal-backdrop') closeCodeModal(); });
-  document.querySelectorAll('.code-modal__close').forEach(btn => btn.addEventListener('click', closeCodeModal));
-
   // ── Feedback modal ────────────────────────────────────── //
   document.getElementById('feedback-modal-close')?.addEventListener('click', closeFeedbackModal);
   document.getElementById('feedback-modal-cancel')?.addEventListener('click', closeFeedbackModal);
@@ -1177,7 +1111,7 @@ function bindEvents() {
 
   // ── Escape key closes any open modal/dropdown ─────────── //
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closeCodeModal(); closePackageModal(); closeUcModal(); closeFeedbackModal(); closeAllDropdowns(); }
+    if (e.key === 'Escape') { closePackageModal(); closeUcModal(); closeFeedbackModal(); closeAllDropdowns(); }
   });
 
   // ── Hash-based navigation (browser back/forward) ──────── //
@@ -1207,16 +1141,22 @@ function scrollToUseCase(slug) {
   card.scrollIntoView({ behavior: 'smooth', block: 'center' });
   card.classList.add('uc-card--highlighted');
   setTimeout(() => card.classList.remove('uc-card--highlighted'), 2000);
-  openCodeModal(slug);
 }
 
 window.copyUseCaseLink = function(slug) {
   const url = window.location.origin + window.location.pathname + '#use-cases+' + slug;
   const btn = document.querySelector(`.uc-card[data-uc-id="${slug}"] .uc-card__copy-link`);
+  const setIcon = (cls, label) => {
+    if (!btn) return;
+    btn.innerHTML = `<i class="fas ${cls}"></i>`;
+    btn.setAttribute('title', label);
+  };
   navigator.clipboard.writeText(url).then(() => {
-    if (btn) { btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy link', 1500); }
+    setIcon('fa-check', 'Link copied');
+    setTimeout(() => setIcon('fa-link', 'Copy link to this use case'), 1500);
   }).catch(() => {
-    if (btn) { btn.textContent = 'Copy failed'; setTimeout(() => btn.textContent = 'Copy link', 1500); }
+    setIcon('fa-xmark', 'Copy failed');
+    setTimeout(() => setIcon('fa-link', 'Copy link to this use case'), 1500);
   });
 };
 

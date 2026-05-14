@@ -36,11 +36,6 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous">
 
-  <!-- Highlight.js -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
-
   <!-- Design System & Components -->
   <link rel="stylesheet" href="css/design-system.css">
   <link rel="stylesheet" href="css/components.css">
@@ -558,37 +553,6 @@
           <button type="button" class="btn btn--ghost" id="feedback-modal-cancel">Cancel</button>
         </div>
       </form>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       CODE MODAL
-       ═══════════════════════════════════════════════════════ -->
-  <div id="code-modal-backdrop" class="code-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="code-modal-title">
-    <div class="code-modal">
-      <div class="code-modal__header">
-        <div>
-          <div class="code-modal__title" id="code-modal-title">Use Case</div>
-          <div class="code-modal__meta" id="code-modal-meta"></div>
-        </div>
-        <button class="code-modal__close" aria-label="Close">&times;</button>
-      </div>
-      <div class="code-modal__synopsis" id="code-modal-synopsis"></div>
-      <div class="code-modal__body">
-        <pre class="code-modal__pre language-python" id="code-modal-pre"></pre>
-      </div>
-      <div class="code-modal__footer">
-        <div>
-          <div class="code-modal__packages-label">Libraries used</div>
-          <div class="code-modal__package-chips" id="code-modal-packages"></div>
-        </div>
-        <div style="display:flex;gap:var(--space-2);align-items:center;">
-          <a id="btn-github-code" href="#" target="_blank" rel="noopener" class="btn--github-square" title="View on GitHub"><i class="fab fa-github"></i></a>
-          <button id="btn-copy-code" class="btn--copy-code" onclick="copyCode(this)">
-            <i class="fas fa-copy"></i> Copy Code
-          </button>
-        </div>
-      </div>
     </div>
   </div>
 
