@@ -4,45 +4,45 @@
    IBM Plex Serif · Switzer · IBM Plex Mono
    ═══════════════════════════════════════════════════════════ */
 
+/* ── IBM Plex Serif + Mono via Google Fonts (must come before @font-face) ── */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:wght@300;400;500&display=swap');
+
 /* ── Switzer (UI/body) ──────────────────────────────────────── */
 @font-face {
   font-family: "Switzer";
   font-weight: 300;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/Switzer-Light.woff2") format("woff2");
+  src: url("/fonts/Switzer-Light.woff2") format("woff2");
 }
 @font-face {
   font-family: "Switzer";
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/Switzer-Regular.woff2") format("woff2");
+  src: url("/fonts/Switzer-Regular.woff2") format("woff2");
 }
 @font-face {
   font-family: "Switzer";
   font-weight: 500;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/Switzer-Medium.woff2") format("woff2");
+  src: url("/fonts/Switzer-Medium.woff2") format("woff2");
 }
 @font-face {
   font-family: "Switzer";
   font-weight: 600;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/Switzer-Semibold.woff2") format("woff2");
+  src: url("/fonts/Switzer-Semibold.woff2") format("woff2");
 }
 @font-face {
   font-family: "Switzer";
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/Switzer-Bold.woff2") format("woff2");
+  src: url("/fonts/Switzer-Bold.woff2") format("woff2");
 }
-
-/* ── IBM Plex Serif + Mono via Google Fonts ────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:wght@300;400;500&display=swap');
 
 :root {
   /* ── New Probabl palette ──────────────────────────────────── */

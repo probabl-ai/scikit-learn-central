@@ -1,0 +1,62 @@
+[workspace]
+name = "scikit-learn-central"
+description = "Scikit-learn Central — interactive ecosystem explorer (Vue 3 + Vite)"
+authors = ["Probabl SAS <contact@probabl.ai>"]
+channels = ["conda-forge"]
+platforms = ["osx-arm64", "osx-64", "linux-64", "win-64"]
+
+[dependencies]
+nodejs = ">=22.11,<23"
+python = ">=3.11,<3.13"
+
+# Extra deps used only by the release-metadata script (HTML scraping).
+[feature.scripts.dependencies]
+requests = "*"
+beautifulsoup4 = "*"
+lxml = "*"
+
+[environments]
+default = { solve-group = "default" }
+scripts = { features = ["scripts"], solve-group = "default" }
+
+[tasks.install]
+cmd = "npm install"
+inputs = ["package.json", "package-lock.json"]
+outputs = ["node_modules/.package-lock.json"]
+description = "Install npm dependencies (runs automatically on first dev/build)."
+
+[tasks.dev]
+cmd = "npm run dev"
+depends-on = ["install"]
+description = "Start Vite dev server with hot reload."
+
+[tasks.build]
+cmd = "npm run build"
+depends-on = ["install"]
+description = "Type-check and produce a production build in dist/."
+
+[tasks.preview]
+cmd = "npm run preview"
+depends-on = ["build"]
+description = "Serve the production build locally for verification."
+
+[tasks.type-check]
+cmd = "npm run type-check"
+depends-on = ["install"]
+description = "Run vue-tsc without emitting files."
+
+[tasks.update-stats]
+cmd = "python scripts/update_stats.py"
+description = "Refresh data/stats.json from GitHub + PyPI."
+
+[feature.scripts.tasks.update-releases]
+cmd = "python scripts/update_release_metadata.py"
+description = "Refresh data/releases/scikit-learn.json (needs requests+bs4+lxml)."
+
+[feature.scripts.tasks.update-release-reactions]
+cmd = "python scripts/update_release_reactions.py"
+description = "Refresh release reaction counts."
+
+[tasks.mcp-bundle]
+cmd = "python mcp/generate_bundle.py"
+description = "Regenerate the MCP worker data bundle from data/."
