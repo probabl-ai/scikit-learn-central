@@ -2,6 +2,9 @@
 import { computed, ref } from 'vue'
 import SklearnHero from '@/components/SklearnHero.vue'
 import PackageCard from '@/components/PackageCard.vue'
+import PackageListRow from '@/components/PackageListRow.vue'
+import PackageListColumnHeader from '@/components/PackageListColumnHeader.vue'
+import CatalogListShell from '@/components/CatalogListShell.vue'
 import FilterDropdown from '@/components/FilterDropdown.vue'
 import { useCatalogDescriptionExpand } from '@/composables/useCatalogDescriptionExpand'
 import { usePackages } from '@/composables/usePackages'
@@ -10,6 +13,7 @@ import type { Category, License } from '@/types/package'
 import { CATEGORIES, CATEGORY_META } from '@/types/package'
 
 type SortKey = 'ranking' | 'stars' | 'downloads' | 'name'
+type CatalogLayout = 'cards' | 'list'
 
 const { core, packages, featuredPackages } = usePackages()
 const { useCases, useCasesByPackage } = useUseCases()
@@ -19,6 +23,7 @@ const search = ref('')
 const categorySel = ref<Set<Category>>(new Set())
 const licenseSel = ref<Set<License>>(new Set())
 const sortBy = ref<SortKey>('ranking')
+const catalogLayout = ref<CatalogLayout>('cards')
 
 const LICENSES = ['MIT', 'BSD-3-Clause', 'BSD-2-Clause', 'Apache-2.0', 'GPL-3.0'] as const
 
@@ -160,6 +165,34 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
       </div>
 
       <div class="filter-bar-end">
+        <div
+          class="catalog-layout-toggle"
+          role="group"
+          aria-label="Package display layout"
+        >
+          <button
+            type="button"
+            class="catalog-layout-toggle__btn"
+            :class="{ 'is-active': catalogLayout === 'cards' }"
+            :aria-pressed="catalogLayout === 'cards'"
+            title="Card layout"
+            @click="catalogLayout = 'cards'"
+          >
+            <i class="fas fa-th" aria-hidden="true"></i>
+            <span class="sr-only">Card layout</span>
+          </button>
+          <button
+            type="button"
+            class="catalog-layout-toggle__btn"
+            :class="{ 'is-active': catalogLayout === 'list' }"
+            :aria-pressed="catalogLayout === 'list'"
+            title="List layout"
+            @click="catalogLayout = 'list'"
+          >
+            <i class="fas fa-list" aria-hidden="true"></i>
+            <span class="sr-only">List layout</span>
+          </button>
+        </div>
         <select v-model="sortBy" class="sort-select--inline" title="Sort by">
           <option value="ranking">Sort: Fit Score</option>
           <option value="stars">Sort: Stars</option>
@@ -189,7 +222,13 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
     </div>
   </div>
 
-  <div id="view-catalog" class="view catalog-page" role="tabpanel" aria-label="Package catalog">
+  <div
+    id="view-catalog"
+    class="view catalog-page"
+    :class="{ 'catalog-page--list': catalogLayout === 'list' }"
+    role="tabpanel"
+    aria-label="Package catalog"
+  >
     <div class="page-content">
       <SklearnHero :core="core" :use-case-count="ucForCore" />
 
@@ -211,7 +250,7 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
             }}
           </span>
         </div>
-        <div class="catalog-grid">
+        <div v-if="catalogLayout === 'cards'" class="catalog-grid">
           <PackageCard
             v-for="pkg in featuredForDisplay"
             :key="`featured-${pkg.id}`"
@@ -221,6 +260,19 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
             :show-fit-chip="true"
           />
         </div>
+        <CatalogListShell v-else>
+          <PackageListColumnHeader />
+          <div class="catalog-list">
+            <PackageListRow
+              v-for="pkg in featuredForDisplay"
+              :key="`featured-list-${pkg.id}`"
+              :pkg="pkg"
+              :use-cases="useCasesByPackage.get(pkg.id) ?? []"
+              :use-cases-filter-to="{ path: '/use-cases', query: { package: pkg.id } }"
+              :show-fit-chip="true"
+            />
+          </div>
+        </CatalogListShell>
       </section>
 
       <div class="catalog-header">
@@ -237,7 +289,7 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
         <button class="btn btn--outline" @click="resetFilters">Reset Filters</button>
       </div>
 
-      <div v-else id="catalog-grid" class="catalog-grid">
+      <div v-else-if="catalogLayout === 'cards'" id="catalog-grid" class="catalog-grid">
         <PackageCard
           v-for="pkg in filtered"
           :key="pkg.id"
@@ -247,6 +299,19 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
           :show-fit-chip="true"
         />
       </div>
+      <CatalogListShell v-else>
+        <PackageListColumnHeader />
+        <div id="catalog-list" class="catalog-list">
+          <PackageListRow
+            v-for="pkg in filtered"
+            :key="`list-${pkg.id}`"
+            :pkg="pkg"
+            :use-cases="useCasesByPackage.get(pkg.id) ?? []"
+            :use-cases-filter-to="{ path: '/use-cases', query: { package: pkg.id } }"
+            :show-fit-chip="true"
+          />
+        </div>
+      </CatalogListShell>
     </div>
   </div>
 </template>
@@ -273,5 +338,52 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
   font-size: var(--text-sm);
   color: var(--text-muted);
   line-height: 1.45;
+}
+
+.catalog-layout-toggle {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--bg-surface);
+}
+
+.catalog-layout-toggle__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  min-height: 36px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-right: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition:
+    background var(--duration-sm) var(--ease),
+    color var(--duration-sm) var(--ease);
+}
+
+.catalog-layout-toggle__btn:last-child {
+  border-right: none;
+}
+
+.catalog-layout-toggle__btn:hover {
+  color: var(--text-primary);
+  background: var(--neutral-050);
+}
+
+.catalog-layout-toggle__btn.is-active {
+  background: var(--neutral-200);
+  color: var(--color-near-black);
+}
+
+.catalog-layout-toggle__btn:focus-visible {
+  outline: 2px solid var(--color-sky);
+  outline-offset: -2px;
+  z-index: 1;
 }
 </style>

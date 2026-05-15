@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 
-/** Shared across all `PackageCard` instances on the catalog: one expanded/collapsed mode for descriptions. */
+/** Shared across PackageCard and PackageListRow on the catalog: one expanded/collapsed mode for descriptions. */
 const catalogDescriptionsExpanded = ref(false)
 
 export function useCatalogDescriptionExpand() {

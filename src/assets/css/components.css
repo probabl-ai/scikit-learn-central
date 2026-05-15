@@ -258,6 +258,13 @@
   align-items: stretch;
 }
 
+.catalog-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
 .catalog-grid > .card {
   height: 100%;
   min-height: 0;
@@ -272,32 +279,41 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 .catalog-grid > .card,
+.catalog-list > .card,
 .uc-grid > .uc-card,
 .releases-grid > .release-card {
   animation: card-enter 280ms var(--ease-out) both;
 }
 .catalog-grid  > .card:nth-child(1),
+.catalog-list > .card:nth-child(1),
 .uc-grid       > .uc-card:nth-child(1),
 .releases-grid > .release-card:nth-child(1)  { animation-delay: 0ms; }
 .catalog-grid  > .card:nth-child(2),
+.catalog-list > .card:nth-child(2),
 .uc-grid       > .uc-card:nth-child(2),
 .releases-grid > .release-card:nth-child(2)  { animation-delay: 40ms; }
 .catalog-grid  > .card:nth-child(3),
+.catalog-list > .card:nth-child(3),
 .uc-grid       > .uc-card:nth-child(3),
 .releases-grid > .release-card:nth-child(3)  { animation-delay: 80ms; }
 .catalog-grid  > .card:nth-child(4),
+.catalog-list > .card:nth-child(4),
 .uc-grid       > .uc-card:nth-child(4),
 .releases-grid > .release-card:nth-child(4)  { animation-delay: 120ms; }
 .catalog-grid  > .card:nth-child(5),
+.catalog-list > .card:nth-child(5),
 .uc-grid       > .uc-card:nth-child(5),
 .releases-grid > .release-card:nth-child(5)  { animation-delay: 160ms; }
 .catalog-grid  > .card:nth-child(6),
+.catalog-list > .card:nth-child(6),
 .uc-grid       > .uc-card:nth-child(6),
 .releases-grid > .release-card:nth-child(6)  { animation-delay: 200ms; }
 .catalog-grid  > .card:nth-child(7),
+.catalog-list > .card:nth-child(7),
 .uc-grid       > .uc-card:nth-child(7),
 .releases-grid > .release-card:nth-child(7)  { animation-delay: 240ms; }
 .catalog-grid  > .card:nth-child(n+8),
+.catalog-list > .card:nth-child(n+8),
 .uc-grid       > .uc-card:nth-child(n+8),
 .releases-grid > .release-card:nth-child(n+8) { animation-delay: 280ms; }
 
@@ -1069,6 +1085,18 @@
 /* Widen catalog & uc grids now that sidebar is gone */
 #view-catalog .catalog-grid {
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+}
+
+#view-catalog.catalog-page--list {
+  overflow-x: auto;
+  overflow-y: visible;
+  min-width: 0;
+}
+
+#view-catalog.catalog-page--list .page-content {
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: visible;
 }
 
 #view-use-cases .uc-grid {

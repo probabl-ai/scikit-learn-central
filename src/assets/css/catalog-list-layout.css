@@ -1,0 +1,253 @@
+/* Package catalog list: shared column widths, shell, header row (with PackageListRow). */
+.catalog-list-shell {
+  --pkg-col-skore: 11.5rem;
+  --pkg-col-desc: 14rem;
+  --pkg-col-cats: 9rem;
+  --pkg-col-stat: 3.75rem;
+  --pkg-col-fitn: 2.5rem;
+  --pkg-col-uc: 4.75rem;
+  --pkg-col-tags: 14rem;
+
+  position: relative;
+  isolation: isolate;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+}
+
+/* Junction squares (same as `.card .outbound-link:nth-child(2):nth-last-child(2)::before/after` in components.css). */
+.catalog-list-junction {
+  position: absolute;
+  width: calc(var(--space-2) - 1px);
+  height: calc(var(--space-2) - 1px);
+  box-sizing: border-box;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  pointer-events: none;
+  z-index: 4;
+}
+
+.catalog-list-junction--tl {
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+}
+
+.catalog-list-junction--tr {
+  right: 0;
+  top: 0;
+  transform: translate(50%, -50%);
+}
+
+.catalog-list-junction--bl {
+  left: 0;
+  bottom: 0;
+  transform: translate(-50%, 50%);
+}
+
+.catalog-list-junction--br {
+  right: 0;
+  bottom: 0;
+  transform: translate(50%, 50%);
+}
+
+/* One square per seam: rows omit bottom corners (shell / next row owns). */
+.catalog-list-shell .catalog-list > .card:not(:last-child) .catalog-list-junction--bl,
+.catalog-list-shell .catalog-list > .card:not(:last-child) .catalog-list-junction--br {
+  display: none;
+}
+
+.catalog-list-shell .catalog-list > .card:last-child .catalog-list-junction--bl,
+.catalog-list-shell .catalog-list > .card:last-child .catalog-list-junction--br {
+  display: none;
+}
+
+.catalog-list-shell .catalog-list-header,
+.catalog-list-shell .pkg-row-main {
+  position: relative;
+  z-index: 0;
+  width: max-content;
+  min-width: 100%;
+}
+
+.catalog-list-shell .catalog-list-header {
+  z-index: 1;
+  border-bottom: 1px solid var(--border-subtle);
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.catalog-list-shell .catalog-list-header:hover {
+  box-shadow: none;
+}
+
+.catalog-list-shell .catalog-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.catalog-list-shell .catalog-list > .card {
+  position: relative;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  border: none;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0;
+  gap: 0;
+}
+
+.catalog-list-shell .catalog-list > .card:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.catalog-list-shell .catalog-list-header.card:hover,
+.catalog-list-shell .catalog-list > .card.pkg-row:hover {
+  border-color: var(--border-subtle);
+  box-shadow: none;
+}
+
+.catalog-list-shell .catalog-list-header.card,
+.catalog-list-shell .catalog-list > .card.pkg-row {
+  transition: none;
+}
+
+.catalog-list-shell .pkg-row.pkg-catalog-item.card {
+  overflow-x: visible;
+  max-width: none;
+}
+
+.catalog-list-shell .pkg-row-main,
+.catalog-list-shell .catalog-list-header-row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 0;
+}
+
+.catalog-list-shell .pkg-row-col,
+.catalog-list-shell .catalog-list-hcell {
+  flex-shrink: 0;
+  flex-grow: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: var(--space-2);
+  border-right: 1px solid var(--border-subtle);
+  min-height: 0;
+}
+
+.catalog-list-shell .catalog-list-hcell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.catalog-list-shell .pkg-row-col:last-child,
+.catalog-list-shell .catalog-list-hcell:last-child {
+  border-right: none;
+}
+
+.catalog-list-shell .catalog-list-hcell--skore {
+  align-items: center;
+  justify-content: center;
+}
+
+.catalog-list-shell .pkg-row-col--skore {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.catalog-list-shell .pkg-row-col--skore,
+.catalog-list-shell .catalog-list-hcell--skore {
+  flex: 0 0 var(--pkg-col-skore);
+  width: var(--pkg-col-skore);
+  max-width: var(--pkg-col-skore);
+}
+
+.catalog-list-shell .pkg-row-col--desc,
+.catalog-list-shell .catalog-list-hcell--desc {
+  flex: 0 0 var(--pkg-col-desc);
+  width: var(--pkg-col-desc);
+  max-width: var(--pkg-col-desc);
+}
+
+.catalog-list-shell .pkg-row-col--cats,
+.catalog-list-shell .catalog-list-hcell--cats {
+  flex: 0 0 var(--pkg-col-cats);
+  width: var(--pkg-col-cats);
+  max-width: var(--pkg-col-cats);
+}
+
+.catalog-list-shell .pkg-row-col--stat,
+.catalog-list-shell .catalog-list-hcell--stat {
+  flex: 0 0 var(--pkg-col-stat);
+  width: var(--pkg-col-stat);
+  max-width: var(--pkg-col-stat);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.catalog-list-shell .pkg-row-col--fitn,
+.catalog-list-shell .catalog-list-hcell--fitn {
+  flex: 0 0 var(--pkg-col-fitn);
+  width: var(--pkg-col-fitn);
+  max-width: var(--pkg-col-fitn);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.catalog-list-shell .pkg-row-col--uc,
+.catalog-list-shell .catalog-list-hcell--uc {
+  flex: 0 0 var(--pkg-col-uc);
+  width: var(--pkg-col-uc);
+  max-width: var(--pkg-col-uc);
+}
+
+.catalog-list-shell .pkg-row-col--tags,
+.catalog-list-shell .catalog-list-hcell--tags {
+  flex: 0 0 var(--pkg-col-tags);
+  width: var(--pkg-col-tags);
+  max-width: var(--pkg-col-tags);
+  border-right: none;
+}
+
+.catalog-list-shell .catalog-list-header.card {
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+@media (max-width: 720px) {
+  .catalog-list-shell .catalog-list-header-row,
+  .catalog-list-shell .pkg-row-main {
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .catalog-list-shell .pkg-row-col,
+  .catalog-list-shell .catalog-list-hcell {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    border-right: none;
+    border-bottom: 1px solid var(--border-subtle);
+    min-height: unset;
+  }
+
+  .catalog-list-shell .catalog-list-hcell:last-child,
+  .catalog-list-shell .pkg-row-col:last-child {
+    border-bottom: none;
+  }
+}
