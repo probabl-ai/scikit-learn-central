@@ -21,8 +21,10 @@ const props = defineProps<{
   modelValue: Set<T>
 }>()
 
-/* Build an ordered list of {group, items[]} from the flat options array.
-   Always returns a Group[] so consumers don't need to handle two shapes. */
+const emit = defineEmits<{
+  'update:modelValue': [value: Set<T>]
+}>()
+
 const grouped = computed<Group[]>(() => {
   const out: Group[] = []
   const seen = new Map<string, number>()
@@ -38,10 +40,6 @@ const grouped = computed<Group[]>(() => {
   }
   return out
 })
-
-const emit = defineEmits<{
-  'update:modelValue': [value: Set<T>]
-}>()
 
 const open = ref(false)
 const root = ref<HTMLDivElement | null>(null)
@@ -59,11 +57,6 @@ function toggleOption(val: T): void {
   emit('update:modelValue', next)
 }
 
-/* ── Group-level (tier) selection helpers ─────────────────────────────
-   When grouped, the group header itself is a checkbox that selects /
-   deselects every sub-option in that group at once. Tri-state: empty
-   when no sub is selected, indeterminate when some are, checked when
-   all are. */
 function groupState(g: Group): 'none' | 'partial' | 'all' {
   const total = g.items.length
   if (total === 0) return 'none'
@@ -73,6 +66,7 @@ function groupState(g: Group): 'none' | 'partial' | 'all' {
   if (n === total) return 'all'
   return 'partial'
 }
+
 function toggleGroup(g: Group): void {
   const next = new Set(props.modelValue)
   const allSelected = g.items.every((o) => next.has(o.value))
@@ -96,19 +90,19 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
   <div ref="root" class="filter-group">
     <button
       type="button"
-      class="filter-btn"
+      class="trigger"
       :class="{ 'is-open': open, 'has-active': activeCount > 0 }"
       @click="toggle"
     >
       {{ label }}
-      <span v-show="activeCount > 0" class="filter-btn__badge">{{ activeCount }}</span>
+      <span v-show="activeCount > 0" class="badge">{{ activeCount }}</span>
       <i class="fas fa-chevron-down"></i>
     </button>
-    <div class="filter-panel" :class="{ 'is-open': open }">
+    <div class="panel filter-panel" :class="{ 'is-open': open }">
       <template v-for="(g, gi) in grouped" :key="g.group ?? gi">
         <label
           v-if="g.group"
-          class="filter-panel__item filter-panel__group-row"
+          class="row group-row"
           :data-state="groupState(g)"
         >
           <input
@@ -117,20 +111,16 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
             :indeterminate.prop="groupState(g) === 'partial'"
             @change="toggleGroup(g)"
           />
-          <span class="filter-panel__group-label">{{ g.group }}</span>
+          <span class="group-label">{{ g.group }}</span>
         </label>
-        <label
-          v-for="opt in g.items"
-          :key="opt.value"
-          class="filter-panel__item filter-option filter-panel__item--child"
-        >
+        <label v-for="opt in g.items" :key="opt.value" class="row option child">
           <input
             type="checkbox"
             :checked="modelValue.has(opt.value)"
             @change="toggleOption(opt.value)"
           />
-          <span class="filter-panel__label">{{ opt.label }}</span>
-          <span v-if="opt.count != null" class="filter-panel__count">{{ opt.count }}</span>
+          <span class="opt-label">{{ opt.label }}</span>
+          <span v-if="opt.count != null" class="opt-count">{{ opt.count }}</span>
         </label>
       </template>
     </div>
@@ -138,19 +128,162 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
 </template>
 
 <style scoped>
-/* Group header row: visually distinct from item rows (uppercase mono,
-   slight tint), but it's still a label+checkbox so clicks toggle every
-   item in the tier. */
-.filter-panel__group-row {
+.filter-group {
+  position: relative;
+}
+
+.trigger {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+  padding: 0 14px;
+  height: 34px;
+  border: 1px solid var(--neutral-300);
+  background: var(--bg-surface);
+  color: var(--color-near-black);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition:
+    border-color 0.14s,
+    background 0.14s,
+    color 0.14s;
+  user-select: none;
+}
+
+.trigger:hover {
+  border-color: var(--color-near-black);
+  color: var(--color-near-black);
+}
+
+.trigger.has-active {
+  background: var(--color-near-black);
+  border-color: var(--color-near-black);
+  color: var(--text-inverse);
+}
+
+.trigger.is-open {
+  border-color: var(--color-near-black);
+  color: var(--color-near-black);
+  background: var(--surface-near-black-ghost-open);
+}
+
+.trigger.has-active.is-open {
+  background: var(--color-midnight);
+  color: var(--text-inverse);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: var(--color-orange);
+  color: var(--color-near-black);
+  border-radius: 9px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.trigger .fa-chevron-down {
+  font-size: 9px;
+  transition: transform 0.15s;
+}
+
+.trigger.is-open .fa-chevron-down {
+  transform: rotate(180deg);
+}
+
+.panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: var(--bg-surface);
+  border: 1.5px solid var(--neutral-200);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-midnight-panel);
+  z-index: 300;
+  padding: var(--space-2) 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--neutral-300) transparent;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.97);
+  transform-origin: top left;
+  transition:
+    opacity 180ms var(--ease-out),
+    transform 180ms var(--ease-out),
+    visibility 180ms;
+}
+
+.panel.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  transition: background 0.1s;
+  gap: var(--space-3);
+}
+
+.row:hover {
+  background: var(--neutral-050);
+}
+
+.row input[type='checkbox'] {
+  accent-color: var(--color-near-black);
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.opt-label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--neutral-700);
+  flex: 1;
+}
+
+.opt-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--neutral-400);
+  min-width: 20px;
+  text-align: right;
+}
+
+.group-row {
   border-top: 1px solid var(--neutral-100);
   margin-top: 2px;
   background: var(--neutral-050);
 }
-.filter-panel__group-row:first-child {
+
+.group-row:first-child {
   border-top: none;
   margin-top: 0;
 }
-.filter-panel__group-label {
+
+.group-label {
   font-family: var(--font-mono, monospace);
   font-size: 10px;
   font-weight: 700;
@@ -158,15 +291,13 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
   letter-spacing: 0.08em;
   color: var(--text-muted);
 }
-/* Indeterminate (partial) state — colour the label so a partial pick
-   reads as "this tier is filtered". */
-.filter-panel__group-row[data-state='partial'] .filter-panel__group-label,
-.filter-panel__group-row[data-state='all'] .filter-panel__group-label {
+
+.group-row[data-state='partial'] .group-label,
+.group-row[data-state='all'] .group-label {
   color: var(--text-primary);
 }
 
-/* Indent sub-items so the tier hierarchy is visible. */
-.filter-panel__item--child {
+.row.child {
   padding-left: var(--space-6, 24px);
 }
 </style>

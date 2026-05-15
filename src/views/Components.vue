@@ -12,18 +12,28 @@ import FormSuccess from '@/components/FormSuccess.vue'
 import SubmitPackageModal from '@/components/SubmitPackageModal.vue'
 import SubmitUseCaseModal from '@/components/SubmitUseCaseModal.vue'
 import SubmitFeedbackModal from '@/components/SubmitFeedbackModal.vue'
-
 import { usePackages } from '@/composables/usePackages'
 import { useUseCases } from '@/composables/useUseCases'
 import { useReleases } from '@/composables/useReleases'
-
 import type { UseCase } from '@/types/usecase'
 
 const { core, packages } = usePackages()
 const { useCases } = useUseCases()
 const { releases } = useReleases()
 
-/* ── Sample data picks ───────────────────────────────────── */
+const demoFilter = ref<Set<string>>(new Set(['library']))
+const codeUc = ref<UseCase | null>(null)
+const baseOpen = ref(false)
+const pkgOpen = ref(false)
+const ucOpen = ref(false)
+const fbOpen = ref(false)
+
+const demoOptions = [
+  { value: 'library', label: 'Library', count: 30 },
+  { value: 'extension', label: 'Extension', count: 6 },
+  { value: 'application', label: 'Application', count: 1 },
+] as const
+
 const ucCountByPkg = computed(() => {
   const m = new Map<string, number>()
   for (const uc of useCases.value) {
@@ -41,65 +51,38 @@ const regularPkg = computed(() =>
 const sampleUseCase = computed(() => useCases.value[0])
 const sampleRelease = computed(() => releases.value.find((r) => r.version !== 'future'))
 const futureRelease = computed(() => releases.value.find((r) => r.version === 'future'))
-
-/* ── Live FilterDropdown demo ────────────────────────────── */
-const demoFilter = ref<Set<string>>(new Set(['library']))
-const demoOptions = [
-  { value: 'library', label: 'Library', count: 30 },
-  { value: 'extension', label: 'Extension', count: 6 },
-  { value: 'application', label: 'Application', count: 1 },
-] as const
-
-/* ── Modal triggers ──────────────────────────────────────── */
-const codeUc = ref<UseCase | null>(null)
-const baseOpen = ref(false)
-const pkgOpen = ref(false)
-const ucOpen = ref(false)
-const fbOpen = ref(false)
 </script>
 
 <template>
   <div id="view-components" class="view" role="tabpanel" aria-label="Components sandbox">
-    <div class="page-content">
-      <h1
-        style="
-          font-family: var(--brand-typography--title);
-          font-size: var(--brand-typography-size--heading-h3);
-          font-weight: 300;
-          margin-bottom: var(--space-2);
-        "
-      >
-        Components sandbox
-      </h1>
-      <p style="color: var(--text-muted); margin-bottom: var(--space-8)">
+    <div class="components-sandbox page-content">
+      <h1 class="page-title">Components sandbox</h1>
+      <p class="intro">
         Dev-only mount point for every component, using live data from the
         <code>data/</code> directory. Excluded from production builds via
         <code>import.meta.env.DEV</code>.
       </p>
 
-      <!-- ──────────────────────────── -->
       <section class="sandbox-section">
-        <h2 class="sandbox-section__title">FilterDropdown</h2>
-        <p class="sandbox-section__hint">
+        <h2 class="section-title">FilterDropdown</h2>
+        <p class="section-hint">
           Selected: <code>{{ [...demoFilter].join(', ') || '(none)' }}</code>
         </p>
-        <div style="display: flex; gap: var(--space-3); flex-wrap: wrap">
+        <div class="flex-row">
           <FilterDropdown v-model="demoFilter" label="Nature" :options="demoOptions" />
         </div>
       </section>
 
-      <!-- ──────────────────────────── -->
       <section class="sandbox-section">
-        <h2 class="sandbox-section__title">SklearnHero</h2>
+        <h2 class="section-title">SklearnHero</h2>
         <SklearnHero
           :core="core"
           :use-case-count="ucCountByPkg.get('scikit-learn') ?? 0"
         />
       </section>
 
-      <!-- ──────────────────────────── -->
       <section class="sandbox-section">
-        <h2 class="sandbox-section__title">PackageCard — boosted vs regular</h2>
+        <h2 class="section-title">PackageCard — boosted vs regular</h2>
         <div class="sandbox-grid">
           <PackageCard
             v-if="probablBoosted"
@@ -120,50 +103,46 @@ const fbOpen = ref(false)
         </div>
       </section>
 
-      <!-- ──────────────────────────── -->
       <section v-if="sampleUseCase" class="sandbox-section">
-        <h2 class="sandbox-section__title">UseCaseCard</h2>
-        <div class="sandbox-grid sandbox-grid--uc">
-          <UseCaseCard :use-case="sampleUseCase" @view-code="codeUc = $event" />
+        <h2 class="section-title">UseCaseCard</h2>
+        <div class="sandbox-grid sandbox-grid-uc">
+          <UseCaseCard :use-case="sampleUseCase" />
         </div>
       </section>
 
-      <!-- ──────────────────────────── -->
       <section class="sandbox-section">
-        <h2 class="sandbox-section__title">ReleasesBlogStrip</h2>
+        <h2 class="section-title">ReleasesBlogStrip</h2>
         <ReleasesBlogStrip />
       </section>
 
-      <!-- ──────────────────────────── -->
       <section class="sandbox-section">
-        <h2 class="sandbox-section__title">ReleaseCard — past vs future</h2>
+        <h2 class="section-title">ReleaseCard — past vs future</h2>
         <div class="releases-grid">
           <ReleaseCard v-if="sampleRelease" :release="sampleRelease" />
           <ReleaseCard v-if="futureRelease" :release="futureRelease" />
         </div>
       </section>
 
-      <!-- ──────────────────────────── -->
       <section class="sandbox-section">
-        <h2 class="sandbox-section__title">Modals (click to open)</h2>
-        <div style="display: flex; gap: var(--space-3); flex-wrap: wrap">
-          <button class="btn btn--primary" @click="baseOpen = true">BaseModal</button>
+        <h2 class="section-title">Modals (click to open)</h2>
+        <div class="flex-row">
+          <button class="btn btn--primary" type="button" @click="baseOpen = true">BaseModal</button>
           <button
             class="btn btn--primary"
+            type="button"
             @click="codeUc = sampleUseCase ?? null"
           >
             CodeModal
           </button>
-          <button class="btn btn--primary" @click="pkgOpen = true">SubmitPackageModal</button>
-          <button class="btn btn--primary" @click="ucOpen = true">SubmitUseCaseModal</button>
-          <button class="btn btn--primary" @click="fbOpen = true">SubmitFeedbackModal</button>
+          <button class="btn btn--primary" type="button" @click="pkgOpen = true">SubmitPackageModal</button>
+          <button class="btn btn--primary" type="button" @click="ucOpen = true">SubmitUseCaseModal</button>
+          <button class="btn btn--primary" type="button" @click="fbOpen = true">SubmitFeedbackModal</button>
         </div>
       </section>
 
-      <!-- ──────────────────────────── -->
       <section class="sandbox-section">
-        <h2 class="sandbox-section__title">FormSuccess</h2>
-        <div class="modal" style="position: static; transform: none; max-width: 480px">
+        <h2 class="section-title">FormSuccess</h2>
+        <div class="form-success-frame modal">
           <FormSuccess emoji="🎉" heading="Thank you!" @close="() => {}">
             We received your submission for <strong>example-package</strong>.
           </FormSuccess>
@@ -172,14 +151,13 @@ const fbOpen = ref(false)
     </div>
   </div>
 
-  <!-- Render-only-when-open modals (live triggers) -->
   <BaseModal
     :open="baseOpen"
     title="BaseModal demo"
     subtitle="A reusable shell. Press ESC, click outside, or hit ✕ to close."
     @close="baseOpen = false"
   >
-    <div class="modal__body">
+    <div class="modal-body">
       <p>Anything can go in the slot — forms, info, confirmations…</p>
     </div>
   </BaseModal>
@@ -191,28 +169,58 @@ const fbOpen = ref(false)
 </template>
 
 <style scoped>
+.components-sandbox {
+  .page-title {
+    font-family: var(--brand-typography--title);
+    font-size: var(--brand-typography-size--heading-h3);
+    font-weight: 300;
+    margin-bottom: var(--space-2);
+  }
+
+  .intro {
+    color: var(--text-muted);
+    margin-bottom: var(--space-8);
+  }
+
+  .flex-row {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .form-success-frame {
+    position: static;
+    transform: none;
+    max-width: 480px;
+  }
+}
+
 .sandbox-section {
   margin-bottom: var(--space-10);
   padding-bottom: var(--space-6);
   border-bottom: 1px dashed var(--neutral-200);
 }
-.sandbox-section__title {
+
+.sandbox-section .section-title {
   font-family: var(--brand-typography--title);
   font-size: var(--brand-typography-size--heading-h5);
   font-weight: 300;
   margin-bottom: var(--space-2);
 }
-.sandbox-section__hint {
+
+.sandbox-section .section-hint {
   color: var(--text-muted);
   font-size: var(--text-sm);
   margin-bottom: var(--space-4);
 }
+
 .sandbox-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
   gap: var(--space-5);
 }
-.sandbox-grid--uc {
+
+.sandbox-grid-uc {
   grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
 }
 </style>

@@ -10,10 +10,6 @@ const route = useRoute()
 const router = useRouter()
 const { useCases } = useUseCases()
 
-/** Longest card-enter delay in .uc-grid (see components.css). */
-const CARD_ENTER_MS = 320
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
 /** Slug with ?slug= deep link: permanent border + expanded synopsis. */
 const focusedSlug = ref<string | null>(null)
 /** Brief breathing ring; cleared when uc-focus-pulse animation ends. */
@@ -30,10 +26,11 @@ const difficultySel = ref<Set<Difficulty>>(new Set())
 const packageFilter = ref<string>(
   typeof route.query.package === 'string' ? route.query.package : '',
 )
-watch(
-  () => route.query.package,
-  (v) => (packageFilter.value = typeof v === 'string' ? v : ''),
-)
+
+/** Longest card-enter delay in .uc-grid (see components.css). */
+const CARD_ENTER_MS = 320
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
 function clearPackageFilter(): void {
   packageFilter.value = ''
   /* Drop the query string from the URL so a refresh doesn't bring it back. */
@@ -259,16 +256,20 @@ function focusFromRouteQuery(): void {
   void focusUseCaseFromSlug(slug)
 }
 
-watch(() => route.query.slug, focusFromRouteQuery)
 onMounted(focusFromRouteQuery)
+watch(() => route.query.slug, focusFromRouteQuery)
+watch(
+  () => route.query.package,
+  (v) => (packageFilter.value = typeof v === 'string' ? v : ''),
+)
 
 </script>
 
 <template>
   <div class="filter-bar">
-    <div class="filter-bar__inner">
-      <div class="filter-bar__search">
-        <i class="fas fa-search filter-bar__search-icon"></i>
+    <div class="filter-bar-inner">
+      <div class="filter-bar-search">
+        <i class="fas fa-search filter-bar-search-icon"></i>
         <input
           v-model="search"
           type="search"
@@ -279,7 +280,7 @@ onMounted(focusFromRouteQuery)
         />
       </div>
 
-      <div class="filter-bar__groups">
+      <div class="filter-bar-groups">
         <FilterDropdown
           v-model="industrySel"
           label="Industry"
@@ -297,9 +298,9 @@ onMounted(focusFromRouteQuery)
         />
       </div>
 
-      <div class="filter-bar__end">
+      <div class="filter-bar-end">
         <button
-          class="filter-bar__clear"
+          class="filter-bar-clear"
           :class="{ 'is-visible': hasAnyFilter }"
           @click="resetFilters"
         >
@@ -316,12 +317,12 @@ onMounted(focusFromRouteQuery)
         @click="chip.remove"
       >
         {{ chip.label }}
-        <span class="active-filter-tag__remove">✕</span>
+        <span class="active-filter-tag-remove">✕</span>
       </span>
     </div>
   </div>
 
-  <div id="view-use-cases" class="view" role="tabpanel" aria-label="Use case explorer">
+  <div id="view-use-cases" class="view use-cases-page" role="tabpanel" aria-label="Use case explorer">
     <div class="page-content">
       <div class="uc-toolbar">
         <span class="uc-count" aria-live="polite">
@@ -330,9 +331,9 @@ onMounted(focusFromRouteQuery)
       </div>
 
       <div v-if="filtered.length === 0" class="state-empty">
-        <div class="state-empty__icon">🔬</div>
-        <div class="state-empty__title">No use cases found</div>
-        <p class="state-empty__subtitle">Try different filters or search terms.</p>
+        <div class="state-empty-icon">🔬</div>
+        <div class="state-empty-title">No use cases found</div>
+        <p class="state-empty-subtitle">Try different filters or search terms.</p>
         <button class="btn btn--outline" @click="resetFilters">Reset Filters</button>
       </div>
 
@@ -349,3 +350,9 @@ onMounted(focusFromRouteQuery)
     </div>
   </div>
 </template>
+
+<style scoped>
+.use-cases-page {
+  min-width: 0;
+}
+</style>

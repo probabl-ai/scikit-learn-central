@@ -13,12 +13,12 @@ const emit = defineEmits<{
   close: []
 }>()
 
+const { status, submit, reset } = useFormSubmit()
+
 const name = ref('')
 const pypiName = ref('')
 const repository = ref('')
 const description = ref('')
-
-const { status, submit, reset } = useFormSubmit()
 
 const canSubmit = computed(
   () => !!name.value.trim() && !!pypiName.value.trim() && !!repository.value.trim(),
@@ -71,10 +71,10 @@ function close(): void {
       We received your submission for <strong>{{ name }}</strong>.
     </FormSuccess>
 
-    <form v-else class="modal__body" novalidate @submit.prevent="onSubmit">
+    <form v-else class="modal-body" novalidate @submit.prevent="onSubmit">
       <div class="form-group">
         <label class="form-label" for="pkg-name">
-          Package Name <span class="form-label__required">*</span>
+          Package Name <span class="req">*</span>
         </label>
         <input
           id="pkg-name"
@@ -89,7 +89,7 @@ function close(): void {
 
       <div class="form-group">
         <label class="form-label" for="pkg-pypi">
-          PyPI Name <span class="form-label__required">*</span>
+          PyPI Name <span class="req">*</span>
         </label>
         <input
           id="pkg-pypi"
@@ -104,7 +104,7 @@ function close(): void {
 
       <div class="form-group">
         <label class="form-label" for="pkg-repo">
-          Repository URL <span class="form-label__required">*</span>
+          Repository URL <span class="req">*</span>
         </label>
         <input
           id="pkg-repo"
@@ -135,7 +135,7 @@ function close(): void {
         Something went wrong. Please try again.
       </p>
 
-      <div class="modal__footer">
+      <div class="modal-footer">
         <button type="submit" class="btn btn--primary" :disabled="!canSubmit || status === 'submitting'">
           <i
             class="fas"

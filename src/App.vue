@@ -53,12 +53,20 @@ function onHeaderSubmit(): void {
 </script>
 
 <template>
-  <AppHeader :submit-label="submitLabel" @submit="onHeaderSubmit" />
-  <ViewTabs :counts="tabCounts" />
-  <router-view />
+  <div class="app-root">
+    <AppHeader :submit-label="submitLabel" @submit="onHeaderSubmit" />
+    <ViewTabs :counts="tabCounts" />
+    <router-view />
 
-  <SubmitPackageModal :open="activeModal === 'package'" @close="closeModal" />
-  <SubmitUseCaseModal :open="activeModal === 'use-case'" @close="closeModal" />
-  <SubmitFeedbackModal :open="activeModal === 'feedback'" @close="closeModal" />
-  <TransientFeedback :visible="feedbackVisible" :message="feedbackMessage" />
+    <SubmitPackageModal :open="activeModal === 'package'" @close="closeModal" />
+    <SubmitUseCaseModal :open="activeModal === 'use-case'" @close="closeModal" />
+    <SubmitFeedbackModal :open="activeModal === 'feedback'" @close="closeModal" />
+    <TransientFeedback :visible="feedbackVisible" :message="feedbackMessage" />
+  </div>
 </template>
+
+<style scoped>
+.app-root {
+  min-width: 0;
+}
+</style>

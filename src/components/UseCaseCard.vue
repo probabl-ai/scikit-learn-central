@@ -30,11 +30,6 @@ const copyLinkLabel = computed(() =>
   copied.value ? 'Link copied' : 'Copy link to this use case',
 )
 
-function onPulseAnimationEnd(event: AnimationEvent): void {
-  if (!props.pulsing || event.animationName !== 'uc-focus-pulse') return
-  emit('pulseEnd')
-}
-
 const githubUrl = computed(
   () =>
     `https://github.com/probabl-ai/scikit-learn-central/blob/main/data/use-cases/${props.useCase.uuid}.py`,
@@ -49,6 +44,11 @@ const githubUrl = computed(
 const jupyterliteUrl = computed(
   () => `jupyterlite/lab/index.html?path=use-cases/${props.useCase.uuid}.ipynb`,
 )
+
+function onPulseAnimationEnd(event: AnimationEvent): void {
+  if (!props.pulsing || event.animationName !== 'uc-focus-pulse') return
+  emit('pulseEnd')
+}
 
 async function copyLink(): Promise<void> {
   const { href } = router.resolve({
@@ -75,34 +75,34 @@ async function copyLink(): Promise<void> {
   <article
     class="uc-card"
     :class="{
-      'uc-card--focused': focused,
-      'uc-card--focus-pulse': pulsing,
+      'is-focused': focused,
+      'is-focus-pulse': pulsing,
     }"
     :data-uc-id="useCase.slug"
     @animationend="onPulseAnimationEnd"
   >
-    <div class="uc-card__difficulty">
+    <div class="difficulty-wrap">
       <DifficultyBadge :difficulty="useCase.difficulty" />
     </div>
 
-    <div class="uc-card__title">{{ useCase.title }}</div>
+    <div class="title">{{ useCase.title }}</div>
 
     <p
-      class="uc-card__synopsis"
+      class="synopsis"
       :class="{ 'is-expanded': focused }"
       @click="($event.currentTarget as HTMLElement).classList.toggle('is-expanded')"
     >
       {{ useCase.synopsis }}
     </p>
 
-    <div class="uc-card__tags">
+    <div class="tags">
       <span v-for="i in useCase.industry" :key="i" class="industry-tag">{{ i }}</span>
       <span v-for="t in useCase.technique" :key="t" class="technique-tag">
         {{ t.replace(/-/g, ' ') }}
       </span>
     </div>
 
-    <div class="uc-card__packages">
+    <div class="packages">
       <span
         v-for="pid in useCase.packages"
         :key="pid"
@@ -114,17 +114,17 @@ async function copyLink(): Promise<void> {
       </span>
     </div>
 
-    <div class="uc-card__footer">
+    <div class="footer">
       <button
-        class="uc-card__copy-link"
-        :class="{ 'uc-card__copy-link--copied': copied }"
+        class="copy-link"
+        :class="{ 'is-copied': copied }"
         :title="copyLinkLabel"
         :aria-label="copyLinkLabel"
         @click="copyLink"
       >
         <i class="fas" :class="copied ? 'fa-check' : 'fa-link'"></i>
       </button>
-      <div class="uc-card__actions">
+      <div class="actions">
         <a
           :href="githubUrl"
           target="_blank"
@@ -148,3 +148,166 @@ async function copyLink(): Promise<void> {
     </div>
   </article>
 </template>
+
+<style scoped>
+.uc-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  position: relative;
+  transition:
+    border-color 0.18s,
+    box-shadow 0.18s;
+  cursor: default;
+}
+
+.uc-card:hover {
+  border-color: var(--color-near-black);
+  box-shadow: var(--shadow-md);
+}
+
+.uc-card.is-focused {
+  border-color: var(--color-orange);
+  box-shadow: none;
+  transition: border-color 0.18s;
+}
+
+.uc-card.is-focused:hover {
+  border-color: var(--color-orange);
+  box-shadow: none;
+}
+
+@keyframes uc-focus-pulse {
+  0% {
+    opacity: 1;
+    box-shadow: 0 0 0 3px rgba(255, 121, 0, 0.35);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 0 7px rgba(255, 121, 0, 0.18);
+  }
+  100% {
+    opacity: 0;
+    box-shadow: 0 0 0 3px rgba(255, 121, 0, 0);
+  }
+}
+
+.uc-card.is-focus-pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: uc-focus-pulse 2s ease-in-out forwards;
+}
+
+.difficulty-wrap {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--text-primary);
+  line-height: 1.25;
+  letter-spacing: var(--tracking-tight);
+  padding-right: 80px;
+}
+
+.synopsis {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--neutral-700);
+  line-height: 1.6;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.synopsis.is-expanded {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.packages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--neutral-100);
+  margin-top: auto;
+  gap: var(--space-2);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.copy-link {
+  font-size: var(--text-xs);
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: transparent;
+  color: var(--neutral-500);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition:
+    transform var(--duration-press) var(--ease-out),
+    color var(--duration-sm) var(--ease-out),
+    border-color var(--duration-sm) var(--ease-out),
+    background var(--duration-sm) var(--ease-out);
+}
+
+.copy-link:active {
+  transform: scale(0.97);
+}
+
+.copy-link:hover {
+  color: var(--color-near-black);
+  border-color: var(--color-near-black);
+}
+
+.copy-link.is-copied {
+  color: var(--color-orange);
+  border-color: var(--color-orange);
+  background: rgba(255, 121, 0, 0.08);
+}
+
+.copy-link.is-copied:hover {
+  color: var(--color-orange);
+  border-color: var(--color-orange);
+}
+</style>
