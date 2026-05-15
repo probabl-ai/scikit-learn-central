@@ -55,15 +55,6 @@ const categoryRows = computed(() => {
   }))
 })
 
-const pillText = computed(() => {
-  const rows = categoryRows.value
-  if (!rows.length) return ''
-  const t0 = rows[0].tier
-  const same = rows.filter((r) => r.tier === t0)
-  const labels = [...new Set(same.map((r) => r.label))]
-  return `${same[0].tierLabel} — ${labels.join(' · ')}`
-})
-
 const categoryBadgeLabels = computed(() => {
   const rows = categoryRows.value
   return [...new Set(rows.map((r) => r.label))]
@@ -82,7 +73,7 @@ const { copied, copyInstall } = useCopyPipInstall(() => props.core.pypi_name)
     <div class="corner-tag">The Core</div>
     <div class="body">
       <div class="sklearn-hero__main">
-        <div v-if="pillText" class="pill">{{ pillText }}</div>
+        <div class="pill">Core Library — Foundation of the Ecosystem</div>
         <div class="name">{{ core.name }}</div>
         <p class="description">{{ core.description }}</p>
 
