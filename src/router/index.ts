@@ -1,4 +1,9 @@
-import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
+import {
+  createRouter,
+  createWebHashHistory,
+  type RouteLocationNormalized,
+  type RouteRecordRaw,
+} from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -46,7 +51,9 @@ if (import.meta.env.DEV) {
 export const router = createRouter({
   history: createWebHashHistory(),
   routes,
-  scrollBehavior() {
+  scrollBehavior(to: RouteLocationNormalized) {
+    // UseCasesView scrolls to the target card when ?slug= is present.
+    if (to.name === 'use-cases' && to.query.slug) return false
     return { top: 0 }
   },
 })

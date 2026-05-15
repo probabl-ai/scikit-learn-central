@@ -1587,7 +1587,15 @@
   align-items: center;
   justify-content: center;
   line-height: 1;
-  transition: color .15s, border-color .15s;
+  transition:
+    transform var(--duration-press) var(--ease-out),
+    color var(--duration-sm) var(--ease-out),
+    border-color var(--duration-sm) var(--ease-out),
+    background var(--duration-sm) var(--ease-out);
+}
+
+.uc-card__copy-link:active {
+  transform: scale(0.97);
 }
 
 .uc-card__copy-link:hover {
@@ -1595,13 +1603,98 @@
   border-color: var(--color-near-black);
 }
 
-/* Deep-link highlight animation */
-@keyframes uc-highlight {
-  0%   { box-shadow: 0 0 0 3px var(--color-near-black); }
-  100% { box-shadow: var(--shadow-card); }
+.uc-card__copy-link--copied {
+  color: var(--color-orange);
+  border-color: var(--color-orange);
+  background: rgba(255, 121, 0, 0.08);
 }
-.uc-card--highlighted {
-  animation: uc-highlight 2s ease-out forwards;
+
+.uc-card__copy-link--copied:hover {
+  color: var(--color-orange);
+  border-color: var(--color-orange);
+}
+
+/* ── Transient feedback toast ─────────────────────────────── */
+.transient-feedback {
+  position: fixed;
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--neutral-200);
+  border-left: 3px solid var(--color-orange);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  pointer-events: none;
+}
+
+.transient-feedback__icon {
+  color: var(--color-orange);
+  font-size: var(--text-sm);
+}
+
+.transient-feedback-enter-active,
+.transient-feedback-leave-active {
+  transition:
+    opacity var(--duration-md) var(--ease-out),
+    transform var(--duration-md) var(--ease-out);
+}
+
+.transient-feedback-enter-from,
+.transient-feedback-leave-to {
+  opacity: 0;
+  transform: translateX(-50%) translateY(8px) scale(0.97);
+}
+
+.transient-feedback-enter-to,
+.transient-feedback-leave-from {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+/* Deep-link focus: permanent orange border + breathing ring on arrival */
+.uc-grid > .uc-card.uc-card--focused {
+  border-color: var(--color-orange);
+  box-shadow: none;
+  transition: border-color .18s;
+}
+
+.uc-grid > .uc-card.uc-card--focused:hover {
+  border-color: var(--color-orange);
+  box-shadow: none;
+}
+
+/* Ring on ::after so removing the pulse class never snaps the card box-shadow */
+@keyframes uc-focus-pulse {
+  0% {
+    opacity: 1;
+    box-shadow: 0 0 0 3px rgba(255, 121, 0, 0.35);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 0 7px rgba(255, 121, 0, 0.18);
+  }
+  100% {
+    opacity: 0;
+    box-shadow: 0 0 0 3px rgba(255, 121, 0, 0);
+  }
+}
+
+.uc-grid > .uc-card.uc-card--focus-pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: uc-focus-pulse 2s ease-in-out forwards;
 }
 
 /* ── Code Modal ─────────────────────────────────────────── */
