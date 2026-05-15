@@ -5,6 +5,7 @@ import PackageCard from '@/components/PackageCard.vue'
 import PackageListRow from '@/components/PackageListRow.vue'
 import PackageListColumnHeader from '@/components/PackageListColumnHeader.vue'
 import CatalogListShell from '@/components/CatalogListShell.vue'
+import FilterBottomSheet from '@/components/FilterBottomSheet.vue'
 import FilterDropdown from '@/components/FilterDropdown.vue'
 import { useCatalogDescriptionExpand } from '@/composables/useCatalogDescriptionExpand'
 import { usePackages } from '@/composables/usePackages'
@@ -142,6 +143,8 @@ const activeChips = computed<ActiveChip[]>(() => {
 })
 
 const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 0)
+
+const filtersSheetOpen = ref(false)
 </script>
 
 <template>
@@ -159,12 +162,23 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
         />
       </div>
 
-      <div class="filter-bar-groups">
+      <button
+        type="button"
+        class="filter-bar-open-filters"
+        aria-haspopup="dialog"
+        :aria-expanded="filtersSheetOpen"
+        @click="filtersSheetOpen = true"
+      >
+        <i class="fas fa-sliders-h" aria-hidden="true"></i>
+        Filters
+      </button>
+
+      <div class="filter-bar-groups filter-bar-groups--desktop">
         <FilterDropdown v-model="categorySel" label="Category" :options="categoryOptions" />
         <FilterDropdown v-model="licenseSel" label="License" :options="licenseOptions" />
       </div>
 
-      <div class="filter-bar-end">
+      <div class="filter-bar-end filter-bar-end--desktop">
         <div
           class="catalog-layout-toggle"
           role="group"
@@ -200,6 +214,7 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
           <option value="name">Sort: Name A–Z</option>
         </select>
         <button
+          type="button"
           class="filter-bar-clear"
           :class="{ 'is-visible': hasAnyFilter }"
           @click="resetFilters"
@@ -220,6 +235,64 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
         <span class="active-filter-tag-remove">✕</span>
       </span>
     </div>
+
+    <FilterBottomSheet v-model="filtersSheetOpen" title="Package filters">
+      <div v-if="filtersSheetOpen" class="filter-sheet-stack">
+        <FilterDropdown v-model="categorySel" label="Category" :options="categoryOptions" />
+        <FilterDropdown v-model="licenseSel" label="License" :options="licenseOptions" />
+        <div class="filter-sheet-display">
+          <span class="filter-sheet-display-label">Layout</span>
+          <div
+            class="catalog-layout-toggle"
+            role="group"
+            aria-label="Package display layout"
+          >
+            <button
+              type="button"
+              class="catalog-layout-toggle__btn"
+              :class="{ 'is-active': catalogLayout === 'cards' }"
+              :aria-pressed="catalogLayout === 'cards'"
+              title="Card layout"
+              @click="catalogLayout = 'cards'"
+            >
+              <i class="fas fa-th" aria-hidden="true"></i>
+              <span class="sr-only">Card layout</span>
+            </button>
+            <button
+              type="button"
+              class="catalog-layout-toggle__btn"
+              :class="{ 'is-active': catalogLayout === 'list' }"
+              :aria-pressed="catalogLayout === 'list'"
+              title="List layout"
+              @click="catalogLayout = 'list'"
+            >
+              <i class="fas fa-list" aria-hidden="true"></i>
+              <span class="sr-only">List layout</span>
+            </button>
+          </div>
+          <label class="filter-sheet-display-label" for="pkg-sort-sheet">Sort</label>
+          <select id="pkg-sort-sheet" v-model="sortBy" class="sort-select--inline" title="Sort by">
+            <option value="ranking">Fit score</option>
+            <option value="stars">Stars</option>
+            <option value="downloads">Downloads</option>
+            <option value="name">Name A–Z</option>
+          </select>
+        </div>
+      </div>
+      <template #footer>
+        <button
+          type="button"
+          class="btn btn--outline btn--sm"
+          :disabled="!hasAnyFilter"
+          @click="resetFilters"
+        >
+          Clear all
+        </button>
+        <button type="button" class="btn btn--primary btn--sm" @click="filtersSheetOpen = false">
+          Done
+        </button>
+      </template>
+    </FilterBottomSheet>
   </div>
 
   <div

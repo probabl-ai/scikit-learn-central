@@ -34,9 +34,9 @@ defineEmits<{
         <a href="https://scikit-learn.org" target="_blank" class="btn btn--ghost btn--sm">
           <i class="fas fa-globe"></i> scikit-learn.org
         </a>
-        <button class="btn btn--primary btn--sm" @click="$emit('submit')">
-          <i class="fas fa-plus"></i>
-          <span>{{ submitLabel }}</span>
+        <button class="btn btn--primary btn--sm" type="button" @click="$emit('submit')">
+          <i class="fas fa-plus" aria-hidden="true"></i>
+          <span class="header-submit-label">{{ submitLabel }}</span>
         </button>
       </div>
     </div>
@@ -48,7 +48,8 @@ defineEmits<{
   position: sticky;
   top: 0;
   z-index: 200;
-  height: var(--header-h);
+  padding-top: env(safe-area-inset-top, 0px);
+  min-height: calc(var(--header-h) + env(safe-area-inset-top, 0px));
   background: var(--color-midnight);
   border-bottom: 1px solid var(--color-midnight-line);
   display: flex;
@@ -59,7 +60,8 @@ defineEmits<{
   width: 100%;
   max-width: calc(var(--sidebar-w) + var(--content-max) + var(--space-8));
   margin: 0 auto;
-  padding: 0 var(--space-6);
+  padding: 0 max(var(--space-6), env(safe-area-inset-right, 0px))
+    0 max(var(--space-6), env(safe-area-inset-left, 0px));
   display: flex;
   align-items: center;
   gap: var(--space-5);
@@ -105,6 +107,10 @@ defineEmits<{
   letter-spacing: var(--tracking-tight);
   color: var(--text-inverse);
   line-height: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .subtitle {
@@ -122,6 +128,16 @@ defineEmits<{
   flex-shrink: 0;
 }
 
+.actions :deep(.btn--primary.btn--sm) {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+}
+
 @media (max-width: 640px) {
   .subtitle {
     display: none;
@@ -131,8 +147,26 @@ defineEmits<{
     font-size: var(--text-lg);
   }
 
+  .inner {
+    gap: var(--space-3);
+    padding-left: max(var(--space-4), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--space-4), env(safe-area-inset-right, 0px));
+  }
+
   .actions :deep(.btn--ghost) {
     display: none;
+  }
+
+  .header-submit-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 }
 </style>

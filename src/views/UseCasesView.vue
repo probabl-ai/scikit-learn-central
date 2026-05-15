@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import FilterBottomSheet from '@/components/FilterBottomSheet.vue'
 import FilterDropdown from '@/components/FilterDropdown.vue'
 import UseCaseCard from '@/components/UseCaseCard.vue'
 import { useUseCases } from '@/composables/useUseCases'
@@ -263,6 +264,8 @@ watch(
   (v) => (packageFilter.value = typeof v === 'string' ? v : ''),
 )
 
+const filtersSheetOpen = ref(false)
+
 </script>
 
 <template>
@@ -280,7 +283,18 @@ watch(
         />
       </div>
 
-      <div class="filter-bar-groups">
+      <button
+        type="button"
+        class="filter-bar-open-filters"
+        aria-haspopup="dialog"
+        :aria-expanded="filtersSheetOpen"
+        @click="filtersSheetOpen = true"
+      >
+        <i class="fas fa-sliders-h" aria-hidden="true"></i>
+        Filters
+      </button>
+
+      <div class="filter-bar-groups filter-bar-groups--desktop">
         <FilterDropdown
           v-model="industrySel"
           label="Industry"
@@ -298,8 +312,9 @@ watch(
         />
       </div>
 
-      <div class="filter-bar-end">
+      <div class="filter-bar-end filter-bar-end--desktop">
         <button
+          type="button"
           class="filter-bar-clear"
           :class="{ 'is-visible': hasAnyFilter }"
           @click="resetFilters"
@@ -320,6 +335,39 @@ watch(
         <span class="active-filter-tag-remove">✕</span>
       </span>
     </div>
+
+    <FilterBottomSheet v-model="filtersSheetOpen" title="Use case filters">
+      <div v-if="filtersSheetOpen" class="filter-sheet-stack">
+        <FilterDropdown
+          v-model="industrySel"
+          label="Industry"
+          :options="industryOptions"
+        />
+        <FilterDropdown
+          v-model="techniqueSel"
+          label="Technique"
+          :options="techniqueOptions"
+        />
+        <FilterDropdown
+          v-model="difficultySel"
+          label="Difficulty"
+          :options="difficultyOptions"
+        />
+      </div>
+      <template #footer>
+        <button
+          type="button"
+          class="btn btn--outline btn--sm"
+          :disabled="!hasAnyFilter"
+          @click="resetFilters"
+        >
+          Clear all
+        </button>
+        <button type="button" class="btn btn--primary btn--sm" @click="filtersSheetOpen = false">
+          Done
+        </button>
+      </template>
+    </FilterBottomSheet>
   </div>
 
   <div id="view-use-cases" class="view use-cases-page" role="tabpanel" aria-label="Use case explorer">

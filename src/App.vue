@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import {
+  computed,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  type ComponentPublicInstance,
+} from 'vue'
 import { useRoute } from 'vue-router'
 import AppHeader from '@/components/AppHeader.vue'
 import ViewTabs from '@/components/ViewTabs.vue'
@@ -36,6 +43,44 @@ const submitLabel = computed(() => {
   return map[(route.meta.tabKey as string) ?? 'catalog'] ?? 'Submit Package'
 })
 
+type ViewTabsExposed = ComponentPublicInstance & { tabsNavEl?: HTMLElement | null }
+
+const viewTabsRef = ref<ViewTabsExposed | null>(null)
+let tabsResizeObserver: ResizeObserver | null = null
+
+function syncChromeStickyTop(): void {
+  const nav = viewTabsRef.value?.tabsNavEl
+  const header = document.querySelector<HTMLElement>('.app-header')
+  const headerH = header?.offsetHeight ?? 64
+  const tabH = nav?.offsetHeight ?? 48
+  document.documentElement.style.setProperty(
+    '--chrome-sticky-top',
+    `${headerH + tabH}px`,
+  )
+}
+
+onMounted(() => {
+  void nextTick(() => {
+    void nextTick(() => {
+      const nav = viewTabsRef.value?.tabsNavEl
+      const header = document.querySelector<HTMLElement>('.app-header')
+      if (!nav || !header) return
+      tabsResizeObserver = new ResizeObserver(() => {
+        syncChromeStickyTop()
+      })
+      tabsResizeObserver.observe(nav)
+      tabsResizeObserver.observe(header)
+      syncChromeStickyTop()
+    })
+  })
+})
+
+onBeforeUnmount(() => {
+  tabsResizeObserver?.disconnect()
+  tabsResizeObserver = null
+  document.documentElement.style.removeProperty('--chrome-sticky-top')
+})
+
 function onHeaderSubmit(): void {
   const tab = (route.meta.tabKey as string) ?? 'catalog'
   if (tab === 'releases') {
@@ -55,7 +100,7 @@ function onHeaderSubmit(): void {
 <template>
   <div class="app-root">
     <AppHeader :submit-label="submitLabel" @submit="onHeaderSubmit" />
-    <ViewTabs :counts="tabCounts" />
+    <ViewTabs ref="viewTabsRef" :counts="tabCounts" />
     <router-view />
 
     <SubmitPackageModal :open="activeModal === 'package'" @close="closeModal" />
