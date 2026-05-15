@@ -204,9 +204,7 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
           :use-cases="useCasesByPackage.get(pkg.id) ?? []"
           :use-cases-filter-to="{ path: '/use-cases', query: { package: pkg.id } }"
           :show-fit-chip="true"
-          :is-probabl-boosted="
-            sortBy === 'ranking' && pkg.probabl === true
-          "
+          :is-probabl-boosted="sortBy === 'ranking' && !!pkg.probabl"
         />
       </div>
     </div>

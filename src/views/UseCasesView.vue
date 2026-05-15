@@ -1,14 +1,23 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import FilterDropdown from '@/components/FilterDropdown.vue'
 import UseCaseCard from '@/components/UseCaseCard.vue'
 import { useUseCases } from '@/composables/useUseCases'
 import type { Difficulty, UseCase } from '@/types/usecase'
 
-const { useCases } = useUseCases()
 const route = useRoute()
 const router = useRouter()
+const { useCases } = useUseCases()
+
+/** Longest card-enter delay in .uc-grid (see components.css). */
+const CARD_ENTER_MS = 320
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/** Slug with ?slug= deep link: permanent border + expanded synopsis. */
+const focusedSlug = ref<string | null>(null)
+/** Brief breathing ring; cleared when uc-focus-pulse animation ends. */
+const pulsingSlug = ref<string | null>(null)
 
 const search = ref('')
 const industrySel = ref<Set<string>>(new Set())
@@ -193,6 +202,66 @@ const activeChips = computed<ActiveChip[]>(() => {
   return chips
 })
 
+function slugFromQuery(raw: unknown): string | null {
+  if (typeof raw === 'string' && raw) return raw
+  if (Array.isArray(raw) && typeof raw[0] === 'string' && raw[0]) return raw[0]
+  return null
+}
+
+function isSlugVisible(slug: string): boolean {
+  return filtered.value.some((uc) => uc.slug === slug)
+}
+
+function clearPulse(): void {
+  pulsingSlug.value = null
+}
+
+function clearFocus(): void {
+  focusedSlug.value = null
+  clearPulse()
+}
+
+function startPulse(slug: string): void {
+  pulsingSlug.value = null
+  void nextTick(() => {
+    pulsingSlug.value = slug
+  })
+}
+
+async function focusUseCaseFromSlug(slug: string): Promise<void> {
+  const target = useCases.value.find((uc) => uc.slug === slug)
+  if (!target) return
+
+  if (!isSlugVisible(slug)) resetFilters()
+
+  await nextTick()
+  // card-enter animation on .uc-grid > .uc-card overrides uc-highlight until it ends
+  await new Promise<void>((resolve) => setTimeout(resolve, CARD_ENTER_MS))
+
+  const el = document.querySelector<HTMLElement>(`[data-uc-id="${CSS.escape(slug)}"]`)
+  if (!el) return
+
+  el.scrollIntoView({
+    block: 'center',
+    behavior: prefersReducedMotion ? 'auto' : 'smooth',
+  })
+
+  focusedSlug.value = slug
+  startPulse(slug)
+}
+
+function focusFromRouteQuery(): void {
+  const slug = slugFromQuery(route.query.slug)
+  if (!slug) {
+    clearFocus()
+    return
+  }
+  void focusUseCaseFromSlug(slug)
+}
+
+watch(() => route.query.slug, focusFromRouteQuery)
+onMounted(focusFromRouteQuery)
+
 </script>
 
 <template>
@@ -268,7 +337,14 @@ const activeChips = computed<ActiveChip[]>(() => {
       </div>
 
       <div v-else class="uc-grid">
-        <UseCaseCard v-for="uc in filtered" :key="uc.uuid" :use-case="uc" />
+        <UseCaseCard
+          v-for="uc in filtered"
+          :key="uc.uuid"
+          :use-case="uc"
+          :focused="focusedSlug === uc.slug"
+          :pulsing="pulsingSlug === uc.slug"
+          @pulse-end="clearPulse"
+        />
       </div>
     </div>
   </div>

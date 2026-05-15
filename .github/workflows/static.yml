@@ -34,6 +34,12 @@ jobs:
       - name: Build site (dist/ + dist/jupyterlite/)
         run: pixi run build
 
+      # Forks can override the bundled CNAME by setting the PAGES_CNAME repo
+      # variable. Upstream leaves it unset and ships the canonical domain.
+      - name: Override CNAME for forks
+        if: vars.PAGES_CNAME != ''
+        run: echo "${{ vars.PAGES_CNAME }}" > dist/CNAME
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 

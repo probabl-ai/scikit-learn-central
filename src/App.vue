@@ -6,7 +6,9 @@ import ViewTabs from '@/components/ViewTabs.vue'
 import SubmitPackageModal from '@/components/SubmitPackageModal.vue'
 import SubmitUseCaseModal from '@/components/SubmitUseCaseModal.vue'
 import SubmitFeedbackModal from '@/components/SubmitFeedbackModal.vue'
+import TransientFeedback from '@/components/TransientFeedback.vue'
 import { usePackages } from '@/composables/usePackages'
+import { useTransientFeedback } from '@/composables/useTransientFeedback'
 import { useUseCases } from '@/composables/useUseCases'
 import { useReleases } from '@/composables/useReleases'
 import { useSubmitModal } from '@/composables/useSubmitModal'
@@ -16,6 +18,7 @@ const { packages } = usePackages()
 const { useCases } = useUseCases()
 const { releaseCount } = useReleases()
 const { active: activeModal, open: openModal, close: closeModal } = useSubmitModal()
+const { visible: feedbackVisible, message: feedbackMessage } = useTransientFeedback()
 
 const tabCounts = computed(() => ({
   catalog: packages.value.length || null,
@@ -57,4 +60,5 @@ function onHeaderSubmit(): void {
   <SubmitPackageModal :open="activeModal === 'package'" @close="closeModal" />
   <SubmitUseCaseModal :open="activeModal === 'use-case'" @close="closeModal" />
   <SubmitFeedbackModal :open="activeModal === 'feedback'" @close="closeModal" />
+  <TransientFeedback :visible="feedbackVisible" :message="feedbackMessage" />
 </template>

@@ -22,7 +22,7 @@ for (const mod of Object.values(packageModules)) {
 
 /**
  * Build enriched packages: merge stats, then compute fit scores against the
- * full ecosystem. Probabl core packages receive a +100 boost to fitTotal only —
+ * full ecosystem. Probabl-flagged packages receive a +100 boost to fitTotal only —
  * fitBase (the value shown in the UI) is never modified.
  */
 function buildPackages(useCases: ReturnType<typeof useUseCases>['useCases']): Package[] {

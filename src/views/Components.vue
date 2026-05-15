@@ -33,7 +33,7 @@ const ucCountByPkg = computed(() => {
 })
 
 const probablBoosted = computed(() =>
-  packages.value.find((p) => p.probabl === true),
+  packages.value.find((p) => p.probabl),
 )
 const regularPkg = computed(() =>
   packages.value.find((p) => !p.probabl),

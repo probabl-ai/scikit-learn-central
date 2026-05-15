@@ -3,7 +3,7 @@
   "name": "Feature-engine",
   "pypi_name": "feature-engine",
   "website": "https://feature-engine.trainindata.com",
-  "repository": "https://github.com/feature-engine/feature-engine",
+  "repository": "https://github.com/feature-engine/feature_engine",
   "docs": "https://feature-engine.trainindata.com/en/latest/",
   "categories": [
     "components"

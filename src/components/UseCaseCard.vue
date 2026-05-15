@@ -1,11 +1,39 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import DifficultyBadge from '@/components/DifficultyBadge.vue'
+import { useTransientFeedback } from '@/composables/useTransientFeedback'
 import type { UseCase } from '@/types/usecase'
 
-const props = defineProps<{
-  useCase: UseCase
+const props = withDefaults(
+  defineProps<{
+    useCase: UseCase
+    /** Deep-linked card: permanent orange border + full synopsis. */
+    focused?: boolean
+    /** Brief breathing ring on arrival. */
+    pulsing?: boolean
+  }>(),
+  { focused: false, pulsing: false },
+)
+
+const emit = defineEmits<{
+  pulseEnd: []
 }>()
+
+const router = useRouter()
+const { show: showFeedback } = useTransientFeedback()
+
+const copied = ref(false)
+let copiedTimer: ReturnType<typeof setTimeout> | undefined
+
+const copyLinkLabel = computed(() =>
+  copied.value ? 'Link copied' : 'Copy link to this use case',
+)
+
+function onPulseAnimationEnd(event: AnimationEvent): void {
+  if (!props.pulsing || event.animationName !== 'uc-focus-pulse') return
+  emit('pulseEnd')
+}
 
 const githubUrl = computed(
   () =>
@@ -23,9 +51,20 @@ const jupyterliteUrl = computed(
 )
 
 async function copyLink(): Promise<void> {
-  const url = `${window.location.origin}${window.location.pathname}#/use-cases?slug=${props.useCase.slug}`
+  const { href } = router.resolve({
+    name: 'use-cases',
+    query: { slug: props.useCase.slug },
+  })
+  const url = `${window.location.origin}${window.location.pathname}${href}`
   try {
     await navigator.clipboard.writeText(url)
+    copied.value = true
+    if (copiedTimer !== undefined) clearTimeout(copiedTimer)
+    copiedTimer = setTimeout(() => {
+      copied.value = false
+      copiedTimer = undefined
+    }, 1200)
+    showFeedback('Link copied')
   } catch {
     // silent
   }
@@ -33,14 +72,26 @@ async function copyLink(): Promise<void> {
 </script>
 
 <template>
-  <article class="uc-card" :data-uc-id="useCase.slug">
+  <article
+    class="uc-card"
+    :class="{
+      'uc-card--focused': focused,
+      'uc-card--focus-pulse': pulsing,
+    }"
+    :data-uc-id="useCase.slug"
+    @animationend="onPulseAnimationEnd"
+  >
     <div class="uc-card__difficulty">
       <DifficultyBadge :difficulty="useCase.difficulty" />
     </div>
 
     <div class="uc-card__title">{{ useCase.title }}</div>
 
-    <p class="uc-card__synopsis" @click="($event.currentTarget as HTMLElement).classList.toggle('is-expanded')">
+    <p
+      class="uc-card__synopsis"
+      :class="{ 'is-expanded': focused }"
+      @click="($event.currentTarget as HTMLElement).classList.toggle('is-expanded')"
+    >
       {{ useCase.synopsis }}
     </p>
 
@@ -66,11 +117,12 @@ async function copyLink(): Promise<void> {
     <div class="uc-card__footer">
       <button
         class="uc-card__copy-link"
-        title="Copy link to this use case"
-        aria-label="Copy link to this use case"
+        :class="{ 'uc-card__copy-link--copied': copied }"
+        :title="copyLinkLabel"
+        :aria-label="copyLinkLabel"
         @click="copyLink"
       >
-        <i class="fas fa-link"></i>
+        <i class="fas" :class="copied ? 'fa-check' : 'fa-link'"></i>
       </button>
       <div class="uc-card__actions">
         <a
