@@ -24,7 +24,7 @@ const lastCommit = computed(() => {
   <div class="sklearn-hero" id="sklearn-hero">
     <div class="corner-tag">The Core</div>
     <div class="body">
-      <div class="content">
+      <div class="sklearn-hero__main">
         <div class="pill">Core Library — Foundation of the Ecosystem</div>
         <div class="name">{{ core.name }}</div>
         <p class="description">{{ core.description }}</p>
@@ -118,7 +118,7 @@ const lastCommit = computed(() => {
   align-items: flex-start;
 }
 
-.content {
+.sklearn-hero__main {
   flex: 1;
   min-width: 0;
 }
