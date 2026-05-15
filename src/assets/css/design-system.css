@@ -246,8 +246,11 @@
   --brand-typography-size--body-m:  1rem;         /* 16 px */
   --brand-typography-size--body-s:  0.875rem;     /* 14 px */
   --brand-typography-size--body-xs: 0.75rem;      /* 12 px */
+  --brand-typography-size--body-2xs: 0.625rem;   /* 10 px */
+
 
   /* Legacy type scale (now aligned to the brand body scale) */
+  --text-2xs:    var(--brand-typography-size--body-2xs);   /* 10 px */
   --text-xs:     var(--brand-typography-size--body-xs);   /* 12 px */
   --text-sm:     var(--brand-typography-size--body-s);    /* 14 px */
   --text-base:   var(--brand-typography-size--body-s);    /* 14 px */
