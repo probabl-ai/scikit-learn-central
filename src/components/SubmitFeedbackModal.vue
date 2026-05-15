@@ -13,10 +13,10 @@ const emit = defineEmits<{
   close: []
 }>()
 
+const { status, submit, reset } = useFormSubmit()
+
 const type = ref('')
 const message = ref('')
-
-const { status, submit, reset } = useFormSubmit()
 
 const canSubmit = computed(() => !!type.value.trim() && !!message.value.trim())
 
@@ -63,10 +63,10 @@ function close(): void {
       Your feedback has been received.
     </FormSuccess>
 
-    <form v-else class="modal__body" novalidate @submit.prevent="onSubmit">
+    <form v-else class="modal-body" novalidate @submit.prevent="onSubmit">
       <div class="form-group">
         <label class="form-label" for="fb-type">
-          Type of Feedback <span class="form-label__required">*</span>
+          Type of Feedback <span class="req">*</span>
         </label>
         <select id="fb-type" v-model="type" class="form-input" required>
           <option value="">Select…</option>
@@ -80,7 +80,7 @@ function close(): void {
 
       <div class="form-group">
         <label class="form-label" for="fb-message">
-          Message <span class="form-label__required">*</span>
+          Message <span class="req">*</span>
         </label>
         <textarea
           id="fb-message"
@@ -99,7 +99,7 @@ function close(): void {
         Something went wrong. Please try again.
       </p>
 
-      <div class="modal__footer">
+      <div class="modal-footer">
         <button type="submit" class="btn btn--primary" :disabled="!canSubmit || status === 'submitting'">
           <i
             class="fas"

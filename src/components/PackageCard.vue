@@ -7,6 +7,15 @@ import { CATEGORY_META } from '@/types/package'
 import type { UseCase } from '@/types/usecase'
 import { fmt, formatReleaseDateCompact } from '@/utils/format'
 
+const props = defineProps<{
+  pkg: Package
+  useCases?: UseCase[]
+  useCaseCount?: number
+  showFitChip: boolean
+  isProbablBoosted: boolean
+  useCasesFilterTo?: RouteLocationRaw
+}>()
+
 interface CategoryGroup {
   tier: 1 | 2 | 3
   tierLabel: string
@@ -22,15 +31,6 @@ type MetaOverflowKey =
   | 'downloads'
 
 const USECASE_PREVIEW_LIMIT = 5
-
-const props = defineProps<{
-  pkg: Package
-  useCases?: UseCase[]
-  useCaseCount?: number
-  showFitChip: boolean
-  isProbablBoosted: boolean
-  useCasesFilterTo?: RouteLocationRaw
-}>()
 
 const scopeCarouselIndex = ref(0)
 const descRef = ref<HTMLElement | null>(null)
@@ -334,27 +334,27 @@ watch(
 
           <div class="ranking-tooltip" :class="{ 'ranking-tooltip--probabl': isProbablBoosted }">
             <template v-if="isProbablBoosted">
-              <div class="ranking-tooltip__title">Featured by :probabl.</div>
-              <p class="ranking-tooltip__probabl-body">
+              <div class="ranking-tooltip-title">Featured by :probabl.</div>
+              <p class="ranking-tooltip-probabl-body">
                 Editorially pinned at the top of the Fit Score ranking. The score shown does not include the ranking boost.
               </p>
-              <div class="ranking-tooltip__divider"></div>
+              <div class="ranking-tooltip-divider"></div>
             </template>
-            <div class="ranking-tooltip__title">Fit Score</div>
-            <div class="ranking-tooltip__row">
-              <span class="ranking-tooltip__label"><i class="fas fa-star"></i> Stars</span>
-              <div class="ranking-tooltip__track"><div class="ranking-tooltip__fill" :style="{ width: fitStars + '%' }"></div></div>
-              <span class="ranking-tooltip__val">{{ fitStars }}</span>
+            <div class="ranking-tooltip-title">Fit Score</div>
+            <div class="ranking-tooltip-row">
+              <span class="ranking-tooltip-label"><i class="fas fa-star"></i> Stars</span>
+              <div class="ranking-tooltip-track"><div class="ranking-tooltip-fill" :style="{ width: fitStars + '%' }"></div></div>
+              <span class="ranking-tooltip-val">{{ fitStars }}</span>
             </div>
-            <div class="ranking-tooltip__row">
-              <span class="ranking-tooltip__label"><i class="fas fa-download"></i> Downloads</span>
-              <div class="ranking-tooltip__track"><div class="ranking-tooltip__fill" :style="{ width: fitDownloads + '%' }"></div></div>
-              <span class="ranking-tooltip__val">{{ fitDownloads }}</span>
+            <div class="ranking-tooltip-row">
+              <span class="ranking-tooltip-label"><i class="fas fa-download"></i> Downloads</span>
+              <div class="ranking-tooltip-track"><div class="ranking-tooltip-fill" :style="{ width: fitDownloads + '%' }"></div></div>
+              <span class="ranking-tooltip-val">{{ fitDownloads }}</span>
             </div>
-            <div class="ranking-tooltip__row">
-              <span class="ranking-tooltip__label"><i class="fas fa-lightbulb"></i> Use Cases</span>
-              <div class="ranking-tooltip__track"><div class="ranking-tooltip__fill" :style="{ width: fitUcScore + '%' }"></div></div>
-              <span class="ranking-tooltip__val">{{ fitUcScore }}</span>
+            <div class="ranking-tooltip-row">
+              <span class="ranking-tooltip-label"><i class="fas fa-lightbulb"></i> Use Cases</span>
+              <div class="ranking-tooltip-track"><div class="ranking-tooltip-fill" :style="{ width: fitUcScore + '%' }"></div></div>
+              <span class="ranking-tooltip-val">{{ fitUcScore }}</span>
             </div>
           </div>
         </div>
@@ -367,22 +367,22 @@ watch(
         :aria-label="`Workflow scope, ${scopeCarouselIndex + 1} of ${scopeCarouselLen}`"
       >
         <div class="scope-carousel">
-          <div class="scope-carousel__row">
+          <div class="scope-carousel-row">
             <button
               type="button"
-              class="scope-carousel__nav scope-carousel__nav--paged"
+              class="scope-carousel-nav scope-carousel-nav--paged"
               :disabled="scopeCarouselLen <= 1"
               aria-label="Previous workflow role"
               @click="scopeCarouselPrev"
             >
               <i class="fas fa-chevron-left" aria-hidden="true"></i>
             </button>
-            <div class="scope-carousel__viewport">
-              <div class="scope-carousel__track" :style="scopeCarouselTrackStyle">
+            <div class="scope-carousel-viewport">
+              <div class="scope-carousel-track" :style="scopeCarouselTrackStyle">
                 <div
                   v-for="(g, slideIdx) in categoryGroups"
                   :key="`${pkg.id}-scope-${g.tier}-${slideIdx}`"
-                  class="scope-carousel__slide-cell"
+                  class="scope-carousel-slide-cell"
                 >
                   <div
                     class="scope-chip scope-chip--carousel"
@@ -390,23 +390,23 @@ watch(
                     :title="scopeChipTitle(g)"
                   >
                     <template v-if="isTierRedundant(g)">
-                      <div class="scope-chip__subs-line scope-chip__subs-line--redundant">
-                        <span class="scope-chip__tier">{{ g.tierLabel }}</span>
-                        <span class="scope-chip__position" aria-live="polite">{{ slideIdx + 1 }} /
+                      <div class="scope-chip-subs-line scope-chip-subs-line--redundant">
+                        <span class="scope-chip-tier">{{ g.tierLabel }}</span>
+                        <span class="scope-chip-position" aria-live="polite">{{ slideIdx + 1 }} /
                           {{ scopeCarouselLen }}</span>
                       </div>
                     </template>
                     <template v-else>
-                      <span class="scope-chip__tier">{{ g.tierLabel }}</span>
-                      <div class="scope-chip__subs-line">
-                        <div class="scope-chip__subs">
+                      <span class="scope-chip-tier">{{ g.tierLabel }}</span>
+                      <div class="scope-chip-subs-line">
+                        <div class="scope-chip-subs">
                           <span
                             v-for="(lab, sidx) in g.subLabels"
                             :key="`${g.tier}-${slideIdx}-${sidx}-${lab}`"
-                            class="scope-chip__subline"
+                            class="scope-chip-subline"
                           >{{ lab }}</span>
                         </div>
-                        <span class="scope-chip__position" aria-live="polite">{{ slideIdx + 1 }} /
+                        <span class="scope-chip-position" aria-live="polite">{{ slideIdx + 1 }} /
                           {{ scopeCarouselLen }}</span>
                       </div>
                     </template>
@@ -416,7 +416,7 @@ watch(
             </div>
             <button
               type="button"
-              class="scope-carousel__nav scope-carousel__nav--paged"
+              class="scope-carousel-nav scope-carousel-nav--paged"
               :disabled="scopeCarouselLen <= 1"
               aria-label="Next workflow role"
               @click="scopeCarouselNext"
@@ -494,17 +494,17 @@ watch(
           <i class="fas fa-arrow-right uc-pill-arrow"></i>
 
           <div v-if="previewUseCases.length" class="usecases-popover">
-            <div class="usecases-popover__title">Preview</div>
-            <ul class="usecases-popover__list">
-              <li v-for="uc in previewUseCases" :key="uc.uuid" class="usecases-popover__item">
-                <span class="usecases-popover__title-text">{{ uc.title }}</span>
+            <div class="usecases-popover-title">Preview</div>
+            <ul class="usecases-popover-list">
+              <li v-for="uc in previewUseCases" :key="uc.uuid" class="usecases-popover-item">
+                <span class="usecases-popover-title-text">{{ uc.title }}</span>
                 <DifficultyBadge :difficulty="uc.difficulty" />
               </li>
             </ul>
-            <div v-if="previewRemainder" class="usecases-popover__more">
+            <div v-if="previewRemainder" class="usecases-popover-more">
               + {{ previewRemainder }} more
             </div>
-            <div v-if="useCasesNavigable" class="usecases-popover__cta">
+            <div v-if="useCasesNavigable" class="usecases-popover-cta">
               Click to filter the use-case list →
             </div>
           </div>
@@ -520,10 +520,10 @@ watch(
 
         <div class="tag-box" aria-label="Tags">
           <div v-if="tagLabels.length" class="tags-carousel">
-            <div class="tags-carousel__row">
+            <div class="tags-carousel-row">
               <button
                 type="button"
-                class="tags-carousel__nav tags-carousel__nav--paged"
+                class="tags-carousel-nav tags-carousel-nav--paged"
                 :disabled="!tagsCarouselCanPrev"
                 aria-label="Previous tags"
                 @click="tagsCarouselPrev"
@@ -532,7 +532,7 @@ watch(
               </button>
               <div
                 ref="tagsViewportEl"
-                class="tags-carousel__viewport tag-scroll"
+                class="tags-carousel-viewport tag-scroll"
                 @scroll.passive="updateTagsCarouselNav"
               >
                 <div class="chip-row chip-row--rail">
@@ -543,7 +543,7 @@ watch(
               </div>
               <button
                 type="button"
-                class="tags-carousel__nav tags-carousel__nav--paged"
+                class="tags-carousel-nav tags-carousel-nav--paged"
                 :disabled="!tagsCarouselCanNext"
                 aria-label="Next tags"
                 @click="tagsCarouselNext"
@@ -622,20 +622,16 @@ watch(
     padding-top: 0;
   }
 
-  .ranking-tooltip__title {
+  .ranking-tooltip-title {
     margin-bottom: 0;
   }
 
-  .ranking-tooltip__row {
+  .ranking-tooltip-row {
     margin-bottom: 0;
   }
 
-  .ranking-tooltip__divider {
+  .ranking-tooltip-divider {
     margin: 0;
-  }
-
-  .ranking-tooltip__title--fitscore {
-    margin-bottom: 0;
   }
 
   .scope-carousel {
@@ -645,14 +641,14 @@ watch(
     min-width: 0;
   }
 
-  .scope-carousel__row {
+  .scope-carousel-row {
     display: flex;
     align-items: stretch;
     gap: var(--space-2);
     min-height: 0;
   }
 
-  .scope-carousel__nav {
+  .scope-carousel-nav {
     flex-shrink: 0;
     align-self: stretch;
     display: inline-flex;
@@ -692,19 +688,19 @@ watch(
     }
   }
 
-  .scope-carousel__viewport {
+  .scope-carousel-viewport {
     flex: 1;
     min-width: 0;
     overflow: hidden;
   }
 
-  .scope-carousel__track {
+  .scope-carousel-track {
     display: flex;
     flex-flow: row nowrap;
     transition: transform 260ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
   }
 
-  .scope-carousel__slide-cell {
+  .scope-carousel-slide-cell {
     box-sizing: border-box;
     flex: 0 0 100%;
     min-width: 0;
@@ -727,19 +723,19 @@ watch(
     min-width: 0;
   }
 
-  .tags-carousel__row {
+  .tags-carousel-row {
     display: flex;
     align-items: center;
     gap: var(--tags-rail-gap);
     min-width: 0;
   }
 
-  .tags-carousel__viewport {
+  .tags-carousel-viewport {
     flex: 1;
     min-width: 0;
   }
 
-  .tags-carousel__nav {
+  .tags-carousel-nav {
     flex-shrink: 0;
     display: inline-flex;
     align-items: center;
@@ -781,7 +777,7 @@ watch(
     }
   }
 
-  .tags-carousel__viewport.tag-scroll {
+  .tags-carousel-viewport.tag-scroll {
     overflow-x: hidden;
     display: flex;
     flex-direction: row;
@@ -789,12 +785,12 @@ watch(
   }
 
   @media (max-width: 640px) {
-    .scope-carousel__nav--paged,
-    .tags-carousel__nav--paged {
+    .scope-carousel-nav--paged,
+    .tags-carousel-nav--paged {
       display: none !important;
     }
 
-    .scope-carousel__viewport {
+    .scope-carousel-viewport {
       display: flex;
       flex-flow: row nowrap;
       gap: var(--space-2);
@@ -807,19 +803,19 @@ watch(
       scroll-padding-inline: 0;
     }
 
-    .scope-carousel__track {
+    .scope-carousel-track {
       display: contents;
       transform: none !important;
       transition: none !important;
     }
 
-    .scope-carousel__slide-cell {
+    .scope-carousel-slide-cell {
       flex: 0 0 auto;
       min-width: 100%;
       scroll-snap-align: start;
     }
 
-    .tags-carousel__viewport.tag-scroll {
+    .tags-carousel-viewport.tag-scroll {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       display: flex;
@@ -828,7 +824,7 @@ watch(
     }
   }
 
-  .scope-chip__subs-line {
+  .scope-chip-subs-line {
     display: flex;
     flex-direction: row;
     align-items: flex-end;
@@ -837,13 +833,13 @@ watch(
     min-width: 0;
   }
 
-  .scope-chip__subs-line--redundant {
+  .scope-chip-subs-line--redundant {
     align-items: baseline;
     justify-content: space-between;
     gap: var(--space-2);
   }
 
-  .scope-chip__position {
+  .scope-chip-position {
     flex-shrink: 0;
     font-family: var(--font-mono);
     font-size: 10px;
@@ -883,7 +879,7 @@ watch(
     border-left: 3px solid var(--scope-accent);
   }
 
-  .scope-chip__tier {
+  .scope-chip-tier {
     font-family: var(--font-mono, monospace);
     font-size: 10px;
     font-weight: 700;
@@ -893,7 +889,7 @@ watch(
     line-height: 1.25;
   }
 
-  .scope-chip__subs {
+  .scope-chip-subs {
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
@@ -901,7 +897,7 @@ watch(
     min-width: 0;
   }
 
-  .scope-chip__subline {
+  .scope-chip-subline {
     font-family: var(--brand-typography--texte, var(--font-sans));
     font-size: var(--brand-typography-size--body-s, 0.875rem);
     color: var(--text-secondary);
@@ -1299,7 +1295,7 @@ watch(
       transform 125ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
   }
 
-  .usecases-popover__title {
+  .usecases-popover-title {
     font-family: var(--font-mono);
     font-size: 10px;
     font-weight: 700;
@@ -1309,7 +1305,7 @@ watch(
     margin: 0;
   }
 
-  .usecases-popover__list {
+  .usecases-popover-list {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -1318,7 +1314,7 @@ watch(
     gap: var(--space-2);
   }
 
-  .usecases-popover__item {
+  .usecases-popover-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1327,7 +1323,7 @@ watch(
     margin: 0;
   }
 
-  .usecases-popover__title-text {
+  .usecases-popover-title-text {
     font-size: 12px;
     color: var(--text-on-blue);
     font-weight: 500;
@@ -1337,13 +1333,13 @@ watch(
     flex: 1;
   }
 
-  .usecases-popover__more {
+  .usecases-popover-more {
     font-size: 11px;
     color: var(--overlay-on-dark-muted);
     margin: 0;
   }
 
-  .usecases-popover__cta {
+  .usecases-popover-cta {
     font-size: 11px;
     color: var(--color-orange);
     margin: 0;

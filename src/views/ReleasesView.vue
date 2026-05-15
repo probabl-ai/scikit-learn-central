@@ -7,7 +7,7 @@ const { releases } = useReleases()
 </script>
 
 <template>
-  <div id="view-releases" class="view" role="tabpanel" aria-label="scikit-learn Releases">
+  <div id="view-releases" class="view releases-page" role="tabpanel" aria-label="scikit-learn Releases">
     <div class="page-content">
       <ReleasesBlogStrip />
       <div class="releases-grid">
@@ -16,3 +16,9 @@ const { releases } = useReleases()
     </div>
   </div>
 </template>
+
+<style scoped>
+.releases-page {
+  min-width: 0;
+}
+</style>

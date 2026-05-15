@@ -13,14 +13,14 @@ const emit = defineEmits<{
   close: []
 }>()
 
+const { status, submit, reset } = useFormSubmit()
+
 const title = ref('')
 const industry = ref('')
 const technique = ref('')
 const packages = ref('')
 const synopsis = ref('')
 const sampleCode = ref('')
-
-const { status, submit, reset } = useFormSubmit()
 
 const canSubmit = computed(
   () =>
@@ -83,10 +83,10 @@ function close(): void {
       We received your use case: <strong>{{ title }}</strong>.
     </FormSuccess>
 
-    <form v-else class="modal__body" novalidate @submit.prevent="onSubmit">
+    <form v-else class="modal-body" novalidate @submit.prevent="onSubmit">
       <div class="form-group">
         <label class="form-label" for="uc-title">
-          Use Case Title <span class="form-label__required">*</span>
+          Use Case Title <span class="req">*</span>
         </label>
         <input
           id="uc-title"
@@ -101,7 +101,7 @@ function close(): void {
 
       <div class="form-group">
         <label class="form-label" for="uc-industry">
-          Industry <span class="form-label__required">*</span>
+          Industry <span class="req">*</span>
         </label>
         <input
           id="uc-industry"
@@ -116,7 +116,7 @@ function close(): void {
 
       <div class="form-group">
         <label class="form-label" for="uc-technique">
-          ML Technique <span class="form-label__required">*</span>
+          ML Technique <span class="req">*</span>
         </label>
         <input
           id="uc-technique"
@@ -131,7 +131,7 @@ function close(): void {
 
       <div class="form-group">
         <label class="form-label" for="uc-packages">
-          Packages Used <span class="form-label__required">*</span>
+          Packages Used <span class="req">*</span>
         </label>
         <input
           id="uc-packages"
@@ -146,7 +146,7 @@ function close(): void {
 
       <div class="form-group">
         <label class="form-label" for="uc-synopsis">
-          Synopsis <span class="form-label__required">*</span>
+          Synopsis <span class="req">*</span>
         </label>
         <textarea
           id="uc-synopsis"
@@ -163,9 +163,8 @@ function close(): void {
         <textarea
           id="uc-code"
           v-model="sampleCode"
-          class="form-input form-input--textarea"
+          class="form-input form-input--textarea mono-textarea"
           rows="5"
-          style="font-family:var(--font-mono);font-size:12px"
           placeholder="Paste a short Python snippet (30–60 lines) using synthetic data…"
         />
       </div>
@@ -177,7 +176,7 @@ function close(): void {
         Something went wrong. Please try again.
       </p>
 
-      <div class="modal__footer">
+      <div class="modal-footer">
         <button type="submit" class="btn btn--primary" :disabled="!canSubmit || status === 'submitting'">
           <i
             class="fas"
@@ -190,3 +189,10 @@ function close(): void {
     </form>
   </BaseModal>
 </template>
+
+<style scoped>
+.mono-textarea {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+</style>

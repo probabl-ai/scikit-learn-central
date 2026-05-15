@@ -17,7 +17,6 @@ const code = ref<string>('Loading…')
 const codeEl = ref<HTMLPreElement | null>(null)
 const copied = ref(false)
 
-// Lazily load .py source. Vite turns each match into its own dynamic-import chunk.
 const codeLoaders = import.meta.glob<string>('@data/use-cases/*.py', {
   query: '?raw',
   import: 'default',
@@ -82,17 +81,17 @@ async function copyCode(): Promise<void> {
 
 <template>
   <div
-    class="code-modal-backdrop"
+    class="backdrop code-modal-backdrop"
     :class="{ 'is-open': open }"
     role="dialog"
     aria-modal="true"
     @click.self="close"
   >
-    <div v-if="useCase" class="code-modal">
-      <div class="code-modal__header">
+    <div v-if="useCase" class="panel code-modal">
+      <div class="head">
         <div>
-          <div class="code-modal__title">{{ useCase.title }}</div>
-          <div class="code-modal__meta">
+          <div class="title">{{ useCase.title }}</div>
+          <div class="meta">
             <DifficultyBadge :difficulty="useCase.difficulty" />
             <span v-for="i in useCase.industry" :key="i" class="industry-tag">{{ i }}</span>
             <span v-for="t in useCase.technique" :key="t" class="technique-tag">
@@ -100,19 +99,19 @@ async function copyCode(): Promise<void> {
             </span>
           </div>
         </div>
-        <button class="code-modal__close" aria-label="Close" @click="close">&times;</button>
+        <button class="close" aria-label="Close" @click="close">&times;</button>
       </div>
 
-      <div class="code-modal__synopsis">{{ useCase.synopsis }}</div>
+      <div class="synopsis">{{ useCase.synopsis }}</div>
 
-      <div class="code-modal__body">
-        <pre ref="codeEl" class="code-modal__pre language-python">{{ code }}</pre>
+      <div class="body">
+        <pre ref="codeEl" class="pre language-python">{{ code }}</pre>
       </div>
 
-      <div class="code-modal__footer">
+      <div class="foot">
         <div>
-          <div class="code-modal__packages-label">Libraries used</div>
-          <div class="code-modal__package-chips">
+          <div class="packages-label">Libraries used</div>
+          <div class="package-chips">
             <span
               v-for="pid in useCase.packages"
               :key="pid"
@@ -123,7 +122,7 @@ async function copyCode(): Promise<void> {
             </span>
           </div>
         </div>
-        <div style="display:flex;gap:var(--space-2);align-items:center;">
+        <div class="foot-actions">
           <a
             :href="githubUrl"
             target="_blank"
@@ -142,3 +141,159 @@ async function copyCode(): Promise<void> {
     </div>
   </div>
 </template>
+
+<style scoped>
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--backdrop-midnight-heavy);
+  backdrop-filter: blur(4px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity var(--duration-lg) var(--ease-out),
+    visibility var(--duration-lg);
+}
+
+.backdrop.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.panel {
+  background: var(--bg-surface);
+  border-radius: var(--radius-xl);
+  width: 100%;
+  max-width: 780px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow-midnight-deep);
+
+  transform: scale(0.97);
+  transition: transform var(--duration-lg) var(--ease-out);
+}
+
+.backdrop.is-open .panel {
+  transform: scale(1);
+}
+
+.head {
+  background: var(--color-near-black);
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-shrink: 0;
+}
+
+.title {
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--color-orange);
+  line-height: 1.2;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+}
+
+.close {
+  background: var(--surface-on-dark-raised);
+  border: 1px solid var(--border-on-dark-muted);
+  color: var(--text-inverse);
+  font-size: 20px;
+  line-height: 1;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.12s;
+}
+
+.close:hover {
+  background: var(--surface-on-dark-strong);
+}
+
+.synopsis {
+  padding: var(--space-4) var(--space-6);
+  background: var(--neutral-050);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--neutral-700);
+  line-height: 1.65;
+  border-bottom: 1px solid var(--neutral-200);
+  flex-shrink: 0;
+}
+
+.body {
+  flex: 1;
+  overflow: auto;
+  padding: 0;
+}
+
+.pre {
+  margin: 0;
+  padding: var(--space-5) var(--space-6);
+  background: var(--surface-code);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text-code);
+  white-space: pre;
+  min-height: 200px;
+}
+
+.body :deep(.hljs) {
+  background: var(--surface-code) !important;
+}
+
+.foot {
+  padding: var(--space-3) var(--space-6);
+  border-top: 1px solid var(--neutral-200);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-shrink: 0;
+  background: var(--bg-surface);
+}
+
+.packages-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+  font-weight: 600;
+}
+
+.package-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.foot-actions {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+</style>

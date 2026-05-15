@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { useSubmitModal } from '@/composables/useSubmitModal'
 
-const { open: openModal } = useSubmitModal()
-
 interface Person {
   name: string
   url: string
@@ -11,6 +9,8 @@ interface Committee {
   title: string
   members: Person[]
 }
+
+const { open: openModal } = useSubmitModal()
 
 const committees: Committee[] = [
   {
@@ -44,8 +44,8 @@ const committees: Committee[] = [
     <div class="page-content">
       <div class="about-page">
         <section class="about-section">
-          <h2 class="about-section__title">Purpose</h2>
-          <div class="about-section__body">
+          <h2 class="title">Purpose</h2>
+          <div class="body">
             <p>
               scikit-learn Central is a community resource dedicated to serving the
               broader scientific Python and machine learning ecosystem. It's curated,
@@ -67,15 +67,15 @@ const committees: Committee[] = [
         </section>
 
         <section class="about-section">
-          <h2 class="about-section__title">Sub-committees</h2>
-          <p class="about-section__intro">
+          <h2 class="title">Sub-committees</h2>
+          <p class="intro">
             The project is spearheaded by Probabl and organized as sub-committees.
           </p>
 
           <div class="committees">
             <div v-for="c in committees" :key="c.title" class="committee">
-              <div class="committee__title">{{ c.title }}</div>
-              <div class="committee__members">
+              <div class="committee-title">{{ c.title }}</div>
+              <div class="committee-members">
                 <a
                   v-for="m in c.members"
                   :key="m.url"
@@ -84,8 +84,8 @@ const committees: Committee[] = [
                   rel="noopener noreferrer"
                   class="person-card"
                 >
-                  <span class="person-card__name">{{ m.name }}</span>
-                  <i class="fab fa-linkedin person-card__li"></i>
+                  <span class="person-name">{{ m.name }}</span>
+                  <i class="fab fa-linkedin person-li"></i>
                 </a>
               </div>
             </div>
@@ -93,8 +93,8 @@ const committees: Committee[] = [
         </section>
 
         <section class="about-section">
-          <h2 class="about-section__title">Ranking Methodology</h2>
-          <div class="about-section__body">
+          <h2 class="title">Ranking Methodology</h2>
+          <div class="body">
             <p>
               Each ecosystem package is assigned a <strong>Fit Score</strong> (0–100)
               displayed as a chip in the top-right corner of its card. Hovering over the
@@ -161,11 +161,11 @@ const committees: Committee[] = [
         </section>
 
         <div class="about-cta">
-          <p class="about-cta__text">
+          <p class="cta-text">
             Have a suggestion, spotted a missing package, or want to propose a new use
             case? We'd love to hear from you.
           </p>
-          <button class="btn btn--primary" @click="openModal('feedback')">
+          <button class="btn btn--primary" type="button" @click="openModal('feedback')">
             <i class="fas fa-plus"></i> Submit Feedback
           </button>
         </div>
@@ -173,3 +173,189 @@ const committees: Committee[] = [
     </div>
   </div>
 </template>
+
+<style scoped>
+.about-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: var(--space-10) var(--space-4) var(--space-16);
+}
+
+.about-section {
+  margin-bottom: var(--space-12);
+}
+
+.about-section .title {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--text-primary);
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border-subtle);
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.1;
+}
+
+.about-section .intro {
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin-bottom: var(--space-7);
+}
+
+.about-section .body p {
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin-bottom: var(--space-4);
+  font-size: var(--text-base);
+}
+
+.about-section .body p:last-child {
+  margin-bottom: 0;
+}
+
+.committees {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.committee {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5) var(--space-6);
+}
+
+.committee-title {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-widest);
+  color: var(--text-muted);
+  margin-bottom: var(--space-3);
+}
+
+.committee-members {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.person-card {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--bg-page);
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.person-card:hover {
+  border-color: var(--social-linkedin);
+  background: var(--social-linkedin-bg);
+}
+
+.person-name {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.person-li {
+  color: var(--social-linkedin);
+  font-size: 15px;
+}
+
+.about-cta {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: var(--space-10);
+  text-align: center;
+}
+
+.about-cta .cta-text {
+  color: var(--text-muted);
+  margin-bottom: var(--space-5);
+  font-size: var(--text-base);
+  line-height: 1.6;
+}
+
+.ranking-methodology {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: var(--space-6) 0;
+}
+
+.ranking-method-row {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+}
+
+.ranking-method-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 28px;
+  text-align: center;
+  padding-top: 2px;
+}
+
+.ranking-method-detail {
+  flex: 1;
+}
+
+.ranking-method-name {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-near-black);
+  margin-bottom: var(--space-1);
+}
+
+.ranking-method-weight {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-orange);
+  margin-left: 4px;
+}
+
+.ranking-method-desc {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+.ranking-formula {
+  background: var(--bg-primary);
+  color: var(--text-inverse) !important;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+  text-align: center;
+  margin: var(--space-4) 0;
+  letter-spacing: 0.01em;
+}
+
+.ranking-formula strong {
+  color: var(--text-inverse);
+}
+
+.ranking-formula sub {
+  font-size: 0.75em;
+  color: var(--color-orange);
+}
+</style>

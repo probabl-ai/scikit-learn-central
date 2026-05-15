@@ -130,9 +130,9 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
 
 <template>
   <div class="filter-bar">
-    <div class="filter-bar__inner">
-      <div class="filter-bar__search">
-        <i class="fas fa-search filter-bar__search-icon"></i>
+    <div class="filter-bar-inner">
+      <div class="filter-bar-search">
+        <i class="fas fa-search filter-bar-search-icon"></i>
         <input
           v-model="search"
           type="search"
@@ -143,12 +143,12 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
         />
       </div>
 
-      <div class="filter-bar__groups">
+      <div class="filter-bar-groups">
         <FilterDropdown v-model="categorySel" label="Category" :options="categoryOptions" />
         <FilterDropdown v-model="licenseSel" label="License" :options="licenseOptions" />
       </div>
 
-      <div class="filter-bar__end">
+      <div class="filter-bar-end">
         <select v-model="sortBy" class="sort-select--inline" title="Sort by">
           <option value="ranking">Sort: Fit Score</option>
           <option value="stars">Sort: Stars</option>
@@ -156,7 +156,7 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
           <option value="name">Sort: Name A–Z</option>
         </select>
         <button
-          class="filter-bar__clear"
+          class="filter-bar-clear"
           :class="{ 'is-visible': hasAnyFilter }"
           @click="resetFilters"
         >
@@ -173,26 +173,26 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
         @click="chip.remove"
       >
         {{ chip.label }}
-        <span class="active-filter-tag__remove">✕</span>
+        <span class="active-filter-tag-remove">✕</span>
       </span>
     </div>
   </div>
 
-  <div id="view-catalog" class="view" role="tabpanel" aria-label="Package catalog">
+  <div id="view-catalog" class="view catalog-page" role="tabpanel" aria-label="Package catalog">
     <div class="page-content">
       <SklearnHero :core="core" :use-case-count="ucForCore" />
 
       <div class="catalog-header">
-        <h2 class="catalog-header__title">Ecosystem Packages</h2>
-        <span class="catalog-header__count" aria-live="polite">
+        <h2 class="catalog-header-title">Ecosystem Packages</h2>
+        <span class="catalog-header-count" aria-live="polite">
           {{ filtered.length }} package{{ filtered.length !== 1 ? 's' : '' }}
         </span>
       </div>
 
       <div v-if="filtered.length === 0" class="state-empty">
-        <div class="state-empty__icon">🔭</div>
-        <div class="state-empty__title">No packages found</div>
-        <p class="state-empty__subtitle">Try different search terms or reset your filters.</p>
+        <div class="state-empty-icon">🔭</div>
+        <div class="state-empty-title">No packages found</div>
+        <p class="state-empty-subtitle">Try different search terms or reset your filters.</p>
         <button class="btn btn--outline" @click="resetFilters">Reset Filters</button>
       </div>
 
@@ -210,3 +210,9 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
     </div>
   </div>
 </template>
+
+<style scoped>
+.catalog-page {
+  min-width: 0;
+}
+</style>
