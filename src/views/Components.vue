@@ -82,7 +82,7 @@ const futureRelease = computed(() => releases.value.find((r) => r.version === 'f
       </section>
 
       <section class="sandbox-section">
-        <h2 class="section-title">PackageCard — boosted vs regular</h2>
+        <h2 class="section-title">PackageCard — samples</h2>
         <div class="sandbox-grid">
           <PackageCard
             v-if="probablBoosted"
@@ -90,7 +90,6 @@ const futureRelease = computed(() => releases.value.find((r) => r.version === 'f
             :use-case-count="ucCountByPkg.get(probablBoosted.id) ?? 0"
             :use-cases-filter-to="{ path: '/use-cases', query: { package: probablBoosted.id } }"
             :show-fit-chip="true"
-            :is-probabl-boosted="true"
           />
           <PackageCard
             v-if="regularPkg"
@@ -98,7 +97,6 @@ const futureRelease = computed(() => releases.value.find((r) => r.version === 'f
             :use-case-count="ucCountByPkg.get(regularPkg.id) ?? 0"
             :use-cases-filter-to="{ path: '/use-cases', query: { package: regularPkg.id } }"
             :show-fit-chip="true"
-            :is-probabl-boosted="false"
           />
         </div>
       </section>

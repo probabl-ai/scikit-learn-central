@@ -1,79 +1,65 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
-import DifficultyBadge from '@/components/DifficultyBadge.vue'
-import type { Package } from '@/types/package'
+import type { Category, Package } from '@/types/package'
 import { CATEGORY_META } from '@/types/package'
 import type { UseCase } from '@/types/usecase'
-import { fmt, formatReleaseDateCompact } from '@/utils/format'
+import { useCatalogDescriptionExpand } from '@/composables/useCatalogDescriptionExpand'
+import { fmt, formatReleaseDateLong } from '@/utils/format'
+
+const { catalogDescriptionsExpanded, toggleCatalogDescriptionsExpanded } =
+  useCatalogDescriptionExpand()
 
 const props = defineProps<{
   pkg: Package
   useCases?: UseCase[]
   useCaseCount?: number
   showFitChip: boolean
-  isProbablBoosted: boolean
   useCasesFilterTo?: RouteLocationRaw
 }>()
 
 interface CategoryGroup {
+  category: Category
   tier: 1 | 2 | 3
   tierLabel: string
   subLabels: string[]
 }
 
-type MetaOverflowKey =
-  | 'license'
-  | 'releaseVersion'
-  | 'releaseDate'
-  | 'stars'
-  | 'forks'
-  | 'downloads'
-
-const USECASE_PREVIEW_LIMIT = 5
-
 const scopeCarouselIndex = ref(0)
+const cardRoot = ref<HTMLElement | null>(null)
 const descRef = ref<HTMLElement | null>(null)
-const isClamped = ref(false)
+const descExpandable = ref(false)
 const tagsViewportEl = ref<HTMLElement | null>(null)
 const tagsCarouselCanPrev = ref(false)
 const tagsCarouselCanNext = ref(false)
-const metaRowsEl = ref<HTMLElement | null>(null)
 const copied = ref(false)
 
-const metaOverflow = reactive({
-  license: false,
-  releaseVersion: false,
-  releaseDate: false,
-  stars: false,
-  forks: false,
-  downloads: false,
-})
-
-const metaValueEls: Record<MetaOverflowKey, HTMLElement | null> = {
-  license: null,
-  releaseVersion: null,
-  releaseDate: null,
-  stars: null,
-  forks: null,
-  downloads: null,
-}
-
 let tagsResizeObs: ResizeObserver | null = null
-let metaResizeObs: ResizeObserver | null = null
+let cardResizeObs: ResizeObserver | null = null
 
 const categoryGroups = computed<CategoryGroup[]>(() => {
-  const byTier = new Map<number, CategoryGroup>()
+  const seen = new Set<Category>()
+  const rows: Array<CategoryGroup & { sourceIndex: number }> = []
+  let sourceIndex = 0
   for (const c of props.pkg.categories ?? []) {
+    if (seen.has(c)) continue
+    seen.add(c)
     const meta = CATEGORY_META[c]
-    let g = byTier.get(meta.tier)
-    if (!g) {
-      g = { tier: meta.tier, tierLabel: meta.tierLabel, subLabels: [] }
-      byTier.set(meta.tier, g)
-    }
-    g.subLabels.push(meta.label)
+    rows.push({
+      category: c,
+      tier: meta.tier,
+      tierLabel: meta.tierLabel,
+      subLabels: [meta.label],
+      sourceIndex: sourceIndex++,
+    })
   }
-  return Array.from(byTier.values()).sort((a, b) => a.tier - b.tier)
+  rows.sort((a, b) => (a.tier !== b.tier ? a.tier - b.tier : a.sourceIndex - b.sourceIndex))
+  return rows.map(({ category, tier, tierLabel, subLabels }) => ({
+    category,
+    tier,
+    tierLabel,
+    subLabels,
+  }))
 })
 
 const scopeCarouselLen = computed(() => categoryGroups.value.length)
@@ -82,14 +68,7 @@ const scopeCarouselTrackStyle = computed(() => ({
   transform: `translateX(-${scopeCarouselIndex.value * 100}%)`,
 }))
 
-const descTooltipId = computed(() => `pkg-desc-${props.pkg.id}`)
-
-const previewUseCases = computed(() => props.useCases?.slice(0, USECASE_PREVIEW_LIMIT) ?? [])
-
-const previewRemainder = computed(() => {
-  const total = props.useCases?.length ?? props.useCaseCount ?? 0
-  return Math.max(0, total - previewUseCases.value.length)
-})
+const descBodyId = computed(() => `pkg-desc-${props.pkg.id}`)
 
 const tagLabels = computed(() => (props.pkg.tags ?? []).map((t) => t.replace(/-/g, ' ')))
 
@@ -115,61 +94,49 @@ const forks = computed(() => props.pkg.stats?.github?.forks)
 
 const releaseVersionDisplay = computed(() => (props.pkg.version ? `v${props.pkg.version}` : '—'))
 
-const releaseVersionTooltip = computed(() =>
-  props.pkg.version ? `Version ${props.pkg.version}` : '—',
-)
-
 const releaseDateDisplay = computed(() => {
-  const d = formatReleaseDateCompact(props.pkg.stats?.pypi?.release_date)
+  const d = formatReleaseDateLong(props.pkg.stats?.pypi?.release_date)
   return d ?? '—'
 })
-
-const releaseDateTooltip = computed(() => releaseDateDisplay.value)
 
 const downloadsWithUnit = computed(() => `${fmt(props.pkg.downloads)}/mo`)
 
 const metaRows = computed(() => [
   {
-    key: 'license' as const,
-    icon: 'fa-scale-balanced',
-    sr: 'License: ',
-    value: props.pkg.license,
-    tipFull: props.pkg.license,
-  },
-  {
     key: 'releaseVersion' as const,
     icon: 'fa-tag',
     sr: 'Release version: ',
     value: releaseVersionDisplay.value,
-    tipFull: releaseVersionTooltip.value,
   },
   {
     key: 'releaseDate' as const,
     icon: 'fa-calendar-day',
     sr: 'Release date: ',
     value: releaseDateDisplay.value,
-    tipFull: releaseDateTooltip.value,
   },
   {
-    key: 'stars' as const,
-    icon: 'fa-star',
-    sr: 'Stars: ',
-    value: fmt(props.pkg.stars),
-    tipFull: fmt(props.pkg.stars),
+    key: 'license' as const,
+    icon: 'fa-scale-balanced',
+    sr: 'License: ',
+    value: props.pkg.license,
   },
   {
     key: 'forks' as const,
     icon: 'fa-code-branch',
     sr: 'Forks: ',
     value: fmt(forks.value),
-    tipFull: fmt(forks.value),
+  },
+  {
+    key: 'stars' as const,
+    icon: 'fa-star',
+    sr: 'Stars: ',
+    value: fmt(props.pkg.stars),
   },
   {
     key: 'downloads' as const,
     icon: 'fa-download',
     sr: 'Downloads: ',
     value: downloadsWithUnit.value,
-    tipFull: downloadsWithUnit.value,
   },
 ])
 
@@ -177,6 +144,21 @@ const fitDisplay = computed(() => Math.round(props.pkg.fitBase))
 const fitStars = computed(() => Math.round(props.pkg.fitStars))
 const fitDownloads = computed(() => Math.round(props.pkg.fitDownloads))
 const fitUcScore = computed(() => Math.round(props.pkg.fitUseCases))
+
+const fitBreakdownRows = computed(() => [
+  { key: 'stars' as const, icon: 'fa-star', label: 'Stars', pct: fitStars.value },
+  { key: 'downloads' as const, icon: 'fa-download', label: 'Downloads', pct: fitDownloads.value },
+  { key: 'useCases' as const, icon: 'fa-lightbulb', label: 'Use cases', pct: fitUcScore.value },
+])
+
+const fitScoreAriaLabel = computed(() => `Fit score ${fitDisplay.value} out of 100`)
+
+/** 0–100 for pill background: more sky at low scores, more orange at high scores. */
+const fitScorePillStyle = computed(() => {
+  const n = fitDisplay.value
+  const p = Number.isFinite(n) ? Math.min(100, Math.max(0, n)) : 0
+  return { '--fit-pct': `${p}%` }
+})
 
 function isTierRedundant(g: CategoryGroup): boolean {
   return g.subLabels.length === 1 && g.subLabels[0] === g.tierLabel
@@ -199,10 +181,15 @@ function scopeCarouselNext(): void {
   scopeCarouselIndex.value = (scopeCarouselIndex.value + 1) % n
 }
 
-function measureClamp(): void {
-  const el = descRef.value
-  if (!el) return
-  isClamped.value = el.scrollHeight > el.clientHeight + 1
+function measureDescClampable(): void {
+  void nextTick(() => {
+    requestAnimationFrame(() => {
+      const el = descRef.value
+      if (!el) return
+      if (catalogDescriptionsExpanded.value) return
+      descExpandable.value = el.scrollHeight > el.clientHeight + 1
+    })
+  })
 }
 
 function updateTagsCarouselNav(): void {
@@ -228,17 +215,15 @@ function tagsCarouselNext(): void {
   tagsCarouselScroll(Math.max(w * 0.88, 140))
 }
 
-function measureMetaOverflows(): void {
-  const keys = Object.keys(metaValueEls) as MetaOverflowKey[]
-  for (const k of keys) {
-    const el = metaValueEls[k]
-    metaOverflow[k] = !!(el && el.scrollWidth > el.clientWidth + 1)
-  }
-}
-
-function bindMetaValueEl(key: MetaOverflowKey, el: unknown): void {
-  metaValueEls[key] = el instanceof HTMLElement ? el : null
-  requestAnimationFrame(measureMetaOverflows)
+function setupCardResizeObserver(): void {
+  cardResizeObs?.disconnect()
+  cardResizeObs = null
+  void nextTick(() => {
+    const el = cardRoot.value
+    if (!el) return
+    cardResizeObs = new ResizeObserver(() => measureDescClampable())
+    cardResizeObs.observe(el)
+  })
 }
 
 function setupTagsResizeObserver(): void {
@@ -265,31 +250,37 @@ async function copyInstall(): Promise<void> {
 }
 
 onMounted(() => {
-  void nextTick(measureClamp)
-  metaResizeObs = new ResizeObserver(() => {
-    measureMetaOverflows()
-  })
   void nextTick(() => {
-    if (metaRowsEl.value) metaResizeObs?.observe(metaRowsEl.value)
-    measureMetaOverflows()
+    measureDescClampable()
+    setupCardResizeObserver()
   })
-  window.addEventListener('resize', measureMetaOverflows)
+  window.addEventListener('resize', measureDescClampable)
 })
 
 onUnmounted(() => {
-  metaResizeObs?.disconnect()
-  metaResizeObs = null
+  cardResizeObs?.disconnect()
+  cardResizeObs = null
   tagsResizeObs?.disconnect()
   tagsResizeObs = null
-  window.removeEventListener('resize', measureMetaOverflows)
+  window.removeEventListener('resize', measureDescClampable)
 })
 
 watch(() => [props.pkg.id, categoryGroups.value.length] as const, () => {
   scopeCarouselIndex.value = 0
+  descExpandable.value = false
+  void nextTick(() => {
+    measureDescClampable()
+    setupCardResizeObserver()
+  })
 })
 
 watch(() => props.pkg.description, () => {
-  void nextTick(measureClamp)
+  descExpandable.value = false
+  void nextTick(measureDescClampable)
+})
+
+watch(catalogDescriptionsExpanded, () => {
+  if (!catalogDescriptionsExpanded.value) void nextTick(measureDescClampable)
 })
 
 watch(
@@ -298,65 +289,26 @@ watch(
   { flush: 'post' },
 )
 
-watch(
-  () => [
-    props.pkg.id,
-    props.pkg.license,
-    props.pkg.version,
-    props.pkg.stats?.pypi?.release_date,
-    props.pkg.stars,
-    forks.value,
-    props.pkg.downloads,
-  ],
-  () => void nextTick(() => requestAnimationFrame(measureMetaOverflows)),
-)
 </script>
 
 <template>
-  <article class="card" :data-id="pkg.id">
-    <div class="stack">
+  <article ref="cardRoot" class="card" :data-id="pkg.id">
+    <div
+      class="stack"
+      :class="{
+        'stack--has-scope': categoryGroups.length > 0,
+        'stack--has-fit': showFitChip,
+      }"
+    >
       <div class="headline-row">
         <div class="headline">{{ pkg.name }}</div>
         <div
           v-if="showFitChip"
-          class="fit-chip"
-          :class="{ 'fit-chip--featured': isProbablBoosted }"
+          class="fit-score-pill"
+          :style="fitScorePillStyle"
+          :aria-label="fitScoreAriaLabel"
         >
-          <template v-if="isProbablBoosted">
-            <svg width="20" height="20" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Featured by Probabl">
-              <circle cx="200" cy="200" r="200" fill="#1E22AA" />
-              <path d="M110.452 145.278H141.492C144.142 145.278 145.278 144.142 145.278 141.493V110.452C145.278 107.803 144.142 106.667 141.492 106.667H110.452C107.802 106.667 106.667 107.803 106.667 110.452V141.493C106.667 144.142 107.802 145.278 110.452 145.278Z" fill="#F68D2E" />
-              <path d="M110.452 292.001H141.492C144.142 292.001 145.278 290.865 145.278 288.215V257.175C145.278 254.525 144.142 253.39 141.492 253.39H110.452C107.802 253.39 106.667 254.525 106.667 257.175V288.215C106.667 290.865 107.802 292.001 110.452 292.001Z" fill="#F68D2E" />
-              <path d="M257.174 292.001H288.214C290.864 292.001 292 290.865 292 288.215V257.175C292 254.525 290.864 253.39 288.214 253.39H257.174C254.524 253.39 253.389 254.525 253.389 257.175V288.215C253.389 290.865 254.524 292.001 257.174 292.001Z" fill="#F68D2E" />
-            </svg>
-          </template>
-          <template v-else>{{ fitDisplay }}</template>
-
-          <div class="ranking-tooltip" :class="{ 'ranking-tooltip--probabl': isProbablBoosted }">
-            <template v-if="isProbablBoosted">
-              <div class="ranking-tooltip-title">Featured by :probabl.</div>
-              <p class="ranking-tooltip-probabl-body">
-                Editorially pinned at the top of the Fit Score ranking. The score shown does not include the ranking boost.
-              </p>
-              <div class="ranking-tooltip-divider"></div>
-            </template>
-            <div class="ranking-tooltip-title">Fit Score</div>
-            <div class="ranking-tooltip-row">
-              <span class="ranking-tooltip-label"><i class="fas fa-star"></i> Stars</span>
-              <div class="ranking-tooltip-track"><div class="ranking-tooltip-fill" :style="{ width: fitStars + '%' }"></div></div>
-              <span class="ranking-tooltip-val">{{ fitStars }}</span>
-            </div>
-            <div class="ranking-tooltip-row">
-              <span class="ranking-tooltip-label"><i class="fas fa-download"></i> Downloads</span>
-              <div class="ranking-tooltip-track"><div class="ranking-tooltip-fill" :style="{ width: fitDownloads + '%' }"></div></div>
-              <span class="ranking-tooltip-val">{{ fitDownloads }}</span>
-            </div>
-            <div class="ranking-tooltip-row">
-              <span class="ranking-tooltip-label"><i class="fas fa-lightbulb"></i> Use Cases</span>
-              <div class="ranking-tooltip-track"><div class="ranking-tooltip-fill" :style="{ width: fitUcScore + '%' }"></div></div>
-              <span class="ranking-tooltip-val">{{ fitUcScore }}</span>
-            </div>
-          </div>
+          <span class="fit-score-pill__value">{{ fitDisplay }}</span>
         </div>
       </div>
 
@@ -381,7 +333,7 @@ watch(
               <div class="scope-carousel-track" :style="scopeCarouselTrackStyle">
                 <div
                   v-for="(g, slideIdx) in categoryGroups"
-                  :key="`${pkg.id}-scope-${g.tier}-${slideIdx}`"
+                  :key="`${pkg.id}-scope-${g.category}`"
                   class="scope-carousel-slide-cell"
                 >
                   <div
@@ -400,11 +352,7 @@ watch(
                       <span class="scope-chip-tier">{{ g.tierLabel }}</span>
                       <div class="scope-chip-subs-line">
                         <div class="scope-chip-subs">
-                          <span
-                            v-for="(lab, sidx) in g.subLabels"
-                            :key="`${g.tier}-${slideIdx}-${sidx}-${lab}`"
-                            class="scope-chip-subline"
-                          >{{ lab }}</span>
+                          <span class="scope-chip-subline">{{ g.subLabels[0] }}</span>
                         </div>
                         <span class="scope-chip-position" aria-live="polite">{{ slideIdx + 1 }} /
                           {{ scopeCarouselLen }}</span>
@@ -427,98 +375,117 @@ watch(
         </div>
       </section>
 
-      <div
-        class="synopsis"
-        :class="{ 'synopsis--clamped': isClamped }"
-        :tabindex="isClamped ? 0 : undefined"
-        :aria-describedby="isClamped ? descTooltipId : undefined"
-      >
-        <p ref="descRef" class="synopsis-text">
+      <div class="synopsis" :class="{ 'synopsis--collapsed': !catalogDescriptionsExpanded }">
+        <p
+          :id="descBodyId"
+          ref="descRef"
+          class="synopsis-text"
+          :class="{ 'synopsis-text--clamped': !catalogDescriptionsExpanded }"
+        >
           {{ pkg.description }}
         </p>
-        <div
-          v-if="isClamped"
-          :id="descTooltipId"
-          class="synopsis-popover"
-          role="tooltip"
+        <button
+          v-if="catalogDescriptionsExpanded || descExpandable"
+          type="button"
+          class="synopsis-toggle"
+          :aria-expanded="catalogDescriptionsExpanded"
+          :aria-controls="descBodyId"
+          :aria-label="
+            catalogDescriptionsExpanded
+              ? 'Show less — collapse descriptions on all packages'
+              : 'Show more — expand descriptions on all packages'
+          "
+          @click="toggleCatalogDescriptionsExpanded"
         >
-          <div class="synopsis-popover-label">About this package</div>
-          <p class="synopsis-popover-body">{{ pkg.description }}</p>
-        </div>
+          {{ catalogDescriptionsExpanded ? 'Show less' : 'Show more' }}
+        </button>
       </div>
 
-      <section class="panel panel--meta">
-        <ul ref="metaRowsEl" class="meta">
+      <section class="panel panel--meta" aria-label="Package information">
+        <div class="meta-panel-head">
+          <span class="meta-panel-eyebrow">Information</span>
+        </div>
+        <ul class="meta">
           <li v-for="row in metaRows" :key="`${pkg.id}-${row.key}`" class="meta-row">
             <i class="fas fa-fw meta-icon" :class="row.icon" aria-hidden="true"></i>
             <span class="sr-only">{{ row.sr }}</span>
-            <div
-              class="meta-cell"
-              :class="{ 'meta-cell--tip': metaOverflow[row.key] }"
-              :tabindex="metaOverflow[row.key] ? 0 : undefined"
-            >
-              <span
-                class="meta-value"
-                :class="{
-                  'meta-value--single':
-                    row.key === 'releaseDate' || row.key === 'license',
-                }"
-                :ref="(el) => bindMetaValueEl(row.key, el)"
-              >{{ row.value }}</span>
-              <div
-                v-if="metaOverflow[row.key]"
-                class="meta-tip"
-                role="tooltip"
-              >
-                {{ row.tipFull }}
-              </div>
+            <div class="meta-cell">
+              <span class="meta-value">{{ row.value }}</span>
             </div>
           </li>
         </ul>
       </section>
 
       <section
-        class="panel panel--tags"
-        aria-label="Tags and curated use cases"
+        v-if="showFitChip"
+        class="panel panel--fit"
+        aria-label="Fit score breakdown"
       >
-        <component
-          :is="useCasesNavigable ? 'router-link' : 'div'"
-          v-if="ucTotal"
-          v-bind="useCasesLinkBind"
-          class="uc-pill"
-          :class="{ 'uc-pill--static': !useCasesNavigable }"
-          :title="useCasesBrowseTitle"
-        >
-          <i class="fas fa-lightbulb"></i>
-          <span>Used in {{ ucTotal }} curated use case{{ ucTotal !== 1 ? 's' : '' }}</span>
-          <i class="fas fa-arrow-right uc-pill-arrow"></i>
-
-          <div v-if="previewUseCases.length" class="usecases-popover">
-            <div class="usecases-popover-title">Preview</div>
-            <ul class="usecases-popover-list">
-              <li v-for="uc in previewUseCases" :key="uc.uuid" class="usecases-popover-item">
-                <span class="usecases-popover-title-text">{{ uc.title }}</span>
-                <DifficultyBadge :difficulty="uc.difficulty" />
-              </li>
-            </ul>
-            <div v-if="previewRemainder" class="usecases-popover-more">
-              + {{ previewRemainder }} more
-            </div>
-            <div v-if="useCasesNavigable" class="usecases-popover-cta">
-              Click to filter the use-case list →
-            </div>
-          </div>
-        </component>
-        <div
-          v-else
-          class="uc-pill uc-pill--empty"
-          :title="`No curated use cases for ${pkg.name} yet`"
-        >
-          <i class="fas fa-lightbulb"></i>
-          <span>No curated use cases yet</span>
+        <div class="fit-panel-head">
+          <span class="fit-panel-eyebrow">Fit Score</span>
         </div>
+        <ul class="fit-breakdown">
+          <li v-for="row in fitBreakdownRows" :key="`${pkg.id}-fit-${row.key}`" class="fit-breakdown-row">
+            <span class="fit-breakdown-label">
+              <i class="fas fa-fw" :class="row.icon" aria-hidden="true"></i>
+              {{ row.label }}
+            </span>
+            <div class="fit-breakdown-track" role="presentation">
+              <div class="fit-breakdown-fill" :style="{ width: `${row.pct}%` }"></div>
+            </div>
+            <span class="fit-breakdown-val">{{ row.pct }}</span>
+          </li>
+        </ul>
+      </section>
 
-        <div class="tag-box" aria-label="Tags">
+      <section class="panel panel--actions" aria-label="Install command and curated use cases">
+        <div class="tag-actions-stack">
+          <div v-if="pkg.pypi_name" class="install" @click="copyInstall">
+            <i class="fas fa-terminal" aria-hidden="true"></i>
+            <span>pip install {{ pkg.pypi_name }}</span>
+            <i
+              class="fas install-copy"
+              :class="copied ? 'fa-check' : 'fa-copy'"
+              aria-hidden="true"
+            ></i>
+          </div>
+          <div v-else class="install install--empty">
+            <i class="fas fa-terminal" aria-hidden="true"></i>
+            <span>Not available on PyPI</span>
+          </div>
+
+          <component
+            :is="useCasesNavigable ? 'router-link' : 'div'"
+            v-if="ucTotal"
+            v-bind="useCasesLinkBind"
+            class="uc-pill"
+            :class="{ 'uc-pill--static': !useCasesNavigable }"
+            :aria-label="useCasesBrowseTitle"
+          >
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+            <span>Used in {{ ucTotal }} curated use case{{ ucTotal !== 1 ? 's' : '' }}</span>
+            <i
+              v-if="useCasesNavigable"
+              class="fas fa-arrow-up-right-from-square uc-pill-external"
+              aria-hidden="true"
+            ></i>
+          </component>
+          <div
+            v-else
+            class="uc-pill uc-pill--empty"
+            :aria-label="`No curated use cases for ${pkg.name} yet`"
+          >
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+            <span>No curated use cases yet</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel panel--tags" aria-label="Tags">
+        <div class="tags-panel-head">
+          <span class="tags-panel-eyebrow">TAGS</span>
+        </div>
+        <div class="tag-box">
           <div v-if="tagLabels.length" class="tags-carousel">
             <div class="tags-carousel-row">
               <button
@@ -558,16 +525,6 @@ watch(
     </div>
 
     <div class="footer">
-      <div v-if="pkg.pypi_name" class="install" @click="copyInstall">
-        <i class="fas fa-terminal"></i>
-        <span>pip install {{ pkg.pypi_name }}</span>
-        <i class="fas" :class="copied ? 'fa-check' : 'fa-copy'"></i>
-      </div>
-      <div v-else class="install install--empty">
-        <i class="fas fa-terminal"></i>
-        <span>Not available on PyPI</span>
-      </div>
-
       <div class="outbound">
         <a v-if="pkg.website" :href="pkg.website" target="_blank" class="outbound-link">Homepage</a>
         <a v-if="pkg.repository" :href="pkg.repository" target="_blank" class="outbound-link">
@@ -590,13 +547,288 @@ watch(
  */
 .card {
   min-width: 0;
+  height: 100%;
 
   .stack {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-4);
     flex: 1 1 auto;
     min-width: 0;
+    min-height: 0;
+  }
+
+  .stack:not(.stack--has-scope):not(.stack--has-fit) {
+    grid-template-rows: auto 1fr auto auto auto;
+    grid-template-areas:
+      'head'
+      'synopsis'
+      'meta'
+      'actions'
+      'tags';
+  }
+
+  .stack:not(.stack--has-scope).stack--has-fit {
+    grid-template-rows: auto 1fr auto auto auto auto;
+    grid-template-areas:
+      'head'
+      'synopsis'
+      'meta'
+      'fit'
+      'actions'
+      'tags';
+  }
+
+  .stack.stack--has-scope:not(.stack--has-fit) {
+    grid-template-rows: auto auto 1fr auto auto auto;
+    grid-template-areas:
+      'head'
+      'scope'
+      'synopsis'
+      'meta'
+      'actions'
+      'tags';
+  }
+
+  .stack.stack--has-scope.stack--has-fit {
+    grid-template-rows: auto auto 1fr auto auto auto auto;
+    grid-template-areas:
+      'head'
+      'scope'
+      'synopsis'
+      'meta'
+      'fit'
+      'actions'
+      'tags';
+  }
+
+  .headline-row {
+    grid-area: head;
+  }
+
+  .panel--meta {
+    grid-area: meta;
+    gap: var(--space-2);
+    position: relative;
+    overflow: visible;
+    isolation: isolate;
+    border: 1px solid var(--neutral-200);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3);
+    transition: border-color var(--duration-md) var(--ease);
+  }
+
+  .panel--meta::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: var(--radius-sm);
+    pointer-events: none;
+    z-index: 0;
+    background-repeat: no-repeat;
+    background-image:
+      linear-gradient(var(--color-near-black), var(--color-near-black)),
+      linear-gradient(var(--color-near-black), var(--color-near-black)),
+      linear-gradient(var(--color-near-black), var(--color-near-black)),
+      linear-gradient(var(--color-near-black), var(--color-near-black)),
+      linear-gradient(var(--color-near-black), var(--color-near-black)),
+      linear-gradient(var(--color-near-black), var(--color-near-black)),
+      linear-gradient(var(--color-near-black), var(--color-near-black)),
+      linear-gradient(var(--color-near-black), var(--color-near-black));
+    background-size:
+      2px 11px,
+      11px 2px,
+      2px 11px,
+      11px 2px,
+      2px 11px,
+      11px 2px,
+      2px 11px,
+      11px 2px;
+    background-position:
+      left 0 top 0,
+      left 0 top 0,
+      right 0 top 0,
+      right 0 top 0,
+      left 0 bottom 0,
+      left 0 bottom 0,
+      right 0 bottom 0,
+      right 0 bottom 0;
+  }
+
+  .card:hover .panel--meta {
+    border-color: var(--color-near-black);
+  }
+
+  .meta-panel-head {
+    position: relative;
+    z-index: 1;
+  }
+
+  .meta-panel-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+
+  .panel--scope {
+    grid-area: scope;
+  }
+
+  .panel--actions {
+    grid-area: actions;
+    min-width: 0;
+  }
+
+  .panel--fit {
+    grid-area: fit;
+    gap: var(--space-2);
+    position: relative;
+    overflow: visible;
+    isolation: isolate;
+    border: 1px solid var(--orange-200);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3);
+    transition: border-color var(--duration-md) var(--ease);
+  }
+
+  .panel--fit::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: var(--radius-sm);
+    pointer-events: none;
+    z-index: 0;
+    background-repeat: no-repeat;
+    background-image:
+      linear-gradient(var(--color-orange), var(--color-orange)),
+      linear-gradient(var(--color-orange), var(--color-orange)),
+      linear-gradient(var(--color-orange), var(--color-orange)),
+      linear-gradient(var(--color-orange), var(--color-orange)),
+      linear-gradient(var(--color-orange), var(--color-orange)),
+      linear-gradient(var(--color-orange), var(--color-orange)),
+      linear-gradient(var(--color-orange), var(--color-orange)),
+      linear-gradient(var(--color-orange), var(--color-orange));
+    background-size:
+      2px 11px,
+      11px 2px,
+      2px 11px,
+      11px 2px,
+      2px 11px,
+      11px 2px,
+      2px 11px,
+      11px 2px;
+    background-position:
+      left 0 top 0,
+      left 0 top 0,
+      right 0 top 0,
+      right 0 top 0,
+      left 0 bottom 0,
+      left 0 bottom 0,
+      right 0 bottom 0,
+      right 0 bottom 0;
+  }
+
+  .card:hover .panel--fit {
+    border-color: var(--orange-600);
+  }
+
+  .fit-panel-head {
+    position: relative;
+    z-index: 1;
+  }
+
+  .fit-panel-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-orange);
+  }
+
+  .fit-breakdown {
+    position: relative;
+    z-index: 1;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .fit-breakdown-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  .fit-breakdown-label {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 6.5rem;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .fit-breakdown-label i {
+    color: var(--text-muted);
+    font-size: 0.85em;
+  }
+
+  .fit-breakdown-track {
+    flex: 1;
+    min-width: 0;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--neutral-200);
+    overflow: hidden;
+  }
+
+  .fit-breakdown-fill {
+    height: 100%;
+    min-width: 0;
+    border-radius: 3px;
+    background: var(--color-orange);
+    transition: width 0.3s var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+  }
+
+  .fit-breakdown-val {
+    flex-shrink: 0;
+    min-width: 1.75rem;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    color: var(--text-primary);
+  }
+
+  .panel--tags {
+    grid-area: tags;
+    gap: var(--space-3);
+  }
+
+  .tags-panel-head {
+    flex-shrink: 0;
+  }
+
+  .tags-panel-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
   }
 
   .footer {
@@ -605,33 +837,6 @@ watch(
     gap: var(--space-4);
     margin-top: auto;
     min-width: 0;
-
-    .outbound {
-      margin-top: 0;
-      padding-top: 0;
-    }
-  }
-
-  .ranking-tooltip {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .ranking-tooltip--probabl {
-    padding-top: 0;
-  }
-
-  .ranking-tooltip-title {
-    margin-bottom: 0;
-  }
-
-  .ranking-tooltip-row {
-    margin-bottom: 0;
-  }
-
-  .ranking-tooltip-divider {
-    margin: 0;
   }
 
   .scope-carousel {
@@ -898,8 +1103,8 @@ watch(
   }
 
   .scope-chip-subline {
-    font-family: var(--brand-typography--texte, var(--font-sans));
-    font-size: var(--brand-typography-size--body-s, 0.875rem);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
     color: var(--text-secondary);
     line-height: 1.3;
     overflow: hidden;
@@ -907,16 +1112,14 @@ watch(
     white-space: nowrap;
   }
 
-  .panel--meta {
-    gap: 0;
-  }
-
   .meta {
+    position: relative;
+    z-index: 1;
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: var(--space-1);
     row-gap: var(--space-1);
     align-items: start;
@@ -932,12 +1135,6 @@ watch(
     font-size: var(--text-xs);
     line-height: 1.35;
     color: var(--text-secondary);
-
-    &:has(.meta-cell--tip:hover),
-    &:has(.meta-cell--tip:focus-within) {
-      position: relative;
-      z-index: 25;
-    }
   }
 
   .meta-icon {
@@ -949,27 +1146,8 @@ watch(
   }
 
   .meta-cell {
-    position: relative;
     flex: 1;
     min-width: 0;
-  }
-
-  .meta-cell--tip {
-    cursor: help;
-
-    &:focus-visible {
-      outline: 2px solid var(--color-sky);
-      outline-offset: 2px;
-      border-radius: 2px;
-    }
-
-    &:hover .meta-tip,
-    &:focus-within .meta-tip {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0) scale(1);
-      pointer-events: auto;
-    }
   }
 
   .meta-value {
@@ -982,141 +1160,60 @@ watch(
     word-break: break-word;
   }
 
-  .meta-value--single {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .meta-tip {
-    position: absolute;
-    left: 0;
-    top: calc(100% + 6px);
-    min-width: max(100%, 9rem);
-    max-width: min(20rem, calc(100vw - 24px));
-    padding: var(--space-2) var(--space-3);
-    background: var(--color-near-black);
-    color: var(--overlay-on-dark-strong);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    line-height: 1.45;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-tooltip-elevated);
-    border: 1px solid var(--overlay-on-dark-border);
-    z-index: 60;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(-4px) scale(0.98);
-    transition:
-      opacity 120ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),
-      visibility 120ms,
-      transform 120ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
-    word-break: break-word;
-  }
-
   .synopsis {
+    grid-area: synopsis;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
     min-width: 0;
+    min-height: 0;
   }
 
-  .synopsis--clamped {
-    position: relative;
-    z-index: 1;
-    cursor: help;
-
-    &::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: calc(100% + 2px);
-      height: 40px;
-      z-index: 48;
-      pointer-events: none;
-    }
-
-    &:hover::after,
-    &:focus-within::after {
-      pointer-events: auto;
-    }
-
-    &:hover,
-    &:focus-within {
-      z-index: 20;
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--color-sky);
-      outline-offset: 2px;
-      border-radius: var(--radius-sm, 6px);
-    }
-
-    &:hover .synopsis-popover,
-    &:focus-within .synopsis-popover {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0) scale(1);
-      pointer-events: auto;
-    }
+  /* Collapsed: reserve at least three lines so the flex slot still grows with the row */
+  .synopsis.synopsis--collapsed {
+    min-height: calc(1.65em * 3);
   }
 
   .synopsis-text {
     margin: 0;
+  }
+
+  .synopsis-text--clamped {
     display: -webkit-box;
-    -webkit-line-clamp: 5;
-    line-clamp: 5;
     -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
     overflow: hidden;
-    min-height: calc(1.65em * 5);
+    max-height: calc(1.65em * 3);
   }
 
-  .synopsis-popover {
-    position: absolute;
-    left: calc(-1 * var(--space-2, 0.5rem));
-    width: calc(100% + 2 * var(--space-2, 0.5rem));
-    top: calc(100% + 6px);
-    max-width: min(22rem, calc(100vw - 24px));
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    background: var(--color-near-black);
-    color: var(--overlay-on-dark-strong);
-    padding: var(--space-3) var(--space-4);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-tooltip-layered);
-    border: 1px solid var(--overlay-on-dark-border);
-    z-index: 50;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-4px) scale(0.99);
-    transform-origin: top center;
-    transition:
-      opacity 140ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),
-      visibility 140ms,
-      transform 140ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
-    pointer-events: none;
-  }
-
-  .synopsis-popover-label {
+  .synopsis-toggle {
+    align-self: flex-start;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
     font-family: var(--font-mono);
-    font-size: 10px;
-    font-weight: 700;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-orange);
-    margin: 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    color: var(--text-muted);
+    transition: color var(--duration-sm) var(--ease-out);
   }
 
-  .synopsis-popover-body {
-    margin: 0;
-    font-family: var(--brand-typography--texte, var(--font-sans));
-    font-size: var(--brand-typography-size--body-sm, 0.8125rem);
-    font-weight: 400;
-    line-height: 1.55;
-    color: var(--overlay-on-dark-soft);
-    max-height: min(14rem, 45vh);
-    overflow-y: auto;
-    scrollbar-gutter: stable;
+  .synopsis-toggle:hover {
+    color: var(--color-near-black);
+  }
+
+  .synopsis-toggle:focus-visible {
+    outline: 2px solid var(--color-sky);
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 
   .panel {
@@ -1126,15 +1223,180 @@ watch(
     min-width: 0;
   }
 
-  .panel--tags {
-    gap: var(--space-3);
+  .tag-actions-stack {
+    position: relative;
+    overflow: visible;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 0;
+    width: 100%;
+    align-self: stretch;
+    box-sizing: border-box;
+    border: 1px solid var(--blue-200);
+    border-radius: var(--radius-sm);
+    transition: border-color var(--duration-md) var(--ease);
+  }
 
-    > .uc-pill,
-    > .uc-pill--empty {
-      align-self: stretch;
-      width: 100%;
-      box-sizing: border-box;
-    }
+  .tag-actions-stack::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: var(--radius-sm);
+    pointer-events: none;
+    z-index: 0;
+    background-repeat: no-repeat;
+    background-image:
+      linear-gradient(var(--color-sky), var(--color-sky)),
+      linear-gradient(var(--color-sky), var(--color-sky)),
+      linear-gradient(var(--color-sky), var(--color-sky)),
+      linear-gradient(var(--color-sky), var(--color-sky)),
+      linear-gradient(var(--color-sky), var(--color-sky)),
+      linear-gradient(var(--color-sky), var(--color-sky)),
+      linear-gradient(var(--color-sky), var(--color-sky)),
+      linear-gradient(var(--color-sky), var(--color-sky));
+    background-size:
+      2px 11px,
+      11px 2px,
+      2px 11px,
+      11px 2px,
+      2px 11px,
+      11px 2px,
+      2px 11px,
+      11px 2px;
+    background-position:
+      left 0 top 0,
+      left 0 top 0,
+      right 0 top 0,
+      right 0 top 0,
+      left 0 bottom 0,
+      left 0 bottom 0,
+      right 0 bottom 0,
+      right 0 bottom 0;
+  }
+
+  .card:hover .tag-actions-stack {
+    border-color: var(--blue-300);
+  }
+
+  .tag-actions-stack .install,
+  .tag-actions-stack .uc-pill,
+  .tag-actions-stack .uc-pill--empty {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 400;
+    line-height: 1.35;
+  }
+
+  .tag-actions-stack .install {
+    margin: 0;
+    flex: 0 0 auto;
+    border: none;
+    border-radius: calc(var(--radius-sm) - 1px) calc(var(--radius-sm) - 1px) 0 0;
+    border-bottom: 1px solid var(--blue-100);
+    background: transparent;
+    color: var(--color-sky);
+    padding: 8px 12px;
+    transition:
+      background var(--duration-sm, 120ms) var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),
+      color var(--duration-sm, 120ms) var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),
+      border-color var(--duration-sm, 120ms) var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+  }
+
+  .tag-actions-stack .install > span {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+  }
+
+  .tag-actions-stack .install > i:first-child {
+    flex-shrink: 0;
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .tag-actions-stack .install .install-copy {
+    margin-left: auto;
+    flex-shrink: 0;
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .tag-actions-stack .install:hover {
+    border-bottom-color: var(--blue-200);
+    color: var(--blue-900);
+    background: var(--blue-100);
+  }
+
+  .tag-actions-stack .install i {
+    color: inherit;
+    opacity: 1;
+  }
+
+  .tag-actions-stack .install.install--empty {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .tag-actions-stack .install.install--empty:hover {
+    background: transparent;
+    color: var(--text-muted);
+    border-bottom-color: var(--blue-100);
+  }
+
+  .tag-actions-stack .install.install--empty i {
+    color: var(--text-muted);
+  }
+
+  .tag-actions-stack .uc-pill {
+    flex: 0 0 auto;
+    margin: 0;
+    border: none;
+    border-radius: 0 0 calc(var(--radius-sm) - 1px) calc(var(--radius-sm) - 1px);
+    background: transparent;
+    color: var(--text-secondary);
+    padding: 8px 12px;
+    transition:
+      background var(--duration-sm, 120ms) var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),
+      color var(--duration-sm, 120ms) var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+  }
+
+  .tag-actions-stack .uc-pill > span {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+  }
+
+  .tag-actions-stack .uc-pill > i.fa-lightbulb {
+    flex-shrink: 0;
+    font-size: 12px;
+    line-height: 1;
+    color: inherit;
+  }
+
+  .tag-actions-stack .uc-pill.uc-pill--empty {
+    background: transparent;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+
+  .tag-actions-stack .uc-pill.uc-pill--empty:hover {
+    background: transparent;
+    color: var(--text-secondary);
+  }
+
+  .tag-actions-stack .uc-pill.uc-pill--empty i.fa-lightbulb {
+    color: inherit;
+  }
+
+  .tag-actions-stack .uc-pill-external {
+    color: inherit;
+    opacity: 0.9;
   }
 
   .tag-box {
@@ -1225,137 +1487,52 @@ watch(
     text-decoration: none;
     cursor: pointer;
     transition: background var(--duration-sm, 120ms) var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
-
-    &--static {
-      cursor: default;
-    }
-
-    &--empty {
-      background: var(--neutral-050);
-      color: var(--text-muted);
-      cursor: default;
-      font-style: italic;
-
-      i.fa-lightbulb {
-        color: var(--text-muted);
-      }
-    }
-
-    i.fa-lightbulb {
-      color: var(--color-orange);
-    }
-
-    &-arrow {
-      margin-left: auto;
-      opacity: 0.55;
-      font-size: 11px;
-      transition: transform var(--duration-sm, 120ms) var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
-    }
-
-    &:hover {
-      background: var(--surface-accent-subtle-hover);
-      color: var(--color-near-black);
-
-      .uc-pill-arrow {
-        transform: translateX(2px);
-        opacity: 1;
-      }
-    }
-
-    &:hover .usecases-popover,
-    &:focus-visible .usecases-popover {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0) scale(1);
-    }
   }
 
-  .usecases-popover {
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    background: var(--color-midnight);
-    color: var(--text-on-blue);
-    padding: var(--space-3) var(--space-4);
-    border-radius: var(--radius-md);
-    z-index: 50;
-    box-shadow: var(--shadow-tooltip-elevated);
-    pointer-events: none;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-4px) scale(0.97);
-    transform-origin: bottom left;
-    transition:
-      opacity 125ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),
-      visibility 125ms,
-      transform 125ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
-  }
-
-  .usecases-popover-title {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-orange);
-    margin: 0;
-  }
-
-  .usecases-popover-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .usecases-popover-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-3);
-    padding: 0;
-    margin: 0;
-  }
-
-  .usecases-popover-title-text {
-    font-size: 12px;
-    color: var(--text-on-blue);
-    font-weight: 500;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    flex: 1;
-  }
-
-  .usecases-popover-more {
-    font-size: 11px;
-    color: var(--overlay-on-dark-muted);
-    margin: 0;
-  }
-
-  .usecases-popover-cta {
-    font-size: 11px;
-    color: var(--color-orange);
-    margin: 0;
-    padding-top: var(--space-2);
-    border-top: 1px solid var(--overlay-on-dark-hairline);
-  }
-
-  .install.install--empty {
+  .uc-pill.uc-pill--static {
     cursor: default;
-    color: var(--text-muted);
-    font-style: italic;
+  }
 
-    &:hover {
-      border-color: var(--border-subtle);
-      color: var(--text-muted);
-    }
+  .uc-pill.uc-pill--empty {
+    background: var(--neutral-050);
+    color: var(--text-muted);
+    cursor: default;
+    font-style: italic;
+  }
+
+  .uc-pill.uc-pill--empty i.fa-lightbulb {
+    color: var(--text-muted);
+  }
+
+  .uc-pill i.fa-lightbulb {
+    color: var(--color-orange);
+  }
+
+  .uc-pill-external {
+    margin-left: auto;
+    flex-shrink: 0;
+    font-size: 12px;
+    color: var(--blue-600);
+    opacity: 0.9;
+  }
+
+  .uc-pill:hover .uc-pill-external {
+    opacity: 1;
+  }
+
+  .uc-pill:hover {
+    background: var(--surface-accent-subtle-hover);
+    color: var(--color-near-black);
+  }
+
+  .tag-actions-stack .uc-pill:hover:not(.uc-pill--static):not(.uc-pill--empty) {
+    background: var(--blue-100);
+    color: var(--text-secondary);
+  }
+
+  .tag-actions-stack .uc-pill.uc-pill--static:hover {
+    background: transparent;
+    color: var(--text-secondary);
   }
 }
 </style>

@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import SklearnHero from '@/components/SklearnHero.vue'
 import PackageCard from '@/components/PackageCard.vue'
 import FilterDropdown from '@/components/FilterDropdown.vue'
+import { useCatalogDescriptionExpand } from '@/composables/useCatalogDescriptionExpand'
 import { usePackages } from '@/composables/usePackages'
 import { useUseCases } from '@/composables/useUseCases'
 import type { Category, License } from '@/types/package'
@@ -12,6 +13,7 @@ type SortKey = 'ranking' | 'stars' | 'downloads' | 'name'
 
 const { core, packages } = usePackages()
 const { useCases, useCasesByPackage } = useUseCases()
+const { setCatalogDescriptionsExpanded } = useCatalogDescriptionExpand()
 
 const search = ref('')
 const categorySel = ref<Set<Category>>(new Set())
@@ -34,6 +36,7 @@ const categoryOptions = computed(() =>
     label: CATEGORY_META[c].label,
     count: countCategory(c),
     group: CATEGORY_META[c].tierLabel, // grouping header in the dropdown
+    tier: CATEGORY_META[c].tier,
   })),
 )
 const licenseOptions = computed(() =>
@@ -87,6 +90,7 @@ function resetFilters(): void {
   search.value = ''
   categorySel.value = new Set()
   licenseSel.value = new Set()
+  setCatalogDescriptionsExpanded(false)
 }
 
 interface ActiveChip {
@@ -204,7 +208,6 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
           :use-cases="useCasesByPackage.get(pkg.id) ?? []"
           :use-cases-filter-to="{ path: '/use-cases', query: { package: pkg.id } }"
           :show-fit-chip="true"
-          :is-probabl-boosted="sortBy === 'ranking' && !!pkg.probabl"
         />
       </div>
     </div>

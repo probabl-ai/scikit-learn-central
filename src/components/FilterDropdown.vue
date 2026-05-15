@@ -6,6 +6,8 @@ interface Option {
   label: string
   count?: number
   group?: string
+  /** When set (e.g. package categories), row styling matches scope-chip tier accents. */
+  tier?: 1 | 2 | 3
 }
 interface Group {
   group: string | undefined
@@ -77,6 +79,10 @@ function toggleGroup(g: Group): void {
   emit('update:modelValue', next)
 }
 
+function tierRowClass(tier: 1 | 2 | 3 | undefined): string {
+  return tier != null ? `filter-dropdown--tier-${tier}` : ''
+}
+
 function onDocClick(e: MouseEvent): void {
   if (!root.value) return
   if (!root.value.contains(e.target as Node)) open.value = false
@@ -103,6 +109,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
         <label
           v-if="g.group"
           class="row group-row"
+          :class="tierRowClass(g.items[0]?.tier)"
           :data-state="groupState(g)"
         >
           <input
@@ -113,7 +120,12 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
           />
           <span class="group-label">{{ g.group }}</span>
         </label>
-        <label v-for="opt in g.items" :key="opt.value" class="row option child">
+        <label
+          v-for="opt in g.items"
+          :key="opt.value"
+          class="row option child"
+          :class="tierRowClass(opt.tier)"
+        >
           <input
             type="checkbox"
             :checked="modelValue.has(opt.value)"
@@ -299,5 +311,51 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
 
 .row.child {
   padding-left: var(--space-6, 24px);
+}
+
+/* Align with PackageCard scope-chip tier accents */
+.group-row.filter-dropdown--tier-1 .group-label {
+  color: var(--color-sky);
+}
+
+.group-row.filter-dropdown--tier-2 .group-label {
+  color: var(--color-orange);
+}
+
+.group-row.filter-dropdown--tier-3 .group-label {
+  color: var(--color-midnight-2);
+}
+
+.group-row.filter-dropdown--tier-1[data-state='partial'] .group-label,
+.group-row.filter-dropdown--tier-1[data-state='all'] .group-label,
+.group-row.filter-dropdown--tier-2[data-state='partial'] .group-label,
+.group-row.filter-dropdown--tier-2[data-state='all'] .group-label,
+.group-row.filter-dropdown--tier-3[data-state='partial'] .group-label,
+.group-row.filter-dropdown--tier-3[data-state='all'] .group-label {
+  color: var(--text-primary);
+}
+
+.row.child.filter-dropdown--tier-1 {
+  box-shadow: inset 3px 0 0 var(--color-sky);
+}
+
+.row.child.filter-dropdown--tier-2 {
+  box-shadow: inset 3px 0 0 var(--color-orange);
+}
+
+.row.child.filter-dropdown--tier-3 {
+  box-shadow: inset 3px 0 0 var(--color-midnight-2);
+}
+
+.row.child.filter-dropdown--tier-1 input[type='checkbox'] {
+  accent-color: var(--color-sky);
+}
+
+.row.child.filter-dropdown--tier-2 input[type='checkbox'] {
+  accent-color: var(--color-orange);
+}
+
+.row.child.filter-dropdown--tier-3 input[type='checkbox'] {
+  accent-color: var(--color-midnight-2);
 }
 </style>

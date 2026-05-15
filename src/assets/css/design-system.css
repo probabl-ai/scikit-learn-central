@@ -421,8 +421,7 @@ button, input, select, textarea {
   /* Re-allow opacity transitions (they don't cause motion sickness). */
   .modal-backdrop,
   .code-modal-backdrop,
-  .filter-panel,
-  .ranking-tooltip {
+  .filter-panel {
     transition-property: opacity, visibility !important;
     transition-duration: 120ms !important;
   }
