@@ -81,6 +81,7 @@ const futureRelease = computed(() => releases.value.find((r) => r.version === 'f
         <SklearnHero
           :core="core"
           :use-case-count="ucCountByPkg.get('scikit-learn') ?? 0"
+          :use-cases-filter-to="{ path: '/use-cases', query: { package: 'scikit-learn' } }"
         />
       </section>
 

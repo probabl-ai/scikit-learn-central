@@ -24,7 +24,10 @@
       "model-selection"
     ],
     "contributors_count": 3000,
-    "archived": false
+    "archived": false,
+    "categories": [
+      "components"
+    ]
   },
   "packages": [
     "skrub",

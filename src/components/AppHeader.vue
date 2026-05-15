@@ -50,7 +50,7 @@ defineEmits<{
   z-index: 200;
   padding-top: env(safe-area-inset-top, 0px);
   min-height: calc(var(--header-h) + env(safe-area-inset-top, 0px));
-  background: var(--color-midnight);
+  background: var(--bg-chrome-nav);
   border-bottom: 1px solid var(--color-midnight-line);
   display: flex;
   align-items: center;
@@ -115,7 +115,7 @@ defineEmits<{
 
 .subtitle {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--text-xs);
   color: var(--text-on-dark-muted);
   letter-spacing: var(--tracking-wide);
 }
@@ -126,6 +126,10 @@ defineEmits<{
   align-items: center;
   gap: var(--space-2);
   flex-shrink: 0;
+}
+
+.app-header :deep(.btn--sm) {
+  font-size: var(--text-sm);
 }
 
 .actions :deep(.btn--primary.btn--sm) {

@@ -76,7 +76,7 @@ defineExpose({ tabsNavEl })
 
 <style scoped>
 .view-tabs {
-  background: var(--color-midnight);
+  background: var(--bg-chrome-nav);
   border-bottom: 1px solid var(--color-midnight-line);
   display: flex;
   align-items: center;
@@ -87,7 +87,7 @@ defineExpose({ tabsNavEl })
 
 .tab {
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 500;
   letter-spacing: 0;
   color: var(--color-slate);
@@ -153,7 +153,7 @@ defineExpose({ tabsNavEl })
 
   .tab {
     padding: var(--space-2) var(--space-3);
-    font-size: 11px;
+    font-size: var(--text-sm);
     flex-shrink: 0;
   }
 
