@@ -113,7 +113,7 @@ const { copied, copyInstall } = useCopyPipInstall(() => props.core.pypi_name)
             rel="noopener noreferrer"
             class="link filled"
           >
-            <i class="fas fa-house" aria-hidden="true"></i> Homepage
+            <i class="fas fa-house" aria-hidden="true"></i><span>Homepage</span>
           </a>
           <a
             v-if="core.repository"
@@ -122,10 +122,10 @@ const { copied, copyInstall } = useCopyPipInstall(() => props.core.pypi_name)
             rel="noopener noreferrer"
             class="link"
           >
-            <i class="fab fa-github" aria-hidden="true"></i> Repo
+            <i class="fab fa-github" aria-hidden="true"></i><span>Repo</span>
           </a>
           <a v-if="core.docs" :href="core.docs" target="_blank" rel="noopener noreferrer" class="link">
-            <i class="fas fa-book" aria-hidden="true"></i> Docs
+            <i class="fas fa-book" aria-hidden="true"></i><span>Docs</span>
           </a>
           <router-link v-if="useCasesLinkTo" :to="useCasesLinkTo" class="link link--use-cases">
             <i class="fas fa-lightbulb" aria-hidden="true"></i>
@@ -278,6 +278,12 @@ const { copied, copyInstall } = useCopyPipInstall(() => props.core.pypi_name)
   margin-bottom: var(--space-5);
 }
 
+.links a.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
 .link {
   padding: 9px 18px;
   border-radius: var(--radius-full);
@@ -302,7 +308,7 @@ button.link {
   background: transparent;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 a.link:hover,
@@ -310,12 +316,6 @@ button.link.link--pip:hover {
   background: var(--surface-on-dark-faint);
   border-color: var(--border-on-dark-stronger);
   color: var(--text-inverse);
-}
-
-.link--use-cases {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .link-use-cases-external {
