@@ -9,7 +9,6 @@
     "evaluation"
   ],
   "license": "MIT",
-  "probabl": true,
   "archived": false,
   "description": "Developed by :probabl., skore accelerates ML model development with smarter cross-validation, automated evaluation reports, and methodological guidance \u2014 catching common pitfalls before they reach production.",
   "tags": [

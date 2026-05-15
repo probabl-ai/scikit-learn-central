@@ -10,7 +10,6 @@
     "assembly-utility"
   ],
   "license": "MIT",
-  "probabl": true,
   "archived": false,
   "description": "Sklearn-compatible tools for learning from imbalanced datasets. Provides SMOTE, ADASYN, RandomOverSampler, RandomUnderSampler, Tomek Links, and balanced Pipeline for classification on skewed class distributions.",
   "tags": [

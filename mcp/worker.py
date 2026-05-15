@@ -13,7 +13,7 @@ Exposed tools:
 from js import Response, Headers
 import json
 
-from data_bundle import USE_CASES, PACKAGES
+from data_bundle import USE_CASES, PACKAGES, FEATURED_PACKAGES
 
 # ── Indices built once at module load ─────────────────────────────────────
 _UC_BY_ID: dict = {}
@@ -224,6 +224,7 @@ def _tool_list_taxonomy(_args: dict) -> str:
         "techniques": _ALL_TECHNIQUES,
         "difficulties": _ALL_DIFFICULTIES,
         "packages": _ALL_PKG_IDS,
+        "featured_packages": FEATURED_PACKAGES,
         "use_case_count": len(USE_CASES),
     }, indent=2)
 

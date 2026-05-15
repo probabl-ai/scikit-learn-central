@@ -64,5 +64,11 @@
     "bertopic",
     "lightshap",
     "model-diagnostics"
+  ],
+  "featured_packages": [
+    "skore",
+    "skrub",
+    "skops",
+    "tabicl"
   ]
 }

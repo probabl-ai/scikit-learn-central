@@ -12,4 +12,6 @@ export interface CatalogRaw {
   meta: CatalogMeta
   core: CorePackage
   packages: string[]
+  /** Editorial highlight order on the catalog page; ids must exist in `packages`. */
+  featured_packages: string[]
 }

@@ -101,7 +101,6 @@ export interface PackageRaw {
    *  Utility) carry every applicable entry. */
   categories: Category[]
   license: License
-  probabl?: boolean
   archived?: boolean
   description: string
   tags: string[]

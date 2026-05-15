@@ -11,7 +11,7 @@ import { CATEGORIES, CATEGORY_META } from '@/types/package'
 
 type SortKey = 'ranking' | 'stars' | 'downloads' | 'name'
 
-const { core, packages } = usePackages()
+const { core, packages, featuredPackages } = usePackages()
 const { useCases, useCasesByPackage } = useUseCases()
 const { setCatalogDescriptionsExpanded } = useCatalogDescriptionExpand()
 
@@ -85,6 +85,13 @@ const hasAnyFilter = computed(
     categorySel.value.size > 0 ||
     licenseSel.value.size > 0,
 )
+
+const featuredForDisplay = computed(() => {
+  const featured = featuredPackages.value
+  if (!hasAnyFilter.value) return featured
+  const allowed = new Set(filtered.value.map((p) => p.id))
+  return featured.filter((p) => allowed.has(p.id))
+})
 
 function resetFilters(): void {
   search.value = ''
@@ -186,6 +193,36 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
     <div class="page-content">
       <SklearnHero :core="core" :use-case-count="ucForCore" />
 
+      <section
+        v-if="featuredForDisplay.length > 0"
+        class="catalog-featured"
+        aria-labelledby="catalog-featured-heading"
+      >
+        <div class="catalog-header catalog-header--featured">
+          <div class="catalog-header-main">
+            <h2 id="catalog-featured-heading" class="catalog-header-title">Featured Packages</h2>
+            <p class="catalog-featured-tagline">
+              Curated list of packages from our editorial team
+            </p>
+          </div>
+          <span class="catalog-header-count" aria-live="polite">
+            {{ featuredForDisplay.length }} package{{
+              featuredForDisplay.length !== 1 ? 's' : ''
+            }}
+          </span>
+        </div>
+        <div class="catalog-grid">
+          <PackageCard
+            v-for="pkg in featuredForDisplay"
+            :key="`featured-${pkg.id}`"
+            :pkg="pkg"
+            :use-cases="useCasesByPackage.get(pkg.id) ?? []"
+            :use-cases-filter-to="{ path: '/use-cases', query: { package: pkg.id } }"
+            :show-fit-chip="true"
+          />
+        </div>
+      </section>
+
       <div class="catalog-header">
         <h2 class="catalog-header-title">Ecosystem Packages</h2>
         <span class="catalog-header-count" aria-live="polite">
@@ -217,5 +254,24 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
 <style scoped>
 .catalog-page {
   min-width: 0;
+}
+
+.catalog-featured {
+  margin-bottom: var(--space-6);
+}
+
+.catalog-header--featured {
+  align-items: flex-start;
+}
+
+.catalog-header-main {
+  min-width: 0;
+}
+
+.catalog-featured-tagline {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.45;
 }
 </style>
