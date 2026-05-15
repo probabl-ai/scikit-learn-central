@@ -22,7 +22,7 @@ for (const mod of Object.values(packageModules)) {
 
 /**
  * Build enriched packages: merge stats, then compute fit scores against the
- * full ecosystem. Probabl core packages receive a +100 boost to fitTotal only —
+ * full ecosystem. Probabl-flagged packages receive a +100 boost to fitTotal only —
  * fitBase (the value shown in the UI) is never modified.
  */
 function buildPackages(useCases: ReturnType<typeof useUseCases>['useCases']): Package[] {
@@ -58,8 +58,7 @@ function buildPackages(useCases: ReturnType<typeof useUseCases>['useCases']): Pa
       (Math.log((p.downloads ?? 0) + 1) / Math.log(maxDownloads + 1)) * 100
     p.fitUseCases = (ucCount(p.id) / maxUc) * 100
     p.fitBase = (p.fitStars + p.fitDownloads + p.fitUseCases) / 3
-    p.fitTotal =
-      p.fitBase + (p.probabl && p.scope === 'core' ? 100 : 0)
+    p.fitTotal = p.fitBase + (p.probabl ? 100 : 0)
   }
 
   return withStats

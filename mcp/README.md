@@ -13,7 +13,7 @@ outdated training data.
 |---|---|
 | `search_use_cases` | Find use cases by free-text query and/or tag filters |
 | `get_use_case` | Fetch full metadata + Python source code for one use case |
-| `list_packages` | Browse the 38-package sklearn ecosystem catalog |
+| `list_packages` | Browse the 37-package sklearn ecosystem catalog |
 | `list_taxonomy` | Discover valid filter values (industries, techniques, etc.) |
 
 ## Connecting to the deployed server

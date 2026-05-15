@@ -8,6 +8,7 @@
   "nature": "library",
   "scope": "core",
   "license": "MIT",
+  "probabl": true,
   "archived": false,
   "provides_estimators": true,
   "consumes_estimators": true,

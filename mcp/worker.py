@@ -7,7 +7,7 @@ generate_bundle.py and contains the use cases and package catalog inline.
 Exposed tools:
   search_use_cases  — find use cases by free-text query and/or tag filters
   get_use_case      — fetch full metadata + Python source for one use case
-  list_packages     — browse the 38-package sklearn ecosystem catalog
+  list_packages     — browse the 37-package sklearn ecosystem catalog
   list_taxonomy     — discover valid filter values before searching
 """
 from js import Response, Headers

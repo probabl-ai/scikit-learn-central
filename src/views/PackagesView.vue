@@ -207,9 +207,7 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
           :pkg="pkg"
           :use-case-count="useCaseCountByPkg.get(pkg.id) ?? 0"
           :show-fit-chip="true"
-          :is-probabl-boosted="
-            sortBy === 'ranking' && pkg.probabl === true && pkg.scope === 'core'
-          "
+          :is-probabl-boosted="sortBy === 'ranking' && !!pkg.probabl"
         />
       </div>
     </div>

@@ -261,7 +261,6 @@ shap.summary_plot(shap_values)
 | Survival / time-to-event | `scikit-survival` | censored outcomes, Cox PH, random survival forests |
 | Dimensionality reduction | `umap-learn` | UMAP for visualization; use sklearn PCA for preprocessing |
 | Mixed-type dimensionality reduction | `prince` | PCA, MCA, FAMD for mixed continuous+categorical |
-| Multi-label classification | `scikit-multilearn` | Problem transformation methods |
 | Model serialization / sharing | `skops` | Safe sklearn model serialization (replaces pickle) |
 | Fairness auditing | `fairlearn` | Demographic parity, equalized odds constraints |
 | Regularized GLMs | `glum` / `skglm` | Fast GLMs for insurance/actuarial use cases |
