@@ -589,28 +589,6 @@
         "release_date": "2026-03-17T21:54:24"
       }
     },
-    "scikit-multilearn": {
-      "github": {
-        "stars": 954,
-        "forks": 175,
-        "watchers": 29,
-        "open_issues": 92,
-        "last_commit": "2024-02-01T04:40:03Z",
-        "latest_release": "0.2.0",
-        "latest_release_date": "2018-12-10T10:51:36Z"
-      },
-      "pypi": {
-        "downloads": {
-          "last_day": 2161,
-          "last_week": 17555,
-          "last_month": 76510
-        },
-        "version": "0.2.0",
-        "requires_python": "",
-        "summary": "Scikit-multilearn is a BSD-licensed library for multi-label classification that is built on top of the well-known scikit-learn ecosystem.",
-        "release_date": "2018-12-10T16:24:47"
-      }
-    },
     "auto-sklearn": {
       "github": {
         "stars": 8096,

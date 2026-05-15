@@ -56,7 +56,6 @@
     "scikit-lego",
     "skops",
     "interpret",
-    "scikit-multilearn",
     "auto-sklearn",
     "skorch",
     "fairlearn",
