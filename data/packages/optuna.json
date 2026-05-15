@@ -5,12 +5,11 @@
   "website": "https://optuna.org",
   "repository": "https://github.com/optuna/optuna",
   "docs": "https://optuna.readthedocs.io",
-  "nature": "library",
-  "scope": "core",
+  "categories": [
+    "hpo-automl"
+  ],
   "license": "MIT",
   "archived": false,
-  "provides_estimators": false,
-  "consumes_estimators": true,
   "description": "State-of-the-art hyperparameter optimization framework using Bayesian optimization, TPE sampler, and CMA-ES. Integrates natively with sklearn via OptunaSearchCV, supporting pruning for faster search.",
   "tags": [
     "hyperparameter-tuning",

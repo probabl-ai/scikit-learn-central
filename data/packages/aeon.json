@@ -5,12 +5,11 @@
   "website": "https://www.aeon-toolkit.org",
   "repository": "https://github.com/aeon-toolkit/aeon",
   "docs": "https://www.aeon-toolkit.org/en/stable/",
-  "nature": "library",
-  "scope": "verticalized",
+  "categories": [
+    "domain-toolkit"
+  ],
   "license": "BSD-3-Clause",
   "archived": false,
-  "provides_estimators": true,
-  "consumes_estimators": true,
   "description": "Sklearn-compatible toolkit for time series machine learning and data mining. Covers classification, regression, clustering, forecasting, and anomaly detection with a focus on correctness and benchmarking.",
   "tags": [
     "time-series",

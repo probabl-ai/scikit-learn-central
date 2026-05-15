@@ -120,6 +120,52 @@
   --border-default:      var(--neutral-300);
   --border-focus:        var(--color-sky);
 
+  --focus-ring-sky-strong: 0 0 0 4px color-mix(in srgb, var(--color-sky) 30%, transparent);
+  --border-on-dark-elevated: rgb(255 255 255 / 0.35);
+
+  /* Midnight / hero / header — inverse text & frosted rails */
+  --text-inverse:               var(--text-on-blue);
+  --text-on-dark-muted:         rgb(255 255 255 / 0.55);
+  --text-on-dark-subtle:        rgb(255 255 255 / 0.45);
+  --text-on-dark-secondary:     rgb(255 255 255 / 0.65);
+  --text-on-dark-body:          rgb(255 255 255 / 0.82);
+  --text-on-dark-faint:         rgb(255 255 255 / 0.4);
+
+  --border-on-dark-hairline:    rgb(255 255 255 / 0.12);
+  --border-on-dark-default:     rgb(255 255 255 / 0.18);
+  --border-on-dark-muted:       rgb(255 255 255 / 0.2);
+  --border-on-dark-strong:      rgb(255 255 255 / 0.25);
+  --border-on-dark-stronger:    rgb(255 255 255 / 0.45);
+
+  --surface-on-dark-faint:      rgb(255 255 255 / 0.06);
+  --surface-on-dark-soft:       rgb(255 255 255 / 0.07);
+  --surface-on-dark-raised:     rgb(255 255 255 / 0.12);
+  --surface-on-dark-bump:       rgb(255 255 255 / 0.14);
+  --surface-on-dark-sheen:      rgb(255 255 255 / 0.15);
+  --surface-on-dark-strong:     rgb(255 255 255 / 0.22);
+
+  --surface-sky-on-dark-soft:   color-mix(in srgb, var(--color-sky) 10%, transparent);
+  --surface-sky-on-dark-muted:  color-mix(in srgb, var(--color-sky) 16%, transparent);
+  --surface-sky-on-dark-raised: color-mix(in srgb, var(--color-sky) 18%, transparent);
+  --border-sky-on-dark-soft:    color-mix(in srgb, var(--color-sky) 18%, transparent);
+
+  --surface-orange-on-dark-soft:   color-mix(in srgb, var(--color-orange) 10%, transparent);
+  --surface-orange-on-dark-muted:  color-mix(in srgb, var(--color-orange) 12%, transparent);
+  --surface-orange-on-dark-strong: color-mix(in srgb, var(--color-orange) 15%, transparent);
+  --surface-orange-on-dark-accent: color-mix(in srgb, var(--color-orange) 18%, transparent);
+  --border-orange-on-dark:         color-mix(in srgb, var(--color-orange) 30%, transparent);
+
+  --focus-ring-neutral:           rgb(15 16 28 / 0.1);
+
+  --surface-code:                 var(--neutral-800);
+  --text-code:                    rgb(226 232 240 / 0.95);
+
+  --social-linkedin:              #0a66c2;
+  --social-linkedin-bg:           #eef4ff;
+
+  /* Library / catalog badge — sky on light */
+  --badge-library-fg:             #0a6fa0;
+
   /* Status colors */
   --status-active:       #2EA875;
   --status-active-bg:    #DCFCE7;
@@ -130,6 +176,14 @@
   --status-archived:     #50526E;
   --status-archived-bg:  #E8E5DB;
 
+  /* Difficulty chips (catalog / modals — match tailwind-esque contrast pairs) */
+  --diff-beginner-bg:     #dcfce7;
+  --diff-beginner-text:   #15803d;
+  --diff-intermediate-bg: #fef9c3;
+  --diff-intermediate-text: #92400e;
+  --diff-advanced-bg:    #fee2e2;
+  --diff-advanced-text:   #991b1b;
+
   /* Release changelog tag colors */
   --tag-major-feature: var(--color-orange);
   --tag-feature:       var(--color-sky);
@@ -137,6 +191,32 @@
   --tag-enhancement:   #7C3AED;
   --tag-fix:           #DC4C4C;
   --tag-api-change:    #D97706;
+
+  /* Light surfaces behind colored release / tag pills */
+  --surface-tag-major-feature: #fff3e0;
+  --surface-tag-feature-muted: #eaeaff;
+  --surface-tag-efficiency-muted: var(--status-active-bg);
+  --surface-tag-enhancement-muted: #f3e8ff;
+  --surface-tag-fix-muted:       #fee2e2;
+  --surface-tag-api-muted:       #fef3c7;
+
+  /* Scrims / product shadows — hex pairs used across modals & filter chrome */
+  --backdrop-scrim:              rgb(0 0 0 / 0.5);
+  --backdrop-midnight-heavy:      rgb(14 17 90 / 0.55);
+
+  --shadow-midnight-elevated:     0 8px 28px rgb(14 17 90 / 0.35);
+  --shadow-midnight-deep:         0 24px 80px rgb(14 17 90 / 0.35);
+  --shadow-midnight-soft:         0 2px 10px rgb(14 17 90 / 0.07);
+  --shadow-midnight-panel:        0 8px 32px rgb(14 17 90 / 0.14);
+  --shadow-midnight-card-hover:   0 8px 32px rgb(30 34 170 / 0.35);
+
+  --shadow-neutral-sm:            0 2px 8px rgb(15 16 28 / 0.1);
+
+  --surface-near-black-ghost-open: rgb(15 16 28 / 0.04);
+  --border-midnight-tint-soft:     rgb(30 34 170 / 0.2);
+  --focus-ring-midnight-tint:      0 0 0 3px rgb(30 34 170 / 0.07);
+
+  --badge-application-bg:          #e8f4ed;
 
   /* ── Typography ───────────────────────────────────────────────
      Aligned with the probabl.ai design system. The `--brand-*` tokens
@@ -205,11 +285,24 @@
   --radius-xl:   6px;
   --radius-full: 9999px;
 
-  /* Shadows */
+  /* Shadows — midnight-tinted blur (shared marketing / product UI) */
   --shadow-sm:  0 1px 2px rgba(4,5,36,0.08);
   --shadow-md:  0 4px 16px rgba(4,5,36,0.10);
   --shadow-lg:  0 16px 48px rgba(4,5,36,0.18);
   --shadow-xl:  0 20px 64px rgba(4,5,36,0.22);
+
+  /* Dark tooltip / elevated panels on near-black surfaces */
+  --shadow-tooltip-elevated: 0 8px 28px rgba(4, 5, 36, 0.35);
+  --shadow-tooltip-layered:
+    0 4px 6px rgba(4, 5, 36, 0.12),
+    0 14px 40px rgba(4, 5, 36, 0.35);
+  --overlay-on-dark-strong: rgb(255 255 255 / 0.92);
+  --overlay-on-dark-soft: rgb(255 255 255 / 0.9);
+  --overlay-on-dark-muted: rgb(255 255 255 / 0.65);
+  --overlay-on-dark-border: rgb(255 255 255 / 0.06);
+  --overlay-on-dark-hairline: rgb(255 255 255 / 0.08);
+  --surface-accent-subtle: color-mix(in srgb, var(--color-orange) 8%, transparent);
+  --surface-accent-subtle-hover: color-mix(in srgb, var(--color-orange) 14%, transparent);
 
   /* Transitions — curated easing curves (strong custom variants, per the
      emil-design-eng skill: stock CSS easings are too weak for UI). */
@@ -400,7 +493,7 @@ button, input, select, textarea {
 
 .btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(76,208,255,0.30);
+  box-shadow: var(--focus-ring-sky-strong);
 }
 
 .btn:hover { opacity: 0.92; }
@@ -430,20 +523,20 @@ button, input, select, textarea {
 .btn--ghost,
 .btn--ghost:hover,
 .btn--ghost:visited {
-  color: #fff;
+  color: var(--text-inverse);
   text-decoration: none;
 }
 
 .btn--ghost {
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.20);
+  border: 1px solid var(--border-on-dark-muted);
   border-radius: var(--radius-full);
 }
 
 .btn--ghost:hover {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.35);
-  color: #fff;
+  background: var(--surface-on-dark-faint);
+  border-color: var(--border-on-dark-elevated);
+  color: var(--text-inverse);
 }
 
 /* Outline — light surface */

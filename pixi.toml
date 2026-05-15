@@ -100,6 +100,10 @@ description = "Refresh release reaction counts."
 cmd = "python mcp/generate_bundle.py"
 description = "Regenerate the MCP worker data bundle from data/."
 
+[tasks.migrate-categories]
+cmd = "python scripts/migrate_categories.py"
+description = "One-off: replace legacy `nature`+`scope` with the categories taxonomy (issue #16)."
+
 # One-off helper: refresh embedded CSVs under data/use-cases/datasets/. Run
 # whenever a new use case is added or an upstream dataset changes.
 [feature.datasets.tasks.fetch-datasets]

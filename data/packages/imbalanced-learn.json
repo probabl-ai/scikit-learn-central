@@ -5,12 +5,12 @@
   "website": "https://imbalanced-learn.org",
   "repository": "https://github.com/scikit-learn-contrib/imbalanced-learn",
   "docs": "https://imbalanced-learn.org/stable/",
-  "nature": "library",
-  "scope": "core",
+  "categories": [
+    "components",
+    "assembly-utility"
+  ],
   "license": "MIT",
   "archived": false,
-  "provides_estimators": true,
-  "consumes_estimators": true,
   "description": "Sklearn-compatible tools for learning from imbalanced datasets. Provides SMOTE, ADASYN, RandomOverSampler, RandomUnderSampler, Tomek Links, and balanced Pipeline for classification on skewed class distributions.",
   "tags": [
     "imbalanced-data",

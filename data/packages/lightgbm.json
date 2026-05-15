@@ -5,12 +5,11 @@
   "website": "https://lightgbm.readthedocs.io",
   "repository": "https://github.com/microsoft/LightGBM",
   "docs": "https://lightgbm.readthedocs.io",
-  "nature": "library",
-  "scope": "incremental",
+  "categories": [
+    "components"
+  ],
   "license": "MIT",
   "archived": false,
-  "provides_estimators": true,
-  "consumes_estimators": false,
   "description": "Microsoft's leaf-wise gradient boosting framework. Faster training than XGBoost on large datasets with native categorical feature support. Provides LGBMClassifier and LGBMRegressor with full sklearn compatibility.",
   "tags": [
     "gradient-boosting",

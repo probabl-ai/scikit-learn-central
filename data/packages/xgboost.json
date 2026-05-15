@@ -5,12 +5,11 @@
   "website": "https://xgboost.ai",
   "repository": "https://github.com/dmlc/xgboost",
   "docs": "https://xgboost.readthedocs.io",
-  "nature": "library",
-  "scope": "incremental",
+  "categories": [
+    "components"
+  ],
   "license": "Apache-2.0",
   "archived": false,
-  "provides_estimators": true,
-  "consumes_estimators": false,
   "description": "Optimized, scalable gradient boosting framework with full sklearn compatibility (XGBClassifier, XGBRegressor). Consistently wins Kaggle competitions and is a go-to for tabular data in production.",
   "tags": [
     "gradient-boosting",

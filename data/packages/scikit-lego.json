@@ -5,12 +5,12 @@
   "website": "https://scikit-lego.netlify.app",
   "repository": "https://github.com/koaning/scikit-lego",
   "docs": "https://scikit-lego.netlify.app",
-  "nature": "library",
-  "scope": "core",
+  "categories": [
+    "fairness",
+    "assembly-utility"
+  ],
   "license": "MIT",
   "archived": false,
-  "provides_estimators": true,
-  "consumes_estimators": true,
   "description": "Extra sklearn-compatible building blocks for production ML: GroupedPredictor, EqualOpportunityClassifier (fairness), Thresholder, DecayEstimator, TimeFunctionTransformer, and ColumnDropper for robust pipelines.",
   "tags": [
     "fairness",

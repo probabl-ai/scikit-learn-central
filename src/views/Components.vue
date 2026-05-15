@@ -33,10 +33,10 @@ const ucCountByPkg = computed(() => {
 })
 
 const probablBoosted = computed(() =>
-  packages.value.find((p) => p.probabl && p.scope === 'core'),
+  packages.value.find((p) => p.probabl === true),
 )
 const regularPkg = computed(() =>
-  packages.value.find((p) => !(p.probabl && p.scope === 'core')),
+  packages.value.find((p) => !p.probabl),
 )
 const sampleUseCase = computed(() => useCases.value[0])
 const sampleRelease = computed(() => releases.value.find((r) => r.version !== 'future'))
@@ -105,6 +105,7 @@ const fbOpen = ref(false)
             v-if="probablBoosted"
             :pkg="probablBoosted"
             :use-case-count="ucCountByPkg.get(probablBoosted.id) ?? 0"
+            :use-cases-filter-to="{ path: '/use-cases', query: { package: probablBoosted.id } }"
             :show-fit-chip="true"
             :is-probabl-boosted="true"
           />
@@ -112,6 +113,7 @@ const fbOpen = ref(false)
             v-if="regularPkg"
             :pkg="regularPkg"
             :use-case-count="ucCountByPkg.get(regularPkg.id) ?? 0"
+            :use-cases-filter-to="{ path: '/use-cases', query: { package: regularPkg.id } }"
             :show-fit-chip="true"
             :is-probabl-boosted="false"
           />

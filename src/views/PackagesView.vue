@@ -5,43 +5,40 @@ import PackageCard from '@/components/PackageCard.vue'
 import FilterDropdown from '@/components/FilterDropdown.vue'
 import { usePackages } from '@/composables/usePackages'
 import { useUseCases } from '@/composables/useUseCases'
-import type { Nature, Scope, License } from '@/types/package'
+import type { Category, License } from '@/types/package'
+import { CATEGORIES, CATEGORY_META } from '@/types/package'
 
 type SortKey = 'ranking' | 'stars' | 'downloads' | 'name'
 
 const { core, packages } = usePackages()
-const { useCases } = useUseCases()
+const { useCases, useCasesByPackage } = useUseCases()
 
 const search = ref('')
-const natureSel = ref<Set<Nature>>(new Set())
-const scopeSel = ref<Set<Scope>>(new Set())
+const categorySel = ref<Set<Category>>(new Set())
 const licenseSel = ref<Set<License>>(new Set())
 const sortBy = ref<SortKey>('ranking')
 
-const NATURES = ['library', 'extension', 'application'] as const satisfies readonly Nature[]
-const SCOPES = ['core', 'incremental', 'verticalized'] as const satisfies readonly Scope[]
 const LICENSES = ['MIT', 'BSD-3-Clause', 'BSD-2-Clause', 'Apache-2.0', 'GPL-3.0'] as const
 
-function countBy<K extends keyof (typeof packages.value)[number]>(
-  key: K,
-  val: unknown,
-): number {
-  return packages.value.filter((p) => p[key] === val).length
+function countCategory(c: Category): number {
+  return packages.value.filter((p) => p.categories?.includes(c)).length
 }
 
-const natureOptions = computed(() =>
-  NATURES.map((v) => ({ value: v, label: cap(v), count: countBy('nature', v) })),
-)
-const scopeOptions = computed(() =>
-  SCOPES.map((v) => ({ value: v, label: cap(v), count: countBy('scope', v) })),
+function countLicense(l: string): number {
+  return packages.value.filter((p) => p.license === l).length
+}
+
+const categoryOptions = computed(() =>
+  CATEGORIES.map((c) => ({
+    value: c,
+    label: CATEGORY_META[c].label,
+    count: countCategory(c),
+    group: CATEGORY_META[c].tierLabel, // grouping header in the dropdown
+  })),
 )
 const licenseOptions = computed(() =>
-  LICENSES.map((v) => ({ value: v, label: v, count: countBy('license', v) })),
+  LICENSES.map((v) => ({ value: v, label: v, count: countLicense(v) })),
 )
-
-function cap(s: string): string {
-  return s.charAt(0).toUpperCase() + s.slice(1)
-}
 
 const useCaseCountByPkg = computed(() => {
   const map = new Map<string, number>()
@@ -63,8 +60,11 @@ const filtered = computed(() => {
         (p.pypi_name ?? '').toLowerCase().includes(q),
     )
   }
-  if (natureSel.value.size) r = r.filter((p) => natureSel.value.has(p.nature))
-  if (scopeSel.value.size) r = r.filter((p) => scopeSel.value.has(p.scope))
+  if (categorySel.value.size) {
+    r = r.filter((p) =>
+      (p.categories ?? []).some((c) => categorySel.value.has(c)),
+    )
+  }
   if (licenseSel.value.size) r = r.filter((p) => licenseSel.value.has(p.license))
 
   r.sort((a, b) => {
@@ -79,15 +79,13 @@ const filtered = computed(() => {
 const hasAnyFilter = computed(
   () =>
     !!search.value ||
-    natureSel.value.size > 0 ||
-    scopeSel.value.size > 0 ||
+    categorySel.value.size > 0 ||
     licenseSel.value.size > 0,
 )
 
 function resetFilters(): void {
   search.value = ''
-  natureSel.value = new Set()
-  scopeSel.value = new Set()
+  categorySel.value = new Set()
   licenseSel.value = new Set()
 }
 
@@ -122,8 +120,7 @@ const activeChips = computed<ActiveChip[]>(() => {
       })
     }
   }
-  addAll('nature', natureSel)
-  addAll('scope', scopeSel)
+  addAll('category', categorySel)
   addAll('license', licenseSel)
   return chips
 })
@@ -147,8 +144,7 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
       </div>
 
       <div class="filter-bar__groups">
-        <FilterDropdown v-model="natureSel" label="Nature" :options="natureOptions" />
-        <FilterDropdown v-model="scopeSel" label="Scope" :options="scopeOptions" />
+        <FilterDropdown v-model="categorySel" label="Category" :options="categoryOptions" />
         <FilterDropdown v-model="licenseSel" label="License" :options="licenseOptions" />
       </div>
 
@@ -205,10 +201,11 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
           v-for="pkg in filtered"
           :key="pkg.id"
           :pkg="pkg"
-          :use-case-count="useCaseCountByPkg.get(pkg.id) ?? 0"
+          :use-cases="useCasesByPackage.get(pkg.id) ?? []"
+          :use-cases-filter-to="{ path: '/use-cases', query: { package: pkg.id } }"
           :show-fit-chip="true"
           :is-probabl-boosted="
-            sortBy === 'ranking' && pkg.probabl === true && pkg.scope === 'core'
+            sortBy === 'ranking' && pkg.probabl === true
           "
         />
       </div>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import DifficultyBadge from '@/components/DifficultyBadge.vue'
 import type { UseCase } from '@/types/usecase'
 
 const props = defineProps<{
@@ -34,9 +35,7 @@ async function copyLink(): Promise<void> {
 <template>
   <article class="uc-card" :data-uc-id="useCase.slug">
     <div class="uc-card__difficulty">
-      <span class="difficulty-badge" :class="`difficulty-badge--${useCase.difficulty}`">
-        {{ useCase.difficulty }}
-      </span>
+      <DifficultyBadge :difficulty="useCase.difficulty" />
     </div>
 
     <div class="uc-card__title">{{ useCase.title }}</div>

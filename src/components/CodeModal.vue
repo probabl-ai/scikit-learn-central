@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import DifficultyBadge from '@/components/DifficultyBadge.vue'
 import type { UseCase } from '@/types/usecase'
 
 const props = defineProps<{
@@ -92,12 +93,7 @@ async function copyCode(): Promise<void> {
         <div>
           <div class="code-modal__title">{{ useCase.title }}</div>
           <div class="code-modal__meta">
-            <span
-              class="difficulty-badge"
-              :class="`difficulty-badge--${useCase.difficulty}`"
-            >
-              {{ useCase.difficulty }}
-            </span>
+            <DifficultyBadge :difficulty="useCase.difficulty" />
             <span v-for="i in useCase.industry" :key="i" class="industry-tag">{{ i }}</span>
             <span v-for="t in useCase.technique" :key="t" class="technique-tag">
               {{ t.replace(/-/g, ' ') }}

@@ -5,12 +5,11 @@
   "website": "https://maartengr.github.io/BERTopic/",
   "repository": "https://github.com/MaartenGr/BERTopic",
   "docs": "https://maartengr.github.io/BERTopic/",
-  "nature": "library",
-  "scope": "verticalized",
+  "categories": [
+    "domain-toolkit"
+  ],
   "license": "MIT",
   "archived": false,
-  "provides_estimators": true,
-  "consumes_estimators": false,
   "description": "Neural topic modeling using transformer embeddings, UMAP dimensionality reduction, and c-TF-IDF. Discovers interpretable topics from text with a sklearn-compatible fit/transform API. Supports hierarchical, dynamic, guided, and multimodal topic modeling.",
   "tags": [
     "topic-modeling",

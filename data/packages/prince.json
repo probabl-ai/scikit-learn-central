@@ -5,12 +5,11 @@
   "website": "https://github.com/MaxHalford/prince",
   "repository": "https://github.com/MaxHalford/prince",
   "docs": "https://github.com/MaxHalford/prince",
-  "nature": "library",
-  "scope": "verticalized",
+  "categories": [
+    "components"
+  ],
   "license": "MIT",
   "archived": false,
-  "provides_estimators": true,
-  "consumes_estimators": false,
   "description": "Factor analysis toolkit for mixed and categorical data. Provides sklearn-compatible PCA, CA (Correspondence Analysis), MCA (Multiple CA), MFA (Multiple Factor Analysis), and FAMD for datasets with mixed or nominal features.",
   "tags": [
     "dimensionality-reduction",

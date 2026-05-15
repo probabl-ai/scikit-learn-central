@@ -58,8 +58,10 @@ function buildPackages(useCases: ReturnType<typeof useUseCases>['useCases']): Pa
       (Math.log((p.downloads ?? 0) + 1) / Math.log(maxDownloads + 1)) * 100
     p.fitUseCases = (ucCount(p.id) / maxUc) * 100
     p.fitBase = (p.fitStars + p.fitDownloads + p.fitUseCases) / 3
-    p.fitTotal =
-      p.fitBase + (p.probabl && p.scope === 'core' ? 100 : 0)
+    /* Editorial boost: any Probabl-maintained package gets pinned above
+       the general ecosystem in the default ranking. Scope-based gating
+       was dropped along with the legacy taxonomy (issue #16). */
+    p.fitTotal = p.fitBase + (p.probabl ? 100 : 0)
   }
 
   return withStats

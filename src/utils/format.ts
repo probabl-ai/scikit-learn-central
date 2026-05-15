@@ -1,3 +1,11 @@
+/** UTC calendar date `YYYY-MM-DD`, or null if missing/invalid. */
+export function formatReleaseDateCompact(iso: string | null | undefined): string | null {
+  if (!iso) return null
+  const d = new Date(iso)
+  if (Number.isNaN(d.getTime())) return null
+  return d.toISOString().slice(0, 10)
+}
+
 /** Compact number formatter: 1500 → "1.5K", 2_000_000 → "2M". */
 export function fmt(n: number | null | undefined): string {
   if (n == null) return '—'
