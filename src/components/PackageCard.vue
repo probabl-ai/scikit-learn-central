@@ -332,7 +332,9 @@ defineExpose({ cardRoot, descRef })
 
     <div class="footer">
       <div class="outbound">
-        <a v-if="pkg.website" :href="pkg.website" target="_blank" class="outbound-link">Homepage</a>
+        <a v-if="pkg.website" :href="pkg.website" target="_blank" class="outbound-link">
+          <i class="fas fa-house" aria-hidden="true"></i> Homepage
+        </a>
         <a v-if="pkg.repository" :href="pkg.repository" target="_blank" class="outbound-link">
           <i class="fab fa-github"></i> Repo
         </a>

@@ -57,7 +57,7 @@
   --color-bone:         #F4F2EC;
   --color-near-black:   #0F101C;
   --color-mist:         #CCCCD7;
-  --color-slate:        #8C8EA8;
+  --color-slate:        #86869e;
   --color-graphite:     #3C3E60;
 
   /* ── Legacy token aliases — remapped to new brand ─────────── */
@@ -124,6 +124,7 @@
   --border-on-dark-elevated: rgb(255 255 255 / 0.35);
 
   /* Midnight / hero / header — inverse text & frosted rails */
+  --bg-chrome-nav:              var(--color-midnight-2); /* #0E1049 — header + view tabs */
   --text-inverse:               var(--text-on-blue);
   --text-on-dark-muted:         rgb(255 255 255 / 0.55);
   --text-on-dark-subtle:        rgb(255 255 255 / 0.45);

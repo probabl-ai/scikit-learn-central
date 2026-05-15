@@ -411,7 +411,6 @@
 .badge--application  { background: var(--badge-application-bg);           color: var(--diff-beginner-text); }
 
 /* Scope badges */
-.badge--core          { background: var(--color-orange); color: var(--color-near-black); }
 .badge--incremental   { background: var(--surface-orange-on-dark-muted); color: var(--status-deprecated); }
 .badge--verticalized  { background: var(--surface-tag-enhancement-muted); color: var(--tag-enhancement); }
 

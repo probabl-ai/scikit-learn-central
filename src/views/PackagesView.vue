@@ -303,7 +303,11 @@ const filtersSheetOpen = ref(false)
     aria-label="Package catalog"
   >
     <div class="page-content">
-      <SklearnHero :core="core" :use-case-count="ucForCore" />
+      <SklearnHero
+        :core="core"
+        :use-case-count="ucForCore"
+        :use-cases-filter-to="{ path: '/use-cases', query: { package: 'scikit-learn' } }"
+      />
 
       <section
         v-if="featuredForDisplay.length > 0"

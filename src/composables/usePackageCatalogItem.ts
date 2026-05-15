@@ -4,6 +4,7 @@ import type { Category, Package } from '@/types/package'
 import { CATEGORY_META } from '@/types/package'
 import type { UseCase } from '@/types/usecase'
 import { useCatalogDescriptionExpand } from '@/composables/useCatalogDescriptionExpand'
+import { useCopyPipInstall } from '@/composables/useCopyPipInstall'
 import { fmt, formatReleaseDateLong } from '@/utils/format'
 
 export interface CategoryGroup {
@@ -29,7 +30,8 @@ export function usePackageCatalogItem(props: PackageCatalogItemProps) {
   const cardRoot = ref<HTMLElement | null>(null)
   const descRef = ref<HTMLElement | null>(null)
   const descExpandable = ref(false)
-  const copied = ref(false)
+
+  const { copied, copyInstall } = useCopyPipInstall(() => props.pkg.pypi_name)
 
   let cardResizeObs: ResizeObserver | null = null
 
@@ -196,17 +198,6 @@ export function usePackageCatalogItem(props: PackageCatalogItemProps) {
       cardResizeObs = new ResizeObserver(() => measureDescClampable())
       cardResizeObs.observe(el)
     })
-  }
-
-  async function copyInstall(): Promise<void> {
-    if (!props.pkg.pypi_name) return
-    try {
-      await navigator.clipboard.writeText(`pip install ${props.pkg.pypi_name}`)
-      copied.value = true
-      setTimeout(() => (copied.value = false), 1200)
-    } catch {
-      /* clipboard unavailable */
-    }
   }
 
   onMounted(() => {

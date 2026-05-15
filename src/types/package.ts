@@ -106,7 +106,7 @@ export interface PackageRaw {
   tags: string[]
 }
 
-export interface CorePackage extends Omit<PackageRaw, 'categories'> {
+export interface CorePackage extends PackageRaw {
   is_core: true
   contributors_count: number
   stars?: number
