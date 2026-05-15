@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import DifficultyBadge from '@/components/DifficultyBadge.vue'
 import { useTransientFeedback } from '@/composables/useTransientFeedback'
 import type { UseCase } from '@/types/usecase'
 
@@ -81,9 +82,7 @@ async function copyLink(): Promise<void> {
     @animationend="onPulseAnimationEnd"
   >
     <div class="uc-card__difficulty">
-      <span class="difficulty-badge" :class="`difficulty-badge--${useCase.difficulty}`">
-        {{ useCase.difficulty }}
-      </span>
+      <DifficultyBadge :difficulty="useCase.difficulty" />
     </div>
 
     <div class="uc-card__title">{{ useCase.title }}</div>

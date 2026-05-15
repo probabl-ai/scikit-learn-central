@@ -5,13 +5,12 @@
   "website": "https://github.com/soda-inria/tabicl",
   "repository": "https://github.com/soda-inria/tabicl",
   "docs": "https://tabicl.readthedocs.io/en/latest/",
-  "nature": "library",
-  "scope": "specialized",
   "license": "BSD-3-Clause",
   "probabl": true,
   "archived": false,
-  "provides_estimators": true,
-  "consumes_estimators": false,
+  "categories": [
+    "components"
+  ],
   "description": "Open, scikit-learn friendly table foundation model: State-of-the-art accuracy even without hyperparameter tuning for tabular classification and regression.",
   "tags": [
     "classification",

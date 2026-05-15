@@ -5,12 +5,11 @@
   "website": "https://contrib.scikit-learn.org/skglm",
   "repository": "https://github.com/scikit-learn-contrib/skglm",
   "docs": "https://contrib.scikit-learn.org/skglm",
-  "nature": "library",
-  "scope": "incremental",
+  "categories": [
+    "components"
+  ],
   "license": "BSD-3-Clause",
   "archived": false,
-  "provides_estimators": true,
-  "consumes_estimators": false,
   "description": "Fast and modular scikit-learn-contrib package for sparse Generalized Linear Models, offering solvers up to 100x faster than scikit-learn with full API compatibility and composable datafits, penalties, and solvers for advanced models like Group Lasso.",
   "tags": [
     "linear-models",

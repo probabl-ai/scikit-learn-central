@@ -5,12 +5,11 @@
   "website": "https://tslearn.readthedocs.io",
   "repository": "https://github.com/tslearn-team/tslearn",
   "docs": "https://tslearn.readthedocs.io/en/stable/",
-  "nature": "library",
-  "scope": "verticalized",
+  "categories": [
+    "domain-toolkit"
+  ],
   "license": "BSD-2-Clause",
   "archived": false,
-  "provides_estimators": true,
-  "consumes_estimators": false,
   "description": "Sklearn-compatible machine learning toolkit for time series. Provides DTW-based k-NN, k-means clustering, SVM for time series, soft-DTW, shapelet learning, and preprocessing transformers.",
   "tags": [
     "time-series",

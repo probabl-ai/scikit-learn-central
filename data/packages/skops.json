@@ -5,13 +5,12 @@
   "website": "https://skops.readthedocs.io",
   "repository": "https://github.com/skops-dev/skops",
   "docs": "https://skops.readthedocs.io",
-  "nature": "library",
-  "scope": "core",
+  "categories": [
+    "mlops"
+  ],
   "license": "BSD-3-Clause",
   "probabl": false,
   "archived": false,
-  "provides_estimators": false,
-  "consumes_estimators": true,
   "description": "Secure sklearn model persistence without pickle vulnerabilities. skops.io uses a custom format; skops.hub_utils simplifies sharing models on Hugging Face Hub with auto-generated model cards.",
   "tags": [
     "model-persistence",

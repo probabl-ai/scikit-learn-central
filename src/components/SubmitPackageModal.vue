@@ -74,7 +74,7 @@ function close(): void {
     <form v-else class="modal__body" novalidate @submit.prevent="onSubmit">
       <div class="form-group">
         <label class="form-label" for="pkg-name">
-          Package Name <span style="color:#c2640a">*</span>
+          Package Name <span class="form-label__required">*</span>
         </label>
         <input
           id="pkg-name"
@@ -89,7 +89,7 @@ function close(): void {
 
       <div class="form-group">
         <label class="form-label" for="pkg-pypi">
-          PyPI Name <span style="color:#c2640a">*</span>
+          PyPI Name <span class="form-label__required">*</span>
         </label>
         <input
           id="pkg-pypi"
@@ -104,7 +104,7 @@ function close(): void {
 
       <div class="form-group">
         <label class="form-label" for="pkg-repo">
-          Repository URL <span style="color:#c2640a">*</span>
+          Repository URL <span class="form-label__required">*</span>
         </label>
         <input
           id="pkg-repo"
@@ -131,7 +131,6 @@ function close(): void {
       <p
         v-if="status === 'error'"
         class="form-submit-error"
-        style="color:#c2640a;font-size:var(--text-sm);margin-top:var(--space-3);text-align:center"
       >
         Something went wrong. Please try again.
       </p>

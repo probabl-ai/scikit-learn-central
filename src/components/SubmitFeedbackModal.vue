@@ -66,7 +66,7 @@ function close(): void {
     <form v-else class="modal__body" novalidate @submit.prevent="onSubmit">
       <div class="form-group">
         <label class="form-label" for="fb-type">
-          Type of Feedback <span style="color:#c2640a">*</span>
+          Type of Feedback <span class="form-label__required">*</span>
         </label>
         <select id="fb-type" v-model="type" class="form-input" required>
           <option value="">Select…</option>
@@ -80,7 +80,7 @@ function close(): void {
 
       <div class="form-group">
         <label class="form-label" for="fb-message">
-          Message <span style="color:#c2640a">*</span>
+          Message <span class="form-label__required">*</span>
         </label>
         <textarea
           id="fb-message"
@@ -95,7 +95,6 @@ function close(): void {
       <p
         v-if="status === 'error'"
         class="form-submit-error"
-        style="color:#c2640a;font-size:var(--text-sm);margin-top:var(--space-3);text-align:center"
       >
         Something went wrong. Please try again.
       </p>

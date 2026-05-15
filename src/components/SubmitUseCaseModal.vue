@@ -86,7 +86,7 @@ function close(): void {
     <form v-else class="modal__body" novalidate @submit.prevent="onSubmit">
       <div class="form-group">
         <label class="form-label" for="uc-title">
-          Use Case Title <span style="color:#c2640a">*</span>
+          Use Case Title <span class="form-label__required">*</span>
         </label>
         <input
           id="uc-title"
@@ -101,7 +101,7 @@ function close(): void {
 
       <div class="form-group">
         <label class="form-label" for="uc-industry">
-          Industry <span style="color:#c2640a">*</span>
+          Industry <span class="form-label__required">*</span>
         </label>
         <input
           id="uc-industry"
@@ -116,7 +116,7 @@ function close(): void {
 
       <div class="form-group">
         <label class="form-label" for="uc-technique">
-          ML Technique <span style="color:#c2640a">*</span>
+          ML Technique <span class="form-label__required">*</span>
         </label>
         <input
           id="uc-technique"
@@ -131,7 +131,7 @@ function close(): void {
 
       <div class="form-group">
         <label class="form-label" for="uc-packages">
-          Packages Used <span style="color:#c2640a">*</span>
+          Packages Used <span class="form-label__required">*</span>
         </label>
         <input
           id="uc-packages"
@@ -146,7 +146,7 @@ function close(): void {
 
       <div class="form-group">
         <label class="form-label" for="uc-synopsis">
-          Synopsis <span style="color:#c2640a">*</span>
+          Synopsis <span class="form-label__required">*</span>
         </label>
         <textarea
           id="uc-synopsis"
@@ -173,7 +173,6 @@ function close(): void {
       <p
         v-if="status === 'error'"
         class="form-submit-error"
-        style="color:#c2640a;font-size:var(--text-sm);margin-top:var(--space-3);text-align:center"
       >
         Something went wrong. Please try again.
       </p>

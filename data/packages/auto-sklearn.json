@@ -5,12 +5,12 @@
   "website": "https://automl.github.io/auto-sklearn/",
   "repository": "https://github.com/automl/auto-sklearn",
   "docs": "https://automl.github.io/auto-sklearn/master/",
-  "nature": "application",
-  "scope": "verticalized",
+  "categories": [
+    "components",
+    "hpo-automl"
+  ],
   "license": "BSD-3-Clause",
   "archived": false,
-  "provides_estimators": true,
-  "consumes_estimators": false,
   "description": "Automated ML system built on sklearn. Uses Bayesian optimization and meta-learning to automatically search over 15 classifiers, 14 feature preprocessing methods, and 4 data preprocessing steps. Drop-in sklearn estimator.",
   "tags": [
     "AutoML",

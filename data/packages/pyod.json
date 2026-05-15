@@ -5,12 +5,11 @@
   "website": "https://pyod.readthedocs.io",
   "repository": "https://github.com/yzhao062/pyod",
   "docs": "https://pyod.readthedocs.io",
-  "nature": "library",
-  "scope": "verticalized",
+  "categories": [
+    "components"
+  ],
   "license": "BSD-2-Clause",
   "archived": false,
-  "provides_estimators": true,
-  "consumes_estimators": false,
   "description": "The most comprehensive Python library for outlier and anomaly detection with 45+ algorithms: LOF, COPOD, ECOD, Isolation Forest, AutoEncoder, DeepSVDD. Sklearn-compatible API, works in pipelines.",
   "tags": [
     "anomaly-detection",

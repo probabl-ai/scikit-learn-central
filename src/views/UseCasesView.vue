@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import FilterDropdown from '@/components/FilterDropdown.vue'
 import UseCaseCard from '@/components/UseCaseCard.vue'
 import { useUseCases } from '@/composables/useUseCases'
 import type { Difficulty, UseCase } from '@/types/usecase'
 
 const route = useRoute()
+const router = useRouter()
 const { useCases } = useUseCases()
 
 /** Longest card-enter delay in .uc-grid (see components.css). */
@@ -22,6 +23,23 @@ const search = ref('')
 const industrySel = ref<Set<string>>(new Set())
 const techniqueSel = ref<Set<string>>(new Set())
 const difficultySel = ref<Set<Difficulty>>(new Set())
+
+/* Package filter — set by the "Used in N use cases" pill on a PackageCard,
+   which links here with ?package=<id>. We mirror the URL into state so
+   back/forward + sharing both work. */
+const packageFilter = ref<string>(
+  typeof route.query.package === 'string' ? route.query.package : '',
+)
+watch(
+  () => route.query.package,
+  (v) => (packageFilter.value = typeof v === 'string' ? v : ''),
+)
+function clearPackageFilter(): void {
+  packageFilter.value = ''
+  /* Drop the query string from the URL so a refresh doesn't bring it back. */
+  const { package: _drop, ...rest } = route.query
+  router.replace({ path: route.path, query: rest })
+}
 
 const INDUSTRIES = [
   'banking',
@@ -101,6 +119,8 @@ const difficultyOptions = computed(() =>
 
 const filtered = computed(() => {
   let r = [...useCases.value]
+  if (packageFilter.value)
+    r = r.filter((uc) => uc.packages.includes(packageFilter.value))
   const q = search.value.trim().toLowerCase()
   if (q) {
     r = r.filter(
@@ -124,6 +144,7 @@ const filtered = computed(() => {
 const hasAnyFilter = computed(
   () =>
     !!search.value ||
+    !!packageFilter.value ||
     industrySel.value.size > 0 ||
     techniqueSel.value.size > 0 ||
     difficultySel.value.size > 0,
@@ -134,6 +155,7 @@ function resetFilters(): void {
   industrySel.value = new Set()
   techniqueSel.value = new Set()
   difficultySel.value = new Set()
+  clearPackageFilter()
 }
 
 interface ActiveChip {
@@ -144,6 +166,13 @@ interface ActiveChip {
 
 const activeChips = computed<ActiveChip[]>(() => {
   const chips: ActiveChip[] = []
+  if (packageFilter.value) {
+    chips.push({
+      key: `package:${packageFilter.value}`,
+      label: `uses ${packageFilter.value}`,
+      remove: clearPackageFilter,
+    })
+  }
   if (search.value) {
     chips.push({
       key: 'search',

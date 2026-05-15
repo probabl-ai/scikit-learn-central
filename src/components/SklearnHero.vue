@@ -36,11 +36,6 @@ const lastCommit = computed(() => {
           <span v-if="version" class="badge">v{{ version }}</span>
         </div>
 
-        <div class="sklearn-hero__compat">
-          <span class="sklearn-hero__compat-pill">✓ Provides Estimators</span>
-          <span class="sklearn-hero__compat-pill">✓ Consumes Estimators</span>
-        </div>
-
         <div class="sklearn-hero__stats">
           <span v-if="core.stars != null" class="sklearn-hero__stat">
             <i class="fas fa-star"></i> {{ fmt(core.stars) }} stars

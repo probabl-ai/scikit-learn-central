@@ -5,12 +5,11 @@
   "website": "https://shap.readthedocs.io",
   "repository": "https://github.com/shap/shap",
   "docs": "https://shap.readthedocs.io",
-  "nature": "library",
-  "scope": "verticalized",
+  "categories": [
+    "explainability"
+  ],
   "license": "MIT",
   "archived": false,
-  "provides_estimators": false,
-  "consumes_estimators": true,
   "description": "SHapley Additive exPlanations \u2014 game-theoretic approach for explaining predictions of any ML model. Provides TreeExplainer (fast), LinearExplainer, and KernelExplainer with rich visualizations for local and global interpretability.",
   "tags": [
     "explainability",

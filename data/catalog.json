@@ -23,8 +23,6 @@
       "pipelines",
       "model-selection"
     ],
-    "provides_estimators": true,
-    "consumes_estimators": true,
     "contributors_count": 3000,
     "archived": false
   },
