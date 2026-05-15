@@ -64,5 +64,14 @@
     "bertopic",
     "lightshap",
     "model-diagnostics"
+  ],
+  "featured_packages": [
+    "skore",
+    "skrub",
+    "skops",
+    "imbalanced-learn",
+    "tabicl",
+    "hazardous",
+    "fairlearn"
   ]
 }

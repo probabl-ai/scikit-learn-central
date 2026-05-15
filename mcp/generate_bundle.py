@@ -74,9 +74,15 @@ def main():
     print("Building data_bundle.py...")
     use_cases = load_use_cases()
     packages = load_packages()
+    catalog = json.loads((DATA_DIR / "catalog.json").read_text())
+    featured_packages = catalog.get("featured_packages", [])
     print(f"  {len(use_cases)} use cases, {len(packages)} packages")
 
-    data = {"use_cases": use_cases, "packages": packages}
+    data = {
+        "use_cases": use_cases,
+        "packages": packages,
+        "featured_packages": featured_packages,
+    }
     json_str = json.dumps(data, ensure_ascii=True, separators=(",", ":"))
 
     out = (
@@ -86,6 +92,7 @@ def main():
         f"_D = _j.loads({repr(json_str)})\n"
         "USE_CASES = _D['use_cases']\n"
         "PACKAGES = _D['packages']\n"
+        "FEATURED_PACKAGES = _D['featured_packages']\n"
     )
 
     OUT.write_text(out)

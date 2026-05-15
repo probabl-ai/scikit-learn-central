@@ -22,8 +22,8 @@ for (const mod of Object.values(packageModules)) {
 
 /**
  * Build enriched packages: merge stats, then compute fit scores against the
- * full ecosystem. Probabl-flagged packages receive a +100 boost to fitTotal only —
- * fitBase (the value shown in the UI) is never modified.
+ * full ecosystem. `fitBase` is the blended usage signal shown in the UI;
+ * `fitTotal` matches `fitBase` (used for default ranking).
  */
 function buildPackages(useCases: ReturnType<typeof useUseCases>['useCases']): Package[] {
   const ids = catalog.packages.filter((id) => packagesById.has(id))
@@ -58,10 +58,7 @@ function buildPackages(useCases: ReturnType<typeof useUseCases>['useCases']): Pa
       (Math.log((p.downloads ?? 0) + 1) / Math.log(maxDownloads + 1)) * 100
     p.fitUseCases = (ucCount(p.id) / maxUc) * 100
     p.fitBase = (p.fitStars + p.fitDownloads + p.fitUseCases) / 3
-    /* Editorial boost: any Probabl-maintained package gets pinned above
-       the general ecosystem in the default ranking. Scope-based gating
-       was dropped along with the legacy taxonomy (issue #16). */
-    p.fitTotal = p.fitBase + (p.probabl ? 100 : 0)
+    p.fitTotal = p.fitBase
   }
 
   return withStats
@@ -80,11 +77,16 @@ function buildCore(): CorePackage {
 
 let cachedPackages: Ref<Package[]> | null = null
 let cachedCore: Ref<CorePackage> | null = null
+let cachedFeaturedPackages: ComputedRef<Package[]> | null = null
+
+const featuredPackageIds: readonly string[] = catalog.featured_packages
 
 export interface UsePackages {
   core: Ref<CorePackage>
   packages: Ref<Package[]>
   meta: ComputedRef<CatalogRaw['meta']>
+  featuredPackageIds: readonly string[]
+  featuredPackages: ComputedRef<Package[]>
 }
 
 export function usePackages(): UsePackages {
@@ -92,10 +94,18 @@ export function usePackages(): UsePackages {
     const { useCases } = useUseCases()
     cachedPackages = ref(buildPackages(useCases))
     cachedCore = ref(buildCore())
+    cachedFeaturedPackages = computed(() => {
+      const byId = new Map(cachedPackages!.value.map((p) => [p.id, p]))
+      return catalog.featured_packages
+        .map((id) => byId.get(id))
+        .filter((p): p is Package => p != null)
+    })
   }
   return {
     core: cachedCore!,
     packages: cachedPackages,
     meta: computed(() => catalog.meta),
+    featuredPackageIds,
+    featuredPackages: cachedFeaturedPackages!,
   }
 }

@@ -17,7 +17,7 @@ import { useUseCases } from '@/composables/useUseCases'
 import { useReleases } from '@/composables/useReleases'
 import type { UseCase } from '@/types/usecase'
 
-const { core, packages } = usePackages()
+const { core, packages, featuredPackages } = usePackages()
 const { useCases } = useUseCases()
 const { releases } = useReleases()
 
@@ -42,12 +42,15 @@ const ucCountByPkg = computed(() => {
   return m
 })
 
-const probablBoosted = computed(() =>
-  packages.value.find((p) => p.probabl),
-)
-const regularPkg = computed(() =>
-  packages.value.find((p) => !p.probabl),
-)
+const packageCardSamples = computed(() => {
+  const f = featuredPackages.value
+  if (f.length >= 2) return [f[0], f[1]]
+  if (f.length === 1) {
+    const other = packages.value.find((p) => p.id !== f[0].id)
+    return other ? [f[0], other] : [f[0]]
+  }
+  return packages.value.slice(0, 2)
+})
 const sampleUseCase = computed(() => useCases.value[0])
 const sampleRelease = computed(() => releases.value.find((r) => r.version !== 'future'))
 const futureRelease = computed(() => releases.value.find((r) => r.version === 'future'))
@@ -85,17 +88,11 @@ const futureRelease = computed(() => releases.value.find((r) => r.version === 'f
         <h2 class="section-title">PackageCard — samples</h2>
         <div class="sandbox-grid">
           <PackageCard
-            v-if="probablBoosted"
-            :pkg="probablBoosted"
-            :use-case-count="ucCountByPkg.get(probablBoosted.id) ?? 0"
-            :use-cases-filter-to="{ path: '/use-cases', query: { package: probablBoosted.id } }"
-            :show-fit-chip="true"
-          />
-          <PackageCard
-            v-if="regularPkg"
-            :pkg="regularPkg"
-            :use-case-count="ucCountByPkg.get(regularPkg.id) ?? 0"
-            :use-cases-filter-to="{ path: '/use-cases', query: { package: regularPkg.id } }"
+            v-for="pkg in packageCardSamples"
+            :key="pkg.id"
+            :pkg="pkg"
+            :use-case-count="ucCountByPkg.get(pkg.id) ?? 0"
+            :use-cases-filter-to="{ path: '/use-cases', query: { package: pkg.id } }"
             :show-fit-chip="true"
           />
         </div>

@@ -54,9 +54,10 @@ const committees: Committee[] = [
             </p>
             <p>
               The catalog is open to any package that belongs to the scikit-learn
-              open-source ecosystem and carries a true open-source license. Default
-              rankings reflect usage signals and ecosystem fit; Probabl-maintained
-              packages may appear prominently as Probabl is the steward of this resource.
+              open-source ecosystem and carries a true open-source license. A small set of
+              <strong>featured packages</strong> is highlighted on the catalog page by the
+              editors; everywhere else, default ordering uses a <strong>Fit Score</strong>
+              derived from usage signals and ecosystem fit.
             </p>
             <p>
               The use cases are curated and forward-looking, highlighting how data

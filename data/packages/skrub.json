@@ -9,7 +9,6 @@
     "components"
   ],
   "license": "BSD-3-Clause",
-  "probabl": true,
   "archived": false,
   "description": "Bridges the gap between dataframes and sklearn by providing TableVectorizer, fuzzy joining (AggJoiner, Joiner), and string encoders (MinHashEncoder, GapEncoder) for messy, real-world tabular data.",
   "tags": [

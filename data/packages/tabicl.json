@@ -6,7 +6,6 @@
   "repository": "https://github.com/soda-inria/tabicl",
   "docs": "https://tabicl.readthedocs.io/en/latest/",
   "license": "BSD-3-Clause",
-  "probabl": true,
   "archived": false,
   "categories": [
     "components"
