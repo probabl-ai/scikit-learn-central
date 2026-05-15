@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-05-15T07:00:10Z",
+  "updated_at": "2026-05-15T12:34:37Z",
   "packages": {
     "scikit-learn": {
       "github": {
-        "stars": 66088,
-        "forks": 27021,
+        "stars": 66092,
+        "forks": 27022,
         "watchers": 2119,
-        "open_issues": 2019,
-        "last_commit": "2026-05-14T17:38:46Z",
+        "open_issues": 2024,
+        "last_commit": "2026-05-15T09:54:56Z",
         "latest_release": "1.8.0",
         "latest_release_date": "2025-12-10T13:32:02Z"
       },
@@ -26,9 +26,9 @@
     "skrub": {
       "github": {
         "stars": 1612,
-        "forks": 215,
+        "forks": 217,
         "watchers": 19,
-        "open_issues": 142,
+        "open_issues": 144,
         "last_commit": "2026-05-12T13:33:39Z",
         "latest_release": "0.9.0",
         "latest_release_date": "2026-05-06T13:41:14Z"
@@ -50,7 +50,7 @@
         "stars": 637,
         "forks": 137,
         "watchers": 7,
-        "open_issues": 174,
+        "open_issues": 175,
         "last_commit": "2026-05-13T18:49:00Z",
         "latest_release": "skore/0.18.0",
         "latest_release_date": "2026-05-06T14:14:26Z"
@@ -68,6 +68,15 @@
       }
     },
     "feature-engine": {
+      "github": {
+        "stars": 2237,
+        "forks": 342,
+        "watchers": 33,
+        "open_issues": 80,
+        "last_commit": "2026-03-28T14:24:33Z",
+        "latest_release": "v1.2.0",
+        "latest_release_date": "2022-01-04T17:09:47Z"
+      },
       "pypi": {
         "downloads": {
           "last_day": 11110,
@@ -107,7 +116,7 @@
         "stars": 28377,
         "forks": 8872,
         "watchers": 886,
-        "open_issues": 459,
+        "open_issues": 458,
         "last_commit": "2026-05-14T08:00:23Z",
         "latest_release": "v3.2.0",
         "latest_release_date": "2026-02-10T08:14:33Z"
@@ -126,11 +135,11 @@
     },
     "lightgbm": {
       "github": {
-        "stars": 18348,
+        "stars": 18347,
         "forks": 4017,
         "watchers": 423,
         "open_issues": 518,
-        "last_commit": "2026-05-15T04:31:52Z",
+        "last_commit": "2026-05-15T11:58:26Z",
         "latest_release": "v4.6.0",
         "latest_release_date": "2025-02-15T03:46:41Z"
       },
@@ -152,7 +161,7 @@
         "forks": 1287,
         "watchers": 186,
         "open_issues": 699,
-        "last_commit": "2026-05-14T06:48:36Z",
+        "last_commit": "2026-05-15T09:25:29Z",
         "latest_release": "v1.2.10",
         "latest_release_date": "2026-02-19T12:38:26Z"
       },
@@ -233,7 +242,7 @@
     },
     "shap": {
       "github": {
-        "stars": 25426,
+        "stars": 25425,
         "forks": 3726,
         "watchers": 246,
         "open_issues": 1042,
@@ -242,6 +251,11 @@
         "latest_release_date": "2026-03-04T09:04:18Z"
       },
       "pypi": {
+        "downloads": {
+          "last_day": 528186,
+          "last_week": 3548279,
+          "last_month": 14676875
+        },
         "version": "0.51.0",
         "requires_python": ">=3.11",
         "summary": "A unified approach to explain the output of any machine learning model.",
@@ -250,11 +264,11 @@
     },
     "optuna": {
       "github": {
-        "stars": 14165,
-        "forks": 1327,
+        "stars": 14168,
+        "forks": 1328,
         "watchers": 123,
         "open_issues": 38,
-        "last_commit": "2026-05-15T06:42:15Z",
+        "last_commit": "2026-05-15T09:13:14Z",
         "latest_release": "v4.8.0",
         "latest_release_date": "2026-03-16T04:59:17Z"
       },
@@ -295,9 +309,9 @@
     "skforecast": {
       "github": {
         "stars": 1489,
-        "forks": 188,
+        "forks": 189,
         "watchers": 14,
-        "open_issues": 13,
+        "open_issues": 14,
         "last_commit": "2026-05-14T14:43:20Z",
         "latest_release": "v0.22.0",
         "latest_release_date": "2026-04-23T14:51:08Z"
@@ -363,7 +377,7 @@
         "stars": 9759,
         "forks": 2172,
         "watchers": 112,
-        "open_issues": 2325,
+        "open_issues": 2328,
         "last_commit": "2026-05-11T17:50:30Z",
         "latest_release": "v0.40.1",
         "latest_release_date": "2025-11-25T00:02:03Z"
@@ -382,7 +396,7 @@
     },
     "river": {
       "github": {
-        "stars": 5816,
+        "stars": 5815,
         "forks": 625,
         "watchers": 79,
         "open_issues": 91,
@@ -426,7 +440,7 @@
     },
     "umap-learn": {
       "github": {
-        "stars": 8177,
+        "stars": 8176,
         "forks": 862,
         "watchers": 122,
         "open_issues": 520,
@@ -475,6 +489,11 @@
         "last_commit": "2026-04-08T21:01:12Z"
       },
       "pypi": {
+        "downloads": {
+          "last_day": 4315,
+          "last_week": 27317,
+          "last_month": 131484
+        },
         "version": "0.16.0",
         "requires_python": ">=3.9",
         "summary": "Debug machine learning classifiers and explain their predictions",
@@ -504,11 +523,11 @@
     },
     "mlflow": {
       "github": {
-        "stars": 25940,
-        "forks": 5731,
+        "stars": 25944,
+        "forks": 5733,
         "watchers": 320,
         "open_issues": 2089,
-        "last_commit": "2026-05-15T06:37:55Z",
+        "last_commit": "2026-05-15T09:57:33Z",
         "latest_release": "v3.12.0",
         "latest_release_date": "2026-05-05T23:48:58Z"
       },
@@ -551,7 +570,7 @@
         "stars": 513,
         "forks": 62,
         "watchers": 8,
-        "open_issues": 22,
+        "open_issues": 21,
         "last_commit": "2026-04-20T18:30:54Z",
         "latest_release": "v0.13.0",
         "latest_release_date": "2025-08-06T09:50:24Z"
@@ -699,7 +718,7 @@
     },
     "tabicl": {
       "github": {
-        "stars": 870,
+        "stars": 871,
         "forks": 111,
         "watchers": 18,
         "open_issues": 19,
@@ -724,8 +743,8 @@
         "stars": 5193,
         "forks": 625,
         "watchers": 72,
-        "open_issues": 855,
-        "last_commit": "2026-05-15T00:06:17Z",
+        "open_issues": 856,
+        "last_commit": "2026-05-15T11:19:32Z",
         "latest_release": "v26.04.00",
         "latest_release_date": "2026-04-09T06:04:35Z"
       },
