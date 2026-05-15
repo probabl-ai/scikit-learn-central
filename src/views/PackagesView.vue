@@ -198,8 +198,13 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
         class="catalog-featured"
         aria-labelledby="catalog-featured-heading"
       >
-        <div class="catalog-header">
-          <h2 id="catalog-featured-heading" class="catalog-header-title">Featured Packages</h2>
+        <div class="catalog-header catalog-header--featured">
+          <div class="catalog-header-main">
+            <h2 id="catalog-featured-heading" class="catalog-header-title">Featured Packages</h2>
+            <p class="catalog-featured-tagline">
+              Curated list of packages from our editorial team
+            </p>
+          </div>
           <span class="catalog-header-count" aria-live="polite">
             {{ featuredForDisplay.length }} package{{
               featuredForDisplay.length !== 1 ? 's' : ''
@@ -253,5 +258,20 @@ const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 
 
 .catalog-featured {
   margin-bottom: var(--space-6);
+}
+
+.catalog-header--featured {
+  align-items: flex-start;
+}
+
+.catalog-header-main {
+  min-width: 0;
+}
+
+.catalog-featured-tagline {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.45;
 }
 </style>

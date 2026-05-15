@@ -69,9 +69,6 @@
     "skore",
     "skrub",
     "skops",
-    "imbalanced-learn",
-    "tabicl",
-    "hazardous",
-    "fairlearn"
+    "tabicl"
   ]
 }
