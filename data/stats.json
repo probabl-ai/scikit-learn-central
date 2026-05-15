@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-05-15T12:34:37Z",
+  "updated_at": "2026-05-15T16:18:22Z",
   "packages": {
     "scikit-learn": {
       "github": {
-        "stars": 66092,
-        "forks": 27022,
+        "stars": 66095,
+        "forks": 27023,
         "watchers": 2119,
-        "open_issues": 2024,
-        "last_commit": "2026-05-15T09:54:56Z",
+        "open_issues": 2020,
+        "last_commit": "2026-05-15T16:07:16Z",
         "latest_release": "1.8.0",
         "latest_release_date": "2025-12-10T13:32:02Z"
       },
@@ -28,7 +28,7 @@
         "stars": 1612,
         "forks": 217,
         "watchers": 19,
-        "open_issues": 144,
+        "open_issues": 143,
         "last_commit": "2026-05-12T13:33:39Z",
         "latest_release": "0.9.0",
         "latest_release_date": "2026-05-06T13:41:14Z"
@@ -135,20 +135,15 @@
     },
     "lightgbm": {
       "github": {
-        "stars": 18347,
+        "stars": 18349,
         "forks": 4017,
         "watchers": 423,
         "open_issues": 518,
-        "last_commit": "2026-05-15T11:58:26Z",
+        "last_commit": "2026-05-15T15:44:21Z",
         "latest_release": "v4.6.0",
         "latest_release_date": "2025-02-15T03:46:41Z"
       },
       "pypi": {
-        "downloads": {
-          "last_day": 640907,
-          "last_week": 3907695,
-          "last_month": 15663536
-        },
         "version": "4.6.0",
         "requires_python": ">=3.7",
         "summary": "LightGBM Python-package",
@@ -161,7 +156,7 @@
         "forks": 1287,
         "watchers": 186,
         "open_issues": 699,
-        "last_commit": "2026-05-15T09:25:29Z",
+        "last_commit": "2026-05-15T15:22:06Z",
         "latest_release": "v1.2.10",
         "latest_release_date": "2026-02-19T12:38:26Z"
       },
@@ -178,7 +173,7 @@
     },
     "glum": {
       "github": {
-        "stars": 374,
+        "stars": 375,
         "forks": 35,
         "watchers": 16,
         "open_issues": 30,
@@ -264,7 +259,7 @@
     },
     "optuna": {
       "github": {
-        "stars": 14168,
+        "stars": 14169,
         "forks": 1328,
         "watchers": 123,
         "open_issues": 38,
@@ -333,8 +328,8 @@
         "stars": 1388,
         "forks": 268,
         "watchers": 18,
-        "open_issues": 236,
-        "last_commit": "2026-05-13T10:52:13Z",
+        "open_issues": 234,
+        "last_commit": "2026-05-15T15:27:15Z",
         "latest_release": "v1.4.0",
         "latest_release_date": "2026-03-23T21:35:44Z"
       },
@@ -377,7 +372,7 @@
         "stars": 9759,
         "forks": 2172,
         "watchers": 112,
-        "open_issues": 2328,
+        "open_issues": 2329,
         "last_commit": "2026-05-11T17:50:30Z",
         "latest_release": "v0.40.1",
         "latest_release_date": "2025-11-25T00:02:03Z"
@@ -397,7 +392,7 @@
     "river": {
       "github": {
         "stars": 5815,
-        "forks": 625,
+        "forks": 626,
         "watchers": 79,
         "open_issues": 91,
         "last_commit": "2026-05-12T21:41:06Z",
@@ -405,11 +400,6 @@
         "latest_release_date": "2026-04-15T08:30:49Z"
       },
       "pypi": {
-        "downloads": {
-          "last_day": 7814,
-          "last_week": 58522,
-          "last_month": 223349
-        },
         "version": "0.24.2",
         "requires_python": ">=3.11",
         "summary": "Online machine learning in Python",
@@ -523,11 +513,11 @@
     },
     "mlflow": {
       "github": {
-        "stars": 25944,
-        "forks": 5733,
+        "stars": 25949,
+        "forks": 5734,
         "watchers": 320,
-        "open_issues": 2089,
-        "last_commit": "2026-05-15T09:57:33Z",
+        "open_issues": 2090,
+        "last_commit": "2026-05-15T16:04:05Z",
         "latest_release": "v3.12.0",
         "latest_release_date": "2026-05-05T23:48:58Z"
       },
@@ -718,7 +708,7 @@
     },
     "tabicl": {
       "github": {
-        "stars": 871,
+        "stars": 872,
         "forks": 111,
         "watchers": 18,
         "open_issues": 19,
@@ -743,8 +733,8 @@
         "stars": 5193,
         "forks": 625,
         "watchers": 72,
-        "open_issues": 856,
-        "last_commit": "2026-05-15T11:19:32Z",
+        "open_issues": 857,
+        "last_commit": "2026-05-15T16:04:32Z",
         "latest_release": "v26.04.00",
         "latest_release_date": "2026-04-09T06:04:35Z"
       },
