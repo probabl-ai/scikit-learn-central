@@ -322,6 +322,9 @@
 
   /* Layout */
   --header-h:    64px;
+  /* Tab bar height fallback before JS ResizeObserver updates --chrome-sticky-top */
+  --tabs-h:      48px;
+  --chrome-sticky-top: calc(var(--header-h) + var(--tabs-h));
   --sidebar-w:   272px;
   --content-max: 1200px;
 }

@@ -219,7 +219,8 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
   top: calc(100% + 6px);
   left: 0;
   min-width: 200px;
-  max-height: 300px;
+  max-width: min(360px, calc(100vw - 2 * var(--space-4)));
+  max-height: min(300px, 50vh);
   overflow-y: auto;
   background: var(--bg-surface);
   border: 1.5px solid var(--neutral-200);
@@ -311,6 +312,18 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
 
 .row.child {
   padding-left: var(--space-6, 24px);
+}
+
+@media (max-width: 768px) {
+  .trigger {
+    min-height: 44px;
+    padding: 0 var(--space-4);
+  }
+
+  .row {
+    min-height: 44px;
+    padding: var(--space-3) var(--space-4);
+  }
 }
 
 /* Align with PackageCard scope-chip tier accents */
