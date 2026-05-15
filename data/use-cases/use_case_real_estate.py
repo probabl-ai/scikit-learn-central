@@ -1,119 +1,84 @@
-"""
-Estimate real estate property values using machine learning.
-Accurate price predictions support property valuation, market analysis, and investment decisions.
-Use skrub to understand your data.
-Use scikit-learn to fit and predict from your data.
-Use skore to track your data science. Evaluate models, compare them, select them.
-"""
+# %% [markdown]
+#
+# # Median house value regression with skore, skrub, and scikit-learn.
+#
+# ## Environment setup
+#
+# We need to install some extra dependencies for this notebook if needed (when
+# running jupyterlite).
 
-import numpy as np
+# %%
+# %pip install skore skrub ipywidgets
+
+# %% [markdown]
+#
+# ## Data loading
+#
+# The bundled CSV is the **California housing** dataset (block-level aggregates from
+# the 1990 U.S. census, as distributed with scikit-learn). Each row describes a
+# California district; the target **`MedHouseVal`** is the median house value in that
+# block, in **hundreds of thousands of dollars**.
+#
+# Features are numeric summaries (income, age, rooms, population, location, etc.).
+# The file is vendored under `datasets/` so this notebook runs offline in JupyterLite.
+
+# %%
 import pandas as pd
 
-from sklearn.datasets import fetch_california_housing
-from sklearn.linear_model import LinearRegression
-from sklearn.pipeline import Pipeline
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import r2_score, mean_squared_error
-from sklearn.tree import DecisionTreeRegressor
+housing = pd.read_csv("datasets/california_housing.csv")
+y = housing.pop("MedHouseVal")
+X = housing
 
-# From skrub import some utilities for
-# effortless tabular learning
-from skrub import TableVectorizer
-# interactive data exploration
-from skrub import TableReport
+# %% [markdown]
+#
+# A classic experiment is to contrast a **random forest** (ensemble of trees) with a
+# **Ridge** (L2-regularized linear) model on the same table: both need sensible
+# preprocessing for mixed columns, then you compare how well each explains median value.
+#
+# **`skore.evaluate`** can take a **dict of named estimators** and a **`splitter`**
+# integer to run **cross-validation** for every entry. That yields one
+# **comparison report** (metrics and checks aggregated across models and folds)
+# instead of hand-written split loops or separate `ComparisonReport` wiring.
+#
+# Below, each pipeline is **`skrub.tabular_pipeline(...)`** around a scikit-learn
+# regressor so encoding and imputation stay consistent between the two approaches.
 
-# From skore import a simple utility to track your data science
-from skore import EstimatorReport, ComparisonReport
+# %%
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import Ridge
 
-import matplotlib.pyplot as plt
+import skore
+import skrub
 
-
-# Load housing dataset
-housing = fetch_california_housing()
-X = pd.DataFrame(housing.data, columns=housing.feature_names)
-y = housing.target
-
-# Use TableReport to explore dataframe interactively
-# see https://skrub-data.org/stable/reference/generated/skrub.TableReport.html
-housing_table_report = TableReport(X)
-# this will open a localhost webpage with an interactive table
-with plt.ioff():
-    housing_table_report.open()
-# The decorator is a quick hot fix to avoid opening .png
-
-# Split your dataset in a training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
+cv_report = skore.evaluate(
+    {
+        "forest": skrub.tabular_pipeline(RandomForestRegressor(random_state=42)),
+        "ridge": skrub.tabular_pipeline(Ridge()),
+    },
+    X,
+    y,
+    splitter=5,
 )
+cv_report
 
-# Create a Pipeline with the TableVectorizer
-# TableVectorizer will Transform a dataframe to a numeric (vectorized) representation
-# see https://skrub-data.org/stable/reference/generated/skrub.TableVectorizer.html
-# We use a simple decision tree as a scikit-learn baseline
-# see https://scikit-learn.org/stable/modules/tree.html
-print('\nDecision Tree model\n')
-pipeline = Pipeline(
-    [
-        ('vectorizer', TableVectorizer()),
-        ('decision tree', DecisionTreeRegressor(random_state=42))
-    ]
-)
+# %% [markdown]
+#
+# The comparison report runs the same diagnostic **checks** on every cross-validated
+# model. Summarize them to see issues such as over- or underfitting flagged per
+# estimator.
 
-# Good old fit-predict scikit-learn pipeline
-pipeline.fit(X_train, y_train)
-y_pred = pipeline.predict(X_test)
+# %%
+cv_report.checks.summarize()
 
-# One can inspect the fitted model the old way
-# Compute some metrics...
-r2 = r2_score(y_test, y_pred)
-rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-# ... and print them
-print('Compute some metrics')
-print(f'r2 Score: {r2:.4f}')
-print(f'RMSE score: {rmse*100000:.0f}')
-print('\n')
+# %% [markdown]
+#
+# **Metrics** are aggregated across folds and models so you can rank approaches (for
+# example RMSE or R²) without writing your own aggregation code.
 
-# One can also leverage the skore library to inspect the model and create a structured report
-estimator_report = EstimatorReport(pipeline, X_test=X_test, y_test=y_test)
-metrics_summary = estimator_report.metrics.summarize().frame()
-print('Use skore to create a structured report')
-print(metrics_summary)
-print("\n\n")
+# %%
+cv_report.metrics.summarize().frame()
 
-# For more information, you can check insights that are available
-print('Learn more about skore metrics with the helper function')
-estimator_report.help()
-# and learn even more at
-# https://docs.skore.probabl.ai/0.13/reference/api/skore.EstimatorReport.html
-
-
-# Let's do it again with another model!
-print('\nLet\'s do everything again with a linear regression model!')
-linear_pipeline = Pipeline(
-    [
-        ('vectorizer', TableVectorizer()),
-        ('linear regression', LinearRegression())
-    ]
-)
-linear_pipeline.fit(X_train, y_train)
-y_pred = linear_pipeline.predict(X_test)
-r2 = r2_score(y_test, y_pred)
-rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-print('Compute some metrics')
-print(f'r2 Score: {r2:.4f}')
-print(f'RMSE score: {rmse*100000:.0f}')
-print('\n')
-print('Use skore to create a structured report')
-linear_estimator_report = EstimatorReport(linear_pipeline, X_test=X_test, y_test=y_test)
-metrics_summary = linear_estimator_report.metrics.summarize().frame()
-print(metrics_summary)
-print("\n\n")
-
-# One can compare scores by hand or crafting some comparison functions...
-# ... or one can leverage the ComparisonReport from the skore library
-# see https://docs.skore.probabl.ai/0.13/reference/api/skore.ComparisonReport.html
-print('\nCompare models with the ComparisonReport\n')
-comparison_report = ComparisonReport([estimator_report, linear_estimator_report])
-print(comparison_report.metrics.summarize().frame())
-# If you are curious about automating even more your comparison pipeline, check
-# https://docs.skore.probabl.ai/0.13/reference/api/skore.CrossValidationReport.html
+# %% [markdown]
+#
+# We see that the random forest is performing better but at the cost of a longer
+# training time.

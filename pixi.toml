@@ -15,9 +15,31 @@ requests = "*"
 beautifulsoup4 = "*"
 lxml = "*"
 
+# JupyterLite toolchain — converts use-case .py → .ipynb and builds the
+# in-browser JupyterLab static site. Versions pinned to the same ones the
+# upstream skeleton-deploy ships.
+[feature.jupyterlite.dependencies]
+python = ">=3.11,<3.13"
+jupyterlite-core = ">=0.4,<0.5"
+jupyterlite-pyodide-kernel = ">=0.4,<0.5"
+jupyter_server = ">=2.14,<3"
+jupytext = ">=1.16,<2"
+ipywidgets = ">=8.1.8,<9"
+
+# One-off dataset refresh: pull california housing + german credit and commit
+# them as CSV under data/use-cases/datasets/. Heavy ML deps so they live in
+# their own env, not in the daily Vue dev workflow.
+[feature.datasets.dependencies]
+python = ">=3.11,<3.13"
+pandas = "*"
+scikit-learn = "*"
+pyarrow = "*"
+
 [environments]
 default = { solve-group = "default" }
 scripts = { features = ["scripts"], solve-group = "default" }
+jupyterlite = { features = ["jupyterlite"], no-default-feature = true }
+datasets = { features = ["datasets"], no-default-feature = true }
 
 [tasks.install]
 cmd = "npm install"
@@ -27,13 +49,30 @@ description = "Install npm dependencies (runs automatically on first dev/build).
 
 [tasks.dev]
 cmd = "npm run dev"
-depends-on = ["install"]
-description = "Start Vite dev server with hot reload."
+depends-on = ["install", "link-jupyterlite"]
+description = "Start Vite dev server with hot reload. Symlinks dist/jupyterlite into public/ so the Open-in-JupyterLite link works in dev (silently no-ops if JupyterLite hasn't been built yet)."
+
+# Dev-only helpers — keep the JupyterLite tree out of public/ during prod builds
+# (Vite's publicDir copy would otherwise duplicate or break it).
+[tasks.link-jupyterlite]
+cmd = "python scripts/link_jupyterlite.py"
+description = "Symlink public/jupyterlite → dist/jupyterlite so Vite dev serves /jupyterlite/."
+
+[tasks.unlink-jupyterlite]
+cmd = "python scripts/link_jupyterlite.py --remove"
+description = "Remove the dev-only symlink (called before prod builds)."
 
 [tasks.build]
+depends-on = [
+  "build-frontend",
+  { task = "build-jupyterlite", environment = "jupyterlite" },
+]
+description = "Full production build: Vue site (dist/) + JupyterLite (dist/jupyterlite/)."
+
+[tasks.build-frontend]
 cmd = "npm run build"
-depends-on = ["install"]
-description = "Type-check and produce a production build in dist/."
+depends-on = ["install", "unlink-jupyterlite"]
+description = "Build the Vue site only (no JupyterLite). Faster when you don't need the in-browser notebooks."
 
 [tasks.preview]
 cmd = "npm run preview"
@@ -60,3 +99,16 @@ description = "Refresh release reaction counts."
 [tasks.mcp-bundle]
 cmd = "python mcp/generate_bundle.py"
 description = "Regenerate the MCP worker data bundle from data/."
+
+# One-off helper: refresh embedded CSVs under data/use-cases/datasets/. Run
+# whenever a new use case is added or an upstream dataset changes.
+[feature.datasets.tasks.fetch-datasets]
+cmd = "python scripts/fetch_datasets.py"
+description = "Download california housing + german credit and commit as CSV under data/use-cases/datasets/."
+
+# Builds dist/jupyterlite/ from data/use-cases/*.py. Lives in the jupyterlite
+# env so the heavy Jupyter stack isn't pulled into the default env (which only
+# needs Node for the Vue build).
+[feature.jupyterlite.tasks.build-jupyterlite]
+cmd = "python scripts/build_jupyterlite.py"
+description = "Convert use-case .py to .ipynb (jupytext) and build the in-browser JupyterLite site into dist/jupyterlite/."

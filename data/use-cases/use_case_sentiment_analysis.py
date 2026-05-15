@@ -1,15 +1,28 @@
-"""
-Sentiment classification of customer reviews with skore, skrub and scikit-learn.
-"""
+# %% [markdown]
+#
+# # Customer review sentiment with skore, skrub, and scikit-learn.
+#
+# ## Environment setup
+#
+# We need to install some extra dependencies for this notebook if needed (when
+# running jupyterlite).
 
-import numpy as np
+# %%
+# %pip install skore skrub ipywidgets
+
+# %% [markdown]
+#
+# ## Data
+#
+# This notebook uses a small **toy** corpus of English product reviews bundled in the
+# script itself: half are clearly positive, half clearly negative. Each row
+# has a **`review`** text and a binary label **`satisfied`** vs **`dissatisfied`**
+# (stand-ins for positive vs negative sentiment). The dataset is tiny on purpose so it
+# runs quickly in JupyterLite while still illustrating a text classification workflow.
+
+# %%
 import pandas as pd
-from skrub import StringEncoder, ApplyToCols
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import make_pipeline
-from skore import CrossValidationReport
 
-# Let's start by creating a dataset of positive and negative reviews
 positive_reviews = [
     "Absolutely loved this product, exceeded all my expectations",
     "Fast shipping and the item was exactly as described",
@@ -57,21 +70,60 @@ negative_reviews = [
 ]
 
 X = pd.DataFrame({"review": positive_reviews + negative_reviews})
-y = np.array(
-    ["satisfied"] * len(positive_reviews) + ["dissatisfied"] * len(negative_reviews)
+y = pd.Series(
+    ["satisfied"] * len(positive_reviews) + ["dissatisfied"] * len(negative_reviews),
+    dtype="category",
 )
 
-# skrub encodes text; sklearn fits a classifier; pipeline chains them
-pipe = make_pipeline(
-    ApplyToCols(StringEncoder(random_state=42), cols="review"),
+# %% [markdown]
+#
+# **skrub**'s `tabular_pipeline("classifier")` builds a default pipeline for tabular
+# data, including free-text columns: **TableVectorizer** picks encoders suited to
+# strings (for example high-cardinality text handling) before the classifier step.
+#
+# **`skore.evaluate`** with an integer **`splitter`** runs **cross-validation** and
+# returns a report with aggregated **checks** and **metrics**. We set **`pos_label`**
+# to **`satisfied`** so binary summaries align with the positive class.
+
+# %%
+import skore
+import skrub
+from sklearn.pipeline import make_pipeline
+from sklearn.linear_model import LogisticRegression
+
+estimator = make_pipeline(
+    skrub.ApplyToCols(skrub.StringEncoder(random_state=42), cols="review"),
     LogisticRegression(),
 )
+report = skore.evaluate(
+    estimator,
+    X,
+    y,
+    splitter=5,
+    pos_label="satisfied",
+)
+report
 
-# skore runs cross-validation and exposes metrics + fitted estimator
-cv_report = CrossValidationReport(pipe, X, y, pos_label="satisfied")
-print(cv_report.metrics.summarize().frame())
+# %% [markdown]
+#
+# Summarize diagnostic **checks** (for example hints of over- or underfitting) across
+# the cross-validated fits.
 
-# Predict on new text using the estimator fitted on full data
+# %%
+report.checks.summarize()
+
+# %% [markdown]
+#
+# **Metrics** are aggregated across folds so you can read performance without writing a
+# custom CV loop.
+
+# %%
+report.metrics.summarize().frame()
+
+# %% [markdown]
+#
+# Let's use the fitted estimator to score new samples.
+estimator.fit(X, y)
 new_samples = pd.DataFrame(
     {
         "review": [
@@ -81,6 +133,5 @@ new_samples = pd.DataFrame(
         ]
     }
 )
-new_samples["sentiment"] = cv_report.estimator_.predict(new_samples[["review"]])
-
-print(new_samples.to_string())
+new_samples["sentiment"] = estimator.predict(new_samples[["review"]])
+new_samples

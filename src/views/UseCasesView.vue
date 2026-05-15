@@ -1,15 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { computed, ref } from 'vue'
 import FilterDropdown from '@/components/FilterDropdown.vue'
 import UseCaseCard from '@/components/UseCaseCard.vue'
-import CodeModal from '@/components/CodeModal.vue'
 import { useUseCases } from '@/composables/useUseCases'
 import type { Difficulty, UseCase } from '@/types/usecase'
 
 const { useCases } = useUseCases()
-const route = useRoute()
-const router = useRouter()
 
 const search = ref('')
 const industrySel = ref<Set<string>>(new Set())
@@ -166,27 +162,6 @@ const activeChips = computed<ActiveChip[]>(() => {
   return chips
 })
 
-const activeUseCase = ref<UseCase | null>(null)
-function openCode(uc: UseCase): void {
-  activeUseCase.value = uc
-}
-function closeCode(): void {
-  activeUseCase.value = null
-  /* Clean ?slug= from the URL so reload doesn't re-open the modal. */
-  if (route.query.slug) router.replace({ query: {} })
-}
-
-/* Deep-link support: /#/use-cases?slug=fraud-detection-banking. Used by
-   PackageInsightCard so users can jump from a package to its concrete use
-   case in one click. */
-function openFromQuery(): void {
-  const slug = route.query.slug
-  if (typeof slug !== 'string' || !slug) return
-  const match = useCases.value.find((uc) => uc.slug === slug)
-  if (match) activeUseCase.value = match
-}
-onMounted(openFromQuery)
-watch(() => route.query.slug, openFromQuery)
 </script>
 
 <template>
@@ -252,9 +227,6 @@ watch(() => route.query.slug, openFromQuery)
         <span class="uc-count" aria-live="polite">
           {{ filtered.length }} use case{{ filtered.length !== 1 ? 's' : '' }}
         </span>
-        <span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--neutral-500);">
-          Click <strong style="color:var(--probabl-blue)">View Code</strong> for a runnable Python example
-        </span>
       </div>
 
       <div v-if="filtered.length === 0" class="state-empty">
@@ -265,15 +237,8 @@ watch(() => route.query.slug, openFromQuery)
       </div>
 
       <div v-else class="uc-grid">
-        <UseCaseCard
-          v-for="uc in filtered"
-          :key="uc.uuid"
-          :use-case="uc"
-          @view-code="openCode"
-        />
+        <UseCaseCard v-for="uc in filtered" :key="uc.uuid" :use-case="uc" />
       </div>
     </div>
   </div>
-
-  <CodeModal :use-case="activeUseCase" @close="closeCode" />
 </template>

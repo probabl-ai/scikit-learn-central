@@ -1,0 +1,1001 @@
+checking_status,credit_amount,duration,personal_status,other_payment_plans,target
+<0,1169,6,male single,none,good
+0<=X<200,5951,48,female div/dep/mar,none,bad
+no checking,2096,12,male single,none,good
+<0,7882,42,male single,none,good
+<0,4870,24,male single,none,bad
+no checking,9055,36,male single,none,good
+no checking,2835,24,male single,none,good
+0<=X<200,6948,36,male single,none,good
+no checking,3059,12,male div/sep,none,good
+0<=X<200,5234,30,male mar/wid,none,bad
+0<=X<200,1295,12,female div/dep/mar,none,bad
+<0,4308,48,female div/dep/mar,none,bad
+0<=X<200,1567,12,female div/dep/mar,none,good
+<0,1199,24,male single,none,bad
+<0,1403,15,female div/dep/mar,none,good
+<0,1282,24,female div/dep/mar,none,bad
+no checking,2424,24,male single,none,good
+<0,8072,30,male single,bank,good
+0<=X<200,12579,24,female div/dep/mar,none,bad
+no checking,3430,24,male single,none,good
+no checking,2134,9,male single,none,good
+<0,2647,6,male single,none,good
+<0,2241,10,male single,none,good
+0<=X<200,1804,12,male single,none,good
+no checking,2069,10,male mar/wid,none,good
+<0,1374,6,male single,bank,good
+no checking,426,6,male mar/wid,none,good
+>=200,409,12,female div/dep/mar,none,good
+0<=X<200,2415,7,male single,none,good
+<0,6836,60,male single,none,bad
+0<=X<200,1913,18,male mar/wid,bank,good
+<0,4020,24,male single,stores,good
+0<=X<200,5866,18,male single,none,good
+no checking,1264,12,male single,none,good
+>=200,1474,12,female div/dep/mar,bank,good
+0<=X<200,4746,45,male single,none,bad
+no checking,6110,48,male single,bank,good
+>=200,2100,18,male single,stores,bad
+>=200,1225,10,male single,none,good
+0<=X<200,458,9,male single,none,good
+no checking,2333,30,male single,bank,good
+0<=X<200,1158,12,male div/sep,none,good
+0<=X<200,6204,18,male single,none,good
+<0,6187,30,male mar/wid,none,good
+<0,6143,48,female div/dep/mar,stores,bad
+no checking,1393,11,female div/dep/mar,none,good
+no checking,2299,36,male single,none,good
+<0,1352,6,female div/dep/mar,none,good
+no checking,7228,11,male single,none,good
+no checking,2073,12,female div/dep/mar,none,good
+0<=X<200,2333,24,male single,bank,good
+0<=X<200,5965,27,male single,none,good
+no checking,1262,12,male single,none,good
+no checking,3378,18,male single,none,good
+0<=X<200,2225,36,male single,bank,bad
+no checking,783,6,male single,stores,good
+0<=X<200,6468,12,male single,none,bad
+no checking,9566,36,female div/dep/mar,stores,good
+>=200,1961,18,female div/dep/mar,none,good
+<0,6229,36,female div/dep/mar,none,bad
+0<=X<200,1391,9,male mar/wid,bank,good
+0<=X<200,1537,15,male single,none,good
+0<=X<200,1953,36,male single,none,bad
+0<=X<200,14421,48,male single,none,bad
+no checking,3181,24,female div/dep/mar,none,good
+no checking,5190,27,male single,none,good
+no checking,2171,12,female div/dep/mar,bank,good
+0<=X<200,1007,12,male mar/wid,none,good
+no checking,1819,36,male single,stores,bad
+no checking,2394,36,female div/dep/mar,none,good
+no checking,8133,36,female div/dep/mar,bank,good
+no checking,730,7,male single,none,good
+<0,1164,8,male single,bank,good
+0<=X<200,5954,42,female div/dep/mar,bank,good
+<0,1977,36,male single,none,bad
+<0,1526,12,male single,none,good
+<0,3965,42,male single,none,bad
+0<=X<200,4771,11,male single,none,good
+no checking,9436,54,male single,none,good
+0<=X<200,3832,30,male mar/wid,none,good
+no checking,5943,24,female div/dep/mar,none,bad
+no checking,1213,15,male single,stores,good
+no checking,1568,18,female div/dep/mar,none,good
+<0,1755,24,female div/dep/mar,none,good
+<0,2315,10,male single,none,good
+no checking,1412,12,female div/dep/mar,none,good
+0<=X<200,1295,18,female div/dep/mar,none,good
+0<=X<200,12612,36,male single,none,bad
+<0,2249,18,male single,none,good
+<0,1108,12,male single,none,bad
+no checking,618,12,male single,none,good
+<0,1409,12,male single,none,good
+no checking,797,12,female div/dep/mar,bank,bad
+>=200,3617,24,male single,none,good
+0<=X<200,1318,12,male single,none,good
+0<=X<200,15945,54,male single,none,bad
+no checking,2012,12,female div/dep/mar,none,good
+0<=X<200,2622,18,male single,none,good
+0<=X<200,2337,36,male single,none,good
+0<=X<200,7057,20,male single,bank,good
+no checking,1469,24,male mar/wid,none,good
+0<=X<200,2323,36,male single,none,good
+no checking,932,6,female div/dep/mar,none,good
+0<=X<200,1919,9,male single,none,good
+no checking,2445,12,male mar/wid,none,good
+0<=X<200,11938,24,male single,none,bad
+no checking,6458,18,male single,bank,bad
+0<=X<200,6078,12,male single,none,good
+<0,7721,24,female div/dep/mar,none,good
+0<=X<200,1410,14,male mar/wid,none,good
+0<=X<200,1449,6,male div/sep,bank,good
+>=200,392,15,female div/dep/mar,none,good
+0<=X<200,6260,18,male single,none,good
+no checking,7855,36,female div/dep/mar,stores,bad
+<0,1680,12,male mar/wid,none,good
+no checking,3578,48,male single,none,good
+<0,7174,42,female div/dep/mar,none,bad
+<0,2132,10,female div/dep/mar,none,good
+<0,4281,33,female div/dep/mar,none,bad
+0<=X<200,2366,12,male div/sep,none,good
+<0,1835,21,female div/dep/mar,none,bad
+no checking,3868,24,female div/dep/mar,none,good
+no checking,1768,12,male single,none,good
+>=200,781,10,male single,none,good
+0<=X<200,1924,18,female div/dep/mar,none,bad
+<0,2121,12,male single,none,good
+<0,701,12,male mar/wid,none,good
+0<=X<200,639,12,male single,none,bad
+0<=X<200,1860,12,male single,none,good
+<0,3499,12,female div/dep/mar,none,bad
+0<=X<200,8487,48,female div/dep/mar,none,good
+<0,6887,36,male single,stores,bad
+no checking,2708,15,male single,bank,good
+no checking,1984,18,male single,bank,good
+no checking,10144,60,female div/dep/mar,none,good
+no checking,1240,12,female div/dep/mar,none,good
+no checking,8613,27,male single,none,good
+0<=X<200,766,12,male single,none,bad
+0<=X<200,2728,15,male single,bank,good
+>=200,1881,12,female div/dep/mar,none,good
+>=200,709,6,male mar/wid,none,good
+0<=X<200,4795,36,female div/dep/mar,none,good
+<0,3416,27,male single,none,good
+<0,2462,18,male single,none,bad
+no checking,2288,21,female div/dep/mar,none,good
+0<=X<200,3566,48,male single,none,good
+<0,860,6,female div/dep/mar,none,good
+no checking,682,12,female div/dep/mar,none,good
+<0,5371,36,male single,none,good
+no checking,1582,18,male single,none,good
+no checking,1346,6,male single,bank,good
+no checking,1924,10,male single,none,good
+>=200,5848,36,male single,none,good
+0<=X<200,7758,24,female div/dep/mar,none,good
+0<=X<200,6967,24,male single,none,good
+<0,1282,12,female div/dep/mar,none,bad
+<0,1288,9,male single,none,good
+<0,339,12,male mar/wid,bank,good
+0<=X<200,3512,24,male single,bank,good
+no checking,1898,6,male single,none,good
+no checking,2872,24,male single,none,good
+no checking,1055,18,female div/dep/mar,none,good
+no checking,1262,15,male single,none,good
+0<=X<200,7308,10,male single,bank,good
+no checking,909,36,male single,none,good
+no checking,2978,6,male single,none,good
+<0,1131,18,female div/dep/mar,none,bad
+0<=X<200,1577,11,female div/dep/mar,none,good
+no checking,3972,24,female div/dep/mar,none,good
+0<=X<200,1935,24,male div/sep,none,bad
+<0,950,15,male single,none,bad
+no checking,763,12,female div/dep/mar,none,good
+0<=X<200,2064,24,female div/dep/mar,none,bad
+0<=X<200,1414,8,male single,none,good
+<0,3414,21,male single,none,bad
+no checking,7485,30,female div/dep/mar,bank,bad
+<0,2577,12,male div/sep,none,good
+<0,338,6,male single,none,good
+no checking,1963,12,male single,none,good
+<0,571,21,male single,none,good
+no checking,9572,36,male div/sep,none,bad
+0<=X<200,4455,36,male div/sep,stores,bad
+<0,1647,21,male single,none,bad
+no checking,3777,24,male single,none,good
+0<=X<200,884,18,male single,bank,bad
+no checking,1360,15,male single,none,good
+0<=X<200,5129,9,female div/dep/mar,bank,bad
+0<=X<200,1175,16,male single,none,good
+<0,674,12,male mar/wid,none,bad
+0<=X<200,3244,18,female div/dep/mar,bank,good
+no checking,4591,24,male single,none,bad
+0<=X<200,3844,48,male single,none,bad
+0<=X<200,3915,27,male single,none,bad
+no checking,2108,6,male mar/wid,none,good
+0<=X<200,3031,45,male single,none,bad
+0<=X<200,1501,9,female div/dep/mar,none,bad
+no checking,1382,6,female div/dep/mar,none,good
+0<=X<200,951,12,female div/dep/mar,bank,bad
+0<=X<200,2760,24,male single,bank,good
+0<=X<200,4297,18,male div/sep,none,bad
+no checking,936,9,male single,none,good
+<0,1168,12,male mar/wid,none,good
+no checking,5117,27,male single,none,good
+<0,902,12,male mar/wid,none,bad
+no checking,1495,12,male single,none,good
+<0,10623,30,male single,none,good
+no checking,1935,12,male single,none,good
+0<=X<200,1424,12,male single,none,good
+<0,6568,24,male mar/wid,stores,good
+no checking,1413,12,male single,none,good
+no checking,3074,9,male single,none,good
+no checking,3835,36,female div/dep/mar,none,good
+<0,5293,27,male single,stores,bad
+>=200,1908,30,male single,none,bad
+no checking,3342,36,male single,none,good
+0<=X<200,932,6,female div/dep/mar,none,good
+<0,3104,18,male single,bank,good
+>=200,3913,36,male single,none,good
+<0,3021,24,male div/sep,none,good
+no checking,1364,10,female div/dep/mar,none,good
+0<=X<200,625,12,male mar/wid,bank,good
+<0,1200,12,female div/dep/mar,bank,good
+no checking,707,12,male single,bank,good
+no checking,2978,24,male single,none,good
+no checking,4657,15,male single,none,good
+no checking,2613,36,male single,none,good
+0<=X<200,10961,48,male single,bank,bad
+<0,7865,12,male single,none,bad
+no checking,1478,9,male single,none,bad
+<0,3149,24,male single,bank,good
+>=200,4210,36,male single,none,bad
+no checking,2507,9,male single,none,good
+no checking,2141,12,male single,none,good
+0<=X<200,866,18,male mar/wid,none,good
+no checking,1544,4,male single,none,good
+<0,1823,24,male single,stores,bad
+0<=X<200,14555,6,male single,none,bad
+0<=X<200,2767,21,male div/sep,bank,bad
+no checking,1291,12,female div/dep/mar,none,good
+<0,2522,30,male single,none,good
+<0,915,24,female div/dep/mar,bank,bad
+no checking,1595,6,male single,none,good
+<0,4605,48,male single,none,bad
+no checking,1185,12,female div/dep/mar,none,good
+no checking,3447,12,female div/dep/mar,none,good
+no checking,1258,24,male single,none,good
+no checking,717,12,male single,none,good
+no checking,1204,6,male single,bank,good
+>=200,1925,24,male single,none,good
+no checking,433,18,female div/dep/mar,none,bad
+<0,666,6,female div/dep/mar,none,good
+>=200,2251,12,female div/dep/mar,none,good
+0<=X<200,2150,30,female div/dep/mar,bank,bad
+no checking,4151,24,male single,none,good
+0<=X<200,2030,9,male single,none,good
+0<=X<200,7418,60,male single,none,good
+no checking,2684,24,male single,none,good
+<0,2149,12,male div/sep,none,bad
+no checking,3812,15,female div/dep/mar,none,good
+no checking,1154,11,female div/dep/mar,none,good
+<0,1657,12,male single,none,good
+<0,1603,24,female div/dep/mar,none,good
+<0,5302,18,male single,none,good
+no checking,2748,12,female div/dep/mar,bank,good
+no checking,1231,10,male single,none,good
+0<=X<200,802,15,male single,none,bad
+no checking,6304,36,male single,none,good
+no checking,1533,24,female div/dep/mar,stores,good
+<0,8978,14,male div/sep,none,bad
+no checking,999,24,male single,none,good
+no checking,2662,18,male single,none,good
+no checking,1402,12,female div/dep/mar,none,good
+0<=X<200,12169,48,male single,none,good
+0<=X<200,3060,48,male single,none,bad
+<0,11998,30,male div/sep,none,bad
+no checking,2697,9,male single,none,good
+no checking,2404,18,female div/dep/mar,none,good
+<0,1262,12,male div/sep,none,good
+no checking,4611,6,female div/dep/mar,none,bad
+no checking,1901,24,male single,none,good
+no checking,3368,15,male single,none,good
+no checking,1574,12,male single,none,good
+>=200,1445,18,male single,bank,good
+no checking,1520,15,male single,none,good
+0<=X<200,3878,24,male div/sep,none,good
+<0,10722,47,female div/dep/mar,none,good
+<0,4788,48,male single,none,good
+0<=X<200,7582,48,male single,none,good
+0<=X<200,1092,12,female div/dep/mar,none,good
+<0,1024,24,male mar/wid,stores,bad
+no checking,1076,12,male mar/wid,none,good
+0<=X<200,9398,36,male mar/wid,none,bad
+<0,6419,24,female div/dep/mar,none,good
+>=200,4796,42,male single,none,good
+no checking,7629,48,male div/sep,bank,good
+0<=X<200,9960,48,female div/dep/mar,none,bad
+no checking,4675,12,female div/dep/mar,none,good
+no checking,1287,10,male single,none,good
+no checking,2515,18,male single,none,good
+0<=X<200,2745,21,male single,none,good
+no checking,672,6,female div/dep/mar,none,good
+0<=X<200,3804,36,female div/dep/mar,none,bad
+>=200,1344,24,male single,bank,bad
+<0,1038,10,male single,none,good
+no checking,10127,48,male single,bank,bad
+no checking,1543,6,male div/sep,none,good
+no checking,4811,30,female div/dep/mar,stores,good
+<0,727,12,male mar/wid,none,bad
+0<=X<200,1237,8,female div/dep/mar,none,bad
+0<=X<200,276,9,male mar/wid,none,good
+0<=X<200,5381,48,male single,bank,good
+no checking,5511,24,male single,stores,good
+>=200,3749,24,female div/dep/mar,none,good
+0<=X<200,685,12,male mar/wid,bank,bad
+>=200,1494,4,male single,none,good
+<0,2746,36,male single,bank,bad
+<0,708,12,male single,none,good
+0<=X<200,4351,24,female div/dep/mar,none,good
+no checking,701,12,male single,none,good
+<0,3643,15,female div/dep/mar,none,good
+0<=X<200,4249,30,male mar/wid,none,bad
+<0,1938,24,male div/sep,none,bad
+<0,2910,24,male single,none,good
+<0,2659,18,male single,none,good
+no checking,1028,18,female div/dep/mar,none,good
+<0,3398,8,male single,none,good
+no checking,5801,12,male single,none,good
+no checking,1525,24,female div/dep/mar,none,good
+>=200,4473,36,male single,none,good
+0<=X<200,1068,6,male single,none,good
+<0,6615,24,male single,none,good
+no checking,1864,18,female div/dep/mar,none,bad
+0<=X<200,7408,60,female div/dep/mar,none,bad
+no checking,11590,48,female div/dep/mar,bank,bad
+<0,4110,24,male single,bank,bad
+<0,3384,6,male div/sep,none,bad
+0<=X<200,2101,13,female div/dep/mar,none,good
+<0,1275,15,female div/dep/mar,none,bad
+<0,4169,24,male single,none,good
+0<=X<200,1521,10,male div/sep,none,good
+0<=X<200,5743,24,female div/dep/mar,none,good
+<0,3599,21,female div/dep/mar,none,good
+0<=X<200,3213,18,male mar/wid,none,good
+0<=X<200,4439,18,male single,bank,good
+>=200,3949,10,male single,none,good
+no checking,1459,15,female div/dep/mar,none,good
+0<=X<200,882,13,male single,none,good
+0<=X<200,3758,24,female div/dep/mar,none,good
+no checking,1743,6,male single,none,good
+0<=X<200,1136,9,male single,none,bad
+no checking,1236,9,female div/dep/mar,none,good
+0<=X<200,959,9,female div/dep/mar,none,bad
+no checking,3229,18,male single,none,good
+<0,6199,12,male single,none,bad
+no checking,727,10,male single,none,good
+0<=X<200,1246,24,male single,stores,bad
+no checking,2331,12,male single,none,good
+no checking,4463,36,male single,none,bad
+no checking,776,12,male mar/wid,none,good
+<0,2406,30,female div/dep/mar,none,bad
+0<=X<200,1239,18,male single,none,good
+>=200,3399,12,male single,none,good
+>=200,2247,12,female div/dep/mar,stores,good
+no checking,1766,6,male mar/wid,none,good
+<0,2473,18,male single,none,bad
+no checking,1542,12,male single,none,good
+no checking,3850,18,male single,none,good
+<0,3650,18,female div/dep/mar,none,good
+<0,3446,36,male single,none,bad
+0<=X<200,3001,18,female div/dep/mar,none,good
+no checking,3079,36,male single,none,good
+no checking,6070,18,male single,none,good
+no checking,2146,10,female div/dep/mar,none,good
+no checking,13756,60,male single,bank,good
+0<=X<200,14782,60,female div/dep/mar,bank,bad
+<0,7685,48,female div/dep/mar,none,bad
+no checking,2320,18,male mar/wid,none,good
+no checking,846,7,male single,none,good
+0<=X<200,14318,36,male single,none,bad
+no checking,362,6,female div/dep/mar,none,good
+<0,2212,20,male single,none,good
+0<=X<200,12976,18,female div/dep/mar,none,bad
+no checking,1283,22,female div/dep/mar,none,good
+>=200,1330,12,male single,none,good
+no checking,4272,30,male single,none,good
+no checking,2238,18,female div/dep/mar,none,good
+no checking,1126,18,female div/dep/mar,none,good
+0<=X<200,7374,18,male single,stores,good
+0<=X<200,2326,15,male single,bank,good
+no checking,1449,9,female div/dep/mar,none,good
+no checking,1820,18,male mar/wid,none,good
+0<=X<200,983,12,female div/dep/mar,none,good
+<0,3249,36,male single,bank,good
+<0,1957,6,female div/dep/mar,none,good
+no checking,2406,9,male single,none,good
+0<=X<200,11760,39,male single,none,good
+<0,2578,12,female div/dep/mar,none,good
+<0,2348,36,male mar/wid,none,good
+0<=X<200,1223,12,male div/sep,none,bad
+no checking,1516,24,female div/dep/mar,none,good
+no checking,1473,18,male mar/wid,none,good
+0<=X<200,1887,18,male mar/wid,bank,good
+no checking,8648,24,male single,bank,bad
+no checking,802,14,male single,none,good
+0<=X<200,2899,18,male single,none,good
+0<=X<200,2039,24,male mar/wid,none,bad
+no checking,2197,24,male single,none,good
+<0,1053,15,male mar/wid,none,good
+no checking,3235,24,male div/sep,none,good
+>=200,939,12,male mar/wid,none,bad
+0<=X<200,1967,24,female div/dep/mar,none,good
+no checking,7253,33,male single,none,good
+no checking,2292,12,male single,stores,bad
+no checking,1597,10,male single,none,good
+<0,1381,24,female div/dep/mar,none,bad
+no checking,5842,36,male single,none,good
+<0,2579,12,male single,none,bad
+<0,8471,18,female div/dep/mar,none,good
+no checking,2782,21,female div/dep/mar,bank,good
+0<=X<200,1042,18,female div/dep/mar,none,bad
+no checking,3186,15,female div/dep/mar,none,good
+0<=X<200,2028,12,male single,none,good
+0<=X<200,958,12,male single,none,good
+no checking,1591,21,male single,none,good
+0<=X<200,2762,12,female div/dep/mar,bank,bad
+0<=X<200,2779,18,male mar/wid,none,good
+no checking,2743,28,male single,none,good
+no checking,1149,18,male single,none,good
+no checking,1313,9,male single,none,good
+<0,1190,18,female div/dep/mar,none,bad
+no checking,3448,5,male single,none,good
+0<=X<200,11328,24,male single,bank,bad
+<0,1872,6,male single,none,good
+no checking,2058,24,male div/sep,none,good
+<0,2136,9,male single,none,good
+0<=X<200,1484,12,male mar/wid,none,bad
+no checking,660,6,male mar/wid,none,good
+no checking,1287,24,female div/dep/mar,none,good
+<0,3394,42,male single,none,good
+>=200,609,12,female div/dep/mar,none,bad
+no checking,1884,12,male single,none,good
+<0,1620,12,female div/dep/mar,none,good
+0<=X<200,2629,20,male single,bank,good
+no checking,719,12,male single,bank,bad
+0<=X<200,5096,48,female div/dep/mar,none,bad
+no checking,1244,9,female div/dep/mar,none,good
+<0,1842,36,female div/dep/mar,none,bad
+0<=X<200,2576,7,male single,none,good
+>=200,1424,12,female div/dep/mar,none,good
+0<=X<200,1512,15,male mar/wid,stores,bad
+no checking,11054,36,male single,none,good
+no checking,518,6,female div/dep/mar,none,good
+no checking,2759,12,male single,none,good
+no checking,2670,24,male single,none,good
+<0,4817,24,male single,none,bad
+no checking,2679,24,female div/dep/mar,none,good
+<0,3905,11,male single,none,good
+<0,3386,12,male single,none,bad
+<0,343,6,female div/dep/mar,none,good
+no checking,4594,18,male single,none,good
+<0,3620,36,male single,none,good
+<0,1721,15,male single,none,good
+0<=X<200,3017,12,female div/dep/mar,none,good
+0<=X<200,754,12,male single,none,good
+no checking,1950,18,male single,stores,good
+<0,2924,24,male single,bank,good
+<0,1659,24,female div/dep/mar,none,bad
+no checking,7238,48,male single,bank,good
+no checking,2764,33,female div/dep/mar,none,good
+no checking,4679,24,male single,none,good
+0<=X<200,3092,24,male mar/wid,none,bad
+<0,448,6,female div/dep/mar,none,bad
+<0,654,9,male single,none,bad
+no checking,1238,6,male single,none,good
+0<=X<200,1245,18,male mar/wid,none,bad
+<0,3114,18,female div/dep/mar,none,bad
+no checking,2569,39,male single,none,good
+>=200,5152,24,male single,bank,good
+0<=X<200,1037,12,male single,none,good
+<0,1478,15,male single,none,good
+0<=X<200,3573,12,female div/dep/mar,none,good
+0<=X<200,1201,24,male single,none,good
+<0,3622,30,female div/dep/mar,none,good
+no checking,960,15,female div/dep/mar,none,good
+no checking,1163,12,male single,none,good
+0<=X<200,1209,6,male single,none,bad
+no checking,3077,12,male single,none,good
+no checking,3757,24,female div/dep/mar,none,good
+no checking,1418,10,male single,none,good
+no checking,3518,6,male single,none,good
+no checking,1934,12,male single,none,good
+0<=X<200,8318,27,female div/dep/mar,none,bad
+no checking,1237,6,female div/dep/mar,none,good
+0<=X<200,368,6,male single,none,good
+<0,2122,12,male single,none,good
+<0,2996,24,male mar/wid,none,bad
+0<=X<200,9034,36,male single,none,bad
+no checking,1585,24,male single,none,good
+0<=X<200,1301,18,male mar/wid,none,good
+>=200,1323,6,male div/sep,none,good
+<0,3123,24,female div/dep/mar,none,bad
+<0,5493,36,male single,none,good
+>=200,1126,9,male div/sep,none,good
+0<=X<200,1216,24,male single,bank,bad
+<0,1207,24,female div/dep/mar,none,bad
+no checking,1309,10,male single,none,bad
+>=200,2360,15,male single,none,good
+0<=X<200,6850,15,male single,none,bad
+no checking,1413,24,male mar/wid,none,good
+no checking,8588,39,male single,none,good
+<0,759,12,male single,none,bad
+no checking,4686,36,male single,none,good
+>=200,2687,15,male single,none,good
+0<=X<200,585,12,male mar/wid,none,good
+no checking,2255,24,male single,none,good
+<0,609,6,female div/dep/mar,none,good
+<0,1361,6,male single,none,good
+no checking,7127,36,female div/dep/mar,none,bad
+<0,1203,6,male single,none,good
+no checking,700,6,male single,none,good
+no checking,5507,24,male single,none,good
+<0,3190,18,female div/dep/mar,none,bad
+<0,7119,48,male single,none,bad
+no checking,3488,24,female div/dep/mar,none,good
+0<=X<200,1113,18,female div/dep/mar,none,good
+0<=X<200,7966,26,male single,none,good
+no checking,1532,15,female div/dep/mar,none,good
+no checking,1503,4,male single,none,good
+<0,2302,36,male div/sep,none,bad
+<0,662,6,male single,none,good
+0<=X<200,2273,36,male single,none,good
+0<=X<200,2631,15,female div/dep/mar,none,bad
+no checking,1503,12,male mar/wid,none,good
+no checking,1311,24,male mar/wid,none,good
+no checking,3105,24,male single,none,good
+>=200,2319,21,male div/sep,none,bad
+<0,1374,6,female div/dep/mar,none,good
+0<=X<200,3612,18,female div/dep/mar,none,good
+<0,7763,48,male single,bank,bad
+>=200,3049,18,female div/dep/mar,stores,good
+0<=X<200,1534,12,male mar/wid,none,bad
+no checking,2032,24,male single,none,good
+<0,6350,30,male single,none,bad
+>=200,2864,18,male single,none,bad
+no checking,1255,12,male single,none,good
+<0,1333,24,male single,none,bad
+no checking,2022,24,female div/dep/mar,none,good
+no checking,1552,24,male single,bank,good
+<0,626,12,female div/dep/mar,bank,bad
+no checking,8858,48,male single,none,good
+no checking,996,12,female div/dep/mar,none,good
+no checking,1750,6,male single,bank,good
+<0,6999,48,male mar/wid,none,bad
+0<=X<200,1995,12,male single,none,good
+0<=X<200,1199,9,female div/dep/mar,none,good
+0<=X<200,1331,12,male single,stores,bad
+0<=X<200,2278,18,female div/dep/mar,none,bad
+no checking,5003,21,female div/dep/mar,bank,bad
+<0,3552,24,male single,bank,bad
+0<=X<200,1928,18,male single,none,bad
+<0,2964,24,male single,bank,good
+<0,1546,24,male single,bank,bad
+>=200,683,6,female div/dep/mar,bank,good
+0<=X<200,12389,36,male single,none,bad
+0<=X<200,4712,24,male single,bank,good
+0<=X<200,1553,24,female div/dep/mar,none,good
+<0,1372,12,male div/sep,none,bad
+no checking,2578,24,male single,none,good
+0<=X<200,3979,48,male single,none,good
+<0,6758,48,female div/dep/mar,none,bad
+<0,3234,24,female div/dep/mar,none,bad
+no checking,5954,30,male single,none,good
+no checking,5433,24,female div/dep/mar,none,good
+<0,806,15,female div/dep/mar,none,good
+0<=X<200,1082,9,male single,none,good
+no checking,2788,15,female div/dep/mar,bank,good
+0<=X<200,2930,12,female div/dep/mar,none,good
+no checking,1927,24,female div/dep/mar,none,good
+0<=X<200,2820,36,male div/sep,none,bad
+no checking,937,24,male mar/wid,none,good
+0<=X<200,1056,18,male single,bank,bad
+0<=X<200,3124,12,male single,bank,good
+no checking,1388,9,female div/dep/mar,none,good
+0<=X<200,2384,36,male single,none,bad
+no checking,2133,12,female div/dep/mar,none,good
+<0,2039,18,female div/dep/mar,bank,bad
+<0,2799,9,male single,none,good
+<0,1289,12,male single,none,good
+<0,1217,18,male mar/wid,none,bad
+<0,2246,12,male single,none,bad
+<0,385,12,female div/dep/mar,none,good
+0<=X<200,1965,24,female div/dep/mar,none,good
+no checking,1572,21,female div/dep/mar,bank,good
+0<=X<200,2718,24,female div/dep/mar,none,bad
+<0,1358,24,male single,stores,bad
+0<=X<200,931,6,female div/dep/mar,stores,bad
+<0,1442,24,female div/dep/mar,none,bad
+0<=X<200,4241,24,male single,none,bad
+no checking,2775,18,male single,bank,bad
+no checking,3863,24,male single,none,good
+0<=X<200,2329,7,female div/dep/mar,none,good
+0<=X<200,918,9,female div/dep/mar,none,bad
+0<=X<200,1837,24,female div/dep/mar,bank,bad
+no checking,3349,36,female div/dep/mar,none,bad
+>=200,1275,10,female div/dep/mar,none,good
+<0,2828,24,male single,stores,good
+no checking,4526,24,male single,none,good
+0<=X<200,2671,36,female div/dep/mar,none,bad
+no checking,2051,18,male single,none,good
+no checking,1300,15,male single,bank,good
+<0,741,12,female div/dep/mar,none,bad
+>=200,1240,10,female div/dep/mar,none,bad
+<0,3357,21,female div/dep/mar,bank,good
+<0,3632,24,female div/dep/mar,bank,good
+no checking,1808,18,female div/dep/mar,none,bad
+0<=X<200,12204,48,male single,bank,good
+0<=X<200,9157,60,male single,none,good
+<0,3676,6,male single,none,good
+0<=X<200,3441,30,female div/dep/mar,none,bad
+no checking,640,12,male div/sep,none,good
+0<=X<200,3652,21,male single,none,good
+no checking,1530,18,male single,bank,bad
+no checking,3914,48,male div/sep,bank,bad
+<0,1858,12,female div/dep/mar,none,good
+<0,2600,18,male single,none,bad
+no checking,1979,15,male single,none,good
+>=200,2116,6,male single,none,good
+0<=X<200,1437,9,male single,none,bad
+no checking,4042,42,male single,none,good
+no checking,3832,9,male single,none,good
+<0,3660,24,female div/dep/mar,none,good
+<0,1553,18,male single,bank,bad
+0<=X<200,1444,15,male single,none,good
+no checking,1980,9,female div/dep/mar,none,bad
+0<=X<200,1355,24,female div/dep/mar,none,bad
+no checking,1393,12,male single,bank,good
+no checking,1376,24,female div/dep/mar,none,good
+no checking,15653,60,male single,none,good
+no checking,1493,12,female div/dep/mar,none,good
+<0,4370,42,male single,bank,bad
+<0,750,18,female div/dep/mar,none,bad
+0<=X<200,1308,15,male single,none,good
+no checking,4623,15,male single,none,bad
+no checking,1851,24,male mar/wid,none,good
+<0,1880,18,male mar/wid,none,good
+no checking,7980,36,male single,none,bad
+<0,4583,30,male div/sep,none,good
+no checking,1386,12,female div/dep/mar,none,bad
+>=200,947,24,male single,bank,bad
+<0,684,12,male single,none,bad
+<0,7476,48,male single,none,good
+0<=X<200,1922,12,male single,none,bad
+<0,2303,24,male single,none,bad
+0<=X<200,8086,36,male single,none,bad
+no checking,2346,24,male single,none,good
+<0,3973,14,male single,none,good
+0<=X<200,888,12,male single,bank,bad
+no checking,10222,48,male single,stores,good
+0<=X<200,4221,30,female div/dep/mar,none,good
+0<=X<200,6361,18,male single,none,good
+>=200,1297,12,male mar/wid,none,good
+<0,900,12,male mar/wid,none,bad
+no checking,2241,21,male single,none,good
+0<=X<200,1050,6,male single,stores,good
+>=200,1047,6,female div/dep/mar,none,good
+no checking,6314,24,male single,bank,good
+0<=X<200,3496,30,male single,stores,good
+no checking,3609,48,female div/dep/mar,stores,good
+<0,4843,12,male single,none,bad
+>=200,3017,30,male single,none,good
+no checking,4139,24,male single,none,good
+no checking,5742,36,male single,none,good
+no checking,10366,60,male single,none,good
+no checking,2080,6,male mar/wid,none,good
+no checking,2580,21,male single,bank,bad
+no checking,4530,30,female div/dep/mar,none,good
+no checking,5150,24,male single,none,good
+0<=X<200,5595,72,male mar/wid,none,bad
+<0,2384,24,male single,bank,good
+no checking,1453,18,female div/dep/mar,none,good
+no checking,1538,6,female div/dep/mar,none,good
+no checking,2279,12,male single,none,good
+no checking,1478,15,male mar/wid,bank,good
+no checking,5103,24,male mar/wid,none,good
+0<=X<200,9857,36,male single,none,good
+no checking,6527,60,male single,none,good
+>=200,1347,10,male single,none,good
+0<=X<200,2862,36,male single,none,good
+no checking,2753,9,male single,none,good
+<0,3651,12,male single,none,good
+<0,975,15,male div/sep,none,good
+0<=X<200,2631,15,female div/dep/mar,none,good
+0<=X<200,2896,24,male single,none,good
+<0,4716,6,male single,none,good
+no checking,2284,24,male single,none,good
+no checking,1236,6,male single,none,good
+0<=X<200,1103,12,male single,none,good
+no checking,926,12,female div/dep/mar,none,good
+no checking,1800,18,male single,none,good
+>=200,1905,15,male single,none,good
+no checking,1123,12,female div/dep/mar,none,bad
+<0,6331,48,male single,none,bad
+>=200,1377,24,female div/dep/mar,none,good
+0<=X<200,2503,30,male single,stores,good
+0<=X<200,2528,27,female div/dep/mar,none,good
+no checking,5324,15,female div/dep/mar,none,good
+0<=X<200,6560,48,male single,none,bad
+0<=X<200,2969,12,female div/dep/mar,none,bad
+0<=X<200,1206,9,female div/dep/mar,none,good
+0<=X<200,2118,9,male single,none,good
+no checking,629,18,male single,bank,good
+<0,1198,6,female div/dep/mar,none,bad
+no checking,2476,21,male single,none,good
+<0,1138,9,male single,none,good
+0<=X<200,14027,60,male single,none,bad
+no checking,7596,30,male single,none,good
+no checking,3077,30,male single,none,good
+no checking,1505,18,male single,none,good
+>=200,3148,24,male single,none,good
+0<=X<200,6148,20,male mar/wid,bank,good
+>=200,1337,9,male single,none,bad
+0<=X<200,433,6,female div/dep/mar,bank,bad
+<0,1228,12,female div/dep/mar,none,bad
+0<=X<200,790,9,female div/dep/mar,none,good
+no checking,2570,27,female div/dep/mar,none,bad
+no checking,250,6,female div/dep/mar,bank,good
+no checking,1316,15,male mar/wid,none,good
+<0,1882,18,female div/dep/mar,bank,bad
+0<=X<200,6416,48,female div/dep/mar,none,bad
+>=200,1275,24,male div/sep,none,good
+0<=X<200,6403,24,male single,none,good
+<0,1987,24,male single,none,bad
+0<=X<200,760,8,female div/dep/mar,none,good
+no checking,2603,24,female div/dep/mar,none,good
+no checking,3380,4,female div/dep/mar,none,good
+0<=X<200,3990,36,female div/dep/mar,bank,good
+0<=X<200,11560,24,female div/dep/mar,none,bad
+<0,4380,18,male single,none,good
+no checking,6761,6,male single,none,good
+0<=X<200,4280,30,female div/dep/mar,none,bad
+<0,2325,24,male single,bank,good
+0<=X<200,1048,10,male single,stores,good
+no checking,3160,21,male single,none,good
+<0,2483,24,male single,stores,good
+<0,14179,39,male single,none,good
+<0,1797,13,male single,bank,good
+<0,2511,15,female div/dep/mar,none,good
+<0,1274,12,female div/dep/mar,none,bad
+no checking,5248,21,male single,none,good
+no checking,3029,15,male single,none,good
+<0,428,6,female div/dep/mar,bank,good
+<0,976,18,female div/dep/mar,none,bad
+0<=X<200,841,12,female div/dep/mar,none,good
+no checking,5771,30,female div/dep/mar,none,good
+no checking,1555,12,male single,none,bad
+<0,1285,24,female div/dep/mar,none,bad
+>=200,1299,6,male single,none,good
+>=200,1271,15,male single,none,bad
+no checking,1393,24,male single,none,good
+<0,691,12,male single,none,bad
+no checking,5045,15,female div/dep/mar,none,good
+<0,2124,18,female div/dep/mar,none,bad
+<0,2214,12,male single,none,good
+no checking,12680,21,male single,none,bad
+no checking,2463,24,male mar/wid,none,good
+0<=X<200,1155,12,male mar/wid,bank,good
+<0,3108,30,male div/sep,none,bad
+no checking,2901,10,female div/dep/mar,none,good
+0<=X<200,3617,12,male single,none,good
+no checking,1655,12,male single,none,good
+<0,2812,24,female div/dep/mar,none,good
+<0,8065,36,female div/dep/mar,none,bad
+no checking,3275,21,male single,none,good
+no checking,2223,24,male single,bank,good
+>=200,1480,12,male single,bank,good
+<0,1371,24,female div/dep/mar,none,bad
+no checking,3535,36,male single,none,good
+<0,3509,18,female div/dep/mar,none,good
+no checking,5711,36,male single,none,good
+0<=X<200,3872,18,female div/dep/mar,none,good
+0<=X<200,4933,39,male single,none,bad
+no checking,1940,24,male single,none,good
+0<=X<200,1410,12,male single,none,good
+0<=X<200,836,12,female div/dep/mar,bank,bad
+0<=X<200,6468,20,male div/sep,none,good
+0<=X<200,1941,18,male single,none,good
+no checking,2675,22,male single,none,good
+no checking,2751,48,male single,none,good
+0<=X<200,6224,48,male single,none,bad
+<0,5998,40,male single,bank,bad
+0<=X<200,1188,21,female div/dep/mar,none,bad
+no checking,6313,24,male single,none,good
+no checking,1221,6,male mar/wid,none,good
+>=200,2892,24,male div/sep,none,good
+no checking,3062,24,male single,none,good
+no checking,2301,9,female div/dep/mar,none,good
+<0,7511,18,male single,none,bad
+no checking,1258,12,female div/dep/mar,none,good
+no checking,717,24,male mar/wid,none,good
+0<=X<200,1549,9,male single,none,good
+no checking,1597,24,male single,none,good
+0<=X<200,1795,18,female div/dep/mar,bank,good
+<0,4272,20,female div/dep/mar,none,good
+no checking,976,12,male single,none,good
+0<=X<200,7472,12,female div/dep/mar,none,good
+<0,9271,36,male single,none,bad
+0<=X<200,590,6,male mar/wid,none,good
+no checking,930,12,male single,none,good
+0<=X<200,9283,42,male single,bank,good
+0<=X<200,1778,15,female div/dep/mar,none,bad
+0<=X<200,907,8,male mar/wid,none,good
+0<=X<200,484,6,male mar/wid,bank,good
+<0,9629,36,male single,none,bad
+<0,3051,48,male single,none,bad
+<0,3931,48,male single,none,bad
+0<=X<200,7432,36,female div/dep/mar,none,good
+no checking,1338,6,male div/sep,none,good
+no checking,1554,6,female div/dep/mar,none,good
+<0,15857,36,male div/sep,none,good
+<0,1345,18,male mar/wid,bank,bad
+no checking,1101,12,male mar/wid,none,good
+>=200,3016,12,male mar/wid,none,good
+<0,2712,36,male single,bank,bad
+<0,731,8,male single,none,good
+no checking,3780,18,male div/sep,none,good
+<0,1602,21,male mar/wid,none,good
+<0,3966,18,female div/dep/mar,bank,bad
+no checking,4165,18,male single,stores,bad
+<0,8335,36,male single,none,bad
+0<=X<200,6681,48,male single,none,good
+no checking,2375,24,male single,none,good
+<0,1216,18,female div/dep/mar,none,bad
+<0,11816,45,male single,none,bad
+0<=X<200,5084,24,female div/dep/mar,none,good
+>=200,2327,15,female div/dep/mar,none,bad
+<0,1082,12,male single,bank,bad
+no checking,886,12,female div/dep/mar,none,good
+no checking,601,4,female div/dep/mar,none,good
+<0,2957,24,male single,none,good
+no checking,2611,24,male mar/wid,none,good
+<0,5179,36,male single,none,bad
+no checking,2993,21,male single,stores,good
+no checking,1943,18,female div/dep/mar,none,bad
+no checking,1559,24,male single,bank,good
+no checking,3422,18,male single,bank,good
+0<=X<200,3976,21,male single,none,good
+no checking,6761,18,male single,none,bad
+no checking,1249,24,male mar/wid,none,good
+<0,1364,9,male single,none,good
+<0,709,12,male single,stores,bad
+<0,2235,20,male mar/wid,bank,bad
+no checking,4042,24,male single,none,good
+no checking,1471,15,male single,none,good
+<0,1442,18,male single,none,bad
+no checking,10875,36,male single,none,good
+no checking,1474,24,male mar/wid,none,good
+no checking,894,10,female div/dep/mar,none,good
+no checking,3343,15,male single,none,good
+<0,3959,15,female div/dep/mar,none,bad
+no checking,3577,9,male single,none,good
+no checking,5804,24,male single,none,good
+no checking,2169,18,male mar/wid,none,bad
+<0,2439,24,female div/dep/mar,none,bad
+no checking,4526,27,male single,stores,good
+no checking,2210,10,male single,bank,bad
+no checking,2221,15,female div/dep/mar,none,good
+<0,2389,18,female div/dep/mar,stores,good
+no checking,3331,12,male single,stores,good
+no checking,7409,36,male single,none,good
+<0,652,12,female div/dep/mar,none,good
+no checking,7678,36,female div/dep/mar,none,good
+>=200,1343,6,male single,none,good
+<0,1382,24,male single,none,good
+no checking,874,15,female div/dep/mar,none,good
+<0,3590,12,male single,none,good
+0<=X<200,1322,11,female div/dep/mar,none,good
+<0,1940,18,male single,bank,good
+no checking,3595,36,male single,none,good
+<0,1422,9,male single,none,bad
+no checking,6742,30,male single,none,good
+no checking,7814,24,male single,none,good
+no checking,9277,24,male div/sep,none,good
+0<=X<200,2181,30,male single,none,good
+no checking,1098,18,female div/dep/mar,none,good
+0<=X<200,4057,24,male div/sep,none,bad
+<0,795,12,female div/dep/mar,none,bad
+0<=X<200,2825,24,male single,none,good
+0<=X<200,15672,48,male single,none,bad
+no checking,6614,36,male single,none,good
+no checking,7824,28,male single,bank,good
+<0,2442,27,male single,stores,good
+no checking,1829,15,male single,none,good
+<0,2171,12,male single,bank,good
+0<=X<200,5800,36,male single,none,good
+no checking,1169,18,male single,none,good
+no checking,8947,36,male single,stores,good
+<0,2606,21,female div/dep/mar,none,good
+no checking,1592,12,female div/dep/mar,none,good
+no checking,2186,15,female div/dep/mar,bank,good
+<0,4153,18,male single,none,bad
+<0,2625,16,male single,bank,bad
+no checking,3485,20,male div/sep,none,good
+no checking,10477,36,male single,none,good
+no checking,1386,15,male mar/wid,none,good
+no checking,1278,24,male single,none,good
+<0,1107,12,male single,none,good
+<0,3763,21,male single,none,good
+0<=X<200,3711,36,male mar/wid,none,good
+no checking,3594,15,female div/dep/mar,none,good
+0<=X<200,3195,9,female div/dep/mar,none,good
+no checking,4454,36,female div/dep/mar,none,good
+0<=X<200,4736,24,female div/dep/mar,bank,bad
+0<=X<200,2991,30,female div/dep/mar,none,good
+no checking,2142,11,male div/sep,none,good
+<0,3161,24,male single,none,bad
+0<=X<200,18424,48,female div/dep/mar,bank,bad
+no checking,2848,10,male single,none,good
+<0,14896,6,male single,bank,bad
+<0,2359,24,male div/sep,none,bad
+<0,3345,24,male single,none,bad
+no checking,1817,18,female div/dep/mar,none,good
+no checking,12749,48,male single,none,good
+<0,1366,9,female div/dep/mar,none,bad
+0<=X<200,2002,12,male single,none,good
+<0,6872,24,male div/sep,bank,bad
+<0,697,12,male single,bank,bad
+<0,1049,18,female div/dep/mar,none,good
+<0,10297,48,male single,stores,bad
+no checking,1867,30,male single,none,good
+<0,1344,12,male single,none,good
+<0,1747,24,male single,none,good
+0<=X<200,1670,9,female div/dep/mar,none,bad
+no checking,1224,9,male single,none,good
+no checking,522,12,male single,none,good
+<0,1498,12,female div/dep/mar,bank,good
+0<=X<200,1919,30,male single,stores,bad
+>=200,745,9,female div/dep/mar,none,bad
+0<=X<200,2063,6,male mar/wid,none,good
+0<=X<200,6288,60,male single,none,bad
+no checking,6842,24,male single,none,good
+no checking,3527,12,male single,none,good
+no checking,1546,10,male single,none,good
+no checking,929,24,male single,stores,good
+no checking,1455,4,male single,none,good
+<0,1845,15,female div/dep/mar,none,good
+0<=X<200,8358,48,female div/dep/mar,none,good
+<0,3349,24,male single,none,bad
+no checking,2859,12,male single,none,good
+no checking,1533,18,male mar/wid,none,bad
+no checking,3621,24,male single,none,bad
+0<=X<200,3590,18,male mar/wid,none,good
+<0,2145,36,male single,none,bad
+0<=X<200,4113,24,female div/dep/mar,none,bad
+no checking,10974,36,female div/dep/mar,none,bad
+<0,1893,12,female div/dep/mar,none,good
+<0,1231,24,female div/dep/mar,none,good
+>=200,3656,30,male single,stores,good
+0<=X<200,1154,9,male single,none,good
+<0,4006,28,male single,none,bad
+0<=X<200,3069,24,male single,none,good
+no checking,1740,6,male mar/wid,none,good
+0<=X<200,2353,21,male div/sep,none,good
+no checking,3556,15,male single,none,good
+no checking,2397,24,male single,bank,bad
+0<=X<200,454,6,male mar/wid,none,good
+0<=X<200,1715,30,female div/dep/mar,none,good
+0<=X<200,2520,27,male single,none,bad
+no checking,3568,15,female div/dep/mar,bank,good
+no checking,7166,42,male mar/wid,none,good
+<0,3939,11,male single,none,good
+0<=X<200,1514,15,male single,none,good
+no checking,7393,24,male single,none,good
+<0,1193,24,female div/dep/mar,none,bad
+<0,7297,60,male single,none,bad
+no checking,2831,30,female div/dep/mar,none,good
+>=200,1258,24,female div/dep/mar,none,good
+0<=X<200,753,6,female div/dep/mar,none,good
+0<=X<200,2427,18,male single,none,good
+no checking,2538,24,male single,none,bad
+0<=X<200,1264,15,male mar/wid,none,bad
+0<=X<200,8386,30,male single,none,bad
+no checking,4844,48,male single,bank,bad
+>=200,2923,21,female div/dep/mar,bank,good
+<0,8229,36,male single,none,bad
+no checking,2028,24,male single,none,good
+<0,1433,15,female div/dep/mar,none,good
+>=200,6289,42,male div/sep,none,good
+no checking,1409,13,female div/dep/mar,none,good
+<0,6579,24,male single,none,good
+0<=X<200,1743,24,male single,none,good
+no checking,3565,12,male single,none,good
+no checking,1569,15,male single,bank,good
+<0,1936,18,male mar/wid,none,good
+<0,3959,36,male single,none,good
+no checking,2390,12,male single,none,good
+no checking,1736,12,female div/dep/mar,none,good
+<0,3857,30,male div/sep,none,good
+no checking,804,12,male single,none,good
+<0,1845,45,male single,none,bad
+0<=X<200,4576,45,male single,none,good
