@@ -10,12 +10,13 @@
   ],
   "license": "BSD-3-Clause",
   "archived": false,
-  "description": "Collection of sklearn-compatible transformers for feature engineering: missing data imputation, categorical encoding, variable transformation, discretization, outlier capping, and feature selection \u2014 all DataFrame-aware.",
+  "description": "Collection of sklearn-compatible transformers for feature engineering.",
   "tags": [
-    "feature-engineering",
-    "imputation",
+    "preprocessing",
+    "text",
+    "time-series",
     "categorical-encoding",
-    "outlier-handling",
-    "discretization"
+    "feature-engineering",
+    "dataframe"
   ]
 }

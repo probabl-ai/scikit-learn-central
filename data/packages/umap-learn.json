@@ -10,12 +10,10 @@
   ],
   "license": "BSD-3-Clause",
   "archived": false,
-  "description": "Uniform Manifold Approximation and Projection \u2014 the most scalable non-linear dimensionality reduction algorithm. Sklearn-compatible transformer that preserves both local and global structure. Widely used for visualization and feature extraction.",
+  "description": "Uniform Manifold Approximation and Projection (UMAP) is a non-linear dimensionality reduction algorithm. It can be used for visualization as well.",
   "tags": [
-    "dimensionality-reduction",
-    "visualization",
-    "manifold-learning",
-    "embedding",
-    "clustering"
+    "algorithms",
+    "clustering",
+    "dimensionality-reduction"
   ]
 }

@@ -17,6 +17,7 @@
     "classification",
     "regression",
     "clustering",
-    "dimensionality-reduction"
+    "dimensionality-reduction",
+    "algorithms"
   ]
 }

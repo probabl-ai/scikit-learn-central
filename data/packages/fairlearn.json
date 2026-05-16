@@ -11,12 +11,11 @@
   ],
   "license": "MIT",
   "archived": false,
-  "description": "Assess and mitigate fairness issues in ML models. Provides group fairness metrics to identify disparities across demographic groups, and mitigation algorithms (ExponentiatedGradient, GridSearch, ThresholdOptimizer) that wrap sklearn estimators to reduce allocation and quality-of-service harms.",
+  "description": "Fairlearn is a library for assessing and mitigating fairness issues in machine learning models by providing specialized metrics and algorithms.",
   "tags": [
+    "algorithms",
     "fairness",
-    "bias",
-    "responsible-AI",
-    "metrics",
-    "mitigation"
+    "explainability",
+    "metrics"
   ]
 }

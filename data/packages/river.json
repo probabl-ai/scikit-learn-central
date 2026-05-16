@@ -10,12 +10,17 @@
   ],
   "license": "BSD-3-Clause",
   "archived": false,
-  "description": "Sklearn for streaming data. River is the leading online machine learning library for Python, offering incremental learning, concept drift detection, and adaptive models for real-time data streams.",
-  "tags": [
+  "description": "River is a machine learning library for online learning, when data is accessible as a stream.",
+  "tags":[
+    "algorithms",
     "online-learning",
-    "streaming",
-    "incremental",
-    "concept-drift",
-    "real-time"
+    "classification",
+    "regression",
+    "clustering",
+    "imbalanced-data",
+    "dimensionality-reduction",
+    "preprocessing",
+    "metrics",
+    "anomaly-detection"
   ]
 }

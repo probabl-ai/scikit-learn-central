@@ -10,12 +10,8 @@
   ],
   "license": "MIT",
   "archived": false,
-  "description": "Lightweight SHAP explainability library built on numpy/pandas. Provides TreeSHAP wrappers for XGBoost, LightGBM, and CatBoost, plus model-agnostic Permutation and Kernel SHAP with parallel processing, multi-output support, and bar/beeswarm/waterfall visualizations.",
+  "description": "Lightweight Python implementation of SHAP (SHapley Additive exPlanations).",
   "tags": [
-    "explainability",
-    "SHAP",
-    "feature-importance",
-    "interpretability",
-    "lightweight"
+    "explainability"
   ]
 }

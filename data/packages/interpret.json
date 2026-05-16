@@ -11,12 +11,12 @@
   ],
   "license": "MIT",
   "archived": false,
-  "description": "Microsoft's interpretable ML toolkit with glassbox models (Explainable Boosting Machine \u2014 EBM, which outperforms RF/GBM while staying fully interpretable) and blackbox explainers (LIME, SHAP, Morris sensitivity).",
+  "description": "Library helping at interpreting machine learning models. In addition, it provides an implementation of the Explainable Boosting Machine (EBM) algorithm.",
   "tags": [
-    "interpretability",
-    "EBM",
-    "glassbox",
-    "LIME",
-    "sensitivity-analysis"
+    "algorithms",
+    "explainability",
+    "gradient-boosting",
+    "classification",
+    "regression"
   ]
 }

@@ -10,12 +10,12 @@
   ],
   "license": "BSD-2-Clause",
   "archived": false,
-  "description": "The most comprehensive Python library for outlier and anomaly detection with 45+ algorithms: LOF, COPOD, ECOD, Isolation Forest, AutoEncoder, DeepSVDD. Sklearn-compatible API, works in pipelines.",
+  "description": "Library providing a set of algorithms for anomaly detection across various type of data: tabular, time-series, text, image, etc.",
   "tags": [
     "anomaly-detection",
-    "outlier-detection",
-    "unsupervised",
-    "deep-learning",
-    "isolation-forest"
+    "algorithms",
+    "text",
+    "time-series",
+    "image"
   ]
 }

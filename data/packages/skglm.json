@@ -10,13 +10,10 @@
   ],
   "license": "BSD-3-Clause",
   "archived": false,
-  "description": "Fast and modular scikit-learn-contrib package for sparse Generalized Linear Models, offering solvers up to 100x faster than scikit-learn with full API compatibility and composable datafits, penalties, and solvers for advanced models like Group Lasso.",
+  "description": "Sparse Generalized Linear Models library.",
   "tags": [
-    "linear-models",
-    "GLM",
-    "sparse",
-    "high-performance",
-    "regularization",
-    "scikit-learn-contrib"
+    "generalized-linear-models",
+    "regression",
+    "algorithms"
   ]
 }

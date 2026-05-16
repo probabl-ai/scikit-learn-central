@@ -10,13 +10,13 @@
   ],
   "license": "BSD-3-Clause",
   "archived": false,
-  "description": "Bridges the gap between dataframes and sklearn by providing TableVectorizer, fuzzy joining (AggJoiner, Joiner), and string encoders (MinHashEncoder, GapEncoder) for messy, real-world tabular data.",
+  "description": "Skrub bridges the gap between dataframes and scikit-learn by providing a way to track data operations as well as simplify some tabular data preparation tasks.",
   "tags": [
-    "dirty-data",
-    "categorical-encoding",
-    "string-similarity",
-    "tabular",
+    "preprocessing",
     "dataframe",
-    "fuzzy-join"
+    "feature-engineering",
+    "multi-tables",
+    "text",
+    "time-series"
   ]
 }

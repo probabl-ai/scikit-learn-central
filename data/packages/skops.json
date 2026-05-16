@@ -10,12 +10,8 @@
   ],
   "license": "BSD-3-Clause",
   "archived": false,
-  "description": "Secure sklearn model persistence without pickle vulnerabilities. skops.io uses a custom format; skops.hub_utils simplifies sharing models on Hugging Face Hub with auto-generated model cards.",
+  "description": "Secure scikit-learn model persistence without pickle vulnerabilities.",
   "tags": [
-    "model-persistence",
-    "security",
-    "Hugging-Face",
-    "serialization",
-    "model-cards"
+    "mlops"
   ]
 }

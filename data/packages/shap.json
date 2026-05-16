@@ -10,12 +10,11 @@
   ],
   "license": "MIT",
   "archived": false,
-  "description": "SHapley Additive exPlanations \u2014 game-theoretic approach for explaining predictions of any ML model. Provides TreeExplainer (fast), LinearExplainer, and KernelExplainer with rich visualizations for local and global interpretability.",
+  "description": "Python implementation of SHapley Additive exPlanations (SHAP).",
   "tags": [
     "explainability",
-    "SHAP",
-    "feature-importance",
-    "interpretability",
-    "model-explanation"
+    "text",
+    "image",
+    "gpu-acceleration"
   ]
 }

@@ -10,10 +10,15 @@
   ],
   "license": "Apache-2.0",
   "archived": false,
-  "description": "Gradient boosting on decision trees library with native support for categorical features. Support multiple languages (Python, R, Java, C++) and hardware (CPU, GPU).",
+  "description": "Gradient boosting on decision trees library with native support for categorical features. Support multiple languages (Python, R, Java, C++), hardware (CPU, GPU), and distributed computing.",
   "tags": [
+    "algorithms",
     "gradient-boosting",
     "categorical-encoding",
-    "gpu-acceleration"
+    "gpu-acceleration",
+    "distributed-computing",
+    "classification",
+    "regression",
+    "ranking"
   ]
 }
