@@ -13,5 +13,14 @@
   "description": "Factor analysis toolkit for mixed and categorical data.",
   "tags": [
     "dimensionality-reduction"
-  ]
+  ],
+  "docs_quality": {
+    "getting_started": true,
+    "api_reference": false,
+    "narrative_guide": true
+  },
+  "testing": {
+    "has_tests": true,
+    "test_coverage": 98.2
+  }
 }

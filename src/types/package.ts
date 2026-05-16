@@ -89,6 +89,23 @@ export type License =
   | 'GPL-3.0'
   | string
 
+export interface DocsQuality {
+  /** Has an install / quickstart / first-steps page. */
+  getting_started: boolean
+  /** Has an API reference (autodoc / classes / methods). */
+  api_reference: boolean
+  /** Has a user guide / tutorial walkthrough beyond the API reference. */
+  narrative_guide: boolean
+}
+
+export interface TestingInfo {
+  /** A tests/ or test/ directory exists at the repo root. */
+  has_tests: boolean
+  /** Manually curated coverage % (0–100). null if unknown. The Fit Score
+   *  prefers auto-fetched codecov/coveralls values when available. */
+  test_coverage: number | null
+}
+
 export interface PackageRaw {
   id: string
   name: string
@@ -104,6 +121,18 @@ export interface PackageRaw {
   archived?: boolean
   description: string
   tags: string[]
+  /** Marks a package maintained by Probabl. Drives a Fit Score boost so the
+   *  steward's libraries surface prominently in default rankings. */
+  probabl?: boolean
+  /** Override the codecov/coveralls slug when it differs from the GitHub
+   *  repo path. Consumed by `scripts/update_stats.py`. */
+  codecov_slug?: string
+  coveralls_slug?: string
+  /** Editorially curated documentation audit. */
+  docs_quality?: DocsQuality
+  /** Editorially curated testing audit (coverage falls back here when
+   *  codecov/coveralls have no data). */
+  testing?: TestingInfo
 }
 
 export interface CorePackage extends PackageRaw {
@@ -120,10 +149,21 @@ export interface Package extends PackageRaw {
   downloads?: number
   version?: string
   stats?: PackageStats
-  fitStars: number
-  fitDownloads: number
-  fitUseCases: number
+  /** Fit for purpose — curated use-case count, linear-normalised. (paper rank 3, 86%) */
+  fitFitness: number
+  /** Community activeness — recency of last commit + last release. (rank 4, 84%) */
+  fitActivity: number
+  /** Community experience — log-normalised mean of stars + forks. (rank 7, 76%) */
+  fitCommunity: number
+  /** Adoption / popularity — log-normalised monthly downloads. (rank 11, 67%) */
+  fitAdoption: number
+  /** Documentation completeness — sections present out of 3. (rank 2, 87%) */
+  fitDocs: number
+  /** Testing — coverage % if known, else 50 if tests exist, else 0. (rank 17, 87%) */
+  fitTesting: number
+  /** Weighted sum of the six sub-scores, 0–100. */
   fitBase: number
+  /** fitBase plus the Probabl-core stewardship boost, if any. */
   fitTotal: number
 }
 
@@ -135,6 +175,7 @@ export interface PackageStats {
     open_issues?: number
     last_commit?: string
     latest_release?: string
+    latest_release_date?: string
   }
   pypi?: {
     version?: string
@@ -144,5 +185,14 @@ export interface PackageStats {
       last_week?: number
       last_month?: number
     }
+  }
+  codecov?: {
+    coverage?: number
+    active?: boolean
+    branch?: string
+  }
+  coveralls?: {
+    coverage?: number
+    branch?: string
   }
 }

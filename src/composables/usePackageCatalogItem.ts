@@ -25,6 +25,8 @@ export interface PackageCatalogItemProps {
 export interface PackageCatalogItemOptions {
   /** `global`: card grid — one toggle expands all cards. `local`: list row — per row only. */
   descriptionExpandScope?: 'global' | 'local'
+  /** `measured`: list row caps tags at 3 lines with +N. `wrap`: show all tags wrapped. */
+  tagsDisplay?: 'measured' | 'wrap'
 }
 
 export function usePackageCatalogItem(
@@ -32,9 +34,17 @@ export function usePackageCatalogItem(
   options: PackageCatalogItemOptions = {},
 ) {
   const expandScope = options.descriptionExpandScope ?? 'global'
+  const tagsDisplay = options.tagsDisplay ?? 'wrap'
+  const measureTags = tagsDisplay === 'measured'
   const { catalogDescriptionsExpanded, toggleCatalogDescriptionsExpanded } =
     useCatalogDescriptionExpand()
   const localDescriptionExpanded = ref(false)
+  const tagsExpanded = ref(false)
+  const tagsOverflow = ref(false)
+  const visibleTagCount = ref(0)
+  const tagsPanelRef = ref<HTMLElement | null>(null)
+  const tagsMeasureRailRef = ref<HTMLElement | null>(null)
+  const tagsOverflowBtnRef = ref<HTMLButtonElement | null>(null)
 
   const descriptionExpanded = computed(() =>
     expandScope === 'local'
@@ -95,6 +105,102 @@ export function usePackageCatalogItem(
   const descBodyId = computed(() => `pkg-desc-${props.pkg.id}`)
 
   const tagLabels = computed(() => (props.pkg.tags ?? []).map((t) => t.replace(/-/g, ' ')))
+
+  const displayedTagLabels = computed(() => {
+    if (!measureTags) return tagLabels.value
+    if (tagsExpanded.value) return tagLabels.value
+    if (!tagsOverflow.value) return tagLabels.value
+    return tagLabels.value.slice(0, visibleTagCount.value)
+  })
+
+  const hiddenTagCount = computed(() =>
+    Math.max(0, tagLabels.value.length - displayedTagLabels.value.length),
+  )
+
+  function toggleTagsExpanded(): void {
+    tagsExpanded.value = !tagsExpanded.value
+  }
+
+  const TAG_MAX_LINES = 3
+
+  function chipLineNumber(chip: HTMLElement, lineTops: number[]): number {
+    const top = chip.offsetTop
+    let idx = lineTops.indexOf(top)
+    if (idx === -1) {
+      lineTops.push(top)
+      idx = lineTops.length - 1
+    }
+    return idx + 1
+  }
+
+  function lineUsedWidth(chips: NodeListOf<HTMLElement>, count: number, lineTop: number, gap: number): number {
+    let used = 0
+    let onLine = 0
+    for (let i = 0; i < count; i++) {
+      if (chips[i].offsetTop !== lineTop) continue
+      used += (onLine > 0 ? gap : 0) + chips[i].offsetWidth
+      onLine++
+    }
+    return used
+  }
+
+  function measureVisibleTags(): void {
+    if (!measureTags) return
+    void nextTick(() => {
+      requestAnimationFrame(() => {
+        const total = tagLabels.value.length
+        if (total === 0) {
+          tagsOverflow.value = false
+          visibleTagCount.value = 0
+          return
+        }
+
+        if (tagsExpanded.value) {
+          visibleTagCount.value = total
+          return
+        }
+
+        const panel = tagsPanelRef.value
+        const rail = tagsMeasureRailRef.value
+        if (!panel || !rail) return
+
+        const chips = rail.querySelectorAll<HTMLElement>('[data-tag-measure]')
+        if (!chips.length) return
+
+        const available = panel.clientWidth
+        if (available <= 0) return
+
+        const gap = Number.parseFloat(getComputedStyle(rail).columnGap || getComputedStyle(rail).gap) || 8
+        const moreBtnWidth =
+          (tagsOverflowBtnRef.value?.offsetWidth ?? 0) ||
+          Math.max(36, 22 + String(total).length * 7)
+
+        const lineTops: number[] = []
+        let count = 0
+
+        for (let i = 0; i < chips.length; i++) {
+          if (chipLineNumber(chips[i], lineTops) > TAG_MAX_LINES) break
+          count++
+        }
+
+        if (count < chips.length) {
+          while (count > 1) {
+            const lastTop = chips[count - 1].offsetTop
+            const used = lineUsedWidth(chips, count, lastTop, gap)
+            if (used + gap + moreBtnWidth <= available + 0.5) break
+            count--
+          }
+
+          tagsOverflow.value = true
+          visibleTagCount.value = count
+          return
+        }
+
+        tagsOverflow.value = false
+        visibleTagCount.value = total
+      })
+    })
+  }
 
   const ucTotal = computed(() => props.useCases?.length ?? props.useCaseCount ?? 0)
 
@@ -165,14 +271,14 @@ export function usePackageCatalogItem(
   ])
 
   const fitDisplay = computed(() => Math.round(props.pkg.fitBase))
-  const fitStars = computed(() => Math.round(props.pkg.fitStars))
-  const fitDownloads = computed(() => Math.round(props.pkg.fitDownloads))
-  const fitUcScore = computed(() => Math.round(props.pkg.fitUseCases))
 
   const fitBreakdownRows = computed(() => [
-    { key: 'stars' as const, icon: 'fa-star', label: 'Stars', pct: fitStars.value },
-    { key: 'downloads' as const, icon: 'fa-download', label: 'Downloads', pct: fitDownloads.value },
-    { key: 'useCases' as const, icon: 'fa-lightbulb', label: 'Use cases', pct: fitUcScore.value },
+    { key: 'docs' as const, icon: 'fa-book', label: 'Docs', pct: Math.round(props.pkg.fitDocs) },
+    { key: 'testing' as const, icon: 'fa-flask', label: 'Testing', pct: Math.round(props.pkg.fitTesting) },
+    { key: 'fitness' as const, icon: 'fa-lightbulb', label: 'Fitness', pct: Math.round(props.pkg.fitFitness) },
+    { key: 'activity' as const, icon: 'fa-bolt', label: 'Activity', pct: Math.round(props.pkg.fitActivity) },
+    { key: 'community' as const, icon: 'fa-code-branch', label: 'Community', pct: Math.round(props.pkg.fitCommunity) },
+    { key: 'adoption' as const, icon: 'fa-download', label: 'Adoption', pct: Math.round(props.pkg.fitAdoption) },
   ])
 
   const fitScoreAriaLabel = computed(() => `Fit score ${fitDisplay.value} out of 100`)
@@ -275,13 +381,18 @@ export function usePackageCatalogItem(
     })
   }
 
+  function onLayoutResize(): void {
+    measureDescClampable()
+    if (measureTags) measureVisibleTags()
+  }
+
   function setupCardResizeObserver(): void {
     cardResizeObs?.disconnect()
     cardResizeObs = null
     void nextTick(() => {
       const el = cardRoot.value
       if (!el) return
-      cardResizeObs = new ResizeObserver(() => measureDescClampable())
+      cardResizeObs = new ResizeObserver(() => onLayoutResize())
       cardResizeObs.observe(el)
     })
   }
@@ -289,15 +400,16 @@ export function usePackageCatalogItem(
   onMounted(() => {
     void nextTick(() => {
       measureDescClampable()
+      if (measureTags) measureVisibleTags()
       setupCardResizeObserver()
     })
-    window.addEventListener('resize', measureDescClampable)
+    window.addEventListener('resize', onLayoutResize)
   })
 
   onUnmounted(() => {
     cardResizeObs?.disconnect()
     cardResizeObs = null
-    window.removeEventListener('resize', measureDescClampable)
+    window.removeEventListener('resize', onLayoutResize)
   })
 
   watch(() => [props.pkg.id, categoryGroups.value.length] as const, () => {
@@ -305,8 +417,12 @@ export function usePackageCatalogItem(
     descExpandable.value = false
     descPreviewBase.value = ''
     if (expandScope === 'local') localDescriptionExpanded.value = false
+    tagsExpanded.value = false
+    tagsOverflow.value = false
+    visibleTagCount.value = 0
     void nextTick(() => {
       measureDescClampable()
+      if (measureTags) measureVisibleTags()
       setupCardResizeObserver()
     })
   })
@@ -320,6 +436,35 @@ export function usePackageCatalogItem(
   watch(descriptionExpanded, () => {
     if (!descriptionExpanded.value) void nextTick(measureDescClampable)
   })
+
+  if (measureTags) {
+    watch(
+      () => tagLabels.value.join('\0'),
+      () => {
+        void nextTick(measureVisibleTags)
+      },
+    )
+
+    watch(tagsExpanded, () => {
+      void nextTick(measureVisibleTags)
+    })
+
+    watch(tagsOverflowBtnRef, () => {
+      if (!tagsExpanded.value && tagsOverflowBtnRef.value) {
+        measureVisibleTags()
+      }
+    })
+  }
+
+  const tagsExpandAriaLabel = computed(() =>
+    tagsExpanded.value
+      ? `Show less — collapse tags for ${props.pkg.name}`
+      : `Show ${hiddenTagCount.value} more tag${hiddenTagCount.value !== 1 ? 's' : ''} for ${props.pkg.name}`,
+  )
+
+  const showTagsToggle = computed(
+    () => measureTags && (tagsExpanded.value || tagsOverflow.value),
+  )
 
   const descriptionExpandAriaLabel = computed(() =>
     descriptionExpanded.value
@@ -347,6 +492,16 @@ export function usePackageCatalogItem(
     scopeCarouselTrackStyle,
     descBodyId,
     tagLabels,
+    tagsPanelRef,
+    tagsMeasureRailRef,
+    tagsOverflowBtnRef,
+    displayedTagLabels,
+    hiddenTagCount,
+    tagsExpanded,
+    tagsOverflow,
+    toggleTagsExpanded,
+    tagsExpandAriaLabel,
+    showTagsToggle,
     ucTotal,
     useCasesNavigable,
     useCasesBrowseTitle,

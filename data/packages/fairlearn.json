@@ -11,11 +11,21 @@
   ],
   "license": "MIT",
   "archived": false,
+  "probabl": true,
   "description": "Fairlearn is a library for assessing and mitigating fairness issues in machine learning models by providing specialized metrics and algorithms.",
   "tags": [
     "algorithms",
     "fairness",
     "explainability",
     "metrics"
-  ]
+  ],
+  "docs_quality": {
+    "getting_started": true,
+    "api_reference": true,
+    "narrative_guide": true
+  },
+  "testing": {
+    "has_tests": true,
+    "test_coverage": 92.9
+  }
 }

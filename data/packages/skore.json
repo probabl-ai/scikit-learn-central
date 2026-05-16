@@ -10,11 +10,21 @@
   ],
   "license": "MIT",
   "archived": false,
+  "probabl": true,
   "description": "Skore is a Python library to evaluate and get insights from your predictive models. It also provides a way to structure and track your machine learning experiments.",
   "tags": [
     "diagnostics",
     "evaluation",
     "reporting",
     "experiment-tracking"
-  ]
+  ],
+  "docs_quality": {
+    "getting_started": true,
+    "api_reference": true,
+    "narrative_guide": true
+  },
+  "testing": {
+    "has_tests": true,
+    "test_coverage": 94
+  }
 }

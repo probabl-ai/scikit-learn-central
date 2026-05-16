@@ -16,5 +16,14 @@
     "imbalanced-data",
     "classification",
     "metrics"
-  ]
+  ],
+  "docs_quality": {
+    "getting_started": true,
+    "api_reference": true,
+    "narrative_guide": true
+  },
+  "testing": {
+    "has_tests": true,
+    "test_coverage": 93.0
+  }
 }

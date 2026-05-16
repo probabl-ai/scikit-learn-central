@@ -10,8 +10,18 @@
   ],
   "license": "BSD-3-Clause",
   "archived": false,
+  "probabl": true,
   "description": "Secure scikit-learn model persistence without pickle vulnerabilities.",
   "tags": [
     "mlops"
-  ]
+  ],
+  "docs_quality": {
+    "getting_started": true,
+    "api_reference": true,
+    "narrative_guide": true
+  },
+  "testing": {
+    "has_tests": true,
+    "test_coverage": 87.7
+  }
 }
