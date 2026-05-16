@@ -4,7 +4,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from category_encoders import TargetEncoder
-import eli5
 import shap
 
 # Synthetic HR data
@@ -27,13 +26,7 @@ pipeline = Pipeline([
 
 pipeline.fit(X, y)
 
-# ELI5 feature weights
 rf = pipeline.named_steps['rf']
-weights = eli5.show_weights(
-    rf,
-    feature_names=X.columns.tolist(),
-    top=10
-)
 
 # Predict one employee and explain
 test_employee = X.iloc[0:1]

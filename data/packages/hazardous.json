@@ -10,12 +10,12 @@
   ],
   "license": "MIT",
   "archived": false,
-  "description": "Survival analysis and competing risks modeling with gradient boosting. Handles censored data and scenarios where subjects may experience multiple types of events, with sklearn-compatible estimators for time-to-event prediction.",
+  "description": "Survival analysis and competing risks modeling with gradient boosting decision trees.",
   "tags": [
+    "algorithms",
+    "gradient-boosting",
     "survival-analysis",
     "competing-risks",
-    "time-to-event",
-    "gradient-boosting",
-    "censored-data"
+    "metrics"
   ]
 }

@@ -475,26 +475,6 @@
         "release_date": "2026-05-05T21:26:09"
       }
     },
-    "eli5": {
-      "github": {
-        "stars": 2777,
-        "forks": 327,
-        "watchers": 63,
-        "open_issues": 162,
-        "last_commit": "2026-04-08T21:01:12Z"
-      },
-      "pypi": {
-        "downloads": {
-          "last_day": 4642,
-          "last_week": 27331,
-          "last_month": 130961
-        },
-        "version": "0.16.0",
-        "requires_python": ">=3.9",
-        "summary": "Debug machine learning classifiers and explain their predictions",
-        "release_date": "2025-04-20T16:37:59"
-      }
-    },
     "mlxtend": {
       "github": {
         "stars": 5144,

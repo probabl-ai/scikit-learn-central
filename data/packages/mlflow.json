@@ -10,12 +10,9 @@
   ],
   "license": "Apache-2.0",
   "archived": false,
-  "description": "The standard open-source MLOps platform. Tracks sklearn experiments with autologging (metrics, params, artifacts), registers models with versioning, and deploys to REST endpoints \u2014 all with zero code changes.",
+  "description": "Experiment tracking and model management platform for machine learning.",
   "tags": [
     "experiment-tracking",
-    "MLOps",
-    "model-registry",
-    "autologging",
-    "deployment"
+    "mlops"
   ]
 }

@@ -10,12 +10,11 @@
   "categories": [
     "components"
   ],
-  "description": "Open, scikit-learn friendly table foundation model: State-of-the-art accuracy even without hyperparameter tuning for tabular classification and regression.",
+  "description": "State-of-the-art open-source table foundation model using in-context learning.",
   "tags": [
     "classification",
     "regression",
-    "tabular",
-    "foundation-model",
-    "in-context-learning"
+    "time-series",
+    "tabular-foundation-model"
   ]
 }

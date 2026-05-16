@@ -10,12 +10,12 @@
   ],
   "license": "GPL-3.0",
   "archived": false,
-  "description": "Survival analysis built on top of sklearn. Implements Cox PH, Random Survival Forest, Survival SVM, and GradientBoostingSurvivalAnalysis. Handles censored data with full sklearn Pipeline compatibility.",
+  "description": "A Python library for survival analysis.",
   "tags": [
+    "algorithms",
+    "gradient-boosting",
     "survival-analysis",
-    "time-to-event",
-    "censored-data",
-    "Cox-regression",
-    "healthcare"
+    "metrics",
+    "preprocessing"
   ]
 }

@@ -11,12 +11,10 @@
   ],
   "license": "MIT",
   "archived": false,
-  "description": "Sklearn-compatible tools for learning from imbalanced datasets. Provides SMOTE, ADASYN, RandomOverSampler, RandomUnderSampler, Tomek Links, and balanced Pipeline for classification on skewed class distributions.",
+  "description": "Library providing tools useful to deal with imbalanced datasets.",
   "tags": [
     "imbalanced-data",
-    "SMOTE",
-    "oversampling",
-    "undersampling",
-    "resampling"
+    "classification",
+    "metrics"
   ]
 }

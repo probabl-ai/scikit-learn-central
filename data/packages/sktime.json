@@ -10,8 +10,9 @@
   ],
   "license": "BSD-3-Clause",
   "archived": false,
-  "description": "Unified sklearn-compatible framework for time series: classification, regression, clustering, forecasting, and transformation. Wraps sklearn estimators for TS tasks and ships 300+ native TS algorithms.",
+  "description": "Unified scikit-learn compatible framework for time series.",
   "tags": [
+    "algorithms",
     "time-series",
     "classification",
     "forecasting",

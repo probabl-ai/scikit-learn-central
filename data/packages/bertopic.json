@@ -10,13 +10,11 @@
   ],
   "license": "MIT",
   "archived": false,
-  "description": "Neural topic modeling using transformer embeddings, UMAP dimensionality reduction, and c-TF-IDF. Discovers interpretable topics from text with a sklearn-compatible fit/transform API. Supports hierarchical, dynamic, guided, and multimodal topic modeling.",
+  "description": "Topic modeling algorithm based on transformers architecture and c-TF-IDF to create interpretable dense clusters.",
   "tags": [
     "topic-modeling",
-    "NLP",
-    "transformers",
-    "embeddings",
     "clustering",
-    "text"
+    "text",
+    "natural-language-processing"
   ]
 }

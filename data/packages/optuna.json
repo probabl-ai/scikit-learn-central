@@ -10,12 +10,9 @@
   ],
   "license": "MIT",
   "archived": false,
-  "description": "State-of-the-art hyperparameter optimization framework using Bayesian optimization, TPE sampler, and CMA-ES. Integrates natively with sklearn via OptunaSearchCV, supporting pruning for faster search.",
+  "description": "Hyperparameter optimization framework with different sampling algorithms.",
   "tags": [
     "hyperparameter-tuning",
-    "bayesian-optimization",
-    "AutoML",
-    "pruning",
-    "parallelism"
+    "model-selection"
   ]
 }

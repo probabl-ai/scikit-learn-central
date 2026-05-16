@@ -2,20 +2,16 @@
   "id": "prince",
   "name": "Prince",
   "pypi_name": "prince",
-  "website": "https://github.com/MaxHalford/prince",
+  "website": "https://maxhalford.github.io/prince/",
   "repository": "https://github.com/MaxHalford/prince",
-  "docs": "https://github.com/MaxHalford/prince",
+  "docs": "https://maxhalford.github.io/prince/",
   "categories": [
     "components"
   ],
   "license": "MIT",
   "archived": false,
-  "description": "Factor analysis toolkit for mixed and categorical data. Provides sklearn-compatible PCA, CA (Correspondence Analysis), MCA (Multiple CA), MFA (Multiple Factor Analysis), and FAMD for datasets with mixed or nominal features.",
+  "description": "Factor analysis toolkit for mixed and categorical data.",
   "tags": [
-    "dimensionality-reduction",
-    "categorical",
-    "factor-analysis",
-    "MCA",
-    "FAMD"
+    "dimensionality-reduction"
   ]
 }

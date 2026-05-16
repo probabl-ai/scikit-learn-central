@@ -51,7 +51,6 @@
     "scikit-survival",
     "umap-learn",
     "prince",
-    "eli5",
     "mlxtend",
     "mlflow",
     "scikit-lego",

@@ -10,12 +10,9 @@
   ],
   "license": "MIT",
   "archived": false,
-  "description": "Tools for diagnostics and assessment of (machine learning) models. Covers calibration assessment via identification functions and reliability diagrams, strictly consistent scoring functions with score decomposition, and bias plots for point predictions (mean, median, quantiles, expectiles).",
+  "description": "Tools for diagnostics and assessment of machine learning models.",
   "tags": [
-    "diagnostics",
-    "calibration",
-    "evaluation",
-    "model-assessment",
-    "scoring"
+    "explainability",
+    "diagnostics"
   ]
 }

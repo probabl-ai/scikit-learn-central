@@ -10,12 +10,8 @@
   ],
   "license": "BSD-3-Clause",
   "archived": false,
-  "description": "Statistical inference methods for variable importance evaluation in high-dimensional and spatially structured data. Provides conditional permutation importance, LOCO, CPI, and related tools for rigorous feature selection with p-values and confidence intervals.",
+  "description": "Statistical inference methods for variable importance evaluation in high-dimensional and spatially structured data.",
   "tags": [
-    "feature-importance",
-    "statistical-inference",
-    "high-dimensional",
-    "interpretability",
-    "variable-selection"
+    "explainability"
   ]
 }

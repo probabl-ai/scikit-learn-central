@@ -10,10 +10,10 @@
   ],
   "license": "BSD-3-Clause",
   "archived": false,
-  "description": "A scikit-learn compatible neural network library that wraps PyTorch. Provides NeuralNetClassifier, NeuralNetRegressor, and NeuralNetBinaryClassifier that plug directly into sklearn Pipelines, GridSearchCV \u2014 bridging deep learning and the sklearn API.",
+  "description": "A scikit-learn compatible neural network library that wraps PyTorch.",
   "tags": [
     "deep-learning",
-    "PyTorch",
-    "neural-network"
+    "pytorch",
+    "gpu-acceleration"
   ]
 }

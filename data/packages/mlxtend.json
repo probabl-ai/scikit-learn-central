@@ -10,12 +10,13 @@
   ],
   "license": "BSD-3-Clause",
   "archived": false,
-  "description": "Machine learning extensions for sklearn: StackingClassifier, SequentialFeatureSelector, EnsembleVoteClassifier, association rule mining (Apriori), and more practical tools for everyday ML workflows.",
+  "description": "Library providing a set of estimators extending the scikit-learn library.",
   "tags": [
-    "stacking",
-    "feature-selection",
-    "ensemble",
-    "association-rules",
-    "utilities"
+    "algorithms",
+    "classification",
+    "regression",
+    "clustering",
+    "preprocessing",
+    "text"
   ]
 }

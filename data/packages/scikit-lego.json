@@ -11,12 +11,15 @@
   ],
   "license": "MIT",
   "archived": false,
-  "description": "Extra sklearn-compatible building blocks for production ML: GroupedPredictor, EqualOpportunityClassifier (fairness), Thresholder, DecayEstimator, TimeFunctionTransformer, and ColumnDropper for robust pipelines.",
+  "description": "Library providing a set of estimators extending the scikit-learn library.",
   "tags": [
+    "algorithms",
     "fairness",
-    "grouped-models",
-    "production-ml",
-    "transformers",
-    "utilities"
+    "preprocessing",
+    "metrics",
+    "time-series",
+    "regression",
+    "classification",
+    "model-selection"
   ]
 }

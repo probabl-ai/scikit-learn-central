@@ -10,13 +10,15 @@
   ],
   "license": "BSD-3-Clause",
   "archived": false,
-  "description": "Sklearn-compatible toolkit for time series machine learning and data mining. Covers classification, regression, clustering, forecasting, and anomaly detection with a focus on correctness and benchmarking.",
+  "description": "Time series machine learning toolkit. Covers classification, regression, clustering, anomaly detection, segmentation and similarity search.",
   "tags": [
     "time-series",
     "classification",
     "regression",
     "clustering",
     "forecasting",
-    "anomaly-detection"
+    "anomaly-detection",
+    "segmentation",
+    "similarity-search"
   ]
 }

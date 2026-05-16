@@ -11,12 +11,12 @@
   ],
   "license": "BSD-3-Clause",
   "archived": false,
-  "description": "Turn any sklearn-compatible regressor into a powerful forecaster. Provides ForecasterRecursive, ForecasterDirect, and ForecasterMultiSeries with exogenous variable support, backtesting, and hyperparameter tuning.",
+  "description": "Skforecast is a Python library for time series. It adapts any scikit-learn compatible estimator to the forecasting task.",
   "tags": [
     "time-series",
     "forecasting",
-    "autoregressive",
-    "exogenous",
-    "backtesting"
+    "preprocessing",
+    "metrics",
+    "model-selection"
   ]
 }
