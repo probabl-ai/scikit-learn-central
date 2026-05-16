@@ -7,6 +7,7 @@
   --pkg-col-fitn: 2.5rem;
   --pkg-col-uc: 4.75rem;
   --pkg-col-tags: 14rem;
+  --catalog-grid-line: inset 0 -1px 0 0 var(--border-subtle);
 
   position: relative;
   isolation: isolate;
@@ -18,11 +19,11 @@
 /* Junction squares (same as `.card .outbound-link:nth-child(2):nth-last-child(2)::before/after` in components.css). */
 .catalog-list-junction {
   position: absolute;
-  width: calc(var(--space-2) - 1px);
-  height: calc(var(--space-2) - 1px);
+  width: var(--space-2);
+  height: var(--space-2);
   box-sizing: border-box;
   background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
+  border: thin solid var(--border-subtle);
   pointer-events: none;
   z-index: 4;
 }
@@ -72,15 +73,15 @@
 
 .catalog-list-shell .catalog-list-header {
   z-index: 1;
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: none;
   border-radius: 0;
   margin: 0;
   padding: 0;
-  box-shadow: none;
+  box-shadow: var(--catalog-grid-line);
 }
 
 .catalog-list-shell .catalog-list-header:hover {
-  box-shadow: none;
+  box-shadow: var(--catalog-grid-line);
 }
 
 .catalog-list-shell .catalog-list {
@@ -94,23 +95,30 @@
 .catalog-list-shell .catalog-list > .card {
   position: relative;
   border-radius: 0;
-  box-shadow: none;
   margin: 0;
   border: none;
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: none;
   padding: 0;
   gap: 0;
 }
 
+.catalog-list-shell .catalog-list > .card:not(:last-child) {
+  box-shadow: var(--catalog-grid-line);
+}
+
 .catalog-list-shell .catalog-list > .card:last-child {
-  border-bottom: none;
+  box-shadow: none;
   padding-bottom: 0;
 }
 
 .catalog-list-shell .catalog-list-header.card:hover,
 .catalog-list-shell .catalog-list > .card.pkg-row:hover {
   border-color: var(--border-subtle);
-  box-shadow: none;
+}
+
+.catalog-list-shell .catalog-list-header.card:hover,
+.catalog-list-shell .catalog-list > .card.pkg-row:not(:last-child):hover {
+  box-shadow: var(--catalog-grid-line);
 }
 
 .catalog-list-shell .catalog-list-header.card,
@@ -225,7 +233,7 @@
 .catalog-list-shell .catalog-list-header.card {
   padding: 0;
   border: none;
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: none;
 }
 
 @media (max-width: 720px) {
