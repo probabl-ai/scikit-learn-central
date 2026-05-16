@@ -50,7 +50,7 @@ defineEmits<{
   z-index: 200;
   padding-top: env(safe-area-inset-top, 0px);
   min-height: calc(var(--header-h) + env(safe-area-inset-top, 0px));
-  background: var(--bg-chrome-nav);
+  background: var(--color-midnight);
   border-bottom: 1px solid var(--color-midnight-line);
   display: flex;
   align-items: center;

@@ -76,7 +76,7 @@ defineExpose({ tabsNavEl })
 
 <style scoped>
 .view-tabs {
-  background: var(--bg-chrome-nav);
+  background: var(--color-midnight);
   border-bottom: 1px solid var(--color-midnight-line);
   display: flex;
   align-items: center;

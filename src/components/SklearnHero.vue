@@ -154,7 +154,7 @@ const { copied, copyInstall } = useCopyPipInstall(() => props.core.pypi_name)
 
 <style scoped>
 .sklearn-hero {
-  background: var(--bg-chrome-nav);
+  background: var(--color-midnight);
   border: 1px solid var(--color-midnight-line);
   border-radius: var(--radius-md);
   padding: var(--space-8) var(--space-10);
