@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-05-16T06:42:54Z",
+  "updated_at": "2026-05-16T15:42:07Z",
   "packages": {
     "scikit-learn": {
       "github": {
-        "stars": 66094,
-        "forks": 27024,
+        "stars": 66097,
+        "forks": 27025,
         "watchers": 2119,
-        "open_issues": 2018,
-        "last_commit": "2026-05-15T17:21:24Z",
+        "open_issues": 2019,
+        "last_commit": "2026-05-16T15:36:01Z",
         "latest_release": "1.8.0",
         "latest_release_date": "2025-12-10T13:32:02Z"
       },
@@ -34,6 +34,11 @@
         "latest_release_date": "2026-05-06T13:41:14Z"
       },
       "pypi": {
+        "downloads": {
+          "last_day": 7826,
+          "last_week": 43426,
+          "last_month": 206993
+        },
         "version": "0.9.0",
         "requires_python": ">=3.10",
         "summary": "Machine learning with dataframes",
@@ -108,7 +113,7 @@
     },
     "xgboost": {
       "github": {
-        "stars": 28377,
+        "stars": 28382,
         "forks": 8872,
         "watchers": 886,
         "open_issues": 458,
@@ -130,11 +135,11 @@
     },
     "lightgbm": {
       "github": {
-        "stars": 18349,
+        "stars": 18350,
         "forks": 4016,
         "watchers": 423,
-        "open_issues": 517,
-        "last_commit": "2026-05-16T03:16:31Z",
+        "open_issues": 518,
+        "last_commit": "2026-05-16T15:06:13Z",
         "latest_release": "v4.6.0",
         "latest_release_date": "2025-02-15T03:46:41Z"
       },
@@ -152,11 +157,11 @@
     },
     "catboost": {
       "github": {
-        "stars": 8944,
-        "forks": 1288,
+        "stars": 8945,
+        "forks": 1287,
         "watchers": 186,
         "open_issues": 700,
-        "last_commit": "2026-05-15T23:25:06Z",
+        "last_commit": "2026-05-16T09:55:51Z",
         "latest_release": "v1.2.10",
         "latest_release_date": "2026-02-19T12:38:26Z"
       },
@@ -176,7 +181,7 @@
         "stars": 375,
         "forks": 35,
         "watchers": 16,
-        "open_issues": 30,
+        "open_issues": 29,
         "last_commit": "2026-05-09T21:18:22Z",
         "latest_release": "v3.4.1",
         "latest_release_date": "2026-05-06T12:06:32Z"
@@ -237,11 +242,11 @@
     },
     "shap": {
       "github": {
-        "stars": 25428,
+        "stars": 25429,
         "forks": 3725,
         "watchers": 246,
-        "open_issues": 1042,
-        "last_commit": "2026-05-13T19:40:36Z",
+        "open_issues": 1041,
+        "last_commit": "2026-05-16T08:02:18Z",
         "latest_release": "v0.51.0",
         "latest_release_date": "2026-03-04T09:04:18Z"
       },
@@ -259,7 +264,7 @@
     },
     "optuna": {
       "github": {
-        "stars": 14170,
+        "stars": 14172,
         "forks": 1327,
         "watchers": 123,
         "open_issues": 39,
@@ -281,7 +286,7 @@
     },
     "pyod": {
       "github": {
-        "stars": 9844,
+        "stars": 9845,
         "forks": 1473,
         "watchers": 150,
         "open_issues": 226,
@@ -303,7 +308,7 @@
     },
     "skforecast": {
       "github": {
-        "stars": 1489,
+        "stars": 1490,
         "forks": 189,
         "watchers": 14,
         "open_issues": 14,
@@ -369,7 +374,7 @@
     },
     "sktime": {
       "github": {
-        "stars": 9759,
+        "stars": 9761,
         "forks": 2173,
         "watchers": 112,
         "open_issues": 2332,
@@ -498,11 +503,11 @@
     },
     "mlflow": {
       "github": {
-        "stars": 25956,
-        "forks": 5736,
+        "stars": 25962,
+        "forks": 5740,
         "watchers": 320,
-        "open_issues": 2091,
-        "last_commit": "2026-05-16T05:10:08Z",
+        "open_issues": 2092,
+        "last_commit": "2026-05-16T15:04:40Z",
         "latest_release": "v3.12.0",
         "latest_release_date": "2026-05-05T23:48:58Z"
       },
@@ -520,7 +525,7 @@
     },
     "scikit-lego": {
       "github": {
-        "stars": 1392,
+        "stars": 1393,
         "forks": 124,
         "watchers": 19,
         "open_issues": 46,
@@ -568,7 +573,7 @@
         "forks": 784,
         "watchers": 142,
         "open_issues": 46,
-        "last_commit": "2026-05-16T06:36:45Z",
+        "last_commit": "2026-05-16T08:07:42Z",
         "latest_release": "v0.7.8",
         "latest_release_date": "2026-03-17T23:06:18Z"
       },
@@ -693,7 +698,7 @@
     },
     "tabicl": {
       "github": {
-        "stars": 872,
+        "stars": 873,
         "forks": 111,
         "watchers": 18,
         "open_issues": 19,
@@ -715,11 +720,11 @@
     },
     "cuml": {
       "github": {
-        "stars": 5193,
+        "stars": 5194,
         "forks": 625,
         "watchers": 72,
-        "open_issues": 858,
-        "last_commit": "2026-05-16T05:02:27Z",
+        "open_issues": 857,
+        "last_commit": "2026-05-16T12:13:55Z",
         "latest_release": "v26.04.00",
         "latest_release_date": "2026-04-09T06:04:35Z"
       },
@@ -738,7 +743,7 @@
     "bertopic": {
       "github": {
         "stars": 7609,
-        "forks": 896,
+        "forks": 897,
         "watchers": 57,
         "open_issues": 436,
         "last_commit": "2026-05-13T08:54:06Z",
