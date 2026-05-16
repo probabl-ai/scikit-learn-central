@@ -5,12 +5,12 @@ export interface UseCase {
   slug: string
   title: string
   synopsis: string
-  industry: string[]
-  technique: string[]
+  application_fields: string[]
+  problem_types: string[]
+  data_types: string[]
   packages: string[]
   difficulty: Difficulty
   archived?: boolean
-  has_notebook?: boolean
 }
 
 export interface UseCasesIndex {

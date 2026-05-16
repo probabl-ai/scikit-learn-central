@@ -3,6 +3,12 @@ import { computed, ref, watch } from 'vue'
 import BaseModal from './BaseModal.vue'
 import FormSuccess from './FormSuccess.vue'
 import { useFormSubmit } from '@/composables/useFormSubmit'
+import {
+  APPLICATION_FIELDS,
+  DATA_TYPES,
+  PROBLEM_TYPES,
+  humanizeTaxonomyValue,
+} from '@/types/usecase-taxonomy'
 import { sanitizeText } from '@/utils/submitForm'
 
 const props = defineProps<{
@@ -16,25 +22,53 @@ const emit = defineEmits<{
 const { status, submit, reset } = useFormSubmit()
 
 const title = ref('')
-const industry = ref('')
-const technique = ref('')
+const applicationFields = ref<Set<string>>(new Set())
+const problemTypes = ref<Set<string>>(new Set())
+const dataTypes = ref<Set<string>>(new Set())
 const packages = ref('')
 const synopsis = ref('')
 const sampleCode = ref('')
 
+function toggleApplicationField(value: string): void {
+  const next = new Set(applicationFields.value)
+  if (next.has(value)) next.delete(value)
+  else next.add(value)
+  applicationFields.value = next
+}
+
+function toggleProblemType(value: string): void {
+  const next = new Set(problemTypes.value)
+  if (next.has(value)) next.delete(value)
+  else next.add(value)
+  problemTypes.value = next
+}
+
+function toggleDataType(value: string): void {
+  const next = new Set(dataTypes.value)
+  if (next.has(value)) next.delete(value)
+  else next.add(value)
+  dataTypes.value = next
+}
+
+function setToCsv(set: Set<string>): string {
+  return [...set].sort().join(', ')
+}
+
 const canSubmit = computed(
   () =>
     !!title.value.trim() &&
-    !!industry.value.trim() &&
-    !!technique.value.trim() &&
+    applicationFields.value.size > 0 &&
+    problemTypes.value.size > 0 &&
+    dataTypes.value.size > 0 &&
     !!packages.value.trim() &&
     !!synopsis.value.trim(),
 )
 
 function resetForm(): void {
   title.value = ''
-  industry.value = ''
-  technique.value = ''
+  applicationFields.value = new Set()
+  problemTypes.value = new Set()
+  dataTypes.value = new Set()
   packages.value = ''
   synopsis.value = ''
   sampleCode.value = ''
@@ -53,8 +87,9 @@ async function onSubmit(): Promise<void> {
   await submit({
     form_name: 'submit_use_case',
     title: sanitizeText(title.value),
-    industry: sanitizeText(industry.value),
-    technique: sanitizeText(technique.value),
+    application_fields: sanitizeText(setToCsv(applicationFields.value)),
+    problem_types: sanitizeText(setToCsv(problemTypes.value)),
+    data_types: sanitizeText(setToCsv(dataTypes.value)),
     packages: sanitizeText(packages.value),
     synopsis: sanitizeText(synopsis.value),
     sample_code: sanitizeText(sampleCode.value, 10000),
@@ -99,35 +134,57 @@ function close(): void {
         />
       </div>
 
-      <div class="form-group">
-        <label class="form-label" for="uc-industry">
-          Industry <span class="req">*</span>
-        </label>
-        <input
-          id="uc-industry"
-          v-model="industry"
-          type="text"
-          class="form-input"
-          placeholder="e.g. healthcare, insurance"
-          autocomplete="off"
-          required
-        />
-      </div>
+      <fieldset class="form-group taxonomy-fieldset">
+        <legend class="form-label">
+          Application Field <span class="req">*</span>
+        </legend>
+        <div class="taxonomy-options">
+          <label
+            v-for="slug in APPLICATION_FIELDS"
+            :key="slug"
+            class="taxonomy-option"
+          >
+            <input
+              type="checkbox"
+              :checked="applicationFields.has(slug)"
+              @change="toggleApplicationField(slug)"
+            />
+            {{ humanizeTaxonomyValue(slug) }}
+          </label>
+        </div>
+      </fieldset>
 
-      <div class="form-group">
-        <label class="form-label" for="uc-technique">
-          ML Technique <span class="req">*</span>
-        </label>
-        <input
-          id="uc-technique"
-          v-model="technique"
-          type="text"
-          class="form-input"
-          placeholder="e.g. classification, survival-analysis"
-          autocomplete="off"
-          required
-        />
-      </div>
+      <fieldset class="form-group taxonomy-fieldset">
+        <legend class="form-label">
+          Problem Type <span class="req">*</span>
+        </legend>
+        <div class="taxonomy-options">
+          <label v-for="slug in PROBLEM_TYPES" :key="slug" class="taxonomy-option">
+            <input
+              type="checkbox"
+              :checked="problemTypes.has(slug)"
+              @change="toggleProblemType(slug)"
+            />
+            {{ humanizeTaxonomyValue(slug) }}
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group taxonomy-fieldset">
+        <legend class="form-label">
+          Data Type <span class="req">*</span>
+        </legend>
+        <div class="taxonomy-options">
+          <label v-for="slug in DATA_TYPES" :key="slug" class="taxonomy-option">
+            <input
+              type="checkbox"
+              :checked="dataTypes.has(slug)"
+              @change="toggleDataType(slug)"
+            />
+            {{ humanizeTaxonomyValue(slug) }}
+          </label>
+        </div>
+      </fieldset>
 
       <div class="form-group">
         <label class="form-label" for="uc-packages">
@@ -169,15 +226,16 @@ function close(): void {
         />
       </div>
 
-      <p
-        v-if="status === 'error'"
-        class="form-submit-error"
-      >
+      <p v-if="status === 'error'" class="form-submit-error">
         Something went wrong. Please try again.
       </p>
 
       <div class="modal-footer">
-        <button type="submit" class="btn btn--primary" :disabled="!canSubmit || status === 'submitting'">
+        <button
+          type="submit"
+          class="btn btn--primary"
+          :disabled="!canSubmit || status === 'submitting'"
+        >
           <i
             class="fas"
             :class="status === 'submitting' ? 'fa-spinner fa-spin' : 'fa-paper-plane'"
@@ -194,5 +252,27 @@ function close(): void {
 .mono-textarea {
   font-family: var(--font-mono);
   font-size: 12px;
+}
+
+.taxonomy-fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.taxonomy-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-2);
+}
+
+.taxonomy-option {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
 }
 </style>

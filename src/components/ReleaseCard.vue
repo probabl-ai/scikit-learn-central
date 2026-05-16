@@ -176,7 +176,7 @@ const outlineClass = computed(() =>
       >
         RELEASE NOTES
       </a>
-      <a :href="ctaLink" target="_blank" rel="noopener" class="btn btn--sm btn--cta">
+      <a :href="ctaLink" target="_blank" rel="noopener" class="btn btn--primary btn--sm btn--cta">
         {{ ctaLabel }}
       </a>
       <a

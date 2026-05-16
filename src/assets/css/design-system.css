@@ -358,7 +358,7 @@ a {
   transition: color var(--duration-sm) var(--ease);
 }
 
-a:hover { color: var(--color-orange); }
+a:where(:not([class*='btn'])):hover { color: var(--color-orange); }
 
 img, svg { display: block; max-width: 100%; }
 
@@ -502,7 +502,7 @@ button, input, select, textarea {
   box-shadow: var(--focus-ring-sky-strong);
 }
 
-.btn:hover { opacity: 0.92; }
+.btn:hover:not(.btn--primary) { opacity: 0.92; }
 /* Press feedback — makes the UI feel like it heard the click.
    transform: scale stays GPU-accelerated and runs in 160 ms. */
 .btn:active {
@@ -510,19 +510,23 @@ button, input, select, textarea {
   transform: scale(0.97);
 }
 
-/* Primary — orange fill on midnight, dark fill on light */
+/* Primary — Probabl .button: orange fill, outline on hover */
 .btn--primary,
-.btn--primary:hover,
-.btn--primary:visited {
+.btn--primary:visited,
+a.btn--primary,
+a.btn--primary:visited {
   background: var(--color-orange);
   color: var(--color-near-black);
+  border: 1px solid transparent;
   text-decoration: none;
 }
 
-.btn--primary:hover {
-  background: var(--color-orange);
-  color: var(--color-near-black);
-  opacity: 0.92;
+.btn--primary:hover,
+a.btn--primary:hover {
+  background: transparent;
+  border-color: var(--color-orange);
+  color: var(--color-orange);
+  opacity: 1;
 }
 
 /* Ghost — transparent w/ hairline, used on dark headers */
