@@ -35,12 +35,15 @@ const tabCounts = computed(() => ({
 
 const submitLabel = computed(() => {
   const map: Record<string, string> = {
+    home: 'Submit Package',
     catalog: 'Submit Package',
     'use-cases': 'Submit Use Case',
+    mcp: 'Submit Feedback',
+    skills: 'Submit Feedback',
     releases: 'Contribute',
     about: 'Submit Feedback',
   }
-  return map[(route.meta.tabKey as string) ?? 'catalog'] ?? 'Submit Package'
+  return map[(route.meta.tabKey as string) ?? 'home'] ?? 'Submit Package'
 })
 
 type ViewTabsExposed = ComponentPublicInstance & { tabsNavEl?: HTMLElement | null }
@@ -82,7 +85,7 @@ onBeforeUnmount(() => {
 })
 
 function onHeaderSubmit(): void {
-  const tab = (route.meta.tabKey as string) ?? 'catalog'
+  const tab = (route.meta.tabKey as string) ?? 'home'
   if (tab === 'releases') {
     window.open(
       'https://github.com/scikit-learn/scikit-learn/contribute',
@@ -92,7 +95,7 @@ function onHeaderSubmit(): void {
     return
   }
   if (tab === 'use-cases') return openModal('use-case')
-  if (tab === 'about') return openModal('feedback')
+  if (tab === 'about' || tab === 'mcp' || tab === 'skills') return openModal('feedback')
   return openModal('package')
 }
 </script>

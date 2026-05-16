@@ -8,7 +8,9 @@ import {
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/catalog',
+    name: 'home',
+    component: () => import('@/views/HomeView.vue'),
+    meta: { tabKey: 'home' },
   },
   {
     path: '/catalog',
@@ -21,6 +23,18 @@ const routes: RouteRecordRaw[] = [
     name: 'use-cases',
     component: () => import('@/views/UseCasesView.vue'),
     meta: { tabKey: 'use-cases' },
+  },
+  {
+    path: '/mcp',
+    name: 'mcp',
+    component: () => import('@/views/MCPView.vue'),
+    meta: { tabKey: 'mcp' },
+  },
+  {
+    path: '/skills',
+    name: 'skills',
+    component: () => import('@/views/SkillsView.vue'),
+    meta: { tabKey: 'skills' },
   },
   {
     path: '/releases',
@@ -55,6 +69,7 @@ export const router = createRouter({
     // Views scroll to the target card when a deep-link query is present.
     if (to.name === 'use-cases' && to.query.slug) return false
     if (to.name === 'catalog' && to.query.package) return false
+    if (to.hash) return { el: to.hash, top: 80 }
     return { top: 0 }
   },
 })
