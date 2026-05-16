@@ -30,7 +30,6 @@ function loadAll(): UseCase[] {
   return uuids
     .map((id) => byUuid.get(id))
     .filter((uc): uc is UseCase => !!uc && !uc.archived)
-    .sort((a, b) => a.title.localeCompare(b.title))
 }
 
 const cache: Ref<UseCase[]> = ref(loadAll())

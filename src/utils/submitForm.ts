@@ -23,8 +23,9 @@ export type WebhookPayload =
   | {
       form_name: 'submit_use_case'
       title: string
-      industry: string
-      technique: string
+      application_fields: string
+      problem_types: string
+      data_types: string
       packages: string
       synopsis: string
       sample_code: string

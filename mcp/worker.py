@@ -21,8 +21,17 @@ for _uc in USE_CASES:
     _UC_BY_ID[_uc["uuid"]] = _uc
     _UC_BY_ID[_uc["slug"]] = _uc
 
-_ALL_INDUSTRIES = sorted({i for uc in USE_CASES for i in uc.get("industry", [])})
-_ALL_TECHNIQUES = sorted({t for uc in USE_CASES for t in uc.get("technique", [])})
+def _taxonomy_values(uc: dict, new_key: str, legacy_key: str) -> list:
+    return uc.get(new_key) or uc.get(legacy_key, [])
+
+
+_ALL_APPLICATION_FIELDS = sorted(
+    {i for uc in USE_CASES for i in _taxonomy_values(uc, "application_fields", "industry")}
+)
+_ALL_PROBLEM_TYPES = sorted(
+    {t for uc in USE_CASES for t in _taxonomy_values(uc, "problem_types", "technique")}
+)
+_ALL_DATA_TYPES = sorted({d for uc in USE_CASES for d in uc.get("data_types", [])})
 _ALL_DIFFICULTIES = sorted({uc["difficulty"] for uc in USE_CASES if uc.get("difficulty")})
 _ALL_PKG_IDS = [p["id"] for p in PACKAGES]
 
@@ -33,7 +42,7 @@ _TOOLS = [
         "description": (
             "Search the scikit-learn Central use case library. Returns ranked matches "
             "with metadata. Use this when the user describes a machine learning problem, "
-            "industry, or technique they want to implement in Python."
+            "application field, problem type, or data type they want to implement in Python."
         ),
         "inputSchema": {
             "type": "object",
@@ -45,16 +54,24 @@ _TOOLS = [
                         "(e.g. 'fraud detection for banking', 'predict customer churn')"
                     ),
                 },
-                "industry": {
+                "application_field": {
                     "type": "string",
                     "description": (
-                        f"Filter by industry. Valid values: {', '.join(_ALL_INDUSTRIES)}"
+                        "Filter by application field. Valid values: "
+                        f"{', '.join(_ALL_APPLICATION_FIELDS)}"
                     ),
                 },
-                "technique": {
+                "problem_type": {
                     "type": "string",
                     "description": (
-                        f"Filter by ML technique. Valid values: {', '.join(_ALL_TECHNIQUES)}"
+                        "Filter by problem type. Valid values: "
+                        f"{', '.join(_ALL_PROBLEM_TYPES)}"
+                    ),
+                },
+                "data_type": {
+                    "type": "string",
+                    "description": (
+                        f"Filter by data type. Valid values: {', '.join(_ALL_DATA_TYPES)}"
                     ),
                 },
                 "difficulty": {
@@ -114,7 +131,7 @@ _TOOLS = [
     {
         "name": "list_taxonomy",
         "description": (
-            "Returns all valid taxonomy values: industries, techniques, difficulty levels, "
+            "Returns all valid taxonomy values: application fields, problem types, data types, "
             "and package IDs. Call this first to discover what filter values are available "
             "before calling search_use_cases."
         ),
@@ -124,12 +141,24 @@ _TOOLS = [
 
 # ── Search ────────────────────────────────────────────────────────────────
 
-def _score(uc: dict, query: str, industry: str, technique: str, difficulty: str) -> float:
+def _score(
+    uc: dict,
+    query: str,
+    application_field: str,
+    problem_type: str,
+    data_type: str,
+    difficulty: str,
+) -> float:
     if uc.get("archived"):
         return 0.0
-    if industry and industry not in uc.get("industry", []):
+    fields = _taxonomy_values(uc, "application_fields", "industry")
+    types = _taxonomy_values(uc, "problem_types", "technique")
+    dtypes = uc.get("data_types", [])
+    if application_field and application_field not in fields:
         return 0.0
-    if technique and technique not in uc.get("technique", []):
+    if problem_type and problem_type not in types:
+        return 0.0
+    if data_type and data_type not in dtypes:
         return 0.0
     if difficulty and uc.get("difficulty") != difficulty:
         return 0.0
@@ -142,9 +171,7 @@ def _score(uc: dict, query: str, industry: str, technique: str, difficulty: str)
 
     title = uc.get("title", "").lower()
     synopsis = uc.get("synopsis", "").lower()
-    tags = " ".join(
-        uc.get("industry", []) + uc.get("technique", []) + uc.get("packages", [])
-    ).lower()
+    tags = " ".join(fields + types + dtypes + uc.get("packages", [])).lower()
 
     score += 2.0 if q in title else sum(0.5 for t in tokens if t in title)
     score += 1.5 if q in synopsis else sum(0.3 for t in tokens if t in synopsis)
@@ -160,15 +187,23 @@ def _without_code(uc: dict) -> dict:
 
 def _tool_search_use_cases(args: dict) -> str:
     query = args.get("query", "").strip()
-    industry = (args.get("industry") or "").strip()
-    technique = (args.get("technique") or "").strip()
+    application_field = (
+        args.get("application_field") or args.get("industry") or ""
+    ).strip()
+    problem_type = (args.get("problem_type") or args.get("technique") or "").strip()
+    data_type = (args.get("data_type") or "").strip()
     difficulty = (args.get("difficulty") or "").strip()
     limit = min(int(args.get("limit", 3)), 10)
 
     scored = [
         (s, uc)
         for uc in USE_CASES
-        if (s := _score(uc, query, industry, technique, difficulty)) > 0
+        if (
+            s := _score(
+                uc, query, application_field, problem_type, data_type, difficulty
+            )
+        )
+        > 0
     ]
     scored.sort(key=lambda x: x[0], reverse=True)
 
@@ -220,8 +255,9 @@ def _tool_list_packages(args: dict) -> str:
 
 def _tool_list_taxonomy(_args: dict) -> str:
     return json.dumps({
-        "industries": _ALL_INDUSTRIES,
-        "techniques": _ALL_TECHNIQUES,
+        "application_fields": _ALL_APPLICATION_FIELDS,
+        "problem_types": _ALL_PROBLEM_TYPES,
+        "data_types": _ALL_DATA_TYPES,
         "difficulties": _ALL_DIFFICULTIES,
         "packages": _ALL_PKG_IDS,
         "featured_packages": FEATURED_PACKAGES,

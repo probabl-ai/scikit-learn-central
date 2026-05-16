@@ -1,0 +1,392 @@
+/* Shared catalog item chrome for UseCaseCard. */
+.uc-catalog-item.card {
+  min-width: 0;
+  height: 100%;
+
+  .stack {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr auto auto;
+    grid-template-areas:
+      'head'
+      'synopsis'
+      'classification'
+      'packages';
+    gap: var(--space-4);
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .headline-row {
+    grid-area: head;
+    align-items: flex-start;
+    /* Reserve two title lines (22px × 1.2 × 2) so synopsis aligns across cards. */
+    min-height: calc(22px * 1.2 * 2);
+  }
+
+  .headline {
+    line-height: 1.2;
+    min-height: calc(22px * 1.2 * 2);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .headline-row .difficulty-badge {
+    flex-shrink: 0;
+    margin-top: 0.1em;
+  }
+
+  .synopsis {
+    grid-area: synopsis;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .synopsis.synopsis--collapsed {
+    min-height: calc(1.65em * 3);
+  }
+
+  .synopsis-text {
+    margin: 0;
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .synopsis-text--clamped {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+    max-height: calc(1.65em * 3);
+  }
+
+  .synopsis-toggle {
+    align-self: flex-start;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    color: var(--text-muted);
+    transition: color var(--duration-sm) var(--ease-out);
+  }
+
+  .synopsis-toggle:hover {
+    color: var(--color-near-black);
+  }
+
+  .synopsis-toggle:focus-visible {
+    outline: 2px solid var(--color-sky);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  .panel--classification {
+    grid-area: classification;
+    gap: var(--space-2);
+    position: relative;
+    overflow: visible;
+    isolation: isolate;
+    border: 1px solid var(--neutral-200);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3);
+    transition: border-color var(--duration-md) var(--ease);
+  }
+
+  .panel--classification::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: var(--radius-sm);
+    pointer-events: none;
+    z-index: 0;
+    background-repeat: no-repeat;
+    background-image:
+      linear-gradient(var(--color-near-black), var(--color-near-black)),
+      linear-gradient(var(--color-near-black), var(--color-near-black)),
+      linear-gradient(var(--color-near-black), var(--color-near-black)),
+      linear-gradient(var(--color-near-black), var(--color-near-black)),
+      linear-gradient(var(--color-near-black), var(--color-near-black)),
+      linear-gradient(var(--color-near-black), var(--color-near-black)),
+      linear-gradient(var(--color-near-black), var(--color-near-black)),
+      linear-gradient(var(--color-near-black), var(--color-near-black));
+    background-size:
+      2px 11px,
+      11px 2px,
+      2px 11px,
+      11px 2px,
+      2px 11px,
+      11px 2px,
+      2px 11px,
+      11px 2px;
+    background-position:
+      left 0 top 0,
+      left 0 top 0,
+      right 0 top 0,
+      right 0 top 0,
+      left 0 bottom 0,
+      left 0 bottom 0,
+      right 0 bottom 0,
+      right 0 bottom 0;
+  }
+
+  &:hover .panel--classification {
+    border-color: var(--color-near-black);
+  }
+
+  .classification-panel-head {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .classification-panel-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+
+  .classification-meta {
+    position: relative;
+    z-index: 1;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .classification-meta-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  .classification-meta-label {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 8.5rem;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--text-secondary);
+  }
+
+  .classification-meta-icon {
+    color: var(--text-muted);
+    font-size: 0.85em;
+  }
+
+  .classification-meta-value {
+    flex: 1;
+    min-width: 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.35;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-primary);
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .panel--packages {
+    grid-area: packages;
+    gap: var(--space-2);
+    position: relative;
+    overflow: visible;
+    isolation: isolate;
+    border: 1px solid var(--orange-200);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3);
+    transition: border-color var(--duration-md) var(--ease);
+  }
+
+  .panel--packages::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: var(--radius-sm);
+    pointer-events: none;
+    z-index: 0;
+    background-repeat: no-repeat;
+    background-image:
+      linear-gradient(var(--color-orange), var(--color-orange)),
+      linear-gradient(var(--color-orange), var(--color-orange)),
+      linear-gradient(var(--color-orange), var(--color-orange)),
+      linear-gradient(var(--color-orange), var(--color-orange)),
+      linear-gradient(var(--color-orange), var(--color-orange)),
+      linear-gradient(var(--color-orange), var(--color-orange)),
+      linear-gradient(var(--color-orange), var(--color-orange)),
+      linear-gradient(var(--color-orange), var(--color-orange));
+    background-size:
+      2px 11px,
+      11px 2px,
+      2px 11px,
+      11px 2px,
+      2px 11px,
+      11px 2px,
+      2px 11px,
+      11px 2px;
+    background-position:
+      left 0 top 0,
+      left 0 top 0,
+      right 0 top 0,
+      right 0 top 0,
+      left 0 bottom 0,
+      left 0 bottom 0,
+      right 0 bottom 0,
+      right 0 bottom 0;
+  }
+
+  &:hover .panel--packages {
+    border-color: var(--orange-600);
+  }
+
+  .packages-panel-head {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .packages-panel-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-orange);
+  }
+
+  .packages-panel-body {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+  }
+
+  .packages-measure-rail {
+    position: absolute;
+    visibility: hidden;
+    pointer-events: none;
+    height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: var(--space-1);
+    white-space: nowrap;
+  }
+
+  .packages-visible-rail {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1);
+    min-width: 0;
+  }
+
+  .packages-panel-body--collapsed .packages-visible-rail {
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+
+  .packages-overflow-btn {
+    flex-shrink: 0;
+    margin: 0;
+    padding: 2px 8px;
+    border: 1px solid var(--neutral-200);
+    border-radius: 4px;
+    background: var(--neutral-100);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition:
+      background 0.12s,
+      color 0.12s,
+      border-color 0.12s;
+  }
+
+  .packages-overflow-btn:hover {
+    color: var(--color-near-black);
+    border-color: var(--color-near-black);
+    background: var(--neutral-050);
+  }
+
+  .packages-overflow-btn:focus-visible {
+    outline: 2px solid var(--color-sky);
+    outline-offset: 2px;
+  }
+
+  .footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-top: auto;
+    min-width: 0;
+  }
+
+}
+
+.uc-catalog-item.card .outbound-link.is-copied {
+  color: var(--color-orange);
+  background: rgba(255, 121, 0, 0.08);
+}
+
+.uc-catalog-item.card .outbound-link.is-copied:hover {
+  color: var(--color-orange);
+  background: rgba(255, 121, 0, 0.12);
+}
+
+/* Orange primary CTA — matches .btn--primary (design-system.css) */
+.uc-catalog-item.card .outbound-link.outbound-link--cta {
+  font-weight: 700;
+  background: var(--color-orange);
+  color: var(--color-near-black);
+  border-left: 1px solid var(--color-orange);
+}
+
+.uc-catalog-item.card:hover .outbound-link.outbound-link--cta {
+  border-left-color: var(--color-orange);
+}
+
+.uc-catalog-item.card .outbound-link.outbound-link--cta:hover {
+  background: var(--bg-surface);
+  color: var(--color-orange);
+  border-left-color: var(--color-orange);
+  box-shadow: inset 0 0 0 1px var(--color-orange);
+}

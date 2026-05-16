@@ -51,12 +51,12 @@ for uc in use_cases:
         "slug":         uc['id'],
         "title":        uc['title'],
         "synopsis":     uc['synopsis'],
-        "industry":     uc['industry'],
-        "technique":    uc['technique'],
+        "application_fields": uc.get('application_fields', uc.get('industry', [])),
+        "problem_types":    uc.get('problem_types', uc.get('technique', [])),
+        "data_types":       uc.get('data_types', []),
         "packages":     uc['packages'],
         "difficulty":   uc['difficulty'],
         "archived":     False,
-        "has_notebook": False,
     }
     json_path = UC_DIR / f'{uid}.json'
     json_path.write_text(json.dumps(meta, indent=2, ensure_ascii=False) + '\n')

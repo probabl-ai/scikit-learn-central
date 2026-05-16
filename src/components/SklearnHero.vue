@@ -6,11 +6,26 @@ import { CATEGORY_META } from '@/types/package'
 import { useCopyPipInstall } from '@/composables/useCopyPipInstall'
 import { fmt } from '@/utils/format'
 
-const props = defineProps<{
-  core: CorePackage
-  useCaseCount: number
-  useCasesFilterTo?: RouteLocationRaw
+const props = withDefaults(
+  defineProps<{
+    core: CorePackage
+    useCaseCount: number
+    useCasesFilterTo?: RouteLocationRaw
+    /** Deep-linked from catalog ?package=scikit-learn */
+    focused?: boolean
+    pulsing?: boolean
+  }>(),
+  { focused: false, pulsing: false },
+)
+
+const emit = defineEmits<{
+  pulseEnd: []
 }>()
+
+function onPulseAnimationEnd(event: AnimationEvent): void {
+  if (!props.pulsing || event.animationName !== 'catalog-focus-pulse') return
+  emit('pulseEnd')
+}
 
 const stats = computed(() => props.core.stats)
 
@@ -69,7 +84,16 @@ const { copied, copyInstall } = useCopyPipInstall(() => props.core.pypi_name)
 </script>
 
 <template>
-  <div class="sklearn-hero" id="sklearn-hero">
+  <div
+    class="sklearn-hero"
+    id="sklearn-hero"
+    data-catalog-id="scikit-learn"
+    :class="{
+      'is-focused': focused,
+      'is-focus-pulse': pulsing,
+    }"
+    @animationend="onPulseAnimationEnd"
+  >
     <div class="corner-tag">The Core</div>
     <div class="body">
       <div class="sklearn-hero__main">
@@ -154,10 +178,12 @@ const { copied, copyInstall } = useCopyPipInstall(() => props.core.pypi_name)
 
 <style scoped>
 .sklearn-hero {
+  position: relative;
   background: var(--color-midnight);
   border: 1px solid var(--color-midnight-line);
   border-radius: var(--radius-md);
   padding: var(--space-8) var(--space-10);
+  transition: border-color 0.18s;
   margin-bottom: var(--space-6);
   position: relative;
   overflow: hidden;
@@ -352,6 +378,34 @@ button.link.link--pip {
 .link--pip .pip-copy {
   font-size: 12px;
   opacity: 0.85;
+}
+
+.sklearn-hero.is-focused {
+  border-color: var(--color-orange);
+}
+
+@keyframes catalog-focus-pulse {
+  0% {
+    opacity: 1;
+    box-shadow: 0 0 0 3px rgba(255, 121, 0, 0.35);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 0 7px rgba(255, 121, 0, 0.18);
+  }
+  100% {
+    opacity: 0;
+    box-shadow: 0 0 0 3px rgba(255, 121, 0, 0);
+  }
+}
+
+.sklearn-hero.is-focus-pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: catalog-focus-pulse 2s ease-in-out forwards;
 }
 
 @media (max-width: 900px) {

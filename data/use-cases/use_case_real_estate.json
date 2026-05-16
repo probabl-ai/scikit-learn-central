@@ -3,12 +3,14 @@
   "slug": "real-estate",
   "title": "Real Estate Pricing",
   "synopsis": "Compare a random forest and a Ridge regressor on California housing with skrub pipelines, using skore.evaluate for 5-fold cross-validation, checks, and aggregated metrics.",
-  "industry": [
+  "application_fields": [
     "real-estate"
   ],
-  "technique": [
-    "regression",
-    "price-optimization"
+  "problem_types": [
+    "regression"
+  ],
+  "data_types": [
+    "tabular"
   ],
   "packages": [
     "scikit-learn",
@@ -16,6 +18,5 @@
     "skore"
   ],
   "difficulty": "beginner",
-  "archived": false,
-  "has_notebook": false
+  "archived": false
 }

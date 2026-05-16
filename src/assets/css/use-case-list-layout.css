@@ -1,0 +1,192 @@
+/* Use case catalog list: one shared column grid for header + all rows. */
+.catalog-list-shell--use-cases {
+  --uc-col-title: 11.5rem;
+  --uc-col-desc: 14rem;
+  --uc-col-taxonomy: 9rem;
+  --uc-col-packages: 14rem;
+  --uc-grid-columns:
+    minmax(var(--uc-col-title), 1.15fr) minmax(var(--uc-col-desc), 1.4fr)
+    minmax(var(--uc-col-taxonomy), 0.9fr) minmax(var(--uc-col-taxonomy), 0.9fr)
+    minmax(var(--uc-col-taxonomy), 0.9fr) minmax(var(--uc-col-packages), 1.4fr);
+  --catalog-grid-line: inset 0 -1px 0 0 var(--border-subtle);
+}
+
+/* Parent grid: column tracks shared by header cells (row 1) and body rows (subgrid). */
+.catalog-list-shell--use-cases .catalog-list-scroll {
+  display: grid;
+  grid-template-columns: var(--uc-grid-columns);
+  width: 100%;
+  min-width: 0;
+}
+
+/* Header wrappers flattened so hcells use the same grid tracks as row columns. */
+.catalog-list-shell--use-cases .catalog-list-header.card,
+.catalog-list-shell--use-cases .catalog-list-header-row,
+.catalog-list-shell--use-cases .catalog-list {
+  display: contents;
+}
+
+/* Override package list shell (flex header row + max-content width). */
+.catalog-list-shell.catalog-list-shell--use-cases .catalog-list-header,
+.catalog-list-shell.catalog-list-shell--use-cases .catalog-list-header-row {
+  width: auto;
+  min-width: 0;
+}
+
+.catalog-list-shell--use-cases .catalog-list > .card.uc-row {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  position: relative;
+  width: auto;
+  min-width: 0;
+  align-self: stretch;
+  box-sizing: border-box;
+  border-radius: 0;
+  margin: 0;
+  border: none;
+  border-bottom: none;
+  padding: 0;
+  gap: 0;
+  transition: none;
+  overflow-x: visible;
+  max-width: none;
+}
+
+.catalog-list-shell--use-cases .uc-row-main {
+  display: contents;
+}
+
+.catalog-list-shell--use-cases .catalog-list > .card:not(:last-child) {
+  box-shadow: var(--catalog-grid-line);
+}
+
+.catalog-list-shell--use-cases .catalog-list > .card:last-child {
+  box-shadow: none;
+  padding-bottom: 0;
+}
+
+.catalog-list-shell--use-cases .catalog-list-header.card:hover,
+.catalog-list-shell--use-cases .catalog-list > .card.uc-row:hover {
+  border-color: var(--border-subtle);
+}
+
+.catalog-list-shell--use-cases .catalog-list > .card.uc-row:not(:last-child):hover {
+  box-shadow: var(--catalog-grid-line);
+}
+
+.catalog-list-shell--use-cases .uc-row-col,
+.catalog-list-shell--use-cases .catalog-list-hcell {
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: var(--space-2);
+  border-right: 1px solid var(--border-subtle);
+  min-height: 0;
+  min-width: 0;
+}
+
+.catalog-list-shell--use-cases .catalog-list-hcell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Header cells: same tracks as body + continuous rule under the header.
+ * Selectors must use descendant (not `>`) because `display: contents` does not
+ * collapse the DOM tree — only layout. Also override package list widths on
+ * `.catalog-list-hcell--desc` so the header desc column matches the body. */
+.catalog-list-shell--use-cases .catalog-list-hcell {
+  grid-row: 1;
+  border-bottom: 1px solid var(--border-subtle);
+  flex: initial;
+  width: auto;
+  max-width: none;
+}
+
+.catalog-list-shell--use-cases .uc-row-col:last-child,
+.catalog-list-shell--use-cases .catalog-list-hcell:last-child {
+  border-right: none;
+}
+
+.catalog-list-shell--use-cases .catalog-list-hcell--title {
+  grid-column: 1;
+}
+
+.catalog-list-shell--use-cases .catalog-list-hcell--desc {
+  grid-column: 2;
+}
+
+.catalog-list-shell--use-cases .catalog-list-hcell--application-field {
+  grid-column: 3;
+}
+
+.catalog-list-shell--use-cases .catalog-list-hcell--problem-type {
+  grid-column: 4;
+}
+
+.catalog-list-shell--use-cases .catalog-list-hcell--data-type {
+  grid-column: 5;
+}
+
+.catalog-list-shell--use-cases .catalog-list-hcell--packages {
+  grid-column: 6;
+}
+
+.catalog-list-shell--use-cases .catalog-list-hcell--title,
+.catalog-list-shell--use-cases .uc-row-col--title {
+  align-items: center;
+  justify-content: center;
+}
+
+.catalog-list-shell--use-cases .uc-row-col--title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.catalog-list-shell--use-cases .uc-row-col--application-field,
+.catalog-list-shell--use-cases .uc-row-col--problem-type,
+.catalog-list-shell--use-cases .uc-row-col--data-type {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.catalog-list-shell--use-cases .uc-row-col--title {
+  grid-column: 1;
+}
+
+.catalog-list-shell--use-cases .uc-row-col--desc {
+  grid-column: 2;
+}
+
+.catalog-list-shell--use-cases .uc-row-col--application-field {
+  grid-column: 3;
+}
+
+.catalog-list-shell--use-cases .uc-row-col--problem-type {
+  grid-column: 4;
+}
+
+.catalog-list-shell--use-cases .uc-row-col--data-type {
+  grid-column: 5;
+}
+
+.catalog-list-shell--use-cases .uc-row-col--packages {
+  grid-column: 6;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: visible;
+}
+
+.catalog-list-shell--use-cases .uc-row-col--packages .uc-row-package-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: center;
+  gap: var(--space-1);
+  width: 100%;
+  min-width: 0;
+}

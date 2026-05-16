@@ -52,8 +52,9 @@ export const router = createRouter({
   history: createWebHashHistory(),
   routes,
   scrollBehavior(to: RouteLocationNormalized) {
-    // UseCasesView scrolls to the target card when ?slug= is present.
+    // Views scroll to the target card when a deep-link query is present.
     if (to.name === 'use-cases' && to.query.slug) return false
+    if (to.name === 'catalog' && to.query.package) return false
     return { top: 0 }
   },
 })

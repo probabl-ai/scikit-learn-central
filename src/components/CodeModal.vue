@@ -2,6 +2,12 @@
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import DifficultyBadge from '@/components/DifficultyBadge.vue'
 import type { UseCase } from '@/types/usecase'
+import {
+  filterKnownApplicationFields,
+  filterKnownDataTypes,
+  filterKnownProblemTypes,
+  formatKnownList,
+} from '@/types/usecase-taxonomy'
 
 const props = defineProps<{
   useCase: UseCase | null
@@ -67,6 +73,22 @@ const githubUrl = computed(() =>
     : '#',
 )
 
+const classificationSummary = computed(() => {
+  const uc = props.useCase
+  if (!uc) return []
+  return [
+    {
+      label: 'Application Field',
+      value: formatKnownList(uc.application_fields ?? [], filterKnownApplicationFields),
+    },
+    {
+      label: 'Problem Type',
+      value: formatKnownList(uc.problem_types ?? [], filterKnownProblemTypes),
+    },
+    { label: 'Data Type', value: formatKnownList(uc.data_types ?? [], filterKnownDataTypes) },
+  ]
+})
+
 async function copyCode(): Promise<void> {
   if (!codeEl.value) return
   try {
@@ -93,9 +115,13 @@ async function copyCode(): Promise<void> {
           <div class="title">{{ useCase.title }}</div>
           <div class="meta">
             <DifficultyBadge :difficulty="useCase.difficulty" />
-            <span v-for="i in useCase.industry" :key="i" class="industry-tag">{{ i }}</span>
-            <span v-for="t in useCase.technique" :key="t" class="technique-tag">
-              {{ t.replace(/-/g, ' ') }}
+            <span
+              v-for="row in classificationSummary"
+              :key="row.label"
+              class="code-modal-classification"
+            >
+              <span class="code-modal-classification-label">{{ row.label }}:</span>
+              {{ row.value }}
             </span>
           </div>
         </div>
@@ -208,8 +234,19 @@ async function copyCode(): Promise<void> {
 .meta {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-1);
+  gap: var(--space-2);
   margin-top: var(--space-2);
+}
+
+.code-modal-classification {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-inverse-muted, rgba(255, 255, 255, 0.75));
+}
+
+.code-modal-classification-label {
+  color: var(--text-inverse);
+  font-weight: 600;
 }
 
 .close {

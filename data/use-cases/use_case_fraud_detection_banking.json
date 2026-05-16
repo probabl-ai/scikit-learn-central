@@ -3,20 +3,19 @@
   "slug": "fraud-detection-banking",
   "title": "Credit Card Fraud Detection",
   "synopsis": "Detect fraudulent transactions among millions of legitimate credit card purchases using machine learning. Credit risk may require a probability score that can drive graduated responses: a borderline transaction might need additional authentication, while a high-risk score may lead to immediate rejection.",
-  "industry": [
-    "banking",
+  "application_fields": [
     "insurance"
   ],
-  "technique": [
-    "fraud-detection",
-    "anomaly-detection",
+  "problem_types": [
     "classification"
+  ],
+  "data_types": [
+    "tabular"
   ],
   "packages": [
     "scikit-learn",
     "skore"
   ],
-  "difficulty": "intermediate",
-  "archived": false,
-  "has_notebook": false
+  "difficulty": "beginner",
+  "archived": false
 }

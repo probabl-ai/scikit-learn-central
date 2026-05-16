@@ -20,6 +20,5 @@
     "mlflow"
   ],
   "difficulty": "advanced",
-  "archived": false,
-  "has_notebook": false
+  "archived": false
 }
