@@ -8,6 +8,10 @@ import CatalogListShell from '@/components/CatalogListShell.vue'
 import FilterBottomSheet from '@/components/FilterBottomSheet.vue'
 import FilterDropdown from '@/components/FilterDropdown.vue'
 import { useCatalogDescriptionExpand } from '@/composables/useCatalogDescriptionExpand'
+import {
+  usePackageCatalogGroups,
+  type GroupByKey,
+} from '@/composables/usePackageCatalogGroups'
 import { usePackages } from '@/composables/usePackages'
 import { useUseCases } from '@/composables/useUseCases'
 import type { Category, License } from '@/types/package'
@@ -25,6 +29,7 @@ const categorySel = ref<Set<Category>>(new Set())
 const licenseSel = ref<Set<License>>(new Set())
 const tagSel = ref<Set<string>>(new Set())
 const sortBy = ref<SortKey>('ranking')
+const groupBy = ref<GroupByKey>('main')
 const catalogLayout = ref<CatalogLayout>('cards')
 
 const LICENSES = ['MIT', 'BSD-3-Clause', 'BSD-2-Clause', 'Apache-2.0', 'GPL-3.0'] as const
@@ -105,6 +110,8 @@ const filtered = computed(() => {
   })
   return r
 })
+
+const { groupedSections } = usePackageCatalogGroups(filtered, groupBy)
 
 const hasAnyFilter = computed(
   () =>
@@ -239,6 +246,11 @@ const filtersSheetOpen = ref(false)
           <option value="downloads">Sort: Monthly Downloads</option>
           <option value="name">Sort: Name A–Z</option>
         </select>
+        <select v-model="groupBy" class="sort-select--inline" title="Group by">
+          <option value="none">Group: None</option>
+          <option value="main">Group: Main category</option>
+          <option value="sub">Group: Subcategory</option>
+        </select>
         <button
           type="button"
           class="filter-bar-clear"
@@ -303,6 +315,17 @@ const filtersSheetOpen = ref(false)
             <option value="stars">Stars</option>
             <option value="downloads">Downloads</option>
             <option value="name">Name A–Z</option>
+          </select>
+          <label class="filter-sheet-display-label" for="pkg-group-sheet">Group by</label>
+          <select
+            id="pkg-group-sheet"
+            v-model="groupBy"
+            class="sort-select--inline"
+            title="Group by"
+          >
+            <option value="none">None</option>
+            <option value="main">Main category</option>
+            <option value="sub">Subcategory</option>
           </select>
         </div>
       </div>
@@ -381,7 +404,11 @@ const filtersSheetOpen = ref(false)
 
       <div class="catalog-header">
         <h2 class="catalog-header-title">Ecosystem Packages</h2>
-        <span class="catalog-header-count" aria-live="polite">
+        <span
+          v-if="groupBy === 'none'"
+          class="catalog-header-count"
+          aria-live="polite"
+        >
           {{ filtered.length }} package{{ filtered.length !== 1 ? 's' : '' }}
         </span>
       </div>
@@ -393,29 +420,69 @@ const filtersSheetOpen = ref(false)
         <button class="btn btn--outline" @click="resetFilters">Reset Filters</button>
       </div>
 
-      <div v-else-if="catalogLayout === 'cards'" id="catalog-grid" class="catalog-grid">
-        <PackageCard
-          v-for="pkg in filtered"
-          :key="pkg.id"
-          :pkg="pkg"
-          :use-cases="useCasesByPackage.get(pkg.id) ?? []"
-          :use-cases-filter-to="{ path: '/use-cases', query: { package: pkg.id } }"
-          :show-fit-chip="true"
-        />
+      <div
+        v-else
+        class="catalog-ecosystem"
+        :class="{ 'catalog-ecosystem--list': catalogLayout === 'list' }"
+      >
+        <section
+          v-for="(section, sectionIndex) in groupedSections"
+          :key="section.key"
+          class="catalog-group"
+          :class="{ 'catalog-group--first': sectionIndex === 0 }"
+          :aria-labelledby="section.label ? `catalog-group-${section.key}` : undefined"
+        >
+          <h3
+            v-if="section.label && groupBy !== 'none'"
+            :id="`catalog-group-${section.key}`"
+            class="catalog-group-title"
+            :class="section.tier ? `catalog-group-title--tier-${section.tier}` : undefined"
+          >
+            <span v-if="section.subLabel" class="catalog-group-title__label">
+              <span class="catalog-group-title__tier">{{ section.tierLabel }}</span>
+              <span class="catalog-group-title__sub">{{ section.subLabel }}</span>
+            </span>
+            <span v-else class="catalog-group-title__label">{{ section.label }}</span>
+            <span class="catalog-header-count" aria-live="polite">
+              {{ section.packages.length }} package{{
+                section.packages.length !== 1 ? 's' : ''
+              }}
+            </span>
+          </h3>
+
+          <div
+            v-if="catalogLayout === 'cards'"
+            :id="sectionIndex === 0 ? 'catalog-grid' : undefined"
+            class="catalog-grid"
+          >
+            <PackageCard
+              v-for="pkg in section.packages"
+              :key="`${section.key}-${pkg.id}`"
+              :pkg="pkg"
+              :use-cases="useCasesByPackage.get(pkg.id) ?? []"
+              :use-cases-filter-to="{ path: '/use-cases', query: { package: pkg.id } }"
+              :show-fit-chip="true"
+            />
+          </div>
+
+          <CatalogListShell v-else>
+            <PackageListColumnHeader />
+            <div
+              :id="sectionIndex === 0 ? 'catalog-list' : undefined"
+              class="catalog-list"
+            >
+              <PackageListRow
+                v-for="pkg in section.packages"
+                :key="`${section.key}-${pkg.id}`"
+                :pkg="pkg"
+                :use-cases="useCasesByPackage.get(pkg.id) ?? []"
+                :use-cases-filter-to="{ path: '/use-cases', query: { package: pkg.id } }"
+                :show-fit-chip="true"
+              />
+            </div>
+          </CatalogListShell>
+        </section>
       </div>
-      <CatalogListShell v-else>
-        <PackageListColumnHeader />
-        <div id="catalog-list" class="catalog-list">
-          <PackageListRow
-            v-for="pkg in filtered"
-            :key="`list-${pkg.id}`"
-            :pkg="pkg"
-            :use-cases="useCasesByPackage.get(pkg.id) ?? []"
-            :use-cases-filter-to="{ path: '/use-cases', query: { package: pkg.id } }"
-            :show-fit-chip="true"
-          />
-        </div>
-      </CatalogListShell>
     </div>
   </div>
 </template>
@@ -494,5 +561,120 @@ const filtersSheetOpen = ref(false)
   outline: 2px solid var(--color-sky);
   outline-offset: -2px;
   z-index: 1;
+}
+
+.catalog-ecosystem {
+  min-width: 0;
+}
+
+.catalog-group {
+  margin-top: var(--space-8);
+  min-width: 0;
+}
+
+.catalog-group--first {
+  margin-top: 0;
+}
+
+.catalog-group-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-4);
+  padding: var(--space-6) 0 0;
+  padding-left: var(--space-4);
+  border-left: 4px solid var(--border-subtle);
+  font-family: var(--brand-typography--title);
+  font-size: var(--brand-typography-size--heading-h6);
+  font-weight: 300;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.35;
+  color: var(--text-primary);
+}
+
+.catalog-group--first .catalog-group-title {
+  padding-top: var(--space-4);
+}
+
+.catalog-group-title--tier-1 {
+  border-left-color: var(--color-sky);
+}
+
+.catalog-group-title--tier-2 {
+  border-left-color: var(--color-orange);
+}
+
+.catalog-group-title--tier-3 {
+  border-left-color: var(--color-midnight-2);
+}
+
+.catalog-group-title__label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-3);
+  min-width: 0;
+}
+
+.catalog-group-title__tier {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-widest);
+  line-height: 1.4;
+}
+
+.catalog-group-title--tier-1 .catalog-group-title__tier {
+  color: var(--color-sky);
+}
+
+.catalog-group-title--tier-2 .catalog-group-title__tier {
+  color: var(--color-orange);
+}
+
+.catalog-group-title--tier-3 .catalog-group-title__tier {
+  color: var(--color-midnight-2);
+}
+
+.catalog-group-title__sub::before {
+  content: '·';
+  margin-right: var(--space-3);
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.catalog-group-title__sub {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  color: var(--text-primary);
+}
+
+.catalog-group-title .catalog-header-count {
+  flex-shrink: 0;
+}
+
+.catalog-ecosystem--list .catalog-group {
+  margin-top: var(--space-8);
+}
+
+.catalog-ecosystem--list .catalog-group--first {
+  margin-top: 0;
+}
+
+.catalog-ecosystem--list .catalog-group-title {
+  padding-top: var(--space-7);
+  margin-bottom: var(--space-4);
+}
+
+.catalog-ecosystem--list .catalog-group--first .catalog-group-title {
+  padding-top: var(--space-4);
+}
+
+.catalog-ecosystem--list .catalog-list-shell {
+  margin-bottom: 0;
 }
 </style>
