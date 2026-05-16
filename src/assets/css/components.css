@@ -1410,6 +1410,12 @@ span.uc-package-chip--tier-3:hover {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-5);
+  align-items: stretch;
+}
+
+.releases-grid > .release-card {
+  height: 100%;
+  min-height: 0;
 }
 
 @media (max-width: 1024px) {
@@ -1418,63 +1424,4 @@ span.uc-package-chip--tier-3:hover {
 
 @media (max-width: 640px) {
   .releases-grid { grid-template-columns: 1fr; }
-}
-
-/* Outline style for white-card releases */
-.btn--outline-blue {
-  background: transparent;
-  border: 1.5px solid var(--color-near-black);
-  color: var(--color-near-black);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  text-decoration: none;
-  transition: background 0.15s, color 0.15s;
-}
-
-.btn--outline-blue:hover {
-  background: var(--color-near-black);
-  color: var(--text-inverse);
-}
-
-/* Outline style for blue (future) cards */
-.btn--outline-white {
-  background: transparent;
-  border: 1.5px solid var(--text-on-dark-faint);
-  color: var(--text-inverse);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  text-decoration: none;
-  transition: background 0.15s, border-color 0.15s;
-}
-
-.btn--outline-white:hover {
-  background: var(--surface-on-dark-raised);
-  border-color: var(--text-inverse);
-}
-
-/* Orange CTA — release cards; colors/hover from .btn--primary */
-.btn--cta {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-sm);
-  gap: var(--space-1);
 }

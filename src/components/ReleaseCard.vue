@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useReleaseCardHighlights } from '@/composables/useReleaseCardHighlights'
 import type { Release, ReleaseHighlight } from '@/types/release'
 import { fmt } from '@/utils/format'
+import { releaseChangelogAnchorUrl } from '@/utils/releaseUrls'
 
 const props = defineProps<{
   release: Release
@@ -21,6 +23,17 @@ const TAG_CONFIG: ReadonlyArray<TagConfig> = [
   { key: 'fix', label: 'Fix', cssClass: 'fix' },
   { key: 'api_change', label: 'API', cssClass: 'api-change' },
 ]
+
+const {
+  cardRoot,
+  highlightsRef,
+  highlightsBodyId,
+  highlightsExpanded,
+  toggleHighlightsExpanded,
+  highlightsExpandAriaLabel,
+  showHighlightsToggle,
+  shouldShowHighlight,
+} = useReleaseCardHighlights(props)
 
 const isFuture = computed(() => props.release.version === 'future')
 
@@ -87,150 +100,335 @@ const tagPills = computed<TagPill[]>(() => {
 
 const contributorCount = computed(() => props.release.stats?.contributor_count)
 
+const changelogUrl = computed(() =>
+  isFuture.value ? null : releaseChangelogAnchorUrl(props.release.version),
+)
+
 const ctaLink = computed(() =>
   isFuture.value
     ? 'https://github.com/scikit-learn/scikit-learn/contribute'
     : `https://probabl.ai/support?utm_source=skl-central&utm_campaign=get_scikit-learn_support_v${props.release.version}`,
 )
-const ctaLabel = computed(() => (isFuture.value ? 'CONTRIBUTE' : 'GET SUPPORT'))
-
-const outlineClass = computed(() =>
-  isFuture.value ? 'btn--outline-white' : 'btn--outline-blue',
-)
+const ctaLabel = computed(() => (isFuture.value ? 'Contribute' : 'Get support'))
 </script>
 
 <template>
-  <article class="release-card" :class="{ 'is-future': isFuture }">
-    <div class="header">
-      <div class="version">
-        <a
-          v-if="release.github_url"
-          :href="release.github_url"
-          target="_blank"
-          rel="noopener"
-          class="version-link"
-        >
-          {{ versionLabel }}
-        </a>
-        <span v-else class="version-link">{{ versionLabel }}</span>
+  <article
+    ref="cardRoot"
+    class="release-card card"
+    :class="{ 'is-future': isFuture }"
+  >
+    <div class="body">
+      <div class="header">
+        <div class="version">
+          <a
+            v-if="release.github_url"
+            :href="release.github_url"
+            target="_blank"
+            rel="noopener"
+            class="version-link"
+          >
+            {{ versionLabel }}
+          </a>
+          <span v-else class="version-link">{{ versionLabel }}</span>
+        </div>
+        <div class="header-meta">
+          <div class="date">{{ dateLabel }}</div>
+          <span
+            class="contributors pill"
+            :class="{ 'contributors--empty': !contributorCount }"
+            :title="contributorCount ? `${contributorCount} contributors` : undefined"
+            :aria-hidden="contributorCount ? undefined : true"
+          >
+            <i class="fas fa-users" aria-hidden="true"></i>
+            <span v-if="contributorCount">{{ contributorCount }}</span>
+          </span>
+        </div>
       </div>
-      <div class="date">{{ dateLabel }}</div>
+
+      <section
+        class="highlights-section synopsis"
+        :class="{
+          'synopsis--collapsed': !highlightsExpanded,
+          'has-highlights-toggle': showHighlightsToggle && !highlightsExpanded,
+        }"
+        aria-label="Release highlights"
+      >
+        <ul
+          :id="highlightsBodyId"
+          ref="highlightsRef"
+          class="highlights synopsis-text"
+          :class="{ 'synopsis-text--clamped': !highlightsExpanded }"
+        >
+          <li
+            v-for="(h, i) in highlights"
+            v-show="shouldShowHighlight(i)"
+            :key="i"
+            class="highlight"
+          >
+            <span class="highlight-text">{{ h.text }}</span>
+            <a
+              v-if="h.issueUrl"
+              :href="h.issueUrl"
+              target="_blank"
+              rel="noopener"
+              class="vote"
+              title="Vote on GitHub (👍 this issue)"
+            >
+              <i class="fas fa-thumbs-up"></i>
+              <span v-if="h.countLabel">{{ h.countLabel }}</span>
+            </a>
+          </li>
+        </ul>
+        <button
+          v-if="showHighlightsToggle"
+          type="button"
+          class="synopsis-toggle"
+          :aria-expanded="highlightsExpanded"
+          :aria-controls="highlightsBodyId"
+          :aria-label="highlightsExpandAriaLabel"
+          @click="toggleHighlightsExpanded"
+        >
+          {{ highlightsExpanded ? 'Show less' : 'Show more' }}
+        </button>
+      </section>
+
+      <section class="stats" aria-label="Changelog statistics">
+        <div class="pills">
+          <span
+            v-for="t in tagPills"
+            :key="t.cssClass"
+            class="pill"
+            :class="`is-${t.cssClass}`"
+            :title="t.title"
+          >
+            {{ t.count }} {{ t.label }}
+          </span>
+        </div>
+        <div class="stats-bar" :class="{ 'stats-bar--empty': !tagPills.length }">
+          <div
+            v-for="t in tagPills"
+            :key="t.cssClass"
+            class="seg"
+            :class="`is-${t.cssClass}`"
+            :style="{ width: t.pct + '%' }"
+            :title="t.title"
+          ></div>
+        </div>
+      </section>
     </div>
 
-    <ul class="highlights">
-      <li v-for="(h, i) in highlights" :key="i" class="highlight">
-        {{ h.text }}
+    <div class="footer">
+      <div class="outbound">
         <a
-          v-if="h.issueUrl"
-          :href="h.issueUrl"
+          v-if="changelogUrl"
+          :href="changelogUrl"
           target="_blank"
           rel="noopener"
-          class="vote"
-          title="Vote on GitHub (👍 this issue)"
+          class="outbound-link"
+          title="Changelog on scikit-learn.org"
         >
-          <i class="fas fa-thumbs-up"></i>
-          <span v-if="h.countLabel">{{ h.countLabel }}</span>
+          <i class="fas fa-file-lines" aria-hidden="true"></i> Release notes
         </a>
-      </li>
-    </ul>
-
-    <div v-if="tagPills.length || contributorCount" class="stats">
-      <div class="pills">
-        <span
-          v-for="t in tagPills"
-          :key="t.cssClass"
-          class="pill"
-          :class="`is-${t.cssClass}`"
-          :title="t.title"
+        <a
+          v-if="release.release_notes_url"
+          :href="release.release_notes_url"
+          target="_blank"
+          rel="noopener"
+          class="outbound-link"
+          title="Release highlights on scikit-learn.org"
         >
-          {{ t.count }} {{ t.label }}
-        </span>
-        <span
-          v-if="contributorCount"
-          class="pill is-contributors"
-          :title="`${contributorCount} contributors`"
+          <i class="fas fa-star" aria-hidden="true"></i> Release highlights
+        </a>
+        <a
+          :href="ctaLink"
+          target="_blank"
+          rel="noopener"
+          class="outbound-link outbound-link--cta"
+          :title="isFuture ? 'Contribute to scikit-learn' : 'Get scikit-learn support'"
         >
-          <i class="fas fa-users"></i> {{ contributorCount }}
-        </span>
+          <i
+            class="fas"
+            :class="isFuture ? 'fa-code-branch' : 'fa-life-ring'"
+            aria-hidden="true"
+          ></i>
+          {{ ctaLabel }}
+        </a>
       </div>
-      <div v-if="tagPills.length" class="stats-bar">
-        <div
-          v-for="t in tagPills"
-          :key="t.cssClass"
-          class="seg"
-          :class="`is-${t.cssClass}`"
-          :style="{ width: t.pct + '%' }"
-          :title="t.title"
-        ></div>
-      </div>
-    </div>
-
-    <div class="actions">
-      <a
-        v-if="release.release_notes_url"
-        :href="release.release_notes_url"
-        target="_blank"
-        rel="noopener"
-        class="btn btn--sm"
-        :class="outlineClass"
-      >
-        RELEASE NOTES
-      </a>
-      <a :href="ctaLink" target="_blank" rel="noopener" class="btn btn--primary btn--sm btn--cta">
-        {{ ctaLabel }}
-      </a>
-      <a
-        v-for="bp in release.blog_posts ?? []"
-        :key="bp.url"
-        :href="bp.url"
-        target="_blank"
-        rel="noopener"
-        class="btn btn--sm blog-btn"
-        :class="outlineClass"
-        :title="bp.title"
-      >
-        <i class="fas fa-newspaper"></i>
-      </a>
     </div>
   </article>
 </template>
 
 <style scoped>
-.release-card {
+.release-card.card {
+  --card-outbound-inner-radius: calc(var(--radius-lg) - 1px);
+  --release-highlights-clamp-height: calc(1.5em * 5 + var(--space-2) * 4);
+  --release-highlights-toggle-reserve: calc(var(--space-2) + var(--text-xs) * 1.6);
+  --release-stats-block-height: calc(
+    var(--text-xs) * 1.6 + var(--space-2) + 7px + var(--space-3)
+  );
+
   background: var(--bg-surface);
   border-radius: var(--radius-lg);
-  border: 1.5px solid var(--border-subtle);
-  padding: var(--space-6);
+  border-width: 1.5px;
+  padding: var(--space-6) var(--space-6) 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+  height: 100%;
+  min-height: 0;
   transition:
     border-color 0.15s,
     transform 0.15s,
     box-shadow 0.15s;
 }
 
-.release-card:hover {
+.release-card.card:hover {
   border-color: var(--color-near-black);
   transform: translateY(-3px);
   box-shadow: var(--shadow-lg);
 }
 
-.release-card.is-future {
+.release-card.card.is-future {
   background: var(--color-near-black);
   border-color: var(--color-near-black);
 }
 
-.release-card.is-future:hover {
+.release-card.card.is-future:hover {
   border-color: var(--color-orange);
   box-shadow: var(--shadow-midnight-card-hover);
 }
 
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    'header'
+    'highlights'
+    'stats';
+  gap: var(--space-3);
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+  min-width: 0;
+}
+
 .header {
+  grid-area: header;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: var(--space-2);
+}
+
+.highlights-section {
+  grid-area: highlights;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.highlights-section.synopsis--collapsed {
+  min-height: var(--release-highlights-clamp-height);
+}
+
+.highlights-section.synopsis--collapsed.has-highlights-toggle {
+  min-height: calc(
+    var(--release-highlights-clamp-height) + var(--release-highlights-toggle-reserve)
+  );
+}
+
+.highlights {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.highlights.synopsis-text--clamped {
+  max-height: var(--release-highlights-clamp-height);
+  flex: 0 0 auto;
+}
+
+.highlight {
+  padding-left: var(--space-4);
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.highlight-text {
+  min-width: 0;
+}
+
+.highlight::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--color-near-black);
+  font-size: 0.6em;
+  top: 0.3em;
+}
+
+.release-card.is-future .highlight {
+  color: var(--overlay-on-dark-soft);
+}
+
+.release-card.is-future .highlight::before {
+  color: var(--color-orange);
+}
+
+.synopsis-toggle {
+  align-self: flex-start;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--text-muted);
+  transition: color var(--duration-sm) var(--ease-out);
+}
+
+.synopsis-toggle:hover {
+  color: var(--color-near-black);
+}
+
+.synopsis-toggle:focus-visible {
+  outline: 2px solid var(--color-sky);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.release-card.is-future .synopsis-toggle {
+  color: var(--text-on-dark-subtle);
+}
+
+.release-card.is-future .synopsis-toggle:hover {
+  color: var(--text-inverse);
 }
 
 .version-link {
@@ -251,53 +449,50 @@ a.version-link:hover {
   text-decoration: underline;
 }
 
+.header-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-1);
+  flex-shrink: 0;
+}
+
 .date {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   color: var(--neutral-500);
   white-space: nowrap;
-  padding-top: 2px;
+  line-height: 1.4;
 }
 
 .release-card.is-future .date {
   color: var(--text-on-dark-muted);
 }
 
-.highlights {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  flex: 1;
+.contributors.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin: var(--space-1) 0 0;
+  min-height: calc(var(--text-xs) * 1.6 + 2px);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  line-height: 1.6;
+  background: var(--neutral-100);
+  color: var(--neutral-600);
+  white-space: nowrap;
 }
 
-.highlight {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  padding-left: var(--space-4);
-  position: relative;
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-2);
+.contributors--empty {
+  visibility: hidden;
 }
 
-.highlight::before {
-  content: '▸';
-  position: absolute;
-  left: 0;
-  color: var(--color-near-black);
-  font-size: 0.6em;
-  top: 0.3em;
-}
-
-.release-card.is-future .highlight {
-  color: var(--overlay-on-dark-soft);
-}
-
-.release-card.is-future .highlight::before {
-  color: var(--color-orange);
+.release-card.is-future .contributors.pill {
+  background: var(--surface-on-dark-raised);
+  color: var(--text-on-dark-muted);
 }
 
 .vote {
@@ -340,9 +535,11 @@ a.version-link:hover {
 }
 
 .stats {
+  grid-area: stats;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  min-height: var(--release-stats-block-height);
   padding-top: var(--space-3);
 }
 
@@ -352,6 +549,11 @@ a.version-link:hover {
   border-radius: var(--radius-sm);
   overflow: hidden;
   background: var(--neutral-200);
+  flex-shrink: 0;
+}
+
+.stats-bar--empty {
+  visibility: hidden;
 }
 
 .seg {
@@ -388,6 +590,7 @@ a.version-link:hover {
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-1);
+  min-height: calc(var(--text-xs) * 1.6);
 }
 
 .pill {
@@ -427,23 +630,65 @@ a.version-link:hover {
   background: var(--surface-tag-api-muted);
   color: var(--tag-api-change);
 }
-.pill.is-contributors {
-  background: var(--neutral-100);
-  color: var(--neutral-600);
-  margin-left: auto;
+
+.release-card.card .outbound-link.outbound-link--cta {
+  font-weight: 700;
+  background: var(--color-orange);
+  color: var(--color-near-black);
+  border-left: 1px solid var(--color-orange);
 }
 
-.actions {
-  display: flex;
-  gap: var(--space-2);
-  flex-wrap: wrap;
-  align-items: center;
-  padding-top: var(--space-3);
+.release-card.card:hover .outbound-link.outbound-link--cta {
+  border-left-color: var(--color-orange);
 }
 
-.blog-btn {
-  margin-left: auto;
-  padding: var(--space-2);
-  line-height: 1;
+.release-card.card .outbound-link.outbound-link--cta:hover {
+  background: var(--bg-surface);
+  color: var(--color-orange);
+  border-left-color: var(--color-orange);
+  box-shadow: inset 0 0 0 1px var(--color-orange);
+}
+
+.release-card.is-future .outbound {
+  border-top-color: var(--border-on-dark-muted);
+}
+
+.release-card.is-future:hover .outbound {
+  border-top-color: var(--color-orange);
+}
+
+.release-card.is-future .outbound-link {
+  color: var(--text-on-dark-muted);
+  background: var(--color-near-black);
+  border-right-color: var(--border-on-dark-muted);
+}
+
+.release-card.is-future .outbound-link:hover {
+  color: var(--text-inverse);
+  background: var(--surface-on-dark-raised);
+}
+
+.release-card.is-future:hover .outbound-link {
+  border-right-color: var(--border-on-dark-muted);
+}
+
+.release-card.is-future:hover .outbound-link:hover {
+  border-right-color: var(--color-orange);
+}
+
+.release-card.is-future .outbound-link:nth-child(2):nth-last-child(2)::before,
+.release-card.is-future .outbound-link:nth-child(2):nth-last-child(2)::after {
+  background: var(--color-near-black);
+  border-color: var(--border-on-dark-muted);
+}
+
+.release-card.is-future .outbound-link:nth-child(2):nth-last-child(2):hover::before,
+.release-card.is-future .outbound-link:nth-child(2):nth-last-child(2):hover::after {
+  background: var(--surface-on-dark-raised);
+}
+
+.release-card.is-future:hover .outbound-link:nth-child(2):nth-last-child(2)::before,
+.release-card.is-future:hover .outbound-link:nth-child(2):nth-last-child(2)::after {
+  border-color: var(--border-on-dark-muted);
 }
 </style>
