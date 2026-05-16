@@ -139,7 +139,7 @@ async function copyLink(): Promise<void> {
           :href="jupyterliteUrl"
           target="_blank"
           rel="noopener"
-          class="btn--open-lab"
+          class="btn btn--primary btn--open-lab"
           title="Open this use case in JupyterLite (Pyodide kernel, runs in your browser)"
         >
           <i class="fas fa-flask"></i> Open in JupyterLite

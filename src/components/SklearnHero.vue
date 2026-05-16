@@ -111,7 +111,7 @@ const { copied, copyInstall } = useCopyPipInstall(() => props.core.pypi_name)
             :href="core.website"
             target="_blank"
             rel="noopener noreferrer"
-            class="link filled"
+            class="link btn btn--primary"
           >
             <i class="fas fa-house" aria-hidden="true"></i><span>Homepage</span>
           </a>
@@ -287,8 +287,6 @@ const { copied, copyInstall } = useCopyPipInstall(() => props.core.pypi_name)
 .link {
   padding: 9px 18px;
   border-radius: var(--radius-full);
-  border: 1px solid var(--border-on-dark-strong);
-  color: var(--text-inverse);
   font-family: var(--font-sans);
   font-size: 13px;
   font-weight: 500;
@@ -301,6 +299,18 @@ const { copied, copyInstall } = useCopyPipInstall(() => props.core.pypi_name)
     color var(--duration-md) var(--ease-out);
 }
 
+.link:not(.btn--primary) {
+  border: 1px solid var(--border-on-dark-strong);
+  color: var(--text-inverse);
+}
+
+a.link.btn--primary:hover {
+  background: transparent;
+  border-color: var(--color-orange);
+  color: var(--color-orange);
+  opacity: 1;
+}
+
 button.link {
   font: inherit;
   cursor: pointer;
@@ -311,7 +321,7 @@ button.link {
   gap: var(--space-2);
 }
 
-a.link:hover,
+a.link:hover:not(.btn--primary),
 button.link.link--pip:hover {
   background: var(--surface-on-dark-faint);
   border-color: var(--border-on-dark-stronger);
@@ -326,19 +336,6 @@ button.link.link--pip:hover {
 
 .link--use-cases:hover .link-use-cases-external {
   opacity: 1;
-}
-
-.link.filled {
-  background: var(--color-orange);
-  border-color: var(--color-orange);
-  color: var(--color-near-black);
-}
-
-.link.filled:hover {
-  background: var(--color-orange);
-  border-color: var(--color-orange);
-  color: var(--color-near-black);
-  opacity: 0.92;
 }
 
 button.link.link--pip {

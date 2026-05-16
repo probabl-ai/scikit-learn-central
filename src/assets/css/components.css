@@ -974,31 +974,11 @@
   color: var(--text-inverse);
 }
 
-/* "Open in JupyterLite" CTA — same pill geometry as other card actions. */
+/* "Open in JupyterLite" CTA — compact primary on use-case cards */
 .btn--open-lab {
-  font-family: var(--brand-typography--texte);
-  font-size: var(--brand-typography-size--body-s);
-  font-weight: 500;
-  letter-spacing: 0;
   height: 32px;
   padding: 0 14px;
-  background: var(--color-orange);
-  color: var(--color-near-black);
-  border: none;
-  border-radius: var(--radius-full);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
   gap: 6px;
-  text-decoration: none;
-  transition: opacity var(--duration-sm) var(--ease-out);
-}
-/* Pin background + text on hover so the global `a:hover { color: orange }`
-   rule doesn't make the label disappear into the orange background. */
-.btn--open-lab:hover {
-  background: var(--color-orange);
-  color: var(--color-near-black);
-  opacity: 0.92;
 }
 
 /* Square GitHub link button — matches adjacent button height */
@@ -1422,32 +1402,13 @@
   border-color: var(--text-inverse);
 }
 
-/* Orange CTA — used on both card types */
+/* Orange CTA — release cards; colors/hover from .btn--primary */
 .btn--cta {
-  background: var(--color-orange);
-  color: var(--color-near-black);
-  border: none;
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   font-weight: 700;
   letter-spacing: 0.04em;
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-sm);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
   gap: var(--space-1);
-  text-decoration: none;
-  transition: opacity 0.15s;
-}
-
-.btn--cta,
-.btn--cta:hover,
-.btn--cta:visited {
-  color: var(--color-near-black);
-}
-
-.btn--cta:hover {
-  opacity: 0.88;
-  color: var(--color-near-black);
 }
