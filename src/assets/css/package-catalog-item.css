@@ -837,4 +837,39 @@
     background: transparent;
     color: var(--text-secondary);
   }
+
+  &.is-focused {
+    border-color: var(--color-orange);
+    box-shadow: none;
+    transition: border-color 0.18s;
+  }
+
+  &.is-focused:hover {
+    border-color: var(--color-orange);
+    box-shadow: none;
+  }
+}
+
+@keyframes catalog-focus-pulse {
+  0% {
+    opacity: 1;
+    box-shadow: 0 0 0 3px rgba(255, 121, 0, 0.35);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 0 7px rgba(255, 121, 0, 0.18);
+  }
+  100% {
+    opacity: 0;
+    box-shadow: 0 0 0 3px rgba(255, 121, 0, 0);
+  }
+}
+
+.pkg-catalog-item.card.is-focus-pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: catalog-focus-pulse 2s ease-in-out forwards;
 }

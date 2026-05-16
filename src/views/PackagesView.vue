@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import SklearnHero from '@/components/SklearnHero.vue'
 import PackageCard from '@/components/PackageCard.vue'
 import PackageListRow from '@/components/PackageListRow.vue'
@@ -20,7 +21,15 @@ import { CATEGORIES, CATEGORY_META } from '@/types/package'
 type SortKey = 'ranking' | 'stars' | 'downloads' | 'name'
 type CatalogLayout = 'cards' | 'list'
 
+const route = useRoute()
 const { core, packages, featuredPackages } = usePackages()
+
+/** Deep-linked package card from ?package= (e.g. use-case package chips). */
+const focusedPackageId = ref<string | null>(null)
+const pulsingPackageId = ref<string | null>(null)
+
+const CARD_ENTER_MS = 320
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 const { useCases, useCasesByPackage } = useUseCases()
 const { setCatalogDescriptionsExpanded } = useCatalogDescriptionExpand()
 
@@ -177,6 +186,81 @@ const activeChips = computed<ActiveChip[]>(() => {
 const ucForCore = computed(() => useCaseCountByPkg.value.get('scikit-learn') ?? 0)
 
 const filtersSheetOpen = ref(false)
+
+function packageFromQuery(raw: unknown): string | null {
+  if (typeof raw === 'string' && raw) return raw
+  if (Array.isArray(raw) && typeof raw[0] === 'string' && raw[0]) return raw[0]
+  return null
+}
+
+function isKnownPackageId(id: string): boolean {
+  return id === core.value.id || packages.value.some((p) => p.id === id)
+}
+
+function isPackageVisible(id: string): boolean {
+  if (id === core.value.id) return true
+  return filtered.value.some((p) => p.id === id)
+}
+
+function clearPackagePulse(): void {
+  pulsingPackageId.value = null
+}
+
+function clearPackageFocus(): void {
+  focusedPackageId.value = null
+  clearPackagePulse()
+}
+
+function startPackagePulse(id: string): void {
+  pulsingPackageId.value = null
+  void nextTick(() => {
+    pulsingPackageId.value = id
+  })
+}
+
+async function focusPackageFromId(id: string): Promise<void> {
+  if (!isKnownPackageId(id)) return
+
+  if (!isPackageVisible(id)) resetFilters()
+
+  await nextTick()
+  await new Promise<void>((resolve) => setTimeout(resolve, CARD_ENTER_MS))
+
+  const selector =
+    id === core.value.id
+      ? `[data-catalog-id="${CSS.escape(id)}"]`
+      : `[data-id="${CSS.escape(id)}"]`
+  const el = document.querySelector<HTMLElement>(selector)
+  if (!el) return
+
+  el.scrollIntoView({
+    block: 'center',
+    behavior: prefersReducedMotion ? 'auto' : 'smooth',
+  })
+
+  focusedPackageId.value = id
+  startPackagePulse(id)
+}
+
+function focusFromRouteQuery(): void {
+  const id = packageFromQuery(route.query.package)
+  if (!id) {
+    clearPackageFocus()
+    return
+  }
+  void focusPackageFromId(id)
+}
+
+function isPackageFocused(id: string): boolean {
+  return focusedPackageId.value === id
+}
+
+function isPackagePulsing(id: string): boolean {
+  return pulsingPackageId.value === id
+}
+
+onMounted(focusFromRouteQuery)
+watch(() => route.query.package, focusFromRouteQuery)
 </script>
 
 <template>
@@ -357,6 +441,9 @@ const filtersSheetOpen = ref(false)
         :core="core"
         :use-case-count="ucForCore"
         :use-cases-filter-to="{ path: '/use-cases', query: { package: 'scikit-learn' } }"
+        :focused="isPackageFocused(core.id)"
+        :pulsing="isPackagePulsing(core.id)"
+        @pulse-end="clearPackagePulse"
       />
 
       <section
@@ -385,6 +472,9 @@ const filtersSheetOpen = ref(false)
             :use-cases="useCasesByPackage.get(pkg.id) ?? []"
             :use-cases-filter-to="{ path: '/use-cases', query: { package: pkg.id } }"
             :show-fit-chip="true"
+            :focused="isPackageFocused(pkg.id)"
+            :pulsing="isPackagePulsing(pkg.id)"
+            @pulse-end="clearPackagePulse"
           />
         </div>
         <CatalogListShell v-else>
@@ -397,6 +487,9 @@ const filtersSheetOpen = ref(false)
               :use-cases="useCasesByPackage.get(pkg.id) ?? []"
               :use-cases-filter-to="{ path: '/use-cases', query: { package: pkg.id } }"
               :show-fit-chip="true"
+              :focused="isPackageFocused(pkg.id)"
+              :pulsing="isPackagePulsing(pkg.id)"
+              @pulse-end="clearPackagePulse"
             />
           </div>
         </CatalogListShell>
@@ -462,6 +555,9 @@ const filtersSheetOpen = ref(false)
               :use-cases="useCasesByPackage.get(pkg.id) ?? []"
               :use-cases-filter-to="{ path: '/use-cases', query: { package: pkg.id } }"
               :show-fit-chip="true"
+              :focused="isPackageFocused(pkg.id)"
+              :pulsing="isPackagePulsing(pkg.id)"
+              @pulse-end="clearPackagePulse"
             />
           </div>
 
@@ -478,6 +574,9 @@ const filtersSheetOpen = ref(false)
                 :use-cases="useCasesByPackage.get(pkg.id) ?? []"
                 :use-cases-filter-to="{ path: '/use-cases', query: { package: pkg.id } }"
                 :show-fit-chip="true"
+                :focused="isPackageFocused(pkg.id)"
+                :pulsing="isPackagePulsing(pkg.id)"
+                @pulse-end="clearPackagePulse"
               />
             </div>
           </CatalogListShell>

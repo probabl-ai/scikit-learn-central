@@ -4,13 +4,27 @@ import type { Package } from '@/types/package'
 import type { UseCase } from '@/types/usecase'
 import { usePackageCatalogItem } from '@/composables/usePackageCatalogItem'
 
-const props = defineProps<{
-  pkg: Package
-  useCases?: UseCase[]
-  useCaseCount?: number
-  showFitChip: boolean
-  useCasesFilterTo?: RouteLocationRaw
+const props = withDefaults(
+  defineProps<{
+    pkg: Package
+    useCases?: UseCase[]
+    useCaseCount?: number
+    showFitChip: boolean
+    useCasesFilterTo?: RouteLocationRaw
+    focused?: boolean
+    pulsing?: boolean
+  }>(),
+  { focused: false, pulsing: false },
+)
+
+const emit = defineEmits<{
+  pulseEnd: []
 }>()
+
+function onPulseAnimationEnd(event: AnimationEvent): void {
+  if (!props.pulsing || event.animationName !== 'catalog-focus-pulse') return
+  emit('pulseEnd')
+}
 
 const {
   descriptionExpanded,
@@ -43,7 +57,16 @@ function onDescriptionActivate(): void {
 </script>
 
 <template>
-  <article ref="cardRoot" class="card pkg-catalog-item pkg-row" :data-id="pkg.id">
+  <article
+    ref="cardRoot"
+    class="card pkg-catalog-item pkg-row"
+    :class="{
+      'is-focused': focused,
+      'is-focus-pulse': pulsing,
+    }"
+    :data-id="pkg.id"
+    @animationend="onPulseAnimationEnd"
+  >
     <div class="pkg-row-main">
       <div class="pkg-row-col pkg-row-col--skore">
         <div class="pkg-row-skore-stack">

@@ -3,15 +3,14 @@
   "slug": "sentiment-analysis",
   "title": "Customer Review Sentiment Analysis",
   "synopsis": "Classify toy product reviews as satisfied or dissatisfied using skrub's default tabular classifier pipeline on text, with skore.evaluate for 5-fold cross-validation, checks, and aggregated metrics.",
-  "industry": [
-    "e-commerce",
-    "marketing",
-    "retail"
+  "application_fields": [
+    "e-commerce"
   ],
-  "technique": [
-    "sentiment-analysis",
-    "nlp",
+  "problem_types": [
     "classification"
+  ],
+  "data_types": [
+    "text"
   ],
   "packages": [
     "scikit-learn",
@@ -19,6 +18,5 @@
     "skore"
   ],
   "difficulty": "beginner",
-  "archived": false,
-  "has_notebook": false
+  "archived": false
 }
