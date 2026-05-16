@@ -23,6 +23,7 @@ const { setCatalogDescriptionsExpanded } = useCatalogDescriptionExpand()
 const search = ref('')
 const categorySel = ref<Set<Category>>(new Set())
 const licenseSel = ref<Set<License>>(new Set())
+const tagSel = ref<Set<string>>(new Set())
 const sortBy = ref<SortKey>('ranking')
 const catalogLayout = ref<CatalogLayout>('cards')
 
@@ -34,6 +35,10 @@ function countCategory(c: Category): number {
 
 function countLicense(l: string): number {
   return packages.value.filter((p) => p.license === l).length
+}
+
+function countTag(tag: string): number {
+  return packages.value.filter((p) => (p.tags ?? []).includes(tag)).length
 }
 
 const categoryOptions = computed(() =>
@@ -48,6 +53,19 @@ const categoryOptions = computed(() =>
 const licenseOptions = computed(() =>
   LICENSES.map((v) => ({ value: v, label: v, count: countLicense(v) })),
 )
+const tagOptions = computed(() => {
+  const seen = new Set<string>()
+  for (const p of packages.value) {
+    for (const t of p.tags ?? []) seen.add(t)
+  }
+  return [...seen]
+    .sort((a, b) => countTag(b) - countTag(a) || a.localeCompare(b))
+    .map((value) => ({
+      value,
+      label: value.replace(/-/g, ' '),
+      count: countTag(value),
+    }))
+})
 
 const useCaseCountByPkg = computed(() => {
   const map = new Map<string, number>()
@@ -75,6 +93,9 @@ const filtered = computed(() => {
     )
   }
   if (licenseSel.value.size) r = r.filter((p) => licenseSel.value.has(p.license))
+  if (tagSel.value.size) {
+    r = r.filter((p) => (p.tags ?? []).some((t) => tagSel.value.has(t)))
+  }
 
   r.sort((a, b) => {
     if (sortBy.value === 'name') return a.name.localeCompare(b.name)
@@ -89,7 +110,8 @@ const hasAnyFilter = computed(
   () =>
     !!search.value ||
     categorySel.value.size > 0 ||
-    licenseSel.value.size > 0,
+    licenseSel.value.size > 0 ||
+    tagSel.value.size > 0,
 )
 
 const featuredForDisplay = computed(() => {
@@ -103,6 +125,7 @@ function resetFilters(): void {
   search.value = ''
   categorySel.value = new Set()
   licenseSel.value = new Set()
+  tagSel.value = new Set()
   setCatalogDescriptionsExpanded(false)
 }
 
@@ -124,11 +147,12 @@ const activeChips = computed<ActiveChip[]>(() => {
   const addAll = <T extends string>(
     prefix: string,
     set: { value: Set<T> },
+    labelFn: (v: T) => string = (v) => v,
   ): void => {
     for (const v of set.value) {
       chips.push({
         key: `${prefix}:${v}`,
-        label: v,
+        label: labelFn(v),
         remove: () => {
           const next = new Set(set.value)
           next.delete(v)
@@ -139,6 +163,7 @@ const activeChips = computed<ActiveChip[]>(() => {
   }
   addAll('category', categorySel)
   addAll('license', licenseSel)
+  addAll('tag', tagSel, (v) => v.replace(/-/g, ' '))
   return chips
 })
 
@@ -176,6 +201,7 @@ const filtersSheetOpen = ref(false)
       <div class="filter-bar-groups filter-bar-groups--desktop">
         <FilterDropdown v-model="categorySel" label="Category" :options="categoryOptions" />
         <FilterDropdown v-model="licenseSel" label="License" :options="licenseOptions" />
+        <FilterDropdown v-model="tagSel" label="Tags" :options="tagOptions" />
       </div>
 
       <div class="filter-bar-end filter-bar-end--desktop">
@@ -240,6 +266,7 @@ const filtersSheetOpen = ref(false)
       <div v-if="filtersSheetOpen" class="filter-sheet-stack">
         <FilterDropdown v-model="categorySel" label="Category" :options="categoryOptions" />
         <FilterDropdown v-model="licenseSel" label="License" :options="licenseOptions" />
+        <FilterDropdown v-model="tagSel" label="Tags" :options="tagOptions" />
         <div class="filter-sheet-display">
           <span class="filter-sheet-display-label">Layout</span>
           <div
@@ -420,6 +447,8 @@ const filtersSheetOpen = ref(false)
 .catalog-layout-toggle {
   display: inline-flex;
   align-items: stretch;
+  width: fit-content;
+  flex-shrink: 0;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   overflow: hidden;
@@ -430,7 +459,9 @@ const filtersSheetOpen = ref(false)
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 2.25rem;
   width: 2.25rem;
+  min-width: 2.25rem;
   min-height: 36px;
   padding: 0;
   margin: 0;

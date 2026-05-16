@@ -1184,11 +1184,24 @@
   max-width: 100%;
 }
 
+.filter-sheet-display .catalog-layout-toggle {
+  align-self: flex-start;
+  width: fit-content;
+}
+
+.filter-sheet-display .catalog-layout-toggle__btn {
+  flex: 0 0 2.25rem;
+  width: 2.25rem;
+  min-width: 2.25rem;
+}
+
 .filter-bar-search {
   flex: 1;
   min-width: 180px;
   max-width: 280px;
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .filter-bar-search-icon {
@@ -1198,6 +1211,7 @@
   transform: translateY(-50%);
   color: var(--neutral-400);
   font-size: 13px;
+  line-height: 1;
   pointer-events: none;
 }
 
@@ -1205,6 +1219,7 @@
   padding-left: 30px;
   height: 36px;
   font-size: var(--text-sm);
+  line-height: 1.25;
 }
 
 .filter-bar-groups {
@@ -1307,7 +1322,7 @@
 @media (max-width: 768px) {
   .filter-bar-inner {
     flex-wrap: nowrap;
-    align-items: stretch;
+    align-items: center;
     gap: var(--space-3);
     padding: var(--space-3) max(var(--space-4), env(safe-area-inset-left, 0px))
       var(--space-3) max(var(--space-4), env(safe-area-inset-right, 0px));
@@ -1320,8 +1335,16 @@
     width: auto;
   }
 
+  .filter-bar-search .search-input {
+    height: 44px;
+    min-height: 44px;
+  }
+
   .filter-bar-open-filters {
     display: inline-flex;
+    height: 44px;
+    min-height: 44px;
+    align-self: center;
   }
 
   .filter-bar-groups--desktop,
