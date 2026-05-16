@@ -13,11 +13,13 @@ const props = defineProps<{
 }>()
 
 const {
-  catalogDescriptionsExpanded,
-  toggleCatalogDescriptionsExpanded,
+  descriptionExpanded,
+  toggleDescriptionExpanded,
+  descriptionExpandAriaLabel,
   cardRoot,
   descRef,
   descExpandable,
+  descPreviewBase,
   categoryGroups,
   descBodyId,
   tagLabels,
@@ -32,7 +34,12 @@ const {
   fitScorePillStyle,
   isTierRedundant,
   scopeChipTitle,
-} = usePackageCatalogItem(props)
+} = usePackageCatalogItem(props, { descriptionExpandScope: 'local' })
+
+function onDescriptionActivate(): void {
+  if (!descExpandable.value && !descriptionExpanded.value) return
+  toggleDescriptionExpanded()
+}
 </script>
 
 <template>
@@ -116,30 +123,35 @@ const {
       </div>
 
       <div class="pkg-row-col pkg-row-col--desc">
-        <div class="synopsis" :class="{ 'synopsis--collapsed': !catalogDescriptionsExpanded }">
+        <div class="pkg-row-desc synopsis" :class="{ 'synopsis--collapsed': !descriptionExpanded }">
           <p
             :id="descBodyId"
             ref="descRef"
             class="synopsis-text"
-            :class="{ 'synopsis-text--clamped': !catalogDescriptionsExpanded }"
-          >
-            {{ pkg.description }}
-          </p>
-          <button
-            v-if="catalogDescriptionsExpanded || descExpandable"
-            type="button"
-            class="synopsis-toggle"
-            :aria-expanded="catalogDescriptionsExpanded"
-            :aria-controls="descBodyId"
-            :aria-label="
-              catalogDescriptionsExpanded
-                ? 'Show less — collapse descriptions on all packages'
-                : 'Show more — expand descriptions on all packages'
+            :class="{
+              'synopsis-text--clamped': !descriptionExpanded,
+              'pkg-row-desc-text--interactive': descExpandable || descriptionExpanded,
+            }"
+            :tabindex="descExpandable || descriptionExpanded ? 0 : undefined"
+            :role="descExpandable || descriptionExpanded ? 'button' : undefined"
+            :aria-expanded="descExpandable || descriptionExpanded ? descriptionExpanded : undefined"
+            :aria-label="descExpandable || descriptionExpanded ? descriptionExpandAriaLabel : undefined"
+            :title="
+              descExpandable && !descriptionExpanded
+                ? 'Click to read the full description'
+                : undefined
             "
-            @click="toggleCatalogDescriptionsExpanded"
+            @click="onDescriptionActivate"
+            @keydown.enter.prevent="onDescriptionActivate"
+            @keydown.space.prevent="onDescriptionActivate"
           >
-            {{ catalogDescriptionsExpanded ? 'Show less' : 'Show more' }}
-          </button>
+            <template v-if="descriptionExpanded || !descExpandable">
+              {{ pkg.description }}
+            </template>
+            <template v-else>
+              {{ descPreviewBase }} <span class="pkg-row-desc-ellipsis" aria-hidden="true">…</span>
+            </template>
+          </p>
         </div>
       </div>
 
@@ -214,10 +226,6 @@ const {
       </div>
 
     </div>
-    <span class="catalog-list-junction catalog-list-junction--tl" aria-hidden="true"></span>
-    <span class="catalog-list-junction catalog-list-junction--tr" aria-hidden="true"></span>
-    <span class="catalog-list-junction catalog-list-junction--bl" aria-hidden="true"></span>
-    <span class="catalog-list-junction catalog-list-junction--br" aria-hidden="true"></span>
   </article>
 </template>
 
@@ -370,14 +378,46 @@ const {
   margin: 0;
 }
 
+.pkg-row-desc {
+  min-width: 0;
+  gap: 0;
+}
+
 .catalog-list-shell .pkg-row-col--desc .synopsis.synopsis--collapsed {
   min-height: auto;
 }
 
 .catalog-list-shell .pkg-row-col--desc .synopsis-text--clamped {
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
+  display: block;
+  overflow: hidden;
   max-height: calc(1.65em * 3);
+  line-height: 1.65;
+  -webkit-box-orient: unset;
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+}
+
+.pkg-row-desc-text--interactive {
+  cursor: pointer;
+  border-radius: var(--radius-xs, 2px);
+}
+
+.pkg-row-desc-text--interactive:focus-visible {
+  outline: 2px solid var(--color-sky);
+  outline-offset: 2px;
+}
+
+/* Inline link-styled ellipsis immediately after the last visible word. */
+.pkg-row-desc-ellipsis {
+  color: var(--color-near-black);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color var(--duration-sm) var(--ease);
+}
+
+.pkg-row-desc-text--interactive.synopsis-text--clamped:hover .pkg-row-desc-ellipsis {
+  color: var(--color-orange);
 }
 
 .pkg-skore-actions {

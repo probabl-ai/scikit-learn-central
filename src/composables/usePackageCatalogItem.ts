@@ -22,14 +22,40 @@ export interface PackageCatalogItemProps {
   useCasesFilterTo?: RouteLocationRaw
 }
 
-export function usePackageCatalogItem(props: PackageCatalogItemProps) {
+export interface PackageCatalogItemOptions {
+  /** `global`: card grid — one toggle expands all cards. `local`: list row — per row only. */
+  descriptionExpandScope?: 'global' | 'local'
+}
+
+export function usePackageCatalogItem(
+  props: PackageCatalogItemProps,
+  options: PackageCatalogItemOptions = {},
+) {
+  const expandScope = options.descriptionExpandScope ?? 'global'
   const { catalogDescriptionsExpanded, toggleCatalogDescriptionsExpanded } =
     useCatalogDescriptionExpand()
+  const localDescriptionExpanded = ref(false)
+
+  const descriptionExpanded = computed(() =>
+    expandScope === 'local'
+      ? localDescriptionExpanded.value
+      : catalogDescriptionsExpanded.value,
+  )
+
+  function toggleDescriptionExpanded(): void {
+    if (expandScope === 'local') {
+      localDescriptionExpanded.value = !localDescriptionExpanded.value
+    } else {
+      toggleCatalogDescriptionsExpanded()
+    }
+  }
 
   const scopeCarouselIndex = ref(0)
   const cardRoot = ref<HTMLElement | null>(null)
   const descRef = ref<HTMLElement | null>(null)
   const descExpandable = ref(false)
+  /** List rows: text shown before the inline link-styled ellipsis. */
+  const descPreviewBase = ref('')
 
   const { copied, copyInstall } = useCopyPipInstall(() => props.pkg.pypi_name)
 
@@ -178,12 +204,72 @@ export function usePackageCatalogItem(props: PackageCatalogItemProps) {
     scopeCarouselIndex.value = (scopeCarouselIndex.value + 1) % n
   }
 
+  const LIST_DESC_MAX_LINES = 3
+
+  function measureLocalDescPreview(el: HTMLElement): void {
+    const full = props.pkg.description
+    const style = getComputedStyle(el)
+    const lineHeight = parseFloat(style.lineHeight)
+    if (!Number.isFinite(lineHeight) || lineHeight <= 0) return
+
+    const maxHeight = lineHeight * LIST_DESC_MAX_LINES
+    const probe = document.createElement('p')
+    probe.className = el.className
+    probe.style.cssText = [
+      'position:absolute',
+      'visibility:hidden',
+      'pointer-events:none',
+      'overflow:hidden',
+      'max-height:' + maxHeight + 'px',
+      'width:' + el.clientWidth + 'px',
+      'line-height:' + style.lineHeight,
+      'font-family:' + style.fontFamily,
+      'font-size:' + style.fontSize,
+      'font-weight:' + style.fontWeight,
+      'letter-spacing:' + style.letterSpacing,
+      'word-break:' + style.wordBreak,
+      'overflow-wrap:' + style.overflowWrap,
+    ].join(';')
+    document.body.appendChild(probe)
+
+    probe.textContent = full
+    if (probe.scrollHeight <= maxHeight + 1) {
+      descExpandable.value = false
+      descPreviewBase.value = ''
+      probe.remove()
+      return
+    }
+
+    descExpandable.value = true
+    let lo = 0
+    let hi = full.length
+    while (lo < hi) {
+      const mid = Math.ceil((lo + hi) / 2)
+      probe.textContent = full.slice(0, mid) + ' …'
+      if (probe.scrollHeight > maxHeight + 1) hi = mid - 1
+      else lo = mid
+    }
+
+    let cut = lo
+    const lastSpace = full.lastIndexOf(' ', cut)
+    if (lastSpace > 0 && cut - lastSpace <= 14) cut = lastSpace
+
+    descPreviewBase.value = full.slice(0, cut).trimEnd()
+    probe.remove()
+  }
+
   function measureDescClampable(): void {
     void nextTick(() => {
       requestAnimationFrame(() => {
         const el = descRef.value
         if (!el) return
-        if (catalogDescriptionsExpanded.value) return
+        if (descriptionExpanded.value) return
+
+        if (expandScope === 'local') {
+          measureLocalDescPreview(el)
+          return
+        }
+
         descExpandable.value = el.scrollHeight > el.clientHeight + 1
       })
     })
@@ -217,6 +303,8 @@ export function usePackageCatalogItem(props: PackageCatalogItemProps) {
   watch(() => [props.pkg.id, categoryGroups.value.length] as const, () => {
     scopeCarouselIndex.value = 0
     descExpandable.value = false
+    descPreviewBase.value = ''
+    if (expandScope === 'local') localDescriptionExpanded.value = false
     void nextTick(() => {
       measureDescClampable()
       setupCardResizeObserver()
@@ -225,20 +313,34 @@ export function usePackageCatalogItem(props: PackageCatalogItemProps) {
 
   watch(() => props.pkg.description, () => {
     descExpandable.value = false
+    descPreviewBase.value = ''
     void nextTick(measureDescClampable)
   })
 
-  watch(catalogDescriptionsExpanded, () => {
-    if (!catalogDescriptionsExpanded.value) void nextTick(measureDescClampable)
+  watch(descriptionExpanded, () => {
+    if (!descriptionExpanded.value) void nextTick(measureDescClampable)
   })
 
+  const descriptionExpandAriaLabel = computed(() =>
+    descriptionExpanded.value
+      ? expandScope === 'local'
+        ? `Collapse description for ${props.pkg.name}`
+        : 'Show less — collapse descriptions on all packages'
+      : expandScope === 'local'
+        ? `Expand description for ${props.pkg.name}`
+        : 'Show more — expand descriptions on all packages',
+  )
+
   return {
-    catalogDescriptionsExpanded,
-    toggleCatalogDescriptionsExpanded,
+    descriptionExpanded,
+    toggleDescriptionExpanded,
+    descriptionExpandAriaLabel,
+    descriptionExpandScope: expandScope,
     scopeCarouselIndex,
     cardRoot,
     descRef,
     descExpandable,
+    descPreviewBase,
     copied,
     categoryGroups,
     scopeCarouselLen,

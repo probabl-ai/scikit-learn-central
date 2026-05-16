@@ -1086,16 +1086,9 @@
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
 }
 
-#view-catalog.catalog-page--list {
-  overflow-x: auto;
-  overflow-y: visible;
-  min-width: 0;
-}
-
+#view-catalog.catalog-page--list,
 #view-catalog.catalog-page--list .page-content {
   min-width: 0;
-  overflow-x: auto;
-  overflow-y: visible;
 }
 
 #view-use-cases .uc-grid {

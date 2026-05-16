@@ -14,8 +14,9 @@ const props = defineProps<{
 }>()
 
 const {
-  catalogDescriptionsExpanded,
-  toggleCatalogDescriptionsExpanded,
+  descriptionExpanded,
+  toggleDescriptionExpanded,
+  descriptionExpandAriaLabel,
   scopeCarouselIndex,
   cardRoot,
   descRef,
@@ -181,29 +182,25 @@ defineExpose({ cardRoot, descRef })
         </div>
       </section>
 
-      <div class="synopsis" :class="{ 'synopsis--collapsed': !catalogDescriptionsExpanded }">
+      <div class="synopsis" :class="{ 'synopsis--collapsed': !descriptionExpanded }">
         <p
           :id="descBodyId"
           ref="descRef"
           class="synopsis-text"
-          :class="{ 'synopsis-text--clamped': !catalogDescriptionsExpanded }"
+          :class="{ 'synopsis-text--clamped': !descriptionExpanded }"
         >
           {{ pkg.description }}
         </p>
         <button
-          v-if="catalogDescriptionsExpanded || descExpandable"
+          v-if="descriptionExpanded || descExpandable"
           type="button"
           class="synopsis-toggle"
-          :aria-expanded="catalogDescriptionsExpanded"
+          :aria-expanded="descriptionExpanded"
           :aria-controls="descBodyId"
-          :aria-label="
-            catalogDescriptionsExpanded
-              ? 'Show less — collapse descriptions on all packages'
-              : 'Show more — expand descriptions on all packages'
-          "
-          @click="toggleCatalogDescriptionsExpanded"
+          :aria-label="descriptionExpandAriaLabel"
+          @click="toggleDescriptionExpanded"
         >
-          {{ catalogDescriptionsExpanded ? 'Show less' : 'Show more' }}
+          {{ descriptionExpanded ? 'Show less' : 'Show more' }}
         </button>
       </div>
 
