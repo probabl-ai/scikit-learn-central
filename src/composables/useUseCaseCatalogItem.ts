@@ -28,7 +28,21 @@ export interface UseCaseCatalogItemProps {
   focused?: boolean
 }
 
-export function useUseCaseCatalogItem(props: UseCaseCatalogItemProps) {
+export interface UseCaseCatalogItemOptions {
+  /** `global`: card grid — one toggle expands all cards. `local`: list row — per row only. */
+  descriptionExpandScope?: 'global' | 'local'
+  /** `measured`: card overflow rail. `wrap`: list row shows all chips wrapped. */
+  packagesDisplay?: 'measured' | 'wrap'
+}
+
+export function useUseCaseCatalogItem(
+  props: UseCaseCatalogItemProps,
+  options: UseCaseCatalogItemOptions = {},
+) {
+  const expandScope = options.descriptionExpandScope ?? 'global'
+  const packagesDisplay = options.packagesDisplay ?? 'measured'
+  const measurePackages = packagesDisplay === 'measured'
+
   const router = useRouter()
   const { show: showFeedback } = useTransientFeedback()
   const { useCaseDescriptionsExpanded, toggleUseCaseDescriptionsExpanded } =
@@ -37,9 +51,12 @@ export function useUseCaseCatalogItem(props: UseCaseCatalogItemProps) {
     useUseCasePackagesExpand()
   const { resolvePackageChip } = usePackageLookup()
 
+  const localDescriptionExpanded = ref(false)
+
   const cardRoot = ref<HTMLElement | null>(null)
   const descRef = ref<HTMLElement | null>(null)
   const descExpandable = ref(false)
+  const descPreviewBase = ref('')
   const packagesPanelRef = ref<HTMLElement | null>(null)
   const packagesMeasureRailRef = ref<HTMLElement | null>(null)
   const packagesOverflowBtnRef = ref<HTMLElement | null>(null)
@@ -49,13 +66,19 @@ export function useUseCaseCatalogItem(props: UseCaseCatalogItemProps) {
   const copied = ref(false)
   let copiedTimer: ReturnType<typeof setTimeout> | undefined
 
-  const descriptionExpanded = computed(
-    () => props.focused === true || useCaseDescriptionsExpanded.value,
-  )
+  const descriptionExpanded = computed(() => {
+    if (props.focused === true) return true
+    if (expandScope === 'local') return localDescriptionExpanded.value
+    return useCaseDescriptionsExpanded.value
+  })
 
   function toggleDescriptionExpanded(): void {
     if (props.focused) return
-    toggleUseCaseDescriptionsExpanded()
+    if (expandScope === 'local') {
+      localDescriptionExpanded.value = !localDescriptionExpanded.value
+    } else {
+      toggleUseCaseDescriptionsExpanded()
+    }
   }
 
   const descBodyId = computed(() => `uc-desc-${props.useCase.slug}`)
@@ -109,6 +132,7 @@ export function useUseCaseCatalogItem(props: UseCaseCatalogItemProps) {
   const packagesExpanded = computed(() => useCasePackagesExpanded.value)
 
   const displayedPackageChips = computed((): PackageChipMeta[] => {
+    if (!measurePackages) return sortedPackageChips.value
     if (packagesExpanded.value) return sortedPackageChips.value
     if (!packagesOverflow.value) return sortedPackageChips.value
     return sortedPackageChips.value.slice(0, visiblePackageCount.value)
@@ -123,6 +147,7 @@ export function useUseCaseCatalogItem(props: UseCaseCatalogItemProps) {
   }
 
   function measureVisiblePackages(): void {
+    if (!measurePackages) return
     void nextTick(() => {
       requestAnimationFrame(() => {
         const total = sortedPackageChips.value.length
@@ -197,6 +222,60 @@ export function useUseCaseCatalogItem(props: UseCaseCatalogItemProps) {
     }
   }
 
+  const LIST_DESC_MAX_LINES = 3
+
+  function measureLocalDescPreview(el: HTMLElement): void {
+    const full = props.useCase.synopsis
+    const style = getComputedStyle(el)
+    const lineHeight = parseFloat(style.lineHeight)
+    if (!Number.isFinite(lineHeight) || lineHeight <= 0) return
+
+    const maxHeight = lineHeight * LIST_DESC_MAX_LINES
+    const probe = document.createElement('p')
+    probe.className = el.className
+    probe.style.cssText = [
+      'position:absolute',
+      'visibility:hidden',
+      'pointer-events:none',
+      'overflow:hidden',
+      'max-height:' + maxHeight + 'px',
+      'width:' + el.clientWidth + 'px',
+      'line-height:' + style.lineHeight,
+      'font-family:' + style.fontFamily,
+      'font-size:' + style.fontSize,
+      'font-weight:' + style.fontWeight,
+      'letter-spacing:' + style.letterSpacing,
+      'word-break:' + style.wordBreak,
+      'overflow-wrap:' + style.overflowWrap,
+    ].join(';')
+    document.body.appendChild(probe)
+
+    probe.textContent = full
+    if (probe.scrollHeight <= maxHeight + 1) {
+      descExpandable.value = false
+      descPreviewBase.value = ''
+      probe.remove()
+      return
+    }
+
+    descExpandable.value = true
+    let lo = 0
+    let hi = full.length
+    while (lo < hi) {
+      const mid = Math.ceil((lo + hi) / 2)
+      probe.textContent = full.slice(0, mid) + ' …'
+      if (probe.scrollHeight > maxHeight + 1) hi = mid - 1
+      else lo = mid
+    }
+
+    let cut = lo
+    const lastSpace = full.lastIndexOf(' ', cut)
+    if (lastSpace > 0 && cut - lastSpace <= 14) cut = lastSpace
+
+    descPreviewBase.value = full.slice(0, cut).trimEnd()
+    probe.remove()
+  }
+
   let cardResizeObs: ResizeObserver | null = null
 
   function measureDescClampable(): void {
@@ -205,6 +284,12 @@ export function useUseCaseCatalogItem(props: UseCaseCatalogItemProps) {
         const el = descRef.value
         if (!el) return
         if (descriptionExpanded.value) return
+
+        if (expandScope === 'local') {
+          measureLocalDescPreview(el)
+          return
+        }
+
         descExpandable.value = el.scrollHeight > el.clientHeight + 1
       })
     })
@@ -218,7 +303,7 @@ export function useUseCaseCatalogItem(props: UseCaseCatalogItemProps) {
       if (!el) return
       cardResizeObs = new ResizeObserver(() => {
         measureDescClampable()
-        measureVisiblePackages()
+        if (measurePackages) measureVisiblePackages()
       })
       cardResizeObs.observe(el)
     })
@@ -226,13 +311,13 @@ export function useUseCaseCatalogItem(props: UseCaseCatalogItemProps) {
 
   function onLayoutResize(): void {
     measureDescClampable()
-    measureVisiblePackages()
+    if (measurePackages) measureVisiblePackages()
   }
 
   onMounted(() => {
     void nextTick(() => {
       measureDescClampable()
-      measureVisiblePackages()
+      if (measurePackages) measureVisiblePackages()
       setupCardResizeObserver()
     })
     window.addEventListener('resize', onLayoutResize)
@@ -249,35 +334,40 @@ export function useUseCaseCatalogItem(props: UseCaseCatalogItemProps) {
     () => props.useCase.slug,
     () => {
       descExpandable.value = false
+      descPreviewBase.value = ''
+      if (expandScope === 'local') localDescriptionExpanded.value = false
       packagesOverflow.value = false
       visiblePackageCount.value = 0
       void nextTick(() => {
         measureDescClampable()
-        measureVisiblePackages()
+        if (measurePackages) measureVisiblePackages()
         setupCardResizeObserver()
       })
     },
   )
 
-  watch(
-    () => packageChips.value.map((c) => c.id).join(','),
-    () => {
+  if (measurePackages) {
+    watch(
+      () => packageChips.value.map((c) => c.id).join(','),
+      () => {
+        void nextTick(measureVisiblePackages)
+      },
+    )
+
+    watch(packagesExpanded, () => {
       void nextTick(measureVisiblePackages)
-    },
-  )
+    })
 
-  watch(packagesExpanded, () => {
-    void nextTick(measureVisiblePackages)
-  })
-
-  watch(packagesOverflowBtnRef, () => {
-    if (!packagesExpanded.value && packagesOverflowBtnRef.value) {
-      measureVisiblePackages()
-    }
-  })
+    watch(packagesOverflowBtnRef, () => {
+      if (!packagesExpanded.value && packagesOverflowBtnRef.value) {
+        measureVisiblePackages()
+      }
+    })
+  }
 
   watch(() => props.useCase.synopsis, () => {
     descExpandable.value = false
+    descPreviewBase.value = ''
     void nextTick(measureDescClampable)
   })
 
@@ -296,12 +386,16 @@ export function useUseCaseCatalogItem(props: UseCaseCatalogItemProps) {
     descriptionExpanded.value
       ? props.focused
         ? `Synopsis for ${props.useCase.title}`
-        : 'Show less — collapse descriptions on all use cases'
-      : 'Show more — expand descriptions on all use cases',
+        : expandScope === 'local'
+          ? `Collapse synopsis for ${props.useCase.title}`
+          : 'Show less — collapse descriptions on all use cases'
+      : expandScope === 'local'
+        ? `Expand synopsis for ${props.useCase.title}`
+        : 'Show more — expand descriptions on all use cases',
   )
 
   const showSynopsisToggle = computed(
-    () => !props.focused && (descriptionExpanded.value || descExpandable.value),
+    () => !props.focused && expandScope === 'global' && (descriptionExpanded.value || descExpandable.value),
   )
 
   const packagesExpandAriaLabel = computed(() =>
@@ -311,13 +405,14 @@ export function useUseCaseCatalogItem(props: UseCaseCatalogItemProps) {
   )
 
   const showPackagesToggle = computed(
-    () => packagesExpanded.value || packagesOverflow.value,
+    () => measurePackages && (packagesExpanded.value || packagesOverflow.value),
   )
 
   return {
     cardRoot,
     descRef,
     descExpandable,
+    descPreviewBase,
     descBodyId,
     descriptionExpanded,
     toggleDescriptionExpanded,

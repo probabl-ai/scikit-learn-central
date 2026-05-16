@@ -1131,6 +1131,11 @@ span.uc-package-chip--tier-3:hover {
   grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
 }
 
+#view-use-cases.use-cases-page--list,
+#view-use-cases.use-cases-page--list .page-content {
+  min-width: 0;
+}
+
 #view-use-cases.uc-packages-expanded .uc-catalog-item .panel--packages {
   min-height: var(--uc-packages-expanded-min-height);
   box-sizing: border-box;

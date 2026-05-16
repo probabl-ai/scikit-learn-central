@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import CatalogListShell from '@/components/CatalogListShell.vue'
 import FilterBottomSheet from '@/components/FilterBottomSheet.vue'
 import FilterDropdown from '@/components/FilterDropdown.vue'
 import UseCaseCard from '@/components/UseCaseCard.vue'
+import UseCaseListColumnHeader from '@/components/UseCaseListColumnHeader.vue'
+import UseCaseListRow from '@/components/UseCaseListRow.vue'
 import { useUseCaseCatalogGroups, type UseCaseGroupByKey } from '@/composables/useUseCaseCatalogGroups'
+import { useUseCaseDescriptionExpand } from '@/composables/useUseCaseDescriptionExpand'
 import { useUseCasePackagesPanelHeights } from '@/composables/useUseCasePackagesPanelHeights'
 import { useUseCasePackagesExpand } from '@/composables/useUseCasePackagesExpand'
 import { useUseCases } from '@/composables/useUseCases'
@@ -31,8 +35,13 @@ const applicationFieldSel = ref<Set<string>>(new Set())
 const problemTypeSel = ref<Set<string>>(new Set())
 const dataTypeSel = ref<Set<string>>(new Set())
 const difficultySel = ref<Set<Difficulty>>(new Set())
+type CatalogLayout = 'cards' | 'list'
+
 const groupBy = ref<UseCaseGroupByKey>('none')
 const sortByDifficulty = ref(false)
+const catalogLayout = ref<CatalogLayout>('cards')
+
+const { setUseCaseDescriptionsExpanded } = useUseCaseDescriptionExpand()
 
 /* Package filter — set by the "Used in N use cases" pill on a PackageCard,
    which links here with ?package=<id>. We mirror the URL into state so
@@ -147,6 +156,7 @@ function resetFilters(): void {
   dataTypeSel.value = new Set()
   difficultySel.value = new Set()
   clearPackageFilter()
+  setUseCaseDescriptionsExpanded(false)
 }
 
 interface ActiveChip {
@@ -326,6 +336,34 @@ watch(useCasePackagesExpanded, () => {
       </div>
 
       <div class="filter-bar-end filter-bar-end--desktop">
+        <div
+          class="catalog-layout-toggle"
+          role="group"
+          aria-label="Use case display layout"
+        >
+          <button
+            type="button"
+            class="catalog-layout-toggle__btn"
+            :class="{ 'is-active': catalogLayout === 'cards' }"
+            :aria-pressed="catalogLayout === 'cards'"
+            title="Card layout"
+            @click="catalogLayout = 'cards'"
+          >
+            <i class="fas fa-th" aria-hidden="true"></i>
+            <span class="sr-only">Card layout</span>
+          </button>
+          <button
+            type="button"
+            class="catalog-layout-toggle__btn"
+            :class="{ 'is-active': catalogLayout === 'list' }"
+            :aria-pressed="catalogLayout === 'list'"
+            title="List layout"
+            @click="catalogLayout = 'list'"
+          >
+            <i class="fas fa-list" aria-hidden="true"></i>
+            <span class="sr-only">List layout</span>
+          </button>
+        </div>
         <button
           type="button"
           class="uc-sort-difficulty"
@@ -388,6 +426,35 @@ watch(useCasePackagesExpanded, () => {
           :options="difficultyOptions"
         />
         <div class="filter-sheet-display">
+          <span class="filter-sheet-display-label">Layout</span>
+          <div
+            class="catalog-layout-toggle"
+            role="group"
+            aria-label="Use case display layout"
+          >
+            <button
+              type="button"
+              class="catalog-layout-toggle__btn"
+              :class="{ 'is-active': catalogLayout === 'cards' }"
+              :aria-pressed="catalogLayout === 'cards'"
+              title="Card layout"
+              @click="catalogLayout = 'cards'"
+            >
+              <i class="fas fa-th" aria-hidden="true"></i>
+              <span class="sr-only">Card layout</span>
+            </button>
+            <button
+              type="button"
+              class="catalog-layout-toggle__btn"
+              :class="{ 'is-active': catalogLayout === 'list' }"
+              :aria-pressed="catalogLayout === 'list'"
+              title="List layout"
+              @click="catalogLayout = 'list'"
+            >
+              <i class="fas fa-list" aria-hidden="true"></i>
+              <span class="sr-only">List layout</span>
+            </button>
+          </div>
           <span class="filter-sheet-display-label">Sort</span>
           <button
             type="button"
@@ -428,6 +495,7 @@ watch(useCasePackagesExpanded, () => {
     id="view-use-cases"
     ref="viewUseCasesEl"
     class="view use-cases-page"
+    :class="{ 'use-cases-page--list': catalogLayout === 'list' }"
     role="tabpanel"
     aria-label="Use case explorer"
   >
@@ -446,16 +514,31 @@ watch(useCasePackagesExpanded, () => {
       </div>
 
       <template v-else>
-        <div v-if="groupBy === 'none'" class="uc-grid">
-          <UseCaseCard
-            v-for="uc in sortedFiltered"
-            :key="uc.uuid"
-            :use-case="uc"
-            :focused="focusedSlug === uc.slug"
-            :pulsing="pulsingSlug === uc.slug"
-            @pulse-end="clearPulse"
-          />
-        </div>
+        <template v-if="groupBy === 'none'">
+          <div v-if="catalogLayout === 'cards'" class="uc-grid">
+            <UseCaseCard
+              v-for="uc in sortedFiltered"
+              :key="uc.uuid"
+              :use-case="uc"
+              :focused="focusedSlug === uc.slug"
+              :pulsing="pulsingSlug === uc.slug"
+              @pulse-end="clearPulse"
+            />
+          </div>
+          <CatalogListShell v-else variant="use-cases">
+            <UseCaseListColumnHeader />
+            <div class="catalog-list">
+              <UseCaseListRow
+                v-for="uc in sortedFiltered"
+                :key="uc.uuid"
+                :use-case="uc"
+                :focused="focusedSlug === uc.slug"
+                :pulsing="pulsingSlug === uc.slug"
+                @pulse-end="clearPulse"
+              />
+            </div>
+          </CatalogListShell>
+        </template>
         <template v-else>
           <section
             v-for="(section, sectionIndex) in groupedSections"
@@ -468,7 +551,7 @@ watch(useCasePackagesExpanded, () => {
               {{ section.label }}
               <span class="uc-group-count">{{ section.useCases.length }}</span>
             </h3>
-            <div class="uc-grid">
+            <div v-if="catalogLayout === 'cards'" class="uc-grid">
               <UseCaseCard
                 v-for="uc in section.useCases"
                 :key="`${section.key}-${uc.uuid}`"
@@ -478,6 +561,19 @@ watch(useCasePackagesExpanded, () => {
                 @pulse-end="clearPulse"
               />
             </div>
+            <CatalogListShell v-else variant="use-cases">
+              <UseCaseListColumnHeader />
+              <div class="catalog-list">
+                <UseCaseListRow
+                  v-for="uc in section.useCases"
+                  :key="`${section.key}-${uc.uuid}`"
+                  :use-case="uc"
+                  :focused="focusedSlug === uc.slug"
+                  :pulsing="pulsingSlug === uc.slug"
+                  @pulse-end="clearPulse"
+                />
+              </div>
+            </CatalogListShell>
           </section>
         </template>
       </template>
@@ -549,5 +645,56 @@ watch(useCasePackagesExpanded, () => {
 .uc-group-count {
   font-weight: 500;
   color: var(--text-muted);
+}
+
+.catalog-layout-toggle {
+  display: inline-flex;
+  align-items: stretch;
+  width: fit-content;
+  flex-shrink: 0;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--bg-surface);
+}
+
+.catalog-layout-toggle__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 2.25rem;
+  width: 2.25rem;
+  min-width: 2.25rem;
+  min-height: 36px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-right: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition:
+    background var(--duration-sm) var(--ease),
+    color var(--duration-sm) var(--ease);
+}
+
+.catalog-layout-toggle__btn:last-child {
+  border-right: none;
+}
+
+.catalog-layout-toggle__btn:hover {
+  color: var(--text-primary);
+  background: var(--neutral-050);
+}
+
+.catalog-layout-toggle__btn.is-active {
+  background: var(--neutral-200);
+  color: var(--color-near-black);
+}
+
+.catalog-layout-toggle__btn:focus-visible {
+  outline: 2px solid var(--color-sky);
+  outline-offset: -2px;
+  z-index: 1;
 }
 </style>
