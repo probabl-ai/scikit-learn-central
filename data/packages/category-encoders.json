@@ -10,12 +10,9 @@
   ],
   "license": "BSD-3-Clause",
   "archived": false,
-  "description": "15+ sklearn-compatible categorical encoders including TargetEncoder, WOEEncoder, CatBoostEncoder, BinaryEncoder, and PolynomialEncoder. Supports both supervised and unsupervised encoding strategies.",
+  "description": "Categorical encoders for machine learning that can be included inside a scikit-learn pipeline.",
   "tags": [
     "categorical-encoding",
-    "target-encoding",
-    "WOE",
-    "binary-encoding",
-    "ordinal"
+    "preprocessing"
   ]
 }

@@ -11,14 +11,12 @@
   ],
   "license": "Apache-2.0",
   "archived": false,
-  "description": "RAPIDS GPU-accelerated machine learning library with a scikit-learn-compatible API. Runs KMeans, PCA, Random Forests, SVM, UMAP, t-SNE, and more on NVIDIA GPUs \u2014 often 10\u201350\u00d7 faster than CPU equivalents for large datasets.",
+  "description": "RAPIDS GPU-accelerated machine learning library with a scikit-learn-compatible API.",
   "tags": [
-    "GPU",
-    "RAPIDS",
-    "CUDA",
-    "accelerated",
+    "gpu-acceleration",
+    "classification",
+    "regression",
     "clustering",
-    "dimensionality-reduction",
-    "tabular"
+    "dimensionality-reduction"
   ]
 }

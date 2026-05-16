@@ -11,12 +11,10 @@
   ],
   "license": "BSD-3-Clause",
   "archived": false,
-  "description": "Automated ML system built on sklearn. Uses Bayesian optimization and meta-learning to automatically search over 15 classifiers, 14 feature preprocessing methods, and 4 data preprocessing steps. Drop-in sklearn estimator.",
+  "description": "Automated machine learning toolkit. Provides a drop-in sklearn estimator for automated hyperparameter tuning and model selection.",
   "tags": [
-    "AutoML",
-    "meta-learning",
-    "ensemble",
-    "algorithm-selection",
-    "hyperparameter-optimization"
+    "automl",
+    "model-selection",
+    "hyperparameter-tuning"
   ]
 }

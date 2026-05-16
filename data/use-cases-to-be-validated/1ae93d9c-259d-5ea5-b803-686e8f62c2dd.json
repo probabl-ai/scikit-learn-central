@@ -14,8 +14,7 @@
   ],
   "packages": [
     "scikit-learn",
-    "mlxtend",
-    "eli5"
+    "mlxtend"
   ],
   "difficulty": "beginner",
   "archived": false,
