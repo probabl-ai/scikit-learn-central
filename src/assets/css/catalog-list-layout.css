@@ -10,10 +10,44 @@
   --catalog-grid-line: inset 0 -1px 0 0 var(--border-subtle);
 
   position: relative;
-  isolation: isolate;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: visible;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   background: var(--bg-surface);
+}
+
+.catalog-list-scroll {
+  width: 100%;
+  min-width: 0;
+  /* Both axes explicit so `overflow-x: auto` alone does not force `overflow-y: auto`. */
+  overflow-x: auto;
+  overflow-y: clip;
+  overscroll-behavior-x: contain;
+  border-radius: inherit;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-subtle) transparent;
+}
+
+/* Row-level junctions duplicate shell corners and inflate scroll width. */
+.catalog-list-shell .catalog-list > .card .catalog-list-junction {
+  display: none;
+}
+
+.catalog-list-scroll::-webkit-scrollbar {
+  height: 5px;
+}
+
+.catalog-list-scroll::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 3px;
+}
+
+.catalog-list-scroll::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 /* Junction squares (same as `.card .outbound-link:nth-child(2):nth-last-child(2)::before/after` in components.css). */
@@ -25,7 +59,7 @@
   background: var(--bg-surface);
   border: thin solid var(--border-subtle);
   pointer-events: none;
-  z-index: 4;
+  z-index: 6;
 }
 
 .catalog-list-junction--tl {
@@ -50,17 +84,6 @@
   right: 0;
   bottom: 0;
   transform: translate(50%, 50%);
-}
-
-/* One square per seam: rows omit bottom corners (shell / next row owns). */
-.catalog-list-shell .catalog-list > .card:not(:last-child) .catalog-list-junction--bl,
-.catalog-list-shell .catalog-list > .card:not(:last-child) .catalog-list-junction--br {
-  display: none;
-}
-
-.catalog-list-shell .catalog-list > .card:last-child .catalog-list-junction--bl,
-.catalog-list-shell .catalog-list > .card:last-child .catalog-list-junction--br {
-  display: none;
 }
 
 .catalog-list-shell .catalog-list-header,
@@ -90,10 +113,14 @@
   gap: 0;
   position: relative;
   z-index: 1;
+  width: max-content;
+  min-width: 100%;
 }
 
 .catalog-list-shell .catalog-list > .card {
   position: relative;
+  align-self: stretch;
+  box-sizing: border-box;
   border-radius: 0;
   margin: 0;
   border: none;
@@ -234,28 +261,4 @@
   padding: 0;
   border: none;
   border-bottom: none;
-}
-
-@media (max-width: 720px) {
-  .catalog-list-shell .catalog-list-header-row,
-  .catalog-list-shell .pkg-row-main {
-    flex-direction: column;
-    width: 100%;
-    min-width: 0;
-  }
-
-  .catalog-list-shell .pkg-row-col,
-  .catalog-list-shell .catalog-list-hcell {
-    flex: 1 1 auto !important;
-    width: 100% !important;
-    max-width: none !important;
-    border-right: none;
-    border-bottom: 1px solid var(--border-subtle);
-    min-height: unset;
-  }
-
-  .catalog-list-shell .catalog-list-hcell:last-child,
-  .catalog-list-shell .pkg-row-col:last-child {
-    border-bottom: none;
-  }
 }

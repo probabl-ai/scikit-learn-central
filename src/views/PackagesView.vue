@@ -427,6 +427,7 @@ const filtersSheetOpen = ref(false)
 
 .catalog-featured {
   margin-bottom: var(--space-6);
+  min-width: 0;
 }
 
 .catalog-header--featured {

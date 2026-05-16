@@ -1,6 +1,8 @@
 <template>
   <div class="catalog-list-shell">
-    <slot />
+    <div class="catalog-list-scroll">
+      <slot />
+    </div>
     <span class="catalog-list-junction catalog-list-junction--tl" aria-hidden="true"></span>
     <span class="catalog-list-junction catalog-list-junction--tr" aria-hidden="true"></span>
     <span class="catalog-list-junction catalog-list-junction--bl" aria-hidden="true"></span>
