@@ -4,6 +4,7 @@ import type { RouteLocationRaw } from 'vue-router'
 import type { Package } from '@/types/package'
 import type { UseCase } from '@/types/usecase'
 import { usePackageCatalogItem } from '@/composables/usePackageCatalogItem'
+import FitScoreHelpPopover from '@/components/FitScoreHelpPopover.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -250,6 +251,7 @@ defineExpose({ cardRoot, descRef })
       >
         <div class="fit-panel-head">
           <span class="fit-panel-eyebrow">Fit Score</span>
+          <FitScoreHelpPopover />
         </div>
         <ul class="fit-breakdown">
           <li v-for="row in fitBreakdownRows" :key="`${pkg.id}-fit-${row.key}`" class="fit-breakdown-row">

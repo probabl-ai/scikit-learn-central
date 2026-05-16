@@ -3,7 +3,7 @@
   --pkg-col-skore: 11.5rem;
   --pkg-col-desc: 14rem;
   --pkg-col-cats: 9rem;
-  --pkg-col-stat: 3.75rem;
+  --pkg-col-info: 13rem;
   --pkg-col-fitn: 2.5rem;
   --pkg-col-uc: 4.75rem;
   --pkg-col-tags: 14rem;
@@ -221,15 +221,23 @@
   max-width: var(--pkg-col-cats);
 }
 
-.catalog-list-shell .pkg-row-col--stat,
-.catalog-list-shell .catalog-list-hcell--stat {
-  flex: 0 0 var(--pkg-col-stat);
-  width: var(--pkg-col-stat);
-  max-width: var(--pkg-col-stat);
+.catalog-list-shell .pkg-row-col--info,
+.catalog-list-shell .catalog-list-hcell--info {
+  flex: 0 0 var(--pkg-col-info);
+  width: var(--pkg-col-info);
+  max-width: var(--pkg-col-info);
+}
+
+.catalog-list-shell .catalog-list-hcell--info {
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+.catalog-list-shell .pkg-row-col--info {
+  display: flex;
+  align-items: center;
 }
 
 .catalog-list-shell .pkg-row-col--fitn,
@@ -255,6 +263,10 @@
   width: var(--pkg-col-tags);
   max-width: var(--pkg-col-tags);
   border-right: none;
+}
+
+.catalog-list-shell .pkg-row-col--tags {
+  overflow: visible;
 }
 
 .catalog-list-shell .catalog-list-header.card {

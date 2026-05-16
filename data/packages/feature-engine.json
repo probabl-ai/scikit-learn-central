@@ -18,5 +18,15 @@
     "categorical-encoding",
     "feature-engineering",
     "dataframe"
-  ]
+  ],
+  "docs_quality": {
+    "getting_started": true,
+    "api_reference": true,
+    "narrative_guide": true
+  },
+  "codecov_slug": "feature-engine/feature_engine",
+  "testing": {
+    "has_tests": true,
+    "test_coverage": 98
+  }
 }

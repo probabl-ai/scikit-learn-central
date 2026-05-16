@@ -13,5 +13,14 @@
   "description": "Statistical inference methods for variable importance evaluation in high-dimensional and spatially structured data.",
   "tags": [
     "explainability"
-  ]
+  ],
+  "docs_quality": {
+    "getting_started": true,
+    "api_reference": true,
+    "narrative_guide": true
+  },
+  "testing": {
+    "has_tests": true,
+    "test_coverage": 98.2
+  }
 }

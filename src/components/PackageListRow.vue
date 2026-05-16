@@ -37,6 +37,16 @@ const {
   categoryGroups,
   descBodyId,
   tagLabels,
+  tagsPanelRef,
+  tagsMeasureRailRef,
+  tagsOverflowBtnRef,
+  displayedTagLabels,
+  hiddenTagCount,
+  tagsExpanded,
+  tagsOverflow,
+  toggleTagsExpanded,
+  tagsExpandAriaLabel,
+  showTagsToggle,
   ucTotal,
   useCasesNavigable,
   useCasesBrowseTitle,
@@ -48,7 +58,7 @@ const {
   fitScorePillStyle,
   isTierRedundant,
   scopeChipTitle,
-} = usePackageCatalogItem(props, { descriptionExpandScope: 'local' })
+} = usePackageCatalogItem(props, { descriptionExpandScope: 'local', tagsDisplay: 'measured' })
 
 function onDescriptionActivate(): void {
   if (!descExpandable.value && !descriptionExpanded.value) return
@@ -193,13 +203,19 @@ function onDescriptionActivate(): void {
         <span v-else class="pkg-row-dash">—</span>
       </div>
 
-      <div
-        v-for="row in metaRows"
-        :key="`${pkg.id}-stat-${row.key}`"
-        class="pkg-row-col pkg-row-col--stat"
-        :aria-label="`${row.sr}${row.value}`"
-      >
-        <span class="pkg-row-stat-val">{{ row.value }}</span>
+      <div class="pkg-row-col pkg-row-col--info" aria-label="Package information">
+        <ul class="pkg-row-info">
+          <li
+            v-for="row in metaRows"
+            :key="`${pkg.id}-info-${row.key}`"
+            class="pkg-row-info-cell"
+            :title="`${row.sr.replace(/:\s*$/, '')}: ${row.value}`"
+          >
+            <i class="fas fa-fw pkg-row-info-icon" :class="row.icon" aria-hidden="true"></i>
+            <span class="sr-only">{{ row.sr }}</span>
+            <span class="pkg-row-info-val">{{ row.value }}</span>
+          </li>
+        </ul>
       </div>
 
       <template v-if="showFitChip">
@@ -213,7 +229,7 @@ function onDescriptionActivate(): void {
         </div>
       </template>
       <template v-else>
-        <div v-for="i in 3" :key="`${pkg.id}-fitn-empty-${i}`" class="pkg-row-col pkg-row-col--fitn">
+        <div v-for="i in 6" :key="`${pkg.id}-fitn-empty-${i}`" class="pkg-row-col pkg-row-col--fitn">
           <span class="pkg-row-dash">—</span>
         </div>
       </template>
@@ -242,8 +258,38 @@ function onDescriptionActivate(): void {
       </div>
 
       <div class="pkg-row-col pkg-row-col--tags" aria-label="Tags">
-        <div v-if="tagLabels.length" class="chip-row chip-row--wrap pkg-row-tag-chips">
-          <span v-for="(t, idx) in tagLabels" :key="`${pkg.id}-tag-${idx}`" class="task-chip">{{ t }}</span>
+        <div
+          v-if="tagLabels.length"
+          ref="tagsPanelRef"
+          class="pkg-row-tags-body"
+          :class="{ 'pkg-row-tags-body--collapsed': !tagsExpanded && tagsOverflow }"
+        >
+          <div ref="tagsMeasureRailRef" class="tags-measure-rail" aria-hidden="true">
+            <span
+              v-for="(t, idx) in tagLabels"
+              :key="`measure-${pkg.id}-tag-${idx}`"
+              data-tag-measure
+              class="task-chip"
+            >{{ t }}</span>
+          </div>
+          <div class="chip-row chip-row--wrap pkg-row-tag-chips">
+            <span
+              v-for="(t, idx) in displayedTagLabels"
+              :key="`${pkg.id}-tag-${idx}`"
+              class="task-chip"
+            >{{ t }}</span>
+            <button
+              v-if="showTagsToggle"
+              ref="tagsOverflowBtnRef"
+              type="button"
+              class="tag-overflow-btn"
+              :aria-expanded="tagsExpanded"
+              :aria-label="tagsExpandAriaLabel"
+              @click="toggleTagsExpanded"
+            >
+              {{ tagsExpanded ? 'Show less' : `+${hiddenTagCount}` }}
+            </button>
+          </div>
         </div>
         <span v-else class="tag-empty pkg-row-tag-empty">No tags</span>
       </div>
@@ -323,13 +369,44 @@ function onDescriptionActivate(): void {
   font-size: var(--text-2xs);
 }
 
-.pkg-row-stat-val {
+.pkg-row-info {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: auto;
+  column-gap: var(--space-2);
+  row-gap: var(--space-1);
+}
+
+.pkg-row-info-cell {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.pkg-row-info-icon {
+  flex-shrink: 0;
+  font-size: var(--text-2xs);
+  color: var(--text-muted);
+  line-height: 1;
+  width: 0.85rem;
+  text-align: center;
+}
+
+.pkg-row-info-val {
   font-family: var(--font-mono);
   font-size: var(--text-2xs);
   font-variant-numeric: tabular-nums;
   color: var(--text-primary);
-  word-break: break-word;
   line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 
 .pkg-row-fit-num {
@@ -392,8 +469,18 @@ function onDescriptionActivate(): void {
   color: var(--text-muted);
 }
 
+.pkg-row-tags-body {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
 .pkg-row-tag-chips {
   align-content: flex-start;
+}
+
+.pkg-row-tags-body--collapsed .pkg-row-tag-chips {
+  overflow: hidden;
 }
 
 .pkg-row-tag-empty {

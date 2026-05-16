@@ -6,77 +6,56 @@
       </div>
       <div class="catalog-list-hcell catalog-list-hcell--desc" role="columnheader">Description</div>
       <div class="catalog-list-hcell catalog-list-hcell--cats" role="columnheader">Category</div>
-      <div
-        class="catalog-list-hcell catalog-list-hcell--stat"
-        role="columnheader"
-        title="Latest published version on PyPI"
-      >
-        <i class="fas fa-tag catalog-list-hcell-icon" aria-hidden="true"></i>
-        <span class="sr-only">Release version</span>
-      </div>
-      <div
-        class="catalog-list-hcell catalog-list-hcell--stat"
-        role="columnheader"
-        title="Date of the last PyPI release"
-      >
-        <i class="fas fa-calendar-day catalog-list-hcell-icon" aria-hidden="true"></i>
-        <span class="sr-only">Release date</span>
-      </div>
-      <div
-        class="catalog-list-hcell catalog-list-hcell--stat"
-        role="columnheader"
-        title="SPDX license identifier for the package"
-      >
-        <i class="fas fa-scale-balanced catalog-list-hcell-icon" aria-hidden="true"></i>
-        <span class="sr-only">License</span>
-      </div>
-      <div
-        class="catalog-list-hcell catalog-list-hcell--stat"
-        role="columnheader"
-        title="Number of forks on the GitHub repository"
-      >
-        <i class="fas fa-code-branch catalog-list-hcell-icon" aria-hidden="true"></i>
-        <span class="sr-only">Forks</span>
-      </div>
-      <div
-        class="catalog-list-hcell catalog-list-hcell--stat"
-        role="columnheader"
-        title="Stargazers count on GitHub"
-      >
-        <i class="fas fa-star catalog-list-hcell-icon" aria-hidden="true"></i>
-        <span class="sr-only">Stars</span>
-      </div>
-      <div
-        class="catalog-list-hcell catalog-list-hcell--stat"
-        role="columnheader"
-        title="Estimated PyPI downloads per month"
-      >
-        <i class="fas fa-cloud-arrow-down catalog-list-hcell-icon" aria-hidden="true"></i>
-        <span class="sr-only">Downloads per month</span>
+      <div class="catalog-list-hcell catalog-list-hcell--info" role="columnheader">
+        Information
       </div>
       <div
         class="catalog-list-hcell catalog-list-hcell--fitn"
         role="columnheader"
-        title="Share of the catalog fit score from GitHub stars"
+        title="Documentation pillars present (getting started, API reference, narrative guide)"
       >
-        <i class="fas fa-star-half-stroke catalog-list-hcell-icon" aria-hidden="true"></i>
-        <span class="sr-only">Fit stars</span>
+        <i class="fas fa-book catalog-list-hcell-icon" aria-hidden="true"></i>
+        <span class="sr-only">Fit docs</span>
       </div>
       <div
         class="catalog-list-hcell catalog-list-hcell--fitn"
         role="columnheader"
-        title="Share of the fit score from PyPI download volume"
+        title="Test coverage from codecov/coveralls (falls back to 50 if a tests/ directory exists)"
       >
-        <i class="fas fa-download catalog-list-hcell-icon" aria-hidden="true"></i>
-        <span class="sr-only">Fit downloads</span>
+        <i class="fas fa-flask catalog-list-hcell-icon" aria-hidden="true"></i>
+        <span class="sr-only">Fit testing</span>
       </div>
       <div
         class="catalog-list-hcell catalog-list-hcell--fitn"
         role="columnheader"
-        title="Share of the fit score from curated use cases in this catalog"
+        title="Fitness for purpose — how many curated use cases reference this package"
       >
         <i class="fas fa-lightbulb catalog-list-hcell-icon" aria-hidden="true"></i>
-        <span class="sr-only">Fit use cases</span>
+        <span class="sr-only">Fit fitness</span>
+      </div>
+      <div
+        class="catalog-list-hcell catalog-list-hcell--fitn"
+        role="columnheader"
+        title="Activity — freshness of the latest commit and release (180-day half-life)"
+      >
+        <i class="fas fa-bolt catalog-list-hcell-icon" aria-hidden="true"></i>
+        <span class="sr-only">Fit activity</span>
+      </div>
+      <div
+        class="catalog-list-hcell catalog-list-hcell--fitn"
+        role="columnheader"
+        title="Community experience — log-normalised mean of GitHub stars and forks"
+      >
+        <i class="fas fa-code-branch catalog-list-hcell-icon" aria-hidden="true"></i>
+        <span class="sr-only">Fit community</span>
+      </div>
+      <div
+        class="catalog-list-hcell catalog-list-hcell--fitn"
+        role="columnheader"
+        title="Adoption — log-normalised PyPI monthly download volume"
+      >
+        <i class="fas fa-download catalog-list-hcell-icon" aria-hidden="true"></i>
+        <span class="sr-only">Fit adoption</span>
       </div>
       <div class="catalog-list-hcell catalog-list-hcell--uc" role="columnheader">Use cases</div>
       <div class="catalog-list-hcell catalog-list-hcell--tags" role="columnheader">Tags</div>

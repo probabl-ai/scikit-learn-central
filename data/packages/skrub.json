@@ -10,6 +10,7 @@
   ],
   "license": "BSD-3-Clause",
   "archived": false,
+  "probabl": true,
   "description": "Skrub bridges the gap between dataframes and scikit-learn by providing a way to track data operations as well as simplify some tabular data preparation tasks.",
   "tags": [
     "preprocessing",
@@ -18,5 +19,14 @@
     "multi-tables",
     "text",
     "time-series"
-  ]
+  ],
+  "docs_quality": {
+    "getting_started": true,
+    "api_reference": true,
+    "narrative_guide": true
+  },
+  "testing": {
+    "has_tests": true,
+    "test_coverage": 97.3
+  }
 }

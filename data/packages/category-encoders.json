@@ -14,5 +14,14 @@
   "tags": [
     "categorical-encoding",
     "preprocessing"
-  ]
+  ],
+  "docs_quality": {
+    "getting_started": false,
+    "api_reference": true,
+    "narrative_guide": false
+  },
+  "testing": {
+    "has_tests": true,
+    "test_coverage": null
+  }
 }

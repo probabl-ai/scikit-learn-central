@@ -136,6 +136,10 @@
   .fit-panel-head {
     position: relative;
     z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
   }
 
   .fit-panel-eyebrow {
@@ -146,6 +150,38 @@
     letter-spacing: 0.08em;
     color: var(--color-orange);
   }
+
+  .fit-score-help {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .fit-panel-help {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.125rem;
+    height: 1.125rem;
+    padding: 0;
+    margin: 0;
+    border: none;
+    font: inherit;
+    border-radius: var(--radius-full, 999px);
+    background: transparent;
+    color: var(--color-orange);
+    line-height: 1;
+    cursor: help;
+  }
+
+  .fit-panel-help:focus-visible {
+    outline: 2px solid var(--color-sky);
+    outline-offset: 2px;
+  }
+
+  .fit-panel-help i {
+    font-size: 11px;
+  }
+
 
   .fit-breakdown {
     position: relative;
@@ -764,6 +800,50 @@
 
   .chip-row--wrap {
     flex-wrap: wrap;
+  }
+
+  .tags-measure-rail {
+    position: absolute;
+    visibility: hidden;
+    pointer-events: none;
+    height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: var(--space-2);
+    width: 100%;
+    min-width: 0;
+  }
+
+  .tag-overflow-btn {
+    flex-shrink: 0;
+    margin: 0;
+    padding: 2px 8px;
+    border: 1px solid var(--neutral-200);
+    border-radius: 4px;
+    background: var(--neutral-100);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition:
+      background 0.12s,
+      color 0.12s,
+      border-color 0.12s;
+  }
+
+  .tag-overflow-btn:hover {
+    color: var(--color-near-black);
+    border-color: var(--color-near-black);
+    background: var(--neutral-050);
+  }
+
+  .tag-overflow-btn:focus-visible {
+    outline: 2px solid var(--color-sky);
+    outline-offset: 2px;
   }
 
   .task-chip {
