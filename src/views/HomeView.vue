@@ -246,37 +246,89 @@ function pulseDelay(i: number): string {
           </g>
         </svg>
 
-        <!-- Animated train sliding across -->
+        <!-- Animated maglev pod sliding across (neon-electric punk) -->
         <div class="hero-train" aria-hidden="true">
           <svg viewBox="0 0 220 70" width="220" height="70" fill="none">
-            <!-- locomotive body -->
-            <rect x="20" y="18" width="120" height="34" rx="6" fill="#0E1049" stroke="#4CD0FF" stroke-width="1.5" />
-            <rect x="140" y="22" width="60" height="30" rx="4" fill="#040524" stroke="#4CD0FF" stroke-width="1.5" />
-            <!-- nose -->
-            <path d="M200 22 L214 30 L214 44 L200 52 Z" fill="#FF7900" stroke="#FF7900" stroke-width="1" />
-            <!-- windows -->
-            <rect x="32" y="24" width="14" height="14" rx="2" fill="#4CD0FF" />
-            <rect x="54" y="24" width="14" height="14" rx="2" fill="#4CD0FF" />
-            <rect x="76" y="24" width="14" height="14" rx="2" fill="#4CD0FF" />
-            <rect x="98" y="24" width="14" height="14" rx="2" fill="#4CD0FF" />
-            <rect x="148" y="28" width="10" height="14" rx="2" fill="#4CD0FF" />
-            <rect x="166" y="28" width="10" height="14" rx="2" fill="#4CD0FF" />
-            <!-- chimney + spark -->
-            <rect x="50" y="6" width="10" height="14" rx="2" fill="#0E1049" stroke="#4CD0FF" stroke-width="1" />
-            <circle class="puff puff-a" cx="55" cy="3" r="4" fill="#CCCCD7" opacity="0.7" />
-            <circle class="puff puff-b" cx="62" cy="-1" r="3" fill="#CCCCD7" opacity="0.5" />
-            <circle class="puff puff-c" cx="48" cy="-3" r="3" fill="#CCCCD7" opacity="0.45" />
-            <!-- wheels -->
-            <circle cx="40" cy="58" r="8" fill="#040524" stroke="#4CD0FF" stroke-width="1.5" />
-            <circle cx="40" cy="58" r="3" fill="#4CD0FF" />
-            <circle cx="80" cy="58" r="8" fill="#040524" stroke="#4CD0FF" stroke-width="1.5" />
-            <circle cx="80" cy="58" r="3" fill="#4CD0FF" />
-            <circle cx="120" cy="58" r="8" fill="#040524" stroke="#4CD0FF" stroke-width="1.5" />
-            <circle cx="120" cy="58" r="3" fill="#4CD0FF" />
-            <circle cx="170" cy="58" r="8" fill="#040524" stroke="#FF7900" stroke-width="1.5" />
-            <circle cx="170" cy="58" r="3" fill="#FF7900" />
-            <!-- headlight beam -->
-            <path class="beam" d="M214 33 L260 22 L260 50 L214 41 Z" fill="#FF7900" opacity="0.35" />
+            <!-- energy contrails trailing off the rear -->
+            <ellipse class="puff puff-a" cx="14" cy="32" rx="16" ry="2.5" fill="#4CD0FF" opacity="0.55" />
+            <ellipse class="puff puff-b" cx="10" cy="40" rx="18" ry="2.2" fill="#FF7900" opacity="0.5" />
+            <ellipse class="puff puff-c" cx="14" cy="48" rx="16" ry="2" fill="#4CD0FF" opacity="0.4" />
+            <!-- maglev underglow rail (replacing wheels) -->
+            <ellipse cx="110" cy="62" rx="105" ry="4" fill="#FF7900" opacity="0.28" />
+            <rect x="14" y="58" width="194" height="2.5" rx="1.2" fill="#FF7900" />
+            <rect x="14" y="58" width="194" height="0.8" fill="#FFD27F" opacity="0.85" />
+            <!-- main capsule hull (bulbous, curved — single fluid form) -->
+            <path d="M 12 38
+                     C 12 24, 28 18, 44 18
+                     L 158 18
+                     C 184 18, 206 26, 210 36
+                     C 206 46, 184 54, 158 54
+                     L 44 54
+                     C 28 54, 12 50, 12 38 Z"
+                  fill="#0E1049" stroke="#4CD0FF" stroke-width="1.5" />
+            <!-- amber forward accent panel (the bright orange highlight on the nose) -->
+            <path d="M 158 19
+                     C 184 20, 204 26, 210 33
+                     C 202 28, 184 24, 158 23 Z"
+                  fill="#FF7900" opacity="0.95" />
+            <!-- amber rear accent strip -->
+            <path d="M 44 19
+                     C 28 20, 14 26, 12 34
+                     C 16 28, 30 24, 44 23 Z"
+                  fill="#FF7900" opacity="0.6" />
+            <!-- continuous neon window band -->
+            <path d="M 38 28
+                     C 40 26, 44 26, 52 26
+                     L 168 26
+                     C 188 27, 200 31, 204 36
+                     C 200 41, 188 45, 168 46
+                     L 52 46
+                     C 44 46, 40 45, 38 43 Z"
+                  fill="#4CD0FF" opacity="0.55" />
+            <path d="M 38 28
+                     C 40 26, 44 26, 52 26
+                     L 168 26
+                     C 188 27, 200 31, 204 36
+                     C 200 41, 188 45, 168 46
+                     L 52 46
+                     C 44 46, 40 45, 38 43 Z"
+                  fill="none" stroke="#FF7900" stroke-width="0.8" opacity="0.85" />
+            <!-- inner window dividers -->
+            <g stroke="#0E1049" stroke-width="0.9" opacity="0.9">
+              <line x1="58" y1="27" x2="58" y2="45" />
+              <line x1="78" y1="27" x2="78" y2="45" />
+              <line x1="98" y1="27" x2="98" y2="45" />
+              <line x1="118" y1="27" x2="118" y2="45" />
+              <line x1="138" y1="27" x2="138" y2="45" />
+              <line x1="158" y1="27" x2="158" y2="45" />
+            </g>
+            <!-- glowing interior light streaks -->
+            <g fill="#FFFFFF" opacity="0.45">
+              <rect x="42" y="30" width="14" height="1.2" />
+              <rect x="62" y="30" width="14" height="1.2" />
+              <rect x="82" y="30" width="14" height="1.2" />
+              <rect x="102" y="30" width="14" height="1.2" />
+              <rect x="122" y="30" width="14" height="1.2" />
+              <rect x="142" y="30" width="14" height="1.2" />
+            </g>
+            <!-- cockpit pod (forward bubble with amber edge) -->
+            <path d="M 168 28
+                     C 188 28, 202 32, 208 36
+                     C 202 40, 188 44, 168 44 Z"
+                  fill="#4CD0FF" opacity="0.55" stroke="#FF7900" stroke-width="1.2" />
+            <!-- pilot silhouette inside cockpit -->
+            <circle cx="190" cy="33" r="2.2" fill="#040524" opacity="0.75" />
+            <path d="M 187 35 L 193 35 L 194 41 L 186 41 Z" fill="#040524" opacity="0.75" />
+            <!-- headlight beams (cyan + amber) -->
+            <path class="beam" d="M 210 33 L 252 26 L 252 46 L 210 39 Z" fill="#4CD0FF" opacity="0.4" />
+            <path d="M 208 35 L 234 30 L 234 41 L 208 38 Z" fill="#FF7900" opacity="0.7" />
+            <!-- downward maglev thruster vents -->
+            <g fill="#4CD0FF" opacity="0.9">
+              <rect x="46" y="54" width="10" height="2.5" rx="1.2" />
+              <rect x="82" y="54" width="10" height="2.5" rx="1.2" />
+              <rect x="118" y="54" width="10" height="2.5" rx="1.2" />
+              <rect x="154" y="54" width="10" height="2.5" rx="1.2" />
+            </g>
           </svg>
         </div>
       </div>
@@ -381,22 +433,74 @@ function pulseDelay(i: number): string {
 
             <!-- Per-platform illustration -->
             <div class="platform-art" aria-hidden="true">
-              <!-- TRAIN -->
+              <!-- TRAIN (neon-electric maglev pod) -->
               <svg v-if="p.iconKind === 'train'" viewBox="0 0 200 70" fill="none">
-                <rect x="14" y="22" width="100" height="28" rx="5" fill="#0E1049" stroke="#4CD0FF" stroke-width="1.2" />
-                <rect x="114" y="26" width="50" height="24" rx="3" fill="#040524" stroke="#4CD0FF" stroke-width="1.2" />
-                <path d="M164 26 L176 33 L176 43 L164 50 Z" fill="#FF7900" />
-                <rect x="22" y="28" width="10" height="10" rx="2" fill="#4CD0FF" />
-                <rect x="38" y="28" width="10" height="10" rx="2" fill="#4CD0FF" />
-                <rect x="54" y="28" width="10" height="10" rx="2" fill="#4CD0FF" />
-                <rect x="70" y="28" width="10" height="10" rx="2" fill="#4CD0FF" />
-                <rect x="86" y="28" width="10" height="10" rx="2" fill="#4CD0FF" />
-                <rect x="122" y="32" width="8" height="12" rx="2" fill="#4CD0FF" />
-                <rect x="136" y="32" width="8" height="12" rx="2" fill="#4CD0FF" />
-                <circle cx="30" cy="56" r="6" fill="#040524" stroke="#4CD0FF" stroke-width="1.2" />
-                <circle cx="62" cy="56" r="6" fill="#040524" stroke="#4CD0FF" stroke-width="1.2" />
-                <circle cx="94" cy="56" r="6" fill="#040524" stroke="#4CD0FF" stroke-width="1.2" />
-                <circle cx="138" cy="56" r="6" fill="#040524" stroke="#FF7900" stroke-width="1.2" />
+                <!-- maglev underglow rail -->
+                <ellipse cx="100" cy="62" rx="95" ry="3" fill="#FF7900" opacity="0.28" />
+                <rect x="10" y="58" width="180" height="2.2" rx="1.1" fill="#FF7900" />
+                <rect x="10" y="58" width="180" height="0.7" fill="#FFD27F" opacity="0.85" />
+                <!-- main capsule hull -->
+                <path d="M 10 36
+                         C 10 22, 26 18, 40 18
+                         L 144 18
+                         C 168 18, 188 24, 192 34
+                         C 188 44, 168 50, 144 50
+                         L 40 50
+                         C 26 50, 10 46, 10 36 Z"
+                      fill="#0E1049" stroke="#4CD0FF" stroke-width="1.3" />
+                <!-- amber forward accent -->
+                <path d="M 144 19
+                         C 166 20, 184 25, 190 31
+                         C 182 27, 166 24, 144 23 Z"
+                      fill="#FF7900" opacity="0.95" />
+                <!-- amber rear accent -->
+                <path d="M 40 19
+                         C 26 20, 14 25, 10 32
+                         C 16 28, 28 24, 40 23 Z"
+                      fill="#FF7900" opacity="0.6" />
+                <!-- neon window band -->
+                <path d="M 32 28
+                         C 34 26, 38 26, 44 26
+                         L 154 26
+                         C 172 27, 184 30, 186 34
+                         C 184 40, 172 43, 154 44
+                         L 44 44
+                         C 38 44, 34 43, 32 41 Z"
+                      fill="#4CD0FF" opacity="0.6" />
+                <!-- window dividers -->
+                <g stroke="#0E1049" stroke-width="0.7" opacity="0.85">
+                  <line x1="52" y1="27" x2="52" y2="43" />
+                  <line x1="72" y1="27" x2="72" y2="43" />
+                  <line x1="92" y1="27" x2="92" y2="43" />
+                  <line x1="112" y1="27" x2="112" y2="43" />
+                  <line x1="132" y1="27" x2="132" y2="43" />
+                </g>
+                <!-- interior light streaks -->
+                <g fill="#FFFFFF" opacity="0.4">
+                  <rect x="38" y="30" width="12" height="1" />
+                  <rect x="58" y="30" width="12" height="1" />
+                  <rect x="78" y="30" width="12" height="1" />
+                  <rect x="98" y="30" width="12" height="1" />
+                  <rect x="118" y="30" width="12" height="1" />
+                </g>
+                <!-- cockpit pod -->
+                <path d="M 154 28
+                         C 172 28, 184 32, 190 35
+                         C 184 38, 172 42, 154 42 Z"
+                      fill="#4CD0FF" opacity="0.55" stroke="#FF7900" stroke-width="1" />
+                <!-- pilot silhouette -->
+                <circle cx="170" cy="32" r="1.7" fill="#040524" opacity="0.75" />
+                <path d="M 168 34 L 173 34 L 173 38 L 168 38 Z" fill="#040524" opacity="0.75" />
+                <!-- headlight beam -->
+                <path d="M 190 33 L 200 30 L 200 40 L 190 37 Z" fill="#FF7900" opacity="0.7" />
+                <!-- thrusters -->
+                <g fill="#4CD0FF" opacity="0.9">
+                  <rect x="40" y="50" width="8" height="2.2" rx="1" />
+                  <rect x="68" y="50" width="8" height="2.2" rx="1" />
+                  <rect x="96" y="50" width="8" height="2.2" rx="1" />
+                  <rect x="124" y="50" width="8" height="2.2" rx="1" />
+                </g>
+                <!-- rail line -->
                 <line x1="0" y1="64" x2="200" y2="64" stroke="#34366D" stroke-width="1.5" />
               </svg>
               <!-- STATION = MCP dispatch tower with 4 tools as broadcast lobes -->
@@ -706,8 +810,8 @@ function pulseDelay(i: number): string {
 .puff-b { animation-delay: 0.4s; }
 .puff-c { animation-delay: 0.8s; }
 @keyframes puffRise {
-  0%   { transform: translate(0, 0) scale(0.6); opacity: 0.8; }
-  100% { transform: translate(-14px, -20px) scale(1.4); opacity: 0; }
+  0%   { transform: translate(0, 0) scaleX(1); opacity: 0.85; }
+  100% { transform: translate(-44px, -2px) scaleX(0.25); opacity: 0; }
 }
 
 .beam { animation: beamFlicker 2.4s ease-in-out infinite; transform-origin: 214px 36px; }
