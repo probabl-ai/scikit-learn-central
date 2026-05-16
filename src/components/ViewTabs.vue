@@ -7,7 +7,7 @@ const props = defineProps<{
 }>()
 
 const route = useRoute()
-const activeKey = computed(() => (route.meta.tabKey as string) ?? 'catalog')
+const activeKey = computed(() => (route.meta.tabKey as string) ?? 'home')
 
 const tabs: Array<{
   key: string
@@ -16,8 +16,11 @@ const tabs: Array<{
   label: string
   labelShort: string
 }> = [
+  { key: 'home', to: '/', icon: 'fa-train', label: 'Central', labelShort: 'Home' },
   { key: 'catalog', to: '/catalog', icon: 'fa-cubes', label: 'Ecosystem Catalog', labelShort: 'Catalog' },
   { key: 'use-cases', to: '/use-cases', icon: 'fa-lightbulb', label: 'Use Cases', labelShort: 'Use cases' },
+  { key: 'mcp', to: '/mcp', icon: 'fa-tower-broadcast', label: 'MCP Server', labelShort: 'MCP' },
+  { key: 'skills', to: '/skills', icon: 'fa-list-check', label: 'Skills', labelShort: 'Skills' },
   { key: 'releases', to: '/releases', icon: 'fa-tag', label: 'scikit-learn releases', labelShort: 'Releases' },
   { key: 'about', to: '/about', icon: 'fa-info-circle', label: 'About', labelShort: 'About' },
 ]
@@ -57,7 +60,7 @@ defineExpose({ tabsNavEl })
         class="tab"
         :class="{ 'is-active': activeKey === tab.key }"
         :aria-label="
-          tab.key !== 'about' && tab.key !== 'components'
+          tab.key === 'catalog' || tab.key === 'use-cases' || tab.key === 'releases'
             ? `${tab.label}, ${countFor(tab.key)} items`
             : tab.label
         "
@@ -66,7 +69,11 @@ defineExpose({ tabsNavEl })
         <i class="fas" :class="tab.icon" aria-hidden="true"></i>
         <span class="tab-label tab-label--full">{{ tab.label }}</span>
         <span class="tab-label tab-label--short">{{ tab.labelShort }}</span>
-        <span v-if="tab.key !== 'about' && tab.key !== 'components'" class="count" aria-hidden="true">
+        <span
+          v-if="tab.key === 'catalog' || tab.key === 'use-cases' || tab.key === 'releases'"
+          class="count"
+          aria-hidden="true"
+        >
           {{ countFor(tab.key) }}
         </span>
       </button>
