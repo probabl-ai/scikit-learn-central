@@ -118,7 +118,7 @@ const ctaLabel = computed(() => (isFuture.value ? 'Contribute' : 'Get support'))
     class="release-card card"
     :class="{ 'is-future': isFuture }"
   >
-    <div class="body" :class="{ 'body--highlights-expanded': highlightsExpanded }">
+    <div class="body">
       <div class="header">
         <div class="version">
           <a
@@ -300,27 +300,11 @@ const ctaLabel = computed(() => (isFuture.value ? 'Contribute' : 'Get support'))
 }
 
 .body {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: auto 1fr auto;
-  grid-template-areas:
-    'header'
-    'highlights'
-    'stats';
+  display: flex;
+  flex-direction: column;
   gap: var(--space-3);
   flex: 1;
   min-width: 0;
-  min-height: 0;
-}
-
-.body.body--highlights-expanded {
-  grid-template-rows: auto auto auto;
-  min-height: auto;
-}
-
-.body.body--highlights-expanded .highlights-section {
-  min-height: 0;
-  overflow: visible;
 }
 
 .footer {
@@ -331,7 +315,6 @@ const ctaLabel = computed(() => (isFuture.value ? 'Contribute' : 'Get support'))
 }
 
 .header {
-  grid-area: header;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -339,7 +322,6 @@ const ctaLabel = computed(() => (isFuture.value ? 'Contribute' : 'Get support'))
 }
 
 .highlights-section {
-  grid-area: highlights;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -545,7 +527,7 @@ a.version-link:hover {
 }
 
 .stats {
-  grid-area: stats;
+  margin-top: auto;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);

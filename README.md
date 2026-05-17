@@ -70,7 +70,10 @@ pixi run preview    # serves dist/ at http://localhost:4173 for verification
 | `pixi run type-check` | Run `vue-tsc` without emitting files. |
 | `pixi run update-stats` | Refresh `data/stats.json` from GitHub + PyPI + codecov + coveralls. |
 | `pixi run -e scripts update-releases` | Refresh `data/releases/scikit-learn.json` (uses the `scripts` env — adds requests/bs4/lxml). |
+| `pixi run -e scripts update-release-reactions` | Refresh GitHub reaction counts for release highlights. |
 | `pixi run mcp-bundle` | Regenerate the MCP worker data bundle. |
+| `pixi run -e datasets fetch-datasets` | One-off: download california housing + german credit and commit them as CSV under `data/use-cases/datasets/`. |
+| `pixi run migrate-categories` | One-off migration: replace legacy `nature`+`scope` with the categories taxonomy (issue #16). |
 
 ---
 
@@ -78,8 +81,8 @@ pixi run preview    # serves dist/ at http://localhost:4173 for verification
 
 | Route | Component | Notes |
 |---|---|---|
-| `/catalog` | `PackagesView` | Sklearn hero + filter bar (nature/scope/license + sort) + ranked package grid with Fit Score chip |
-| `/use-cases` | `UseCasesView` | Filter bar (industry/technique/difficulty) + use-case grid. Each card has an **Open in JupyterLite** action that deep-links to the in-browser notebook for that use case. |
+| `/catalog` | `PackagesView` | Sklearn hero + filter bar (categories/licenses/tags + sort + group-by) + cards/list layout toggle, package cards with Fit Score chip |
+| `/use-cases` | `UseCasesView` | Filter bar (industry/technique/difficulty) + cards/list layout + use-case grid. Each card has an **Open in JupyterLite** action that deep-links to the in-browser notebook for that use case. |
 | `/releases` | `ReleasesView` | Blog strip + release cards with version, highlights (with GitHub reaction counts), tag-stats bar, CTA buttons |
 | `/about` | `AboutView` | Purpose, sub-committees, ranking methodology, feedback CTA |
 | `/components` | `Components` | **Dev-only** sandbox mounting every component with live data — excluded from production builds |
@@ -105,6 +108,7 @@ All three submission forms POST a JSON payload to `https://probabl.app.n8n.cloud
 ├── tsconfig*.json         # TS project references (app + node)
 ├── index.html             # Vite entry HTML (font-awesome + highlight.js CDN)
 ├── env.d.ts               # Vite/Vue + window.hljs type shims
+├── AGENTS.md              # coding conventions for AI assistants (smart/dumb split, etc.)
 │
 ├── src/
 │   ├── main.ts            # createApp + router + global CSS
@@ -120,25 +124,52 @@ All three submission forms POST a JSON payload to `https://probabl.app.n8n.cloud
 │   │   ├── AppHeader.vue
 │   │   ├── ViewTabs.vue                # button-based tabs (no underline regression)
 │   │   ├── FilterDropdown.vue          # generic over filter-value type
+│   │   ├── FilterBottomSheet.vue       # mobile filter sheet (full-screen)
 │   │   ├── SklearnHero.vue
-│   │   ├── PackageInsightCard.vue      # 6-axis Fit-score chip + use-case + activity signals
+│   │   ├── CatalogListShell.vue        # shared header/list layout for catalog + use-cases
+│   │   ├── PackageCard.vue             # 6-axis Fit-score chip + use-case + activity signals
+│   │   ├── PackageListRow.vue          # list-layout row variant of PackageCard
+│   │   ├── PackageListColumnHeader.vue
+│   │   ├── FitScoreHelpPopover.vue     # 6-axis explainer popover (catalog header)
 │   │   ├── UseCaseCard.vue             # icon-only copy-link + GitHub + Open-in-JupyterLite
+│   │   ├── UseCaseListRow.vue          # list-layout row variant of UseCaseCard
+│   │   ├── UseCaseListColumnHeader.vue
+│   │   ├── DifficultyBadge.vue         # beginner/intermediate/advanced pill
+│   │   ├── CodeModal.vue               # syntax-highlighted use-case .py viewer
 │   │   ├── ReleaseCard.vue
 │   │   ├── ReleasesBlogStrip.vue
 │   │   ├── BaseModal.vue               # reusable modal shell (ESC, backdrop, scroll-lock)
 │   │   ├── FormSuccess.vue
+│   │   ├── TransientFeedback.vue       # short-lived inline toast (e.g. copy-to-clipboard)
 │   │   ├── SubmitPackageModal.vue
 │   │   ├── SubmitUseCaseModal.vue
 │   │   └── SubmitFeedbackModal.vue
 │   ├── composables/
-│   │   ├── usePackages.ts        # catalog + stats merge + fit-score computation
-│   │   ├── useUseCases.ts        # respects data/use-cases.json as publish allowlist
-│   │   ├── useReleases.ts        # version-sorted releases (future first)
-│   │   ├── useSubmitModal.ts     # which submit modal is open (singleton)
-│   │   └── useFormSubmit.ts      # idle/submitting/success/error state machine
+│   │   ├── usePackages.ts                    # catalog + stats merge + fit-score computation
+│   │   ├── usePackageLookup.ts               # id → package resolution helper
+│   │   ├── usePackageCatalogGroups.ts        # group-by (main/category/license/none) for catalog
+│   │   ├── usePackageCatalogItem.ts          # per-card state (highlight, deep-link, etc.)
+│   │   ├── useUseCases.ts                    # respects data/use-cases.json as publish allowlist
+│   │   ├── useUseCaseCatalogGroups.ts        # group-by for use-cases
+│   │   ├── useUseCaseCatalogItem.ts
+│   │   ├── useUseCaseDescriptionExpand.ts
+│   │   ├── useUseCasePackagesExpand.ts
+│   │   ├── useUseCasePackagesPanelHeights.ts
+│   │   ├── useCatalogDescriptionExpand.ts    # shared expand/collapse state for cards
+│   │   ├── useCopyPipInstall.ts              # copy `pip install …` w/ transient feedback
+│   │   ├── useReleases.ts                    # version-sorted releases (future first)
+│   │   ├── useReleaseCardHighlights.ts
+│   │   ├── useReleaseHighlightsExpand.ts
+│   │   ├── useReleasesBlogStripOverflow.ts
+│   │   ├── useSubmitModal.ts                 # which submit modal is open (singleton)
+│   │   ├── useFormSubmit.ts                  # idle/submitting/success/error state machine
+│   │   └── useTransientFeedback.ts           # drives TransientFeedback toasts
 │   ├── types/                    # TS shapes matching data/*.json
 │   ├── utils/
 │   │   ├── format.ts             # fmt() compact number formatter
+│   │   ├── relativeTime.ts       # "3 days ago" formatter
+│   │   ├── packageCategory.ts    # categories taxonomy metadata helpers
+│   │   ├── releaseUrls.ts        # GitHub release / changelog URL helpers
 │   │   └── submitForm.ts         # sanitizeText + postToWebhook
 │   └── assets/css/
 │       ├── design-system.css     # tokens (colors/typography/easing/durations)
@@ -153,16 +184,20 @@ All three submission forms POST a JSON payload to `https://probabl.app.n8n.cloud
 │   ├── catalog.json
 │   ├── packages/*.json
 │   ├── use-cases.json     # publish allowlist (see below)
-│   ├── use-cases/*.{json,py}
+│   ├── use-cases/*.{json,py}                 # published use cases + their datasets/
+│   ├── use-cases-to-be-validated/*.{json,py} # submitted via the webhook, awaiting curation
 │   ├── releases/scikit-learn.json
 │   └── stats.json         # auto-refreshed daily
 │
 ├── scripts/                          # Python helper scripts (all pixi-managed)
 │   ├── update_stats.py               # daily GitHub + PyPI + codecov + coveralls refresh
 │   ├── update_release_metadata.py    # weekly sklearn-releases refresh (uses `scripts` env)
-│   ├── update_release_reactions.py
+│   ├── update_release_reactions.py   # GitHub reaction counts for release highlights
 │   ├── build_jupyterlite.py          # data/use-cases/*.py → dist/jupyterlite/
-│   └── link_jupyterlite.py           # dev-only symlink helper (see below)
+│   ├── link_jupyterlite.py           # dev-only symlink helper (see below)
+│   ├── fetch_datasets.py             # one-off: refresh embedded CSVs (uses `datasets` env)
+│   ├── migrate_categories.py         # one-off: nature+scope → categories taxonomy (#16)
+│   └── migrate_use_cases.py          # one-off: legacy use-case schema migration
 │
 ├── data/jupyterlite/                 # ↳ NOT in repo — built into dist/jupyterlite/
 ├── public/jupyterlite                # ↳ NOT in repo — dev-only symlink to dist/jupyterlite
@@ -177,7 +212,7 @@ All three submission forms POST a JSON payload to `https://probabl.app.n8n.cloud
 The composables use Vite's `import.meta.glob` to bundle every JSON file into the compiled JS — no runtime `fetch()`.
 
 - **Packages**: `data/catalog.json` lists package IDs; each ID resolves to `data/packages/{id}.json`. Live stats are merged from `data/stats.json`. Adding a new package: drop `data/packages/foo.json` + add `"foo"` to `data/catalog.json`'s `packages` array → rebuild.
-- **Use cases**: `data/use-cases.json` is the **publish allowlist** — only UUIDs listed in `use_cases` appear on the site. Other JSON files in `data/use-cases/` are drafts that live in the repo but render only in the MCP server. Promote a draft by adding its UUID to `data/use-cases.json`.
+- **Use cases**: `data/use-cases.json` is the **publish allowlist** — only IDs listed in `use_cases` appear on the site. Published use cases live in `data/use-cases/` (slug-named); user-submitted drafts coming through the Submit Use Case form land in `data/use-cases-to-be-validated/` (UUID-named) and render only in the MCP server. Promote a draft by curating it into `data/use-cases/` and adding its ID to `data/use-cases.json`.
 - **Use-case code**: `.py` files in `data/use-cases/` are lazy-loaded per click via `import.meta.glob('@data/use-cases/*.py', { query: '?raw' })` — each file is its own chunk.
 - **Stats**: the daily stats cron commits `data/stats.json`, which triggers a rebuild + redeploy.
 
