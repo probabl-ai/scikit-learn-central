@@ -36,10 +36,6 @@ const DAY_MS = 24 * 60 * 60 * 1000
  *  1-week-old commit ≈ 97, 6-month-old ≈ 50, 2-year-old ≈ 13. */
 const ACTIVITY_HALF_LIFE_DAYS = 180
 
-/** Probabl-core stewardship boost added on top of fitBase. Large on purpose:
- *  Probabl-maintained core libraries should surface at the top of the catalog. */
-const PROBABL_BOOST = 100
-
 function daysSince(iso: string | undefined): number | null {
   if (!iso) return null
   const t = new Date(iso).getTime()
@@ -106,7 +102,6 @@ function buildPackages(useCases: ReturnType<typeof useUseCases>['useCases']): Pa
       fitDocs: 0,
       fitTesting: 0,
       fitBase: 0,
-      fitTotal: 0,
     }
   })
 
@@ -157,8 +152,6 @@ function buildPackages(useCases: ReturnType<typeof useUseCases>['useCases']): Pa
       W_ADOPTION * p.fitAdoption +
       W_DOCS * p.fitDocs +
       W_TESTING * p.fitTesting
-
-    p.fitTotal = p.fitBase + (p.probabl ? PROBABL_BOOST : 0)
   })
 
   return withStats
@@ -199,7 +192,6 @@ export const FIT_WEIGHTS = {
 } as const
 
 export const FIT_ACTIVITY_HALF_LIFE_DAYS = ACTIVITY_HALF_LIFE_DAYS
-export const FIT_PROBABL_BOOST = PROBABL_BOOST
 
 export function usePackages(): UsePackages {
   if (!cachedPackages) {
