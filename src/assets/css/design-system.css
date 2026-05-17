@@ -321,6 +321,7 @@
   --duration-lg:    280ms; /* modal/drawer entry (was 420ms — too slow) */
 
   /* Layout */
+  --breakpoint-compact-chrome: 999px; /* < 1000px: compact filter bar + header actions */
   --header-h:    64px;
   /* Tab bar height fallback before JS ResizeObserver updates --chrome-sticky-top */
   --tabs-h:      48px;

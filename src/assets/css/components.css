@@ -1357,8 +1357,8 @@ span.uc-package-chip--tier-3:hover {
 /* ── Context-aware submit button label ───────────────────── */
 #btn-submit-label { pointer-events: none; }
 
-/* ── Responsive ──────────────────────────────────────────── */
-@media (max-width: 768px) {
+/* ── Responsive (compact chrome: --breakpoint-compact-chrome / 999px) ─ */
+@media (max-width: 999px) {
   .filter-bar-inner {
     flex-wrap: nowrap;
     align-items: center;
@@ -1395,7 +1395,9 @@ span.uc-package-chip--tier-3:hover {
     padding-left: max(var(--space-4), env(safe-area-inset-left, 0px));
     padding-right: max(var(--space-4), env(safe-area-inset-right, 0px));
   }
+}
 
+@media (max-width: 768px) {
   .page-content {
     padding: var(--space-4);
   }
@@ -1418,8 +1420,24 @@ span.uc-package-chip--tier-3:hover {
   min-height: 0;
 }
 
+/* Let cards grow when highlights expand (Safari iOS locks height:100% + 1fr rows). */
+.releases-page--highlights-expanded .releases-grid {
+  align-items: start;
+}
+
+.releases-page--highlights-expanded .releases-grid > .release-card {
+  height: auto;
+}
+
 @media (max-width: 1024px) {
-  .releases-grid { grid-template-columns: repeat(2, 1fr); }
+  .releases-grid {
+    grid-template-columns: repeat(2, 1fr);
+    align-items: start;
+  }
+
+  .releases-grid > .release-card {
+    height: auto;
+  }
 }
 
 @media (max-width: 640px) {

@@ -163,8 +163,8 @@ export function useReleaseCardHighlights(props: ReleaseCardHighlightsProps) {
     },
   )
 
-  watch(highlightsExpanded, () => {
-    if (!highlightsExpanded.value) void nextTick(measureHighlightsLayout)
+  watch(highlightsExpanded, (expanded) => {
+    if (!expanded) void nextTick(measureHighlightsLayout)
   })
 
   const highlightsExpandable = computed(
