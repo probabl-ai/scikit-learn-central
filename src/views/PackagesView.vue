@@ -115,7 +115,7 @@ const filtered = computed(() => {
     if (sortBy.value === 'name') return a.name.localeCompare(b.name)
     if (sortBy.value === 'stars') return (b.stars ?? 0) - (a.stars ?? 0)
     if (sortBy.value === 'downloads') return (b.downloads ?? 0) - (a.downloads ?? 0)
-    return (b.fitTotal ?? 0) - (a.fitTotal ?? 0)
+    return (b.fitBase ?? 0) - (a.fitBase ?? 0)
   })
   return r
 })

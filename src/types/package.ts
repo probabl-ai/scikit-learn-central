@@ -121,8 +121,7 @@ export interface PackageRaw {
   archived?: boolean
   description: string
   tags: string[]
-  /** Marks a package maintained by Probabl. Drives a Fit Score boost so the
-   *  steward's libraries surface prominently in default rankings. */
+  /** Marks a package maintained by Probabl (metadata for editorial workflows). */
   probabl?: boolean
   /** Override the codecov/coveralls slug when it differs from the GitHub
    *  repo path. Consumed by `scripts/update_stats.py`. */
@@ -163,8 +162,6 @@ export interface Package extends PackageRaw {
   fitTesting: number
   /** Weighted sum of the six sub-scores, 0–100. */
   fitBase: number
-  /** fitBase plus the Probabl-core stewardship boost, if any. */
-  fitTotal: number
 }
 
 export interface PackageStats {
