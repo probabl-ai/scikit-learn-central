@@ -118,7 +118,7 @@ const ctaLabel = computed(() => (isFuture.value ? 'Contribute' : 'Get support'))
     class="release-card card"
     :class="{ 'is-future': isFuture }"
   >
-    <div class="body">
+    <div class="body" :class="{ 'body--highlights-expanded': highlightsExpanded }">
       <div class="header">
         <div class="version">
           <a
@@ -311,6 +311,16 @@ const ctaLabel = computed(() => (isFuture.value ? 'Contribute' : 'Get support'))
   flex: 1;
   min-width: 0;
   min-height: 0;
+}
+
+.body.body--highlights-expanded {
+  grid-template-rows: auto auto auto;
+  min-height: auto;
+}
+
+.body.body--highlights-expanded .highlights-section {
+  min-height: 0;
+  overflow: visible;
 }
 
 .footer {

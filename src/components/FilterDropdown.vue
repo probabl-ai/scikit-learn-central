@@ -314,7 +314,8 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
   padding-left: var(--space-6, 24px);
 }
 
-@media (max-width: 768px) {
+/* Compact chrome: --breakpoint-compact-chrome (999px) */
+@media (max-width: 999px) {
   .trigger {
     min-height: 44px;
     padding: 0 var(--space-4);

@@ -142,21 +142,8 @@ defineEmits<{
   min-height: 2.75rem;
 }
 
-@media (max-width: 640px) {
-  .subtitle {
-    display: none;
-  }
-
-  .title {
-    font-size: var(--text-lg);
-  }
-
-  .inner {
-    gap: var(--space-3);
-    padding-left: max(var(--space-4), env(safe-area-inset-left, 0px));
-    padding-right: max(var(--space-4), env(safe-area-inset-right, 0px));
-  }
-
+/* Compact chrome: --breakpoint-compact-chrome (999px) */
+@media (max-width: 999px) {
   .actions :deep(.btn--ghost) {
     display: none;
   }
@@ -171,6 +158,22 @@ defineEmits<{
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .subtitle {
+    display: none;
+  }
+
+  .title {
+    font-size: var(--text-lg);
+  }
+
+  .inner {
+    gap: var(--space-3);
+    padding-left: max(var(--space-4), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--space-4), env(safe-area-inset-right, 0px));
   }
 }
 </style>
