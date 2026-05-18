@@ -1,50 +1,97 @@
 <!DOCTYPE html>
 <!--
   OG image template — 1200 × 630 px
-  To export: open in Chrome, zoom to 100%, screenshot the <body> element,
-  or use: npx playwright screenshot --viewport-size=1200,630 og-image.html og-image.png
-  Then place og-image.png alongside this file.
+  Export:
+    cd public/images
+    npx playwright screenshot --viewport-size=1200,630 og-image.html og-image-1200x630.png
 -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=1200">
-  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;600&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
+    @font-face {
+      font-family: "Switzer";
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+      src: url("../fonts/Switzer-Regular.woff2") format("woff2");
+    }
+    @font-face {
+      font-family: "Switzer";
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+      src: url("../fonts/Switzer-Medium.woff2") format("woff2");
+    }
+
+    :root {
+      --color-midnight: #040524;
+      --color-midnight-line: #34366d;
+      --color-orange: #ff7900;
+      --orange-200: #ffc48a;
+      --radius-sm: 2px;
+      --radius-logo: 5px;
+      --color-sky: #4cd0ff;
+      --color-mist: #ccccd7;
+      --color-near-black: #0f101c;
+      --text-inverse: #ffffff;
+      --text-on-dark-secondary: rgb(255 255 255 / 0.65);
+      --text-on-dark-muted: rgb(255 255 255 / 0.55);
+      --surface-on-dark-raised: rgb(255 255 255 / 0.12);
+      --border-on-dark-default: rgb(255 255 255 / 0.18);
+      --font-serif: "IBM Plex Serif", Georgia, serif;
+      --font-sans: "Switzer", system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       width: 1200px;
       height: 630px;
       overflow: hidden;
-      font-family: 'Geist', sans-serif;
-      background: #1E22AA;
-      color: #ffffff;
+      font-family: var(--font-sans);
+      background: var(--color-midnight);
+      color: var(--text-inverse);
       position: relative;
     }
 
-    /* Subtle grid pattern */
     body::before {
       content: '';
       position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+        linear-gradient(rgb(255 255 255 / 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgb(255 255 255 / 0.06) 1px, transparent 1px);
       background-size: 60px 60px;
+      pointer-events: none;
     }
 
-    /* Decorative orange arc — top-right */
     body::after {
       content: '';
       position: absolute;
-      top: -180px;
-      right: -180px;
-      width: 500px;
-      height: 500px;
+      top: -120px;
+      right: 200px;
+      width: 400px;
+      height: 400px;
       border-radius: 50%;
-      border: 60px solid #F68D2E;
-      opacity: .18;
+      background: radial-gradient(circle, rgb(76 208 255 / 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .accent-blob {
+      position: absolute;
+      bottom: -80px;
+      left: -60px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgb(255 121 0 / 0.1) 0%, transparent 70%);
+      pointer-events: none;
     }
 
     .inner {
@@ -52,67 +99,159 @@
       z-index: 1;
       width: 100%;
       height: 100%;
-      padding: 56px 72px;
+      padding: 52px 64px 48px 72px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
     }
 
-    /* ── Top row ── */
-    .top {
+    .content-row {
+      flex: 1;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 40px;
+      min-height: 0;
+    }
+
+    .left {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,.12);
-      border: 1px solid rgba(255,255,255,.2);
-      border-radius: 999px;
-      padding: 6px 16px;
-      font-size: 15px;
+      gap: 6px;
+      color: var(--color-sky);
+      font-family: var(--font-sans);
+      font-size: 11px;
       font-weight: 500;
-      letter-spacing: .02em;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
     }
 
-    .dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #F68D2E;
+    .badge::before {
+      content: '';
+      display: inline-block;
+      width: 26px;
+      height: 16px;
+      background-image: url('spark.svg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
       flex-shrink: 0;
     }
 
-    /* ── Main content ── */
-    .main { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-
     .title {
+      font-family: var(--font-serif);
       font-size: 76px;
-      font-weight: 700;
+      font-weight: 300;
       line-height: 1.05;
-      letter-spacing: -.02em;
-      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
     }
 
     .title em {
       font-style: normal;
-      color: #F68D2E;
+      color: var(--color-orange);
     }
 
     .subtitle {
-      font-size: 26px;
+      font-size: 24px;
       font-weight: 400;
-      color: rgba(255,255,255,.72);
-      letter-spacing: .01em;
+      color: var(--color-mist);
+      letter-spacing: 0.01em;
+      line-height: 1.35;
+      max-width: 520px;
     }
 
-    /* ── Bottom row ── */
+    .logo-col {
+      flex-shrink: 0;
+      width: 360px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* White ring outside orange border via margin on the bordered box */
+    .logo-frame {
+      background: #ffffff;
+      border-radius: var(--radius-logo);
+      display: inline-flex;
+      overflow: hidden;
+    }
+
+    /* Matches .panel--fit on package catalog cards */
+    .logo-wrap {
+      position: relative;
+      overflow: visible;
+      isolation: isolate;
+      margin: 2px;
+      background: #ffffff;
+      border: 1px solid var(--orange-200);
+      border-radius: var(--radius-sm);
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: var(--radius-sm);
+      pointer-events: none;
+      z-index: 0;
+      background-repeat: no-repeat;
+      background-image:
+        linear-gradient(var(--color-orange), var(--color-orange)),
+        linear-gradient(var(--color-orange), var(--color-orange)),
+        linear-gradient(var(--color-orange), var(--color-orange)),
+        linear-gradient(var(--color-orange), var(--color-orange)),
+        linear-gradient(var(--color-orange), var(--color-orange)),
+        linear-gradient(var(--color-orange), var(--color-orange)),
+        linear-gradient(var(--color-orange), var(--color-orange)),
+        linear-gradient(var(--color-orange), var(--color-orange));
+      background-size:
+        2px 11px,
+        11px 2px,
+        2px 11px,
+        11px 2px,
+        2px 11px,
+        11px 2px,
+        2px 11px,
+        11px 2px;
+      background-position:
+        left 0 top 0,
+        left 0 top 0,
+        right 0 top 0,
+        right 0 top 0,
+        left 0 bottom 0,
+        left 0 bottom 0,
+        right 0 bottom 0,
+        right 0 bottom 0;
+    }
+
+    .logo-wrap img {
+      position: relative;
+      z-index: 1;
+      width: 240px;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
     .bottom {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-top: auto;
+      padding-top: 24px;
     }
 
     .pills {
@@ -121,39 +260,50 @@
     }
 
     .pill {
-      background: rgba(255,255,255,.1);
-      border: 1px solid rgba(255,255,255,.18);
+      background: var(--surface-on-dark-raised);
+      border: 1px solid var(--border-on-dark-default);
       border-radius: 8px;
       padding: 8px 18px;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 500;
-      font-family: 'Geist Mono', monospace;
-      color: rgba(255,255,255,.88);
+      font-family: var(--font-mono);
+      color: rgb(255 255 255 / 0.88);
     }
 
     .brand {
-      font-size: 18px;
-      font-weight: 600;
-      color: rgba(255,255,255,.55);
-      letter-spacing: .04em;
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--text-on-dark-muted);
+      letter-spacing: 0.04em;
     }
 
-    .brand span { color: #F68D2E; }
+    .brand span {
+      color: var(--color-orange);
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
+  <div class="accent-blob" aria-hidden="true"></div>
   <div class="inner">
 
-    <div class="top">
-      <div class="badge">
-        <span class="dot"></span>
-        scikit-learn ecosystem
+    <div class="content-row">
+      <div class="left">
+        <div class="badge">Ecosystem catalog</div>
+        <h1 class="title">scikit-learn<br><em>Central</em></h1>
+        <p class="subtitle">Ecosystem catalog &amp; use case explorer</p>
       </div>
-    </div>
-
-    <div class="main">
-      <h1 class="title">scikit-learn<br><em>Central</em></h1>
-      <p class="subtitle">Packages &nbsp;·&nbsp; Use Cases &nbsp;·&nbsp; Releases</p>
+      <div class="logo-col">
+        <div class="logo-frame">
+          <div class="logo-wrap">
+          <img
+            src="https://scikit-learn.org/stable/_static/scikit-learn-logo-notext.png"
+            alt=""
+            onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg';"
+          />
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="bottom">
