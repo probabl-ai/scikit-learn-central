@@ -16,7 +16,7 @@ beautifulsoup4 = "*"
 lxml = "*"
 
 # JupyterLite toolchain — converts use-case .py → .ipynb and builds the
-# in-browser JupyterLab static site. Versions pinned to the same ones the
+# in-browser JupyterLite static site (Lab + Notebook apps). Versions pinned to the same ones the
 # upstream skeleton-deploy ships.
 [feature.jupyterlite.dependencies]
 python = ">=3.11,<3.13"

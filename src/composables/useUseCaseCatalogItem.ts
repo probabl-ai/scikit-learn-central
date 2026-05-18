@@ -93,7 +93,8 @@ export function useUseCaseCatalogItem(
   )
 
   const jupyterliteUrl = computed(
-    () => `jupyterlite/lab/index.html?path=use-cases/${props.useCase.uuid}.ipynb`,
+    () =>
+      `jupyterlite/notebooks/index.html?path=use-cases/${props.useCase.uuid}.ipynb`,
   )
 
   const classificationRows = computed((): ClassificationRow[] => [
