@@ -63,9 +63,59 @@ const postsToggleLabel = computed(() => {
     class="releases-blog-strip"
     :class="{ 'releases-blog-strip--compact': isCompactChrome }"
   >
-    <span class="label">
-      <i class="fas fa-rss"></i> From our blog
-    </span>
+    <div class="releases-blog-strip__header">
+      <span class="label">
+        <i class="fas fa-rss"></i> From our blog
+      </span>
+      <nav class="releases-blog-strip__links" aria-label="Blog hubs">
+        <a
+          href="https://blog.probabl.ai/tag/scikit-learn"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn--outline btn--sm releases-blog-strip__hub"
+          aria-label="probabl.ai blog"
+        >
+          <img
+            src="/images/favicon-32.png"
+            alt=""
+            class="releases-blog-strip__hub-icon releases-blog-strip__hub-icon--probabl"
+            width="16"
+            height="16"
+          />
+          <span class="releases-blog-strip__hub-text">
+            <span class="releases-blog-strip__hub-brand">probabl.ai</span>
+            <span class="releases-blog-strip__hub-word">blog</span>
+          </span>
+          <i
+            class="fas fa-arrow-up-right-from-square releases-blog-strip__hub-external"
+            aria-hidden="true"
+          ></i>
+        </a>
+        <a
+          href="https://blog.scikit-learn.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn--outline btn--sm releases-blog-strip__hub"
+          aria-label="scikit-learn blog"
+        >
+          <img
+            src="/images/spark.svg"
+            alt=""
+            class="releases-blog-strip__hub-icon releases-blog-strip__hub-icon--sklearn"
+            width="16"
+            height="10"
+          />
+          <span class="releases-blog-strip__hub-text">
+            <span class="releases-blog-strip__hub-brand">scikit-learn</span>
+            <span class="releases-blog-strip__hub-word">blog</span>
+          </span>
+          <i
+            class="fas fa-arrow-up-right-from-square releases-blog-strip__hub-external"
+            aria-hidden="true"
+          ></i>
+        </a>
+      </nav>
+    </div>
 
     <div
       ref="postsPanelRef"
@@ -122,20 +172,6 @@ const postsToggleLabel = computed(() => {
         {{ postsToggleLabel }}
       </button>
     </div>
-
-    <nav class="releases-blog-strip__links" aria-label="Blog hubs">
-      <a
-        href="https://blog.probabl.ai/tag/scikit-learn"
-        target="_blank"
-        rel="noopener"
-        class="more"
-      >
-        probabl.ai blog →
-      </a>
-      <a href="https://blog.scikit-learn.org" target="_blank" rel="noopener" class="more">
-        sklearn blog →
-      </a>
-    </nav>
   </div>
 </template>
 
@@ -153,12 +189,92 @@ const postsToggleLabel = computed(() => {
   min-width: 0;
 }
 
+.releases-blog-strip__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
 .label {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   color: var(--neutral-500);
   text-transform: uppercase;
   letter-spacing: 0.06em;
+}
+
+.releases-blog-strip__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.releases-blog-strip__hub {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+
+.releases-blog-strip__hub-icon {
+  flex-shrink: 0;
+  width: 1rem;
+  height: auto;
+  object-fit: contain;
+}
+
+.releases-blog-strip__hub-icon--probabl {
+  height: 1rem;
+  width: 1rem;
+}
+
+.releases-blog-strip__hub-icon--sklearn {
+  height: 0.625rem;
+  width: 1rem;
+}
+
+.releases-blog-strip__hub-text {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25em;
+}
+
+.releases-blog-strip__hub-external {
+  flex-shrink: 0;
+  font-size: 0.75em;
+}
+
+@media (max-width: 640px) {
+  .releases-blog-strip__header {
+    flex-wrap: nowrap;
+    gap: var(--space-2);
+  }
+
+  .label {
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .releases-blog-strip__links {
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+  }
+
+  .releases-blog-strip__hub {
+    padding-inline: var(--space-3);
+    gap: var(--space-1);
+  }
+
+  .releases-blog-strip__hub-brand {
+    display: none;
+  }
 }
 
 .releases-blog-strip__posts {
@@ -270,36 +386,6 @@ const postsToggleLabel = computed(() => {
 }
 
 .posts-toggle:focus-visible {
-  outline: 2px solid var(--color-sky);
-  outline-offset: 2px;
-  border-radius: 2px;
-}
-
-.releases-blog-strip__links {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  padding-top: var(--space-3);
-  border-top: 1px solid var(--border-subtle);
-}
-
-.more {
-  display: flex;
-  align-items: center;
-  font-size: var(--text-xs);
-  font-family: var(--font-mono);
-  font-weight: 600;
-  color: var(--color-near-black);
-  text-decoration: none;
-  padding: var(--space-2) 0;
-  min-height: 44px;
-}
-
-.more:hover {
-  text-decoration: underline;
-}
-
-.more:focus-visible {
   outline: 2px solid var(--color-sky);
   outline-offset: 2px;
   border-radius: 2px;
