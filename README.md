@@ -280,7 +280,7 @@ The reference skill lives at `.claude/skills/emil-design-eng/SKILL.md` (loaded b
 
 ## JupyterLite integration
 
-Each use-case card has an **Open in JupyterLite** action that launches a fully interactive JupyterLab tab with the use case's notebook pre-opened. The kernel is Pyodide (Python + scikit-learn in WebAssembly), so it runs entirely client-side.
+Each use-case card has an **Open in JupyterLite** action that launches a fully interactive Jupyter Notebook tab with the use case's notebook pre-opened. The kernel is Pyodide (Python + scikit-learn in WebAssembly), so it runs entirely client-side.
 
 CI builds the JupyterLite distribution on every deploy: `.py` files under `data/use-cases/` are converted to `.ipynb` via [jupytext](https://jupytext.readthedocs.io/), then `jupyter lite build` writes the static site into `dist/jupyterlite/` (served at `/jupyterlite/` by GitHub Pages, alongside the Vue app).
 
