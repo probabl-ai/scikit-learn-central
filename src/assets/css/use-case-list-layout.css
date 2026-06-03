@@ -20,9 +20,9 @@
 }
 
 /* Header wrappers flattened so hcells use the same grid tracks as row columns. */
-.catalog-list-shell--use-cases .catalog-list-header.card,
-.catalog-list-shell--use-cases .catalog-list-header-row,
-.catalog-list-shell--use-cases .catalog-list {
+.catalog-list-shell.catalog-list-shell--use-cases .catalog-list-header.card,
+.catalog-list-shell.catalog-list-shell--use-cases .catalog-list-header-row,
+.catalog-list-shell.catalog-list-shell--use-cases .catalog-list {
   display: contents;
 }
 
