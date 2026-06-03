@@ -104,6 +104,15 @@
   max-width: none;
 }
 
+/* Doubled shell class outranks the package-list `.catalog-list-hcell--desc`
+ * fixed-width rule (equal-specificity tie) so the synopsis header fills its
+ * grid track and aligns with the body description column. */
+.catalog-list-shell.catalog-list-shell--use-cases .catalog-list-hcell--desc {
+  flex: initial;
+  width: auto;
+  max-width: none;
+}
+
 .catalog-list-shell--use-cases .uc-row-col:last-child,
 .catalog-list-shell--use-cases .catalog-list-hcell:last-child {
   border-right: none;
