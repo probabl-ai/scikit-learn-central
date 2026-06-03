@@ -15,11 +15,38 @@ import {
 } from '@/composables/usePackageCatalogGroups'
 import { usePackages } from '@/composables/usePackages'
 import { useUseCases } from '@/composables/useUseCases'
-import type { Category, License } from '@/types/package'
+import type { Category, License, Package } from '@/types/package'
 import { CATEGORIES, CATEGORY_META } from '@/types/package'
 
-type SortKey = 'ranking' | 'stars' | 'downloads' | 'name'
+type SortKey =
+  | 'ranking'
+  | 'docs'
+  | 'testing'
+  | 'fitness'
+  | 'activity'
+  | 'community'
+  | 'adoption'
+  | 'stars'
+  | 'downloads'
+  | 'release'
+  | 'name'
 type CatalogLayout = 'cards' | 'list'
+
+const FIT_SORT_FIELD = {
+  ranking: 'fitBase',
+  docs: 'fitDocs',
+  testing: 'fitTesting',
+  fitness: 'fitFitness',
+  activity: 'fitActivity',
+  community: 'fitCommunity',
+  adoption: 'fitAdoption',
+} as const
+
+function releaseTime(p: Package): number {
+  const iso = p.stats?.pypi?.release_date ?? p.stats?.github?.latest_release_date
+  const t = iso ? new Date(iso).getTime() : NaN
+  return Number.isNaN(t) ? 0 : t
+}
 
 const route = useRoute()
 const { core, packages, featuredPackages } = usePackages()
@@ -115,7 +142,9 @@ const filtered = computed(() => {
     if (sortBy.value === 'name') return a.name.localeCompare(b.name)
     if (sortBy.value === 'stars') return (b.stars ?? 0) - (a.stars ?? 0)
     if (sortBy.value === 'downloads') return (b.downloads ?? 0) - (a.downloads ?? 0)
-    return (b.fitBase ?? 0) - (a.fitBase ?? 0)
+    if (sortBy.value === 'release') return releaseTime(b) - releaseTime(a)
+    const field = FIT_SORT_FIELD[sortBy.value as keyof typeof FIT_SORT_FIELD]
+    return (b[field] ?? 0) - (a[field] ?? 0)
   })
   return r
 })
@@ -325,10 +354,23 @@ watch(() => route.query.package, focusFromRouteQuery)
           </button>
         </div>
         <select v-model="sortBy" class="sort-select--inline" title="Sort by">
-          <option value="ranking">Sort: Fit Score</option>
-          <option value="stars">Sort: Stars</option>
-          <option value="downloads">Sort: Monthly Downloads</option>
-          <option value="name">Sort: Name A–Z</option>
+          <optgroup label="Fit Score">
+            <option value="ranking">Overall fit</option>
+            <option value="docs">Docs</option>
+            <option value="testing">Testing</option>
+            <option value="fitness">Fitness</option>
+            <option value="activity">Activity</option>
+            <option value="community">Community</option>
+            <option value="adoption">Adoption</option>
+          </optgroup>
+          <optgroup label="Information">
+            <option value="stars">Stars</option>
+            <option value="downloads">Monthly downloads</option>
+            <option value="release">Last release date</option>
+          </optgroup>
+          <optgroup label="Other">
+            <option value="name">Name A–Z</option>
+          </optgroup>
         </select>
         <select v-model="groupBy" class="sort-select--inline" title="Group by">
           <option value="none">Group: None</option>
@@ -395,10 +437,23 @@ watch(() => route.query.package, focusFromRouteQuery)
           </div>
           <label class="filter-sheet-display-label" for="pkg-sort-sheet">Sort</label>
           <select id="pkg-sort-sheet" v-model="sortBy" class="sort-select--inline" title="Sort by">
-            <option value="ranking">Fit score</option>
-            <option value="stars">Stars</option>
-            <option value="downloads">Downloads</option>
-            <option value="name">Name A–Z</option>
+            <optgroup label="Fit Score">
+              <option value="ranking">Overall fit</option>
+              <option value="docs">Docs</option>
+              <option value="testing">Testing</option>
+              <option value="fitness">Fitness</option>
+              <option value="activity">Activity</option>
+              <option value="community">Community</option>
+              <option value="adoption">Adoption</option>
+            </optgroup>
+            <optgroup label="Information">
+              <option value="stars">Stars</option>
+              <option value="downloads">Downloads</option>
+              <option value="release">Last release date</option>
+            </optgroup>
+            <optgroup label="Other">
+              <option value="name">Name A–Z</option>
+            </optgroup>
           </select>
           <label class="filter-sheet-display-label" for="pkg-group-sheet">Group by</label>
           <select
