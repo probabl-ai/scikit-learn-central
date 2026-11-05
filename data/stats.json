@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-11-04T06:03:04Z",
+  "updated_at": "2026-11-05T06:03:03Z",
   "packages": {
     "scikit-learn": {
       "github": {
-        "stars": 68003,
-        "forks": 27629,
+        "stars": 68020,
+        "forks": 27630,
         "watchers": 2123,
-        "open_issues": 2148,
-        "last_commit": "2026-11-03T18:23:23Z",
+        "open_issues": 2147,
+        "last_commit": "2026-11-04T18:30:07Z",
         "latest_release": "1.9.1",
         "latest_release_date": "2026-09-11T09:38:12Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 7991144,
+          "last_day": 7773991,
           "last_week": 47633467,
           "last_month": 184326320
         },
@@ -30,17 +30,17 @@
     },
     "skrub": {
       "github": {
-        "stars": 1667,
+        "stars": 1668,
         "forks": 294,
         "watchers": 20,
-        "open_issues": 164,
-        "last_commit": "2026-11-03T09:59:50Z",
+        "open_issues": 159,
+        "last_commit": "2026-11-04T15:04:40Z",
         "latest_release": "0.11.0",
         "latest_release_date": "2026-10-01T11:40:16Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 10149,
+          "last_day": 9459,
           "last_week": 63747,
           "last_month": 131726
         },
@@ -60,14 +60,14 @@
         "stars": 680,
         "forks": 143,
         "watchers": 8,
-        "open_issues": 152,
-        "last_commit": "2026-11-02T14:22:35Z",
+        "open_issues": 156,
+        "last_commit": "2026-11-04T14:28:28Z",
         "latest_release": "skore/0.29.1",
         "latest_release_date": "2026-11-01T09:53:38Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 451,
+          "last_day": 1147,
           "last_week": 3469,
           "last_month": 5914
         },
@@ -77,24 +77,24 @@
         "release_date": "2026-11-01T11:29:35"
       },
       "codecov": {
-        "coverage": 97.22,
+        "coverage": 97.23,
         "active": true,
         "branch": "main"
       }
     },
     "feature-engine": {
       "github": {
-        "stars": 2296,
-        "forks": 388,
+        "stars": 2295,
+        "forks": 387,
         "watchers": 31,
-        "open_issues": 132,
+        "open_issues": 131,
         "last_commit": "2026-09-19T11:20:06Z",
         "latest_release": "v1.9.4",
         "latest_release_date": "2026-07-21T05:44:18Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 7524,
+          "last_day": 7225,
           "last_week": 48503,
           "last_month": 153536
         },
@@ -121,7 +121,7 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 61723,
+          "last_day": 65317,
           "last_week": 422355,
           "last_month": 1635703
         },
@@ -133,17 +133,17 @@
     },
     "xgboost": {
       "github": {
-        "stars": 28943,
-        "forks": 8962,
+        "stars": 28944,
+        "forks": 8963,
         "watchers": 877,
-        "open_issues": 451,
-        "last_commit": "2026-11-03T17:48:23Z",
+        "open_issues": 448,
+        "last_commit": "2026-11-04T15:27:04Z",
         "latest_release": "v3.4.2",
         "latest_release_date": "2026-09-15T08:31:52Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 1281871,
+          "last_day": 1245315,
           "last_week": 7529721,
           "last_month": 29704813
         },
@@ -160,17 +160,17 @@
     },
     "lightgbm": {
       "github": {
-        "stars": 18948,
+        "stars": 18951,
         "forks": 4100,
         "watchers": 416,
-        "open_issues": 530,
+        "open_issues": 531,
         "last_commit": "2026-11-02T19:27:12Z",
         "latest_release": "v4.7.0",
         "latest_release_date": "2026-07-18T20:20:12Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 938934,
+          "last_day": 953816,
           "last_week": 5314424,
           "last_month": 18552312
         },
@@ -182,17 +182,17 @@
     },
     "catboost": {
       "github": {
-        "stars": 9192,
+        "stars": 9193,
         "forks": 1354,
         "watchers": 182,
-        "open_issues": 751,
+        "open_issues": 752,
         "last_commit": "2026-11-03T02:21:55Z",
         "latest_release": "v1.2.10",
         "latest_release_date": "2026-02-19T12:38:26Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 302597,
+          "last_day": 262797,
           "last_week": 1665687,
           "last_month": 5386405
         },
@@ -206,14 +206,14 @@
         "stars": 389,
         "forks": 35,
         "watchers": 16,
-        "open_issues": 31,
-        "last_commit": "2026-11-03T22:33:25Z",
+        "open_issues": 33,
+        "last_commit": "2026-11-05T01:50:27Z",
         "latest_release": "v3.4.1",
         "latest_release_date": "2026-05-06T12:06:32Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 20585,
+          "last_day": 25536,
           "last_week": 97286,
           "last_month": 304993
         },
@@ -226,14 +226,14 @@
     "skglm": {
       "github": {
         "stars": 205,
-        "forks": 48,
+        "forks": 49,
         "watchers": 6,
-        "open_issues": 47,
+        "open_issues": 48,
         "last_commit": "2026-10-30T14:39:03Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 798,
+          "last_day": 1364,
           "last_week": 2783,
           "last_month": 5595
         },
@@ -246,16 +246,16 @@
     "imbalanced-learn": {
       "github": {
         "stars": 7134,
-        "forks": 1387,
+        "forks": 1388,
         "watchers": 134,
-        "open_issues": 113,
+        "open_issues": 112,
         "last_commit": "2026-06-29T16:33:16Z",
         "latest_release": "0.14.2",
         "latest_release_date": "2026-06-07T21:53:39Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 213247,
+          "last_day": 205020,
           "last_week": 1444411,
           "last_month": 5708559
         },
@@ -272,17 +272,17 @@
     },
     "shap": {
       "github": {
-        "stars": 25845,
+        "stars": 25849,
         "forks": 3788,
         "watchers": 244,
-        "open_issues": 1004,
+        "open_issues": 1006,
         "last_commit": "2026-11-03T15:35:42Z",
         "latest_release": "v0.54.1",
         "latest_release_date": "2026-10-16T08:36:04Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 385276,
+          "last_day": 377699,
           "last_week": 2337244,
           "last_month": 8756041
         },
@@ -300,16 +300,16 @@
     "optuna": {
       "github": {
         "stars": 15008,
-        "forks": 1451,
+        "forks": 1454,
         "watchers": 123,
-        "open_issues": 27,
-        "last_commit": "2026-11-04T03:39:08Z",
+        "open_issues": 26,
+        "last_commit": "2026-11-04T07:56:15Z",
         "latest_release": "v5.0.0",
         "latest_release_date": "2026-09-07T05:15:45Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 619069,
+          "last_day": 578181,
           "last_week": 3425014,
           "last_month": 15257921
         },
@@ -326,7 +326,7 @@
     },
     "pyod": {
       "github": {
-        "stars": 10074,
+        "stars": 10077,
         "forks": 1520,
         "watchers": 142,
         "open_issues": 227,
@@ -336,7 +336,7 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 144204,
+          "last_day": 157589,
           "last_week": 713754,
           "last_month": 2714709
         },
@@ -356,13 +356,13 @@
         "forks": 206,
         "watchers": 14,
         "open_issues": 12,
-        "last_commit": "2026-11-04T01:23:43Z",
+        "last_commit": "2026-11-04T16:21:44Z",
         "latest_release": "v0.26.0",
         "latest_release_date": "2026-10-08T20:13:45Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 3139,
+          "last_day": 3450,
           "last_week": 19171,
           "last_month": 77567
         },
@@ -379,17 +379,17 @@
     },
     "aeon": {
       "github": {
-        "stars": 1473,
+        "stars": 1474,
         "forks": 369,
         "watchers": 18,
-        "open_issues": 277,
-        "last_commit": "2026-11-03T16:04:47Z",
+        "open_issues": 276,
+        "last_commit": "2026-11-04T17:12:53Z",
         "latest_release": "v1.6.0",
         "latest_release_date": "2026-09-18T16:13:58Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 3205,
+          "last_day": 2504,
           "last_week": 15676,
           "last_month": 26641
         },
@@ -409,14 +409,14 @@
         "stars": 3189,
         "forks": 402,
         "watchers": 57,
-        "open_issues": 94,
-        "last_commit": "2026-11-03T10:43:57Z",
+        "open_issues": 93,
+        "last_commit": "2026-11-04T14:21:37Z",
         "latest_release": "v0.10.0",
         "latest_release_date": "2026-10-21T15:13:12Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 11459,
+          "last_day": 9834,
           "last_week": 64491,
           "last_month": 218169
         },
@@ -426,24 +426,24 @@
         "release_date": "2026-10-22T09:11:24"
       },
       "codecov": {
-        "coverage": 96.58,
+        "coverage": 96.59,
         "active": true,
         "branch": "main"
       }
     },
     "sktime": {
       "github": {
-        "stars": 10090,
-        "forks": 2493,
+        "stars": 10092,
+        "forks": 2496,
         "watchers": 107,
-        "open_issues": 2752,
-        "last_commit": "2026-11-02T22:14:23Z",
+        "open_issues": 2754,
+        "last_commit": "2026-11-04T20:37:25Z",
         "latest_release": "v1.2.0",
         "latest_release_date": "2026-09-22T22:10:05Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 25589,
+          "last_day": 24489,
           "last_week": 158775,
           "last_month": 1134023
         },
@@ -460,7 +460,7 @@
     },
     "river": {
       "github": {
-        "stars": 6140,
+        "stars": 6141,
         "forks": 833,
         "watchers": 80,
         "open_issues": 81,
@@ -470,7 +470,7 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 6348,
+          "last_day": 7628,
           "last_week": 51937,
           "last_month": 159209
         },
@@ -497,7 +497,7 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 14169,
+          "last_day": 12684,
           "last_week": 56651,
           "last_month": 175942
         },
@@ -515,16 +515,16 @@
     "umap-learn": {
       "github": {
         "stars": 8288,
-        "forks": 879,
+        "forks": 880,
         "watchers": 122,
-        "open_issues": 541,
+        "open_issues": 542,
         "last_commit": "2026-11-03T21:26:54Z",
         "latest_release": "release-0.5.12",
         "latest_release_date": "2026-04-08T19:37:19Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 328700,
+          "last_day": 332376,
           "last_week": 1641979,
           "last_month": 5387966
         },
@@ -548,7 +548,7 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 25360,
+          "last_day": 2972,
           "last_week": 36864,
           "last_month": 139271
         },
@@ -568,14 +568,14 @@
         "stars": 5190,
         "forks": 943,
         "watchers": 113,
-        "open_issues": 201,
+        "open_issues": 208,
         "last_commit": "2026-10-30T20:16:52Z",
         "latest_release": "v0.25.0",
         "latest_release_date": "2026-06-06T12:32:38Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 30812,
+          "last_day": 31537,
           "last_week": 176883,
           "last_month": 668852
         },
@@ -592,17 +592,17 @@
     },
     "mlflow": {
       "github": {
-        "stars": 28656,
-        "forks": 6574,
-        "watchers": 324,
+        "stars": 28673,
+        "forks": 6584,
+        "watchers": 325,
         "open_issues": 2208,
-        "last_commit": "2026-11-04T04:44:29Z",
-        "latest_release": "v3.17.2",
-        "latest_release_date": "2026-10-21T03:51:13Z"
+        "last_commit": "2026-11-05T05:48:41Z",
+        "latest_release": "v3.18.0",
+        "latest_release_date": "2026-11-04T06:51:02Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 849360,
+          "last_day": 802635,
           "last_week": 5158845,
           "last_month": 19887934
         },
@@ -629,7 +629,7 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 2185,
+          "last_day": 2479,
           "last_week": 14629,
           "last_month": 37207
         },
@@ -651,7 +651,7 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 598135,
+          "last_day": 596776,
           "last_week": 3605089,
           "last_month": 13027385
         },
@@ -678,7 +678,7 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 6638,
+          "last_day": 12046,
           "last_week": 29912,
           "last_month": 158540
         },
@@ -704,7 +704,7 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 131,
+          "last_day": 168,
           "last_week": 909,
           "last_month": 4545
         },
@@ -724,14 +724,14 @@
         "stars": 6185,
         "forks": 428,
         "watchers": 74,
-        "open_issues": 7,
-        "last_commit": "2026-10-26T07:23:36Z",
+        "open_issues": 8,
+        "last_commit": "2026-11-05T03:16:09Z",
         "latest_release": "v1.4.0",
         "latest_release_date": "2026-05-14T13:09:59Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 4208,
+          "last_day": 3850,
           "last_week": 22519,
           "last_month": 74557
         },
@@ -744,16 +744,16 @@
     "fairlearn": {
       "github": {
         "stars": 2306,
-        "forks": 534,
+        "forks": 535,
         "watchers": 38,
-        "open_issues": 118,
+        "open_issues": 119,
         "last_commit": "2026-10-24T15:47:01Z",
         "latest_release": "v0.15.0",
         "latest_release_date": "2026-10-12T05:16:21Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 5164,
+          "last_day": 5239,
           "last_week": 28109,
           "last_month": 112954
         },
@@ -778,7 +778,7 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 10,
+          "last_day": 8,
           "last_week": 69,
           "last_month": 791
         },
@@ -800,7 +800,7 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 2,
+          "last_day": 8,
           "last_week": 25,
           "last_month": 88
         },
@@ -817,17 +817,17 @@
     },
     "tabicl": {
       "github": {
-        "stars": 1460,
+        "stars": 1466,
         "forks": 201,
         "watchers": 20,
-        "open_issues": 41,
+        "open_issues": 42,
         "last_commit": "2026-10-27T20:09:26Z",
         "latest_release": "v2.2.0",
         "latest_release_date": "2026-09-02T15:18:10Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 6312,
+          "last_day": 5198,
           "last_week": 39462,
           "last_month": 86646
         },
@@ -843,13 +843,13 @@
         "forks": 687,
         "watchers": 72,
         "open_issues": 777,
-        "last_commit": "2026-11-04T02:04:54Z",
+        "last_commit": "2026-11-05T05:20:49Z",
         "latest_release": "v26.10.00",
         "latest_release_date": "2026-10-08T03:52:10Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 20,
+          "last_day": 31,
           "last_week": 149,
           "last_month": 931
         },
@@ -867,16 +867,16 @@
     "bertopic": {
       "github": {
         "stars": 7929,
-        "forks": 932,
+        "forks": 930,
         "watchers": 55,
-        "open_issues": 479,
+        "open_issues": 478,
         "last_commit": "2026-11-01T09:10:30Z",
         "latest_release": "v0.17.4",
         "latest_release_date": "2025-12-03T14:22:33Z"
       },
       "pypi": {
         "downloads": {
-          "last_day": 14181,
+          "last_day": 12530,
           "last_week": 106343,
           "last_month": 315257
         },
@@ -898,7 +898,7 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 5,
+          "last_day": 1,
           "last_week": 6,
           "last_month": 30
         },
@@ -925,7 +925,7 @@
       },
       "pypi": {
         "downloads": {
-          "last_day": 138,
+          "last_day": 16,
           "last_week": 333,
           "last_month": 500
         },
